@@ -1,0 +1,16 @@
+@font-face {
+    font-family: Agincourt;
+    src: url(agincourt_font.ttf);
+}
+.logo {
+    font-family: Agincourt;
+    font-weight: normal;
+    font-size: 2.25rem;
+}
+#map svg {
+    width: 1000px;
+    height: 500px;
+}
+svg {
+    display: inline-block;
+}
