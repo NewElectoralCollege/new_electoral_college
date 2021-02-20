@@ -1,0 +1,125 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 365654
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 424921
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 13235
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1158
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 217
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 192
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 170
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 142
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 82
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 67
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 58
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 56
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 47
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 46
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 23
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 22
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 19
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 14
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 14
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 13
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 12
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 10
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 10
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 806182,
+        "gallagher_index": 3.975856
+    }
+}

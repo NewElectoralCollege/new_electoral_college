@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Libertarian",
+            "seats": 1,
+            "votes": 133993
+        },
+        {
+            "name": "Republican",
+            "seats": 6,
+            "votes": 1557286
+        },
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 1033126
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 7841
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 1937
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 718
+        },
+        {
+            "name": "Socialist Party Usa",
+            "seats": 0,
+            "votes": 57
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 11,
+        "total_votes": 2734958,
+        "gallagher_index": 3.562529
+    }
+}

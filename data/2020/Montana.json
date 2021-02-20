@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 343602
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 244786
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 15252
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 23
+        },
+        {
+            "name": "Becoming One Nation",
+            "seats": 0,
+            "votes": 6
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 3
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 2
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 603674,
+        "gallagher_index": 8.760190
+    }
+}

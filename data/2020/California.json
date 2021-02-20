@@ -1,22 +1,22 @@
 {
     "parties": [
         {
-            "name": "Democratic Party (United States)",
+            "name": "Democratic",
             "seats": 35,
             "votes": 11110250
         },
         {
-            "name": "Republican Party (United States)",
+            "name": "Republican",
             "seats": 19,
             "votes": 6006429
         },
         {
-            "name": "Libertarian Party (United States)",
+            "name": "Libertarian",
             "seats": 1,
             "votes": 187895
         },
         {
-            "name": "Green Party (United States)",
+            "name": "Green",
             "seats": 0,
             "votes": 81029
         },

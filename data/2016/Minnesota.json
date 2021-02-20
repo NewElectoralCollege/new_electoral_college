@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1367705
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1322949
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 112972
+        },
+        {
+            "name": "Independence",
+            "seats": 0,
+            "votes": 53075
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 36986
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 27247
+        },
+        {
+            "name": "Legal Marijuana Now",
+            "seats": 0,
+            "votes": 11291
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 9456
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 1671
+        },
+        {
+            "name": "American Delta Party",
+            "seats": 0,
+            "votes": 1430
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 2944782,
+        "gallagher_index": 5.433542
+    }
+}

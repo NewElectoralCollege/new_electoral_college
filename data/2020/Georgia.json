@@ -1,0 +1,105 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 8,
+            "votes": 2473633
+        },
+        {
+            "name": "Republican",
+            "seats": 8,
+            "votes": 2461854
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 62229
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 1013
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 701
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 181
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 159
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 65
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 61
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 11
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 10
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 8
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 8
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 7
+        },
+        {
+            "name": "Non-Affiliated",
+            "seats": 0,
+            "votes": 6
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 6
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 5
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 2
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 16,
+        "total_votes": 4999960,
+        "gallagher_index": 1.097441
+    }
+}

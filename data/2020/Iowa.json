@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 759061
+        },
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 897672
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 19637
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 4337
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 3210
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 3075
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 1707
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 1082
+        },
+        {
+            "name": "Geneology Know Your Family History Party",
+            "seats": 0,
+            "votes": 546
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 544
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 6,
+        "total_votes": 1690871,
+        "gallagher_index": 4.309206
+    }
+}

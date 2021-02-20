@@ -1,0 +1,120 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 242820
+        },
+        {
+            "name": "Republican",
+            "seats": 1,
+            "votes": 112704
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3608
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1942
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 1310
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 1269
+        },
+        {
+            "name": "Grumpy Old Patriots",
+            "seats": 0,
+            "votes": 1175
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 856
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 213
+        },
+        {
+            "name": "American Solidarity",
+            "seats": 0,
+            "votes": 209
+        },
+        {
+            "name": "Constitution",
+            "seats": 0,
+            "votes": 208
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 195
+        },
+        {
+            "name": "Liberty Union",
+            "seats": 0,
+            "votes": 166
+        },
+        {
+            "name": "Boiling Frog",
+            "seats": 0,
+            "votes": 141
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 137
+        },
+        {
+            "name": "Bull Moose",
+            "seats": 0,
+            "votes": 126
+        },
+        {
+            "name": "Unaffiliated",
+            "seats": 0,
+            "votes": 100
+        },
+        {
+            "name": "Bread And Roses",
+            "seats": 0,
+            "votes": 65
+        },
+        {
+            "name": "Approval Voting",
+            "seats": 0,
+            "votes": 54
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 53
+        },
+        {
+            "name": "Alliance",
+            "seats": 0,
+            "votes": 48
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 29
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 367428,
+        "gallagher_index": 2.130369
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 348526
+        },
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 345790
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 30777
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 9618
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 6496
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 2411
+        },
+        {
+            "name": "American Delta Party",
+            "seats": 0,
+            "votes": 678
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 744296,
+        "gallagher_index": 4.596580
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 279240
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 28037
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 177709
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 7970
+        },
+        {
+            "name": "American Delta Party",
+            "seats": 0,
+            "votes": 1570
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 494526,
+        "gallagher_index": 8.534066
+    }
+}

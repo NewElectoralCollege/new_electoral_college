@@ -1,0 +1,75 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 760647
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 423932
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 13133
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 4099
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 2980
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 2812
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 2141
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 2108
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 1713
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 1475
+        },
+        {
+            "name": "Life And Liberty Party",
+            "seats": 0,
+            "votes": 1372
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 1336
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 1321
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 6,
+        "total_votes": 1219069,
+        "gallagher_index": 3.304365
+    }
+}

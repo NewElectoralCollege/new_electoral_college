@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 1090893
+        },
+        {
+            "name": "Democratic",
+            "seats": 7,
+            "votes": 1995196
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 138018
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 50488
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 47661
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 2790
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 11,
+        "total_votes": 3325046,
+        "gallagher_index": 4.869458
+    }
+}

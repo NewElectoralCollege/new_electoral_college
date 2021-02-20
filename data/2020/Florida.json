@@ -1,0 +1,75 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 14,
+            "votes": 5297045
+        },
+        {
+            "name": "Republican",
+            "seats": 15,
+            "votes": 5668731
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 70324
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 14721
+        },
+        {
+            "name": "Alliance",
+            "seats": 0,
+            "votes": 5966
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 5712
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 3902
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 854
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 181
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 9
+        },
+        {
+            "name": "Non-Affiliated",
+            "seats": 0,
+            "votes": 8
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 2
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 29,
+        "total_votes": 11067456,
+        "gallagher_index": 0.653600
+    }
+}

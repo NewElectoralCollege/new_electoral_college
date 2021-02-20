@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 684872
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 29829
+        },
+        {
+            "name": "Better For America",
+            "seats": 0,
+            "votes": 13255
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 9473
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 4709
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 4613
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 380494
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 3390
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 6,
+        "total_votes": 1130635,
+        "gallagher_index": 4.831574
+    }
+}

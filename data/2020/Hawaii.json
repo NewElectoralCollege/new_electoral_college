@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 366130
+        },
+        {
+            "name": "Republican",
+            "seats": 1,
+            "votes": 196864
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 5539
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 3822
+        },
+        {
+            "name": "American Shopping Party",
+            "seats": 0,
+            "votes": 1183
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 931
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 574469,
+        "gallagher_index": 10.350936
+    }
+}

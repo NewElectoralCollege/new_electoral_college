@@ -1,0 +1,125 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1804352
+        },
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 1364607
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 52460
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 25515
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 8986
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 8089
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 5061
+        },
+        {
+            "name": "Unity Party",
+            "seats": 0,
+            "votes": 2730
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 2011
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 1035
+        },
+        {
+            "name": "Independent American Party",
+            "seats": 0,
+            "votes": 762
+        },
+        {
+            "name": "Alliance",
+            "seats": 0,
+            "votes": 636
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 614
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 572
+        },
+        {
+            "name": "Prohibition Party",
+            "seats": 0,
+            "votes": 568
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 495
+        },
+        {
+            "name": "Progressive Party",
+            "seats": 0,
+            "votes": 379
+        },
+        {
+            "name": "Approval Voting Party",
+            "seats": 0,
+            "votes": 355
+        },
+        {
+            "name": "Socialist Workers Party",
+            "seats": 0,
+            "votes": 354
+        },
+        {
+            "name": "Socialist Equality Party",
+            "seats": 0,
+            "votes": 196
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 175
+        },
+        {
+            "name": "Non-Affiliated",
+            "seats": 0,
+            "votes": 24
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 4
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 9,
+        "total_votes": 3279980,
+        "gallagher_index": 2.418780
+    }
+}

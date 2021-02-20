@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 34,
+            "votes": 8753788
+        },
+        {
+            "name": "Libertarian",
+            "seats": 2,
+            "votes": 478500
+        },
+        {
+            "name": "Write-In",
+            "seats": 1,
+            "votes": 120739
+        },
+        {
+            "name": "Republican",
+            "seats": 17,
+            "votes": 4483810
+        },
+        {
+            "name": "Peace and Freedom Party",
+            "seats": 0,
+            "votes": 66101
+        },
+        {
+            "name": "Green",
+            "seats": 1,
+            "votes": 278657
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 55,
+        "total_votes": 14181595,
+        "gallagher_index": 0.935947
+    }
+}

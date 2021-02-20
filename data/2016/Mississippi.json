@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 700714
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 485131
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 14435
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 3987
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 3731
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 715
+        },
+        {
+            "name": "American Delta Party",
+            "seats": 0,
+            "votes": 644
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 6,
+        "total_votes": 1209357,
+        "gallagher_index": 7.866373
+    }
+}

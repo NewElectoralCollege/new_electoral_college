@@ -1,0 +1,75 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1255776
+        },
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 856034
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 21645
+        },
+        {
+            "name": "The Birthday Party",
+            "seats": 0,
+            "votes": 4897
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 2497
+        },
+        {
+            "name": "Becoming One Nation",
+            "seats": 0,
+            "votes": 1626
+        },
+        {
+            "name": "C.U.P",
+            "seats": 0,
+            "votes": 1125
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 987
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 860
+        },
+        {
+            "name": "Freedom And Prosperity",
+            "seats": 0,
+            "votes": 749
+        },
+        {
+            "name": "Life %% Liberty%% Constitution",
+            "seats": 0,
+            "votes": 668
+        },
+        {
+            "name": "Unity Party",
+            "seats": 0,
+            "votes": 662
+        },
+        {
+            "name": "Socialist Workers Party",
+            "seats": 0,
+            "votes": 536
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 8,
+        "total_votes": 2148062,
+        "gallagher_index": 3.386782
+    }
+}

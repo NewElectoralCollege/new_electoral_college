@@ -1,0 +1,75 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1630866
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1610184
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 38491
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 6367
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 5259
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 5146
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 1089
+        },
+        {
+            "name": "The Birthday Party",
+            "seats": 0,
+            "votes": 411
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 110
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 52
+        },
+        {
+            "name": "Becoming One Nation",
+            "seats": 0,
+            "votes": 36
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 25
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 5
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 3298041,
+        "gallagher_index": 1.253008
+    }
+}

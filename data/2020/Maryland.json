@@ -1,0 +1,140 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 7,
+            "votes": 1985023
+        },
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 976414
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 33488
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 18045
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 15799
+        },
+        {
+            "name": "Bread And Roses",
+            "seats": 0,
+            "votes": 5884
+        },
+        {
+            "name": "The Birthday Party",
+            "seats": 0,
+            "votes": 1117
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 795
+        },
+        {
+            "name": "Becoming One Nation",
+            "seats": 0,
+            "votes": 131
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 125
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 32
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 30
+        },
+        {
+            "name": "Alliance",
+            "seats": 0,
+            "votes": 26
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 23
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 20
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 16
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 11
+        },
+        {
+            "name": "Non-Affiliated",
+            "seats": 0,
+            "votes": 11
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 10
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 8
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 6
+        },
+        {
+            "name": "Non-Affiliated",
+            "seats": 0,
+            "votes": 5
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 4
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 3
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 3
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 3037030,
+        "gallagher_index": 3.743413
+    }
+}

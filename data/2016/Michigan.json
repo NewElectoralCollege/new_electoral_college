@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 8,
+            "votes": 2279543
+        },
+        {
+            "name": "Libertarian",
+            "seats": 1,
+            "votes": 172136
+        },
+        {
+            "name": "Democratic",
+            "seats": 7,
+            "votes": 2268839
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 51463
+        },
+        {
+            "name": "U.S. Taxpayers Party",
+            "seats": 0,
+            "votes": 16139
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 8955
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 2209
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 16,
+        "total_votes": 4799284,
+        "gallagher_index": 3.679505
+    }
+}

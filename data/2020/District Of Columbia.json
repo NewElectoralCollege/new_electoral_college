@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 317323
+        },
+        {
+            "name": "Republican",
+            "seats": 0,
+            "votes": 18586
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 3137
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2036
+        },
+        {
+            "name": "Dc Statehood Green",
+            "seats": 0,
+            "votes": 1726
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 855
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 693
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 344356,
+        "gallagher_index": 6.793056
+    }
+}

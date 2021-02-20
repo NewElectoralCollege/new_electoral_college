@@ -1,0 +1,55 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 6,
+            "votes": 1601933
+        },
+        {
+            "name": "Democratic",
+            "seats": 8,
+            "votes": 2148278
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 72477
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 37772
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 6161
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 2156
+        },
+        {
+            "name": "American Delta Party",
+            "seats": 0,
+            "votes": 1838
+        },
+        {
+            "name": "Workers World Party",
+            "seats": 0,
+            "votes": 1749
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 1682
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 14,
+        "total_votes": 3874046,
+        "gallagher_index": 2.192130
+    }
+}

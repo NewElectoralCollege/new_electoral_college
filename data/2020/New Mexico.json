@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 501614
+        },
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 401894
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 12585
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 4426
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 1806
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 1640
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 5,
+        "total_votes": 923965,
+        "gallagher_index": 4.847337
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 10,
+            "votes": 3154834
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 67569
+        },
+        {
+            "name": "Democratic",
+            "seats": 8,
+            "votes": 2679165
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 18812
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 1450
+        },
+        {
+            "name": "Becoming One Nation",
+            "seats": 0,
+            "votes": 212
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 114
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 27
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 16
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 3
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 18,
+        "total_votes": 5922202,
+        "gallagher_index": 1.904333
+    }
+}

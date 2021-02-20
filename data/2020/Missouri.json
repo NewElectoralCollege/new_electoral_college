@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 6,
+            "votes": 1718736
+        },
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 1253014
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 41205
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 8283
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 3919
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 664
+        },
+        {
+            "name": "Becoming One Nation",
+            "seats": 0,
+            "votes": 74
+        },
+        {
+            "name": "Party For Socialism And Liberation",
+            "seats": 0,
+            "votes": 64
+        },
+        {
+            "name": "Non-Affiliated",
+            "seats": 0,
+            "votes": 3
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 0
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 3025962,
+        "gallagher_index": 2.662081
+    }
+}

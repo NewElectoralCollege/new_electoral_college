@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 8,
+            "votes": 2758773
+        },
+        {
+            "name": "Democratic",
+            "seats": 7,
+            "votes": 2684292
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 48678
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 13196
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 12195
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 7549
+        },
+        {
+            "name": "Becoming One Nation",
+            "seats": 0,
+            "votes": 119
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 15,
+        "total_votes": 5524802,
+        "gallagher_index": 2.840653
+    }
+}

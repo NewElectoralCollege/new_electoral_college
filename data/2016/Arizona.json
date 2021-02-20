@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1161167
+        },
+        {
+            "name": "Libertarian",
+            "seats": 1,
+            "votes": 106327
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1252401
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 34345
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 17473
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 1058
+        },
+        {
+            "name": "No Party Affiliation",
+            "seats": 0,
+            "votes": 311
+        },
+        {
+            "name": "Democratic",
+            "seats": 0,
+            "votes": 42
+        },
+        {
+            "name": "American Delta Party",
+            "seats": 0,
+            "votes": 29
+        },
+        {
+            "name": "We The People",
+            "seats": 0,
+            "votes": 12
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 11,
+        "total_votes": 2573165,
+        "gallagher_index": 4.318057
+    }
+}
