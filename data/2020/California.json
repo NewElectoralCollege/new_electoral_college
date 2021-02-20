@@ -1,0 +1,65 @@
+{
+    "parties": [
+        {
+            "name": "Democratic Party (United States)",
+            "seats": 35,
+            "votes": 11110250
+        },
+        {
+            "name": "Republican Party (United States)",
+            "seats": 19,
+            "votes": 6006429
+        },
+        {
+            "name": "Libertarian Party (United States)",
+            "seats": 1,
+            "votes": 187895
+        },
+        {
+            "name": "Green Party (United States)",
+            "seats": 0,
+            "votes": 81029
+        },
+        {
+            "name": "American Independent",
+            "seats": 0,
+            "votes": 60160
+        },
+        {
+            "name": "Peace and Freedom Party",
+            "seats": 0,
+            "votes": 51037
+        },
+        {
+            "name": "American Solidarity Party",
+            "seats": 0,
+            "votes": 2605
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 611
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 559
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 185
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 121
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 55,
+        "total_votes": 17500881,
+        "gallagher_index": 0.723157
+    }
+}

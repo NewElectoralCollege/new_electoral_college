@@ -16,4 +16,9 @@ window.onload = async function () {
     const hemicircle = await (await fetch('src/img/hemicircles/538_seats_electoral_college.svg')).text();
     document.querySelector("#map").insertAdjacentHTML('afterbegin', map);
     document.querySelector("#hemicircle").insertAdjacentHTML('afterbegin', hemicircle);
+
+    document.querySelectorAll("#" + census + " path").forEach(async function (path, n) {
+        const call = await fetch('data/' + year + '/' + path.id + '.json');
+        console.log(call);
+    });
 }
