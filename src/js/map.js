@@ -2,7 +2,6 @@ const roundTen = function (n) {
     return Math.floor(n / 10) * 10;
 };
 
-
 window.onload = async function () {
     let year;
     try {
