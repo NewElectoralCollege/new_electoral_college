@@ -5,7 +5,6 @@ width="360" height="185">
 <!-- Created with the Wikimedia parliament diagram creator (http://parliamentdiagram.toolforge.org/parliamentinputform.html) -->
 <g>
 <text x="175" y="175" id="seat_number" style="font-size:36px;font-weight:bold;text-align:center;text-anchor:middle;font-family:sans-serif">537</text>
-  <rect width="360" height="185" fill="#dddddd00" id="hover-rectangle"/>
   <g style="fill:#000000; stroke:none" id="Results" onmouseover="hover(event)">
     <circle cx="9.20" cy="176.67" r="3.33" fill="#000000"/>
     <circle cx="17.53" cy="176.67" r="3.33" fill="#000000"/>
