@@ -8,7 +8,20 @@ const party_colors = {
     "Libertarian": "#000000"
 }
 
-window.onload = async function () {
+let totals = {};
+let party_list = Array();
+
+function finalize() {
+    const national_circles = Array.from(document.querySelectorAll('g#Results circle'));
+    console.log(party_list);
+    party_list.forEach(async function (party, n) {
+        for (let na = 0; na < totals[party].seats; na++) {
+            national_circles[na].setAttribute("fill", party_colors[totals[party].name]);
+        }
+    })
+}
+
+async function ld() {
     let year;
     try {
         year = Number(document.cookie.match(new RegExp('(^| )' + "year" + '=([^;]+)'))[2]);
@@ -21,10 +34,7 @@ window.onload = async function () {
     const map = await (await fetch('src/img/maps/us_electoral_college_' + census + '.svg')).text();
     const hemicircle = await (await fetch('src/img/hemicircles/538_seats_electoral_college.svg')).text();
     document.querySelector("#map").insertAdjacentHTML('afterbegin', map);
-    document.querySelector("#hemicircle").insertAdjacentHTML('afterbegin', hemicircle);
-
-    let totals = {};
-    let party_list = [];
+    document.querySelector("#hemicircle").insertAdjacentHTML('afterbegin', hemicircle);   
 
     document.querySelectorAll("#map path").forEach(async function (path, n) {
         let call = await fetch('data/' + year + '/' + path.id.replace("-", " ").replace("-", " ") + '.json');
@@ -52,19 +62,22 @@ window.onload = async function () {
                         'seats': 0,
                         'votes': 0
                     };
-                    party_list.push(party.name);
+                    party_list[party_list.length] = party.name;
                     totals[party.name]['seats'] = party.seats;
                     totals[party.name]['votes'] = party.votes;
                 }
             });
         }
+        
     });
+    return finalize;
 
-    let national_circles = Array.from(document.querySelectorAll('#hemicircle circle'));
-    console.log(party_list);
-    party_list.forEach(function (party, n) {
-        for (let c = 0; c < totals[party].seats; c++) {
-            national_circles[c].style.fill = party_colors[totals[party].name];
-        }
-    })
 }
+
+window.onload = async function () {
+    let promise = new Promise(function(resolve, reject) { 
+        resolve(ld());
+    });
+    (await promise)();
+}
+
