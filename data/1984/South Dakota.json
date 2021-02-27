@@ -1,0 +1,30 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 200267
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 116113
+        },
+        {
+            "name": "Alliance",
+            "seats": 0,
+            "votes": 1150
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 337
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 317867,
+        "gallagher_index": 3.447658
+    }
+}

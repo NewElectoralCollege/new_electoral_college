@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 193841
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 123594
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 3783
+        },
+        {
+            "name": "Alaskan Independence Party",
+            "seats": 0,
+            "votes": 1660
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1589
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1730
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 326197,
+        "gallagher_index": 6.137130
+    }
+}

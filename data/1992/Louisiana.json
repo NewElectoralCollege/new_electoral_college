@@ -1,0 +1,65 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 733386
+        },
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 815971
+        },
+        {
+            "name": "America First",
+            "seats": 0,
+            "votes": 18545
+        },
+        {
+            "name": "Ross Perot",
+            "seats": 1,
+            "votes": 211478
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3155
+        },
+        {
+            "name": "Taxpayers Party",
+            "seats": 0,
+            "votes": 1552
+        },
+        {
+            "name": "More Perfect Democracy",
+            "seats": 0,
+            "votes": 1434
+        },
+        {
+            "name": "Justice%% Industry%% And Agriculture",
+            "seats": 0,
+            "votes": 1136
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 889
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 808
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 1663
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 9,
+        "total_votes": 1790017,
+        "gallagher_index": 2.738188
+    }
+}

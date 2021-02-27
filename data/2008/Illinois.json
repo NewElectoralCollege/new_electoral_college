@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 8,
+            "votes": 2031179
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 30948
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 19642
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 11838
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 8256
+        },
+        {
+            "name": "New",
+            "seats": 0,
+            "votes": 1149
+        },
+        {
+            "name": "Democratic",
+            "seats": 13,
+            "votes": 3419348
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 11
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 21,
+        "total_votes": 5522371,
+        "gallagher_index": 1.057570
+    }
+}

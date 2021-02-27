@@ -1,0 +1,55 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 13,
+            "votes": 2271295
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 55939
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 9250
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 8057
+        },
+        {
+            "name": "Republican",
+            "seats": 13,
+            "votes": 2364269
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 3615
+        },
+        {
+            "name": "Socialist Labor",
+            "seats": 0,
+            "votes": 2422
+        },
+        {
+            "name": "U.S. Labor",
+            "seats": 0,
+            "votes": 2018
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 4417
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 26,
+        "total_votes": 4721282,
+        "gallagher_index": 1.593347
+    }
+}

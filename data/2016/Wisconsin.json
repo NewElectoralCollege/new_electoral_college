@@ -21,16 +21,6 @@
             "votes": 31072
         },
         {
-            "name": "Other",
-            "seats": 0,
-            "votes": 22764
-        },
-        {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 12386
-        },
-        {
             "name": "Constitution Party",
             "seats": 0,
             "votes": 12162
@@ -44,6 +34,16 @@
             "name": "American Delta Party",
             "seats": 0,
             "votes": 1502
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 12386
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 22764
         }
     ],
     "stats": {

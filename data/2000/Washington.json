@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1108864
+        },
+        {
+            "name": "Democratic",
+            "seats": 6,
+            "votes": 1247652
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 103002
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 13135
+        },
+        {
+            "name": "Freedom",
+            "seats": 0,
+            "votes": 7171
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 2927
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 1989
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 1729
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 660
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 304
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 11,
+        "total_votes": 2487433,
+        "gallagher_index": 4.333012
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "parties": [
+        {
+            "name": "Ross Perot",
+            "seats": 5,
+            "votes": 1053067
+        },
+        {
+            "name": "Democratic",
+            "seats": 10,
+            "votes": 2071698
+        },
+        {
+            "name": "Republican",
+            "seats": 10,
+            "votes": 2173310
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 15079
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 238
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 25,
+        "total_votes": 5313392,
+        "gallagher_index": 0.986822
+    }
+}

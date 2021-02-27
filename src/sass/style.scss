@@ -8,12 +8,104 @@
     font-size: 2.25rem;
 }
 #map svg {
-    width: 1000px;
-    height: 500px;
+    width: 975px;
+    height: 520px;
 }
 svg {
     display: inline-block;
 }
-svg#2010 path {
-    fill: blue;
+.fade-on-hover:hover {
+    animation: fadeIn ease 20s;
+    -webkit-animation: fadeIn ease 20s;
+    -moz-animation: fadeIn ease 20s;
+    -o-animation: fadeIn ease 20s;
+    -ms-animation: fadeIn ease 20s;
+    cursor: pointer;
+}
+@keyframes fadeIn {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+@-moz-keyframes fadeIn {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+}  
+@-webkit-keyframes fadeIn {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+@-o-keyframes fadeIn {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+@-ms-keyframes fadeIn {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+@mixin arrow($color, $size, $orientation) {
+    width: 0;
+    height: 0;
+    @if $orientation == top {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-bottom: $size solid $color;
+    } @else if $orientation == right {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-left: $size solid $color;
+    } @else if $orientation == down {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-top: $size solid $color;
+    } @else {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-right: $size solid $color;
+    }
+}
+.arrow {
+    @extend .fade-on-hover;
+    display: inline-block;
+    width: fit-content;
+}
+#leftArrow {
+    @extend .arrow;
+    @include arrow(gray, 25px, left);
+    float: left;
+}
+#rightArrow {
+    @extend .arrow;
+    @include arrow(gray, 25px, right);
+    float: right;
+}
+.results_table {
+    border: 1px solid black;
+    padding: 5px;
+    width: fit-content;
+    font-family: sans-serif;
+    border-collapse: collapse;
+}
+#single-results, #single-results td, #single-results th, #single-results tr {
+    @extend .results_table;
+}
+#state-results, #state-results td, #state-results th, #state-results tr {
+    @extend .results_table;
+}
+.detailed-results, .detailed-results td, .detailed-results th, .detailed-results tr {
+    @extend .results_table;
+}
+.change-arrow {
+    font-size: 16px;
+}
+.increase {
+    @extend .change-arrow;
+    color: limegreen;
+}
+.decrease {
+    @extend .change-arrow;
+    color: red;
+}
+.steady {
+    @extend .change-arrow;
+    color: skyblue;
 }

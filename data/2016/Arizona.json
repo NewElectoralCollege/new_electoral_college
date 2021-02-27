@@ -21,24 +21,9 @@
             "votes": 34345
         },
         {
-            "name": "Independent (politician)",
-            "seats": 0,
-            "votes": 17473
-        },
-        {
             "name": "Constitution Party",
             "seats": 0,
             "votes": 1058
-        },
-        {
-            "name": "No Party Affiliation",
-            "seats": 0,
-            "votes": 311
-        },
-        {
-            "name": "Democratic",
-            "seats": 0,
-            "votes": 42
         },
         {
             "name": "American Delta Party",
@@ -49,12 +34,17 @@
             "name": "We The People",
             "seats": 0,
             "votes": 12
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 17826
         }
     ],
     "stats": {
         "name": "Seat Allocation",
         "total_seats": 11,
         "total_votes": 2573165,
-        "gallagher_index": 4.318057
+        "gallagher_index": 4.319138
     }
 }

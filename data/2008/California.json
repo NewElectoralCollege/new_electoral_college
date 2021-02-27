@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 34,
+            "votes": 8274473
+        },
+        {
+            "name": "Peace and Freedom Party",
+            "seats": 1,
+            "votes": 108381
+        },
+        {
+            "name": "Republican",
+            "seats": 20,
+            "votes": 5011781
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 67582
+        },
+        {
+            "name": "American Independent Party",
+            "seats": 0,
+            "votes": 40673
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 38774
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 20236
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 55,
+        "total_votes": 13561900,
+        "gallagher_index": 1.113357
+    }
+}

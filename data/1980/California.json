@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Independent",
+            "seats": 4,
+            "votes": 739618
+        },
+        {
+            "name": "Libertarian",
+            "seats": 1,
+            "votes": 148390
+        },
+        {
+            "name": "Republican",
+            "seats": 24,
+            "votes": 4522994
+        },
+        {
+            "name": "Citizens",
+            "seats": 0,
+            "votes": 61046
+        },
+        {
+            "name": "Democratic",
+            "seats": 16,
+            "votes": 3082943
+        },
+        {
+            "name": "Peace and Freedom Party",
+            "seats": 0,
+            "votes": 18106
+        },
+        {
+            "name": "American Independent Party",
+            "seats": 0,
+            "votes": 9841
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 45,
+        "total_votes": 8582938,
+        "gallagher_index": 0.841826
+    }
+}

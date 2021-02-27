@@ -1,0 +1,35 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 6,
+            "votes": 741960
+        },
+        {
+            "name": "Democratic",
+            "seats": 7,
+            "votes": 927365
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 5607
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2219
+        },
+        {
+            "name": "U.S. Labor",
+            "seats": 0,
+            "votes": 755
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 13,
+        "total_votes": 1677906,
+        "gallagher_index": 1.717305
+    }
+}

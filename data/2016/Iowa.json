@@ -16,11 +16,6 @@
             "votes": 800983
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 17746
-        },
-        {
             "name": "Nominated By Petition",
             "seats": 0,
             "votes": 12366
@@ -49,6 +44,11 @@
             "name": "Socialism And Liberation Party",
             "seats": 0,
             "votes": 323
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 17746
         }
     ],
     "stats": {

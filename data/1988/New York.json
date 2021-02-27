@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 17,
+            "votes": 3081871
+        },
+        {
+            "name": "Right-To-Life",
+            "seats": 0,
+            "votes": 20497
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 15845
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 12109
+        },
+        {
+            "name": "Democratic",
+            "seats": 19,
+            "votes": 3347882
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 4179
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 3287
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 13
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 35,
+        "total_votes": 6149831,
+        "gallagher_index": 1.145390
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 545355
+        },
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 670557
+        },
+        {
+            "name": "Nominated By Petition",
+            "seats": 0,
+            "votes": 3526
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2494
+        },
+        {
+            "name": "Patriotic Party",
+            "seats": 0,
+            "votes": 755
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 540
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 334
+        },
+        {
+            "name": "Workers League",
+            "seats": 0,
+            "votes": 235
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 205
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 1613
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 8,
+        "total_votes": 1225614,
+        "gallagher_index": 5.130286
+    }
+}

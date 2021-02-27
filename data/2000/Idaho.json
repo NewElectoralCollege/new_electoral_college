@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 336937
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 138637
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 12292
+        },
+        {
+            "name": "Reform Party",
+            "seats": 0,
+            "votes": 7615
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3488
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 1469
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 1177
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 501615,
+        "gallagher_index": 6.212710
+    }
+}

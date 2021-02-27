@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 147645
+        },
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 185935
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 4095
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 936
+        },
+        {
+            "name": "U.S. Labor",
+            "seats": 0,
+            "votes": 186
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 161
+        },
+        {
+            "name": "Socialist Labor",
+            "seats": 0,
+            "votes": 66
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 603
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 339627,
+        "gallagher_index": 5.775161
+    }
+}

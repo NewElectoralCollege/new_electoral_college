@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 13,
+            "votes": 1953300
+        },
+        {
+            "name": "Democratic",
+            "seats": 13,
+            "votes": 2082319
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 20118
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 11442
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 1723
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 2982
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 26,
+        "total_votes": 4071884,
+        "gallagher_index": 1.695084
+    }
+}

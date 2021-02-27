@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 903835
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 17240
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 4412
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 3520
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 1440
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 1290
+        },
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 933516
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 1865253,
+        "gallagher_index": 1.292568
+    }
+}

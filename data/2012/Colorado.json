@@ -1,0 +1,90 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1323101
+        },
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 1185243
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 35545
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 7508
+        },
+        {
+            "name": "American Constitution Party",
+            "seats": 0,
+            "votes": 6234
+        },
+        {
+            "name": "Peace and Freedom Party",
+            "seats": 0,
+            "votes": 5057
+        },
+        {
+            "name": "No Party Affiliation",
+            "seats": 0,
+            "votes": 2588
+        },
+        {
+            "name": "Justice",
+            "seats": 0,
+            "votes": 1262
+        },
+        {
+            "name": "We The People",
+            "seats": 0,
+            "votes": 791
+        },
+        {
+            "name": "America'S Party",
+            "seats": 0,
+            "votes": 679
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 317
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 308
+        },
+        {
+            "name": "American Third Position",
+            "seats": 0,
+            "votes": 267
+        },
+        {
+            "name": "Objectivist Party",
+            "seats": 0,
+            "votes": 235
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 192
+        },
+        {
+            "name": "Socialist Equality Party",
+            "seats": 0,
+            "votes": 189
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 9,
+        "total_votes": 2569516,
+        "gallagher_index": 3.275161
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 504070
+        },
+        {
+            "name": "American Independent Party",
+            "seats": 0,
+            "votes": 9198
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 6669
+        },
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 659170
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 1954
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1481
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 308
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 9,
+        "total_votes": 1182850,
+        "gallagher_index": 1.473606
+    }
+}

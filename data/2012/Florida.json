@@ -1,0 +1,75 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 15,
+            "votes": 4237756
+        },
+        {
+            "name": "Republican",
+            "seats": 14,
+            "votes": 4163447
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 44726
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 8947
+        },
+        {
+            "name": "Peace and Freedom Party",
+            "seats": 0,
+            "votes": 8154
+        },
+        {
+            "name": "Objectivist Party",
+            "seats": 0,
+            "votes": 3856
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 2607
+        },
+        {
+            "name": "Justice",
+            "seats": 0,
+            "votes": 1754
+        },
+        {
+            "name": "American Independent",
+            "seats": 0,
+            "votes": 946
+        },
+        {
+            "name": "Reform Party",
+            "seats": 0,
+            "votes": 820
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 799
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 322
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 45
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 29,
+        "total_votes": 8474179,
+        "gallagher_index": 1.410592
+    }
+}

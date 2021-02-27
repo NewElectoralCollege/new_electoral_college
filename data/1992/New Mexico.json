@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 212824
+        },
+        {
+            "name": "Ross Perot",
+            "seats": 1,
+            "votes": 91895
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 261617
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1615
+        },
+        {
+            "name": "Taxpayers Party",
+            "seats": 0,
+            "votes": 620
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 562
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 369
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 183
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 181
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 120
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 5,
+        "total_votes": 569986,
+        "gallagher_index": 5.339711
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 169046
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 259760
+        },
+        {
+            "name": "Reform Party",
+            "seats": 0,
+            "votes": 4651
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 1333
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 907
+        },
+        {
+            "name": "Nonpartisan",
+            "seats": 0,
+            "votes": 845
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 339
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 253
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 437134,
+        "gallagher_index": 10.451128
+    }
+}

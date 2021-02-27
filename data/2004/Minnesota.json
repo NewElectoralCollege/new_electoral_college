@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1346695
+        },
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1445014
+        },
+        {
+            "name": "Better Life",
+            "seats": 0,
+            "votes": 18683
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 4639
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 4408
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 3074
+        },
+        {
+            "name": "Christian Freedom Party",
+            "seats": 0,
+            "votes": 2387
+        },
+        {
+            "name": "Socialist Equality Party",
+            "seats": 0,
+            "votes": 539
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 416
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 2532
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 2828387,
+        "gallagher_index": 1.923237
+    }
+}

@@ -16,14 +16,14 @@
             "votes": 729547
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 21712
-        },
-        {
             "name": "Green",
             "seats": 0,
             "votes": 9391
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 21712
         }
     ],
     "stats": {

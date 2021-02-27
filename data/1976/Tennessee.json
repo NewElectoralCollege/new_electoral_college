@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 6,
+            "votes": 825879
+        },
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 633969
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 5769
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 5004
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 2303
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 1375
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 547
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 512
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 442
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 546
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 1476346,
+        "gallagher_index": 3.566297
+    }
+}

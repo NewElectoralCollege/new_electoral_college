@@ -16,11 +16,6 @@
             "votes": 116454
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 9201
-        },
-        {
             "name": "Green",
             "seats": 0,
             "votes": 5735
@@ -34,6 +29,11 @@
             "name": "No Party Affiliation",
             "seats": 0,
             "votes": 1240
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 9201
         }
     ],
     "stats": {

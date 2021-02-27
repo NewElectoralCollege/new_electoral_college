@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="src/js/util.js"></script>
+        <script src="src/js/state.js"></script>
+        <link rel="stylesheet" href="src/sass/style.css"/>
+    </head>
+    <body>
+
+            <div class="include" w3-include-html="header.html"></div><br><br><br><br>
+        
+            <main role="main">
+                <div class="container">
+                    <div class="container" id="electors">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="975" height="520">
+                            <g id="circles">
+
+                            </g>
+                            <g id="bar">
+
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="container">
+                        <table id="single-results">
+                            <tr>
+                                <th colspan="2">Party</th>
+                                <th>Nominee</th>
+                                <th colspan="2">Votes</th>
+                                <th>Initial Electors</th>
+                                <th>Leftover Votes</th>
+                                <th>Total</th>
+                            </tr>
+                        </table>
+                    </div><br><br>
+                    <div class="container">
+                        <h2>State History</h2>
+                        <table class="container">
+                            <tr>
+                                <td class="detailed-results-cell">
+                                    <p>Democratic Party</p>
+                                    <table id="state-results">
+                                        <tr>
+                                            <th rowspan="2">Year</th>
+                                            <th colspan="3"></th>
+                                            <th colspan="2"></th>
+                                        </tr>
+                                        <tr>
+                                            <th>Votes</th>
+                                            <th>%</th>
+                                            <th>+/-</th>
+                                            <th>Electors</th>
+                                            <th>+/-</th>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="detailed-results-cell">
+                                    <p>Republican Party</p>
+                                    <table id="state-results">
+                                        <tr>
+                                            <th rowspan="2">Year</th>
+                                            <th colspan="3"></th>
+                                            <th colspan="2"></th>
+                                        </tr>
+                                        <tr>
+                                            <th>Votes</th>
+                                            <th>%</th>
+                                            <th>+/-</th>
+                                            <th>Electors</th>
+                                            <th>+/-</th>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                
+            </main>
+        
+            <footer class="container">
+            <p>&copy; The New Electoral College 2021</p>
+            </footer>
+
+            <script>includeHTML()</script>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 685700
+        },
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 536479
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 4348
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 7,
+        "total_votes": 1226527,
+        "gallagher_index": 1.103361
+    }
+}

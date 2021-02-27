@@ -1,0 +1,70 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 6,
+            "votes": 1070440
+        },
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 819395
+        },
+        {
+            "name": "Mccarthy '76",
+            "seats": 0,
+            "votes": 35490
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 13592
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 4149
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3529
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 1092
+        },
+        {
+            "name": "People'S",
+            "seats": 0,
+            "votes": 635
+        },
+        {
+            "name": "International Development Bank",
+            "seats": 0,
+            "votes": 543
+        },
+        {
+            "name": "Industrial Government Party",
+            "seats": 0,
+            "votes": 370
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 354
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 342
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 1949931,
+        "gallagher_index": 4.124179
+    }
+}

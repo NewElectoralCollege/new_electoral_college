@@ -1,0 +1,65 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 149022
+        },
+        {
+            "name": "Republican",
+            "seats": 1,
+            "votes": 119775
+        },
+        {
+            "name": "Progressive/Green",
+            "seats": 0,
+            "votes": 20374
+        },
+        {
+            "name": "Reform Party",
+            "seats": 0,
+            "votes": 2192
+        },
+        {
+            "name": "Vermont Grassroots",
+            "seats": 0,
+            "votes": 1044
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 784
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 219
+        },
+        {
+            "name": "Liberty Union Party",
+            "seats": 0,
+            "votes": 161
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 153
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 70
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 514
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 294308,
+        "gallagher_index": 13.415790
+    }
+}

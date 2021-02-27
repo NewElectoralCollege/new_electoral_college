@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 21,
+            "votes": 3389558
+        },
+        {
+            "name": "Free Libertarian",
+            "seats": 1,
+            "votes": 12197
+        },
+        {
+            "name": "Republican",
+            "seats": 19,
+            "votes": 3100791
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 10270
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 6996
+        },
+        {
+            "name": "Labor",
+            "seats": 0,
+            "votes": 5413
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 143037
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 41,
+        "total_votes": 6668262,
+        "gallagher_index": 2.225839
+    }
+}

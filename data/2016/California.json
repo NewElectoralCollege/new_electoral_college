@@ -11,13 +11,8 @@
             "votes": 478500
         },
         {
-            "name": "Write-In",
-            "seats": 1,
-            "votes": 120739
-        },
-        {
             "name": "Republican",
-            "seats": 17,
+            "seats": 18,
             "votes": 4483810
         },
         {
@@ -29,12 +24,17 @@
             "name": "Green",
             "seats": 1,
             "votes": 278657
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 120739
         }
     ],
     "stats": {
         "name": "Seat Allocation",
         "total_seats": 55,
         "total_votes": 14181595,
-        "gallagher_index": 0.935947
+        "gallagher_index": 1.066139
     }
 }

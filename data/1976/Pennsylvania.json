@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 13,
+            "votes": 2205604
+        },
+        {
+            "name": "Democratic",
+            "seats": 14,
+            "votes": 2328677
+        },
+        {
+            "name": "Mccarthy '76",
+            "seats": 0,
+            "votes": 50584
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 25344
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 3009
+        },
+        {
+            "name": "U.S. Labor",
+            "seats": 0,
+            "votes": 2744
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 1891
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 2934
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 27,
+        "total_votes": 4620787,
+        "gallagher_index": 1.379514
+    }
+}

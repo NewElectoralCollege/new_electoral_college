@@ -16,14 +16,14 @@
             "votes": 94231
         },
         {
-            "name": "Other",
-            "seats": 0,
-            "votes": 72594
-        },
-        {
             "name": "Green",
             "seats": 0,
             "votes": 50002
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 72594
         }
     ],
     "stats": {

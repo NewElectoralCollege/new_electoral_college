@@ -1,0 +1,35 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 214515
+        },
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 336500
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 1292
+        },
+        {
+            "name": "Alliance",
+            "seats": 0,
+            "votes": 755
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 82
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 553144,
+        "gallagher_index": 11.029857
+    }
+}

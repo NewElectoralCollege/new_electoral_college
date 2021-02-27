@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 12,
+            "votes": 2228131
+        },
+        {
+            "name": "Republican",
+            "seats": 13,
+            "votes": 2584323
+        },
+        {
+            "name": "Citizens",
+            "seats": 0,
+            "votes": 21628
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 6982
+        },
+        {
+            "name": "Workers League",
+            "seats": 0,
+            "votes": 2059
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 1780
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 25,
+        "total_votes": 4844903,
+        "gallagher_index": 1.741418
+    }
+}

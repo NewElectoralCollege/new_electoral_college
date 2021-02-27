@@ -1,0 +1,35 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1489504
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1478120
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 17272
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 6464
+        },
+        {
+            "name": "Wisconsin Green",
+            "seats": 0,
+            "votes": 2661
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 2994021,
+        "gallagher_index": 0.651249
+    }
+}

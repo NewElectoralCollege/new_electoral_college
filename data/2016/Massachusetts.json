@@ -16,25 +16,20 @@
             "votes": 138018
         },
         {
-            "name": "Other",
-            "seats": 0,
-            "votes": 50488
-        },
-        {
             "name": "Green",
             "seats": 0,
             "votes": 47661
         },
         {
-            "name": "Write-In",
+            "name": "Other",
             "seats": 0,
-            "votes": 2790
+            "votes": 53278
         }
     ],
     "stats": {
         "name": "Seat Allocation",
         "total_seats": 11,
         "total_votes": 3325046,
-        "gallagher_index": 4.869458
+        "gallagher_index": 4.882523
     }
 }

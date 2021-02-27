@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 301575
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 279978
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 15008
+        },
+        {
+            "name": "Citizens First",
+            "seats": 0,
+            "votes": 4747
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3311
+        },
+        {
+            "name": "Independent American",
+            "seats": 0,
+            "votes": 621
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 415
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 3315
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 608970,
+        "gallagher_index": 3.443251
+    }
+}

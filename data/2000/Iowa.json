@@ -1,0 +1,65 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 638517
+        },
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 634373
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 29374
+        },
+        {
+            "name": "Reform Party",
+            "seats": 0,
+            "votes": 5731
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3209
+        },
+        {
+            "name": "Nominated By Petition",
+            "seats": 0,
+            "votes": 2281
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 613
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 190
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 107
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 1168
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 37459
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 7,
+        "total_votes": 1353022,
+        "gallagher_index": 7.996936
+    }
+}

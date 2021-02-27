@@ -1,0 +1,55 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 177761
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 225123
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 825
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 280
+        },
+        {
+            "name": "Peace and Freedom Party",
+            "seats": 0,
+            "votes": 195
+        },
+        {
+            "name": "Populist",
+            "seats": 0,
+            "votes": 159
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 130
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 96
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 53
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 404622,
+        "gallagher_index": 5.858781
+    }
+}

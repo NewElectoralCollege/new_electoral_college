@@ -1,0 +1,65 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1152262
+        },
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 809141
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 18157
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 6978
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 2508
+        },
+        {
+            "name": "We The People",
+            "seats": 0,
+            "votes": 1767
+        },
+        {
+            "name": "Justice",
+            "seats": 0,
+            "votes": 1368
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 622
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 518
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 389
+        },
+        {
+            "name": "Socialist Equality Party",
+            "seats": 0,
+            "votes": 355
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 8,
+        "total_votes": 1994065,
+        "gallagher_index": 4.042789
+    }
+}

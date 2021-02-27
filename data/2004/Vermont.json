@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 184067
+        },
+        {
+            "name": "Republican",
+            "seats": 1,
+            "votes": 121180
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 4494
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1102
+        },
+        {
+            "name": "Liberty Union Party",
+            "seats": 0,
+            "votes": 265
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 244
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 957
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 312309,
+        "gallagher_index": 6.780184
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 1,
+            "votes": 98974
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 3339
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 219262
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1067
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 500
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 150
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 149
+        },
+        {
+            "name": "Liberty Union Party",
+            "seats": 0,
+            "votes": 141
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1464
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 325046,
+        "gallagher_index": 2.273347
+    }
+}

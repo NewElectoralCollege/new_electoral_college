@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 816015
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 64452
+        },
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 561094
+        },
+        {
+            "name": "Concerned Citizens",
+            "seats": 0,
+            "votes": 9695
+        },
+        {
+            "name": "Reform Party",
+            "seats": 0,
+            "votes": 4731
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3484
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 54
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 8,
+        "total_votes": 1459525,
+        "gallagher_index": 5.675711
+    }
+}

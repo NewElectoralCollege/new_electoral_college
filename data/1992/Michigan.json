@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 8,
+            "votes": 1871182
+        },
+        {
+            "name": "Republican",
+            "seats": 7,
+            "votes": 1554940
+        },
+        {
+            "name": "Ross Perot",
+            "seats": 3,
+            "votes": 824813
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 10175
+        },
+        {
+            "name": "Tisch Independent Citizens",
+            "seats": 0,
+            "votes": 8263
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 2954
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 1432
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 914
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 18,
+        "total_votes": 4274673,
+        "gallagher_index": 2.624560
+    }
+}

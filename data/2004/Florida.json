@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 13,
+            "votes": 3583544
+        },
+        {
+            "name": "Reform Party",
+            "seats": 0,
+            "votes": 32971
+        },
+        {
+            "name": "Republican",
+            "seats": 14,
+            "votes": 3964522
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 11996
+        },
+        {
+            "name": "Constitution Party Of Florida",
+            "seats": 0,
+            "votes": 6626
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 3917
+        },
+        {
+            "name": "Socialist Party Of Florida",
+            "seats": 0,
+            "votes": 3502
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 2732
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 27,
+        "total_votes": 7609810,
+        "gallagher_index": 0.837824
+    }
+}

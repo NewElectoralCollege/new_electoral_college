@@ -16,14 +16,14 @@
             "votes": 71558
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 51261
-        },
-        {
             "name": "Libertarian",
             "seats": 1,
             "votes": 283492
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 51261
         }
     ],
     "stats": {

@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 201148
+        },
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 211419
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 2462
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1110
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 240
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 211
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 416590,
+        "gallagher_index": 1.402098
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 20,
+            "votes": 2893831
+        },
+        {
+            "name": "Democratic",
+            "seats": 18,
+            "votes": 2728372
+        },
+        {
+            "name": "Free Libertarian",
+            "seats": 0,
+            "votes": 52648
+        },
+        {
+            "name": "Independent",
+            "seats": 3,
+            "votes": 467801
+        },
+        {
+            "name": "Right-To-Life",
+            "seats": 0,
+            "votes": 24159
+        },
+        {
+            "name": "Citizens",
+            "seats": 0,
+            "votes": 23186
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 7414
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 2068
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 1416
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 1064
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 41,
+        "total_votes": 5945828,
+        "gallagher_index": 1.639119
+    }
+}

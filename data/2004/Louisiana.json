@@ -1,0 +1,55 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 820299
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1102169
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 7032
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 5203
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2781
+        },
+        {
+            "name": "Protecting Working Families",
+            "seats": 0,
+            "votes": 1795
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 1566
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 1276
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 985
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 9,
+        "total_votes": 1943106,
+        "gallagher_index": 1.812769
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 672660
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 457766
+        },
+        {
+            "name": "Reform Party",
+            "seats": 0,
+            "votes": 3175
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1793
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 1758
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 1599
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 1073
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 6,
+        "total_votes": 1139824,
+        "gallagher_index": 7.257094
+    }
+}

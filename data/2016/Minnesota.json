@@ -26,11 +26,6 @@
             "votes": 36986
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 27247
-        },
-        {
             "name": "Legal Marijuana Now",
             "seats": 0,
             "votes": 11291
@@ -49,6 +44,11 @@
             "name": "American Delta Party",
             "seats": 0,
             "votes": 1430
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 27247
         }
     ],
     "stats": {

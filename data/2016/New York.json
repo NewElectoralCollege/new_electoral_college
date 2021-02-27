@@ -1,24 +1,14 @@
 {
     "parties": [
         {
-            "name": "Working Families",
+            "name": "Libertarian",
             "seats": 1,
-            "votes": 140041
+            "votes": 176598
         },
         {
             "name": "Republican",
-            "seats": 10,
-            "votes": 2527142
-        },
-        {
-            "name": "Democratic",
-            "seats": 17,
-            "votes": 4379789
-        },
-        {
-            "name": "Independence",
-            "seats": 0,
-            "votes": 119156
+            "seats": 11,
+            "votes": 2819534
         },
         {
             "name": "Green",
@@ -26,9 +16,9 @@
             "votes": 107934
         },
         {
-            "name": "Libertarian",
-            "seats": 0,
-            "votes": 57442
+            "name": "Democratic",
+            "seats": 17,
+            "votes": 4556124
         },
         {
             "name": "Other",
@@ -36,17 +26,7 @@
             "votes": 48447
         },
         {
-            "name": "Women'S Equality",
-            "seats": 0,
-            "votes": 36294
-        },
-        {
-            "name": "Conservative",
-            "seats": 1,
-            "votes": 292392
-        },
-        {
-            "name": "Write-In",
+            "name": "Other",
             "seats": 0,
             "votes": 12816
         }
@@ -55,6 +35,6 @@
         "name": "Seat Allocation",
         "total_seats": 29,
         "total_votes": 7721453,
-        "gallagher_index": 2.738381
+        "gallagher_index": 1.713985
     }
 }

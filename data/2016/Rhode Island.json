@@ -16,11 +16,6 @@
             "votes": 14746
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 9439
-        },
-        {
             "name": "Green",
             "seats": 0,
             "votes": 6220
@@ -29,6 +24,11 @@
             "name": "American Delta Party",
             "seats": 0,
             "votes": 671
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 9439
         }
     ],
     "stats": {

@@ -1,0 +1,55 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 12,
+            "votes": 2806993
+        },
+        {
+            "name": "Conservative",
+            "seats": 1,
+            "votes": 155574
+        },
+        {
+            "name": "Working Families",
+            "seats": 1,
+            "votes": 133525
+        },
+        {
+            "name": "Democratic",
+            "seats": 17,
+            "votes": 4180755
+        },
+        {
+            "name": "Independence",
+            "seats": 0,
+            "votes": 84247
+        },
+        {
+            "name": "Peace And Justice",
+            "seats": 0,
+            "votes": 15626
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 11607
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 2405
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 304
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 31,
+        "total_votes": 7391036,
+        "gallagher_index": 2.019403
+    }
+}

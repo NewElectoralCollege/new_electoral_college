@@ -9,34 +9,60 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="src/js/map.js"></script>
-        <script src="src/js/util.js"></script>
-        <link rel="stylesheet" href="src/sass/style.scss"/>
+        <script src="src/js/path-data-polyfill.js"></script>
+        <link rel="stylesheet" href="src/sass/style.css"/>
     </head>
     <body>
 
-        <div class="include" w3-include-html="header.html"></div>
+        <div class="include" w3-include-html="header.html"></div><br><br><br><br>
     
         <main role="main" class="container">
     
             <div class="container">
-                    <h1 id="election"> Election</h1>
-                    <p>These are the projected results of the 1948 Election using our proposal. It uses the final certified results of the Election 
+                    <h1 id="election"> </h1>
+                    <p>These are the projected results of the <span id="election"></span> Election using our proposal. It uses the final certified results of the Election 
                           according to the electoral office in each state for Presidential Electors. If the election were actually run under the New Electoral 
                           College, the results would have been slightly different, because voters behave differently when they can use a more representative 
                           voting system.</p>
             </div>
 
             <div class="container">
-                <div class="container col-sm-4" id="map" style="display:inline-block">
+                <div class="container">
+                    <span id="leftArrow" onclick="changeYear(false)"></span>
+                    <div class="container col-sm-4" id="map" style="display:inline-block">
                 
+                    </div>
+                    <span id="rightArrow" onclick="changeYear(true)"></span>
                 </div>
                 <div class="container" style="display:inline-block">
-                    <div class="container" id="hemicircle">
+                    <div class="container col-sm-2" id="hemicircle" style="display:inline-block;">
                         
                     </div>
+                    <div class="container col-sm-2" style="display:inline-block; vertical-align: middle; left:360px;">
+                        <table id="single-results">
+                            <tr>
+                                <th colspan="2" rowspan="2">Party</th>
+                                <th rowspan="2">Nominee</th>
+                                <th colspan="2" rowspan="2">Votes</th>
+                                <th colspan="2" >Electors</th>
+                                <th rowspan="2">Change (New)</th>
+                            </tr>
+                            <tr>
+                                <th>New</th>
+                                <th>Old</th>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </div><br>
+
+            <table class="container">
+                <tr>
+                    <td class="detailed-results-cell"><table class="detailed-results"></table></td>
+                    <td class="detailed-results-cell"><table class="detailed-results"></table></td>
+                    <td class="detailed-results-cell"><table class="detailed-results"></table></td>
+                </tr>
+            </table><br><br>
     
         </main>
         
@@ -44,6 +70,9 @@
         <p>&copy; The New Electoral College 2021</p>
         </footer>
 
+        <script src="src/js/util.js"></script>
+        <script src="src/js/state.js"></script>
+        <script src="src/js/map.js"></script>
         <script>includeHTML()</script>
 
     </body>

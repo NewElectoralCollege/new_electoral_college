@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 857488
+        },
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 693826
+        },
+        {
+            "name": "Petitioning Candidate",
+            "seats": 0,
+            "votes": 12969
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 9564
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3367
+        },
+        {
+            "name": "Concerned Citizens",
+            "seats": 0,
+            "votes": 1543
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 12
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 7,
+        "total_votes": 1578769,
+        "gallagher_index": 2.268183
+    }
+}

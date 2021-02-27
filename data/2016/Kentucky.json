@@ -11,7 +11,7 @@
             "votes": 53752
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
             "votes": 22780
         },
@@ -26,14 +26,14 @@
             "votes": 1128
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 751
-        },
-        {
             "name": "Republican",
             "seats": 5,
             "votes": 1202971
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 751
         }
     ],
     "stats": {

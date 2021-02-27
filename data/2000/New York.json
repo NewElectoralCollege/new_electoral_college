@@ -1,0 +1,55 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 20,
+            "votes": 4107697
+        },
+        {
+            "name": "Green",
+            "seats": 1,
+            "votes": 244030
+        },
+        {
+            "name": "Republican",
+            "seats": 12,
+            "votes": 2403374
+        },
+        {
+            "name": "Right-To-Life",
+            "seats": 0,
+            "votes": 31599
+        },
+        {
+            "name": "Independence",
+            "seats": 0,
+            "votes": 24361
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 7649
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 1789
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 1498
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 2
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 33,
+        "total_votes": 6505296,
+        "gallagher_index": 1.960801
+    }
+}

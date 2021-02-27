@@ -6,9 +6,9 @@
             "votes": 2394164
         },
         {
-            "name": "No Party Affiliation",
+            "name": "Libertarian",
             "seats": 1,
-            "votes": 198733
+            "votes": 174498
         },
         {
             "name": "Republican",
@@ -21,7 +21,12 @@
             "votes": 46271
         },
         {
-            "name": "Write-In",
+            "name": "No Party Affiliation",
+            "seats": 0,
+            "votes": 24235
+        },
+        {
+            "name": "Other",
             "seats": 0,
             "votes": 16314
         }
@@ -30,6 +35,6 @@
         "name": "Seat Allocation",
         "total_seats": 18,
         "total_votes": 5496487,
-        "gallagher_index": 2.024089
+        "gallagher_index": 2.268632
     }
 }

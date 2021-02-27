@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 190889
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 111025
+        },
+        {
+            "name": "Populist",
+            "seats": 0,
+            "votes": 5069
+        },
+        {
+            "name": "Alaskan Independence Party",
+            "seats": 0,
+            "votes": 2092
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1675
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 1058
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 790
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 312598,
+        "gallagher_index": 4.454532
+    }
+}

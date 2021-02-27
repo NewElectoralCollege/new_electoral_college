@@ -16,14 +16,14 @@
             "votes": 38946
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 16051
-        },
-        {
             "name": "Nominated By Petition",
             "seats": 0,
             "votes": 8775
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 16051
         }
     ],
     "stats": {

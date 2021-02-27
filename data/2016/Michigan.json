@@ -26,14 +26,14 @@
             "votes": 16139
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 8955
-        },
-        {
             "name": "Natural Law",
             "seats": 0,
             "votes": 2209
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 8955
         }
     ],
     "stats": {

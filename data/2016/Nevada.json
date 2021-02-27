@@ -16,11 +16,6 @@
             "votes": 37384
         },
         {
-            "name": "Other",
-            "seats": 0,
-            "votes": 28863
-        },
-        {
             "name": "Independent American",
             "seats": 0,
             "votes": 5268
@@ -29,6 +24,11 @@
             "name": "No Party Affiliation",
             "seats": 0,
             "votes": 2552
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 28863
         }
     ],
     "stats": {

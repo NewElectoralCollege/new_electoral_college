@@ -11,11 +11,6 @@
             "votes": 1221747
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 107805
-        },
-        {
             "name": "Democratic",
             "seats": 6,
             "votes": 1742718
@@ -39,6 +34,11 @@
             "name": "Socialism And Liberation Party",
             "seats": 0,
             "votes": 3523
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 107805
         }
     ],
     "stats": {

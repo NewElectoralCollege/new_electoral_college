@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1041066
+        },
+        {
+            "name": "Ross Perot",
+            "seats": 2,
+            "votes": 544479
+        },
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 930855
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2877
+        },
+        {
+            "name": "Labor-Farm-Laborista-Agrario",
+            "seats": 0,
+            "votes": 1833
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 1070
+        },
+        {
+            "name": "Third Party",
+            "seats": 0,
+            "votes": 405
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 7518
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 11,
+        "total_votes": 2530103,
+        "gallagher_index": 3.872236
+    }
+}

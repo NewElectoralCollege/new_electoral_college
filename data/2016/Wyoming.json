@@ -11,30 +11,25 @@
             "votes": 13287
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 6904
-        },
-        {
             "name": "Republican",
             "seats": 2,
             "votes": 174419
         },
         {
-            "name": "Independent (politician)",
-            "seats": 0,
-            "votes": 3224
-        },
-        {
             "name": "Constitution Party",
             "seats": 0,
             "votes": 2042
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 10128
         }
     ],
     "stats": {
         "name": "Seat Allocation",
         "total_seats": 3,
         "total_votes": 255849,
-        "gallagher_index": 9.219119
+        "gallagher_index": 9.401731
     }
 }

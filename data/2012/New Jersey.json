@@ -1,0 +1,60 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 6,
+            "votes": 1478088
+        },
+        {
+            "name": "Democratic",
+            "seats": 8,
+            "votes": 2122786
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 21035
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 9886
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 2063
+        },
+        {
+            "name": "Justice",
+            "seats": 0,
+            "votes": 1723
+        },
+        {
+            "name": "Nsa Did 911",
+            "seats": 0,
+            "votes": 1024
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 709
+        },
+        {
+            "name": "American Third Position",
+            "seats": 0,
+            "votes": 664
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 521
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 14,
+        "total_votes": 3638499,
+        "gallagher_index": 1.849714
+    }
+}

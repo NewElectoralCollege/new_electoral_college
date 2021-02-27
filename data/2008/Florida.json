@@ -1,0 +1,80 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 14,
+            "votes": 4282074
+        },
+        {
+            "name": "Ecology Party Of Florida",
+            "seats": 0,
+            "votes": 28124
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 17218
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 7915
+        },
+        {
+            "name": "Republican",
+            "seats": 13,
+            "votes": 4045624
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 2887
+        },
+        {
+            "name": "America'S Independent Party",
+            "seats": 0,
+            "votes": 2550
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 1516
+        },
+        {
+            "name": "Boston Tea Party",
+            "seats": 0,
+            "votes": 795
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 533
+        },
+        {
+            "name": "Objectivist Party",
+            "seats": 0,
+            "votes": 419
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 405
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 293
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 391
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 27,
+        "total_votes": 8390744,
+        "gallagher_index": 0.648276
+    }
+}

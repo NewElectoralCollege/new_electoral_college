@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 25,
+            "votes": 5121325
+        },
+        {
+            "name": "Republican",
+            "seats": 18,
+            "votes": 3630574
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 48139
+        },
+        {
+            "name": "Ross Perot",
+            "seats": 11,
+            "votes": 2296006
+        },
+        {
+            "name": "Peace and Freedom Party",
+            "seats": 0,
+            "votes": 18597
+        },
+        {
+            "name": "American Independent Party",
+            "seats": 0,
+            "votes": 12711
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 4369
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 54,
+        "total_votes": 11131721,
+        "gallagher_index": 0.669012
+    }
+}

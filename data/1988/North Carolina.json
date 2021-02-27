@@ -1,0 +1,30 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 8,
+            "votes": 1237258
+        },
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 890167
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 5682
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1263
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 13,
+        "total_votes": 2134370,
+        "gallagher_index": 3.416796
+    }
+}

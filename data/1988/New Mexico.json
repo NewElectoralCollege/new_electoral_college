@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 270341
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 244497
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3368
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 2237
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 344
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 258
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 249
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 93
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 5,
+        "total_votes": 521387,
+        "gallagher_index": 7.567987
+    }
+}

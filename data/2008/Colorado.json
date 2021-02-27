@@ -1,0 +1,90 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1288576
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 13350
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 10897
+        },
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 1073589
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 6233
+        },
+        {
+            "name": "America'S Independent Party",
+            "seats": 0,
+            "votes": 3051
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 2822
+        },
+        {
+            "name": "Unaffiliated",
+            "seats": 0,
+            "votes": 828
+        },
+        {
+            "name": "Boston Tea Party",
+            "seats": 0,
+            "votes": 598
+        },
+        {
+            "name": "Heartquake '08",
+            "seats": 0,
+            "votes": 348
+        },
+        {
+            "name": "Objectivist Party",
+            "seats": 0,
+            "votes": 336
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 226
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 158
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 154
+        },
+        {
+            "name": "U.S. Pacifist Party",
+            "seats": 0,
+            "votes": 110
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 85
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 9,
+        "total_votes": 2401361,
+        "gallagher_index": 1.462221
+    }
+}

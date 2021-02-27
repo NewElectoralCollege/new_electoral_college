@@ -1,0 +1,70 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 962337
+        },
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1109471
+        },
+        {
+            "name": "Progressive",
+            "seats": 0,
+            "votes": 5403
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 5109
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 2155
+        },
+        {
+            "name": "Grassroots",
+            "seats": 0,
+            "votes": 1949
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 1734
+        },
+        {
+            "name": "National Economic Recovery",
+            "seats": 0,
+            "votes": 1702
+        },
+        {
+            "name": "Populist",
+            "seats": 0,
+            "votes": 1529
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 1298
+        },
+        {
+            "name": "Workers League",
+            "seats": 0,
+            "votes": 489
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 3614
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 2096790,
+        "gallagher_index": 3.572636
+    }
+}

@@ -1,0 +1,65 @@
+{
+    "parties": [
+        {
+            "name": "Independent",
+            "seats": 1,
+            "votes": 115633
+        },
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 676026
+        },
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 508672
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 13123
+        },
+        {
+            "name": "Citizens",
+            "seats": 0,
+            "votes": 2273
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 534
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 298
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 244
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 189
+        },
+        {
+            "name": "Statesman",
+            "seats": 0,
+            "votes": 150
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 519
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 8,
+        "total_votes": 1317661,
+        "gallagher_index": 2.984894
+    }
+}

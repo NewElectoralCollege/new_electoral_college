@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 677296
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 333149
+        },
+        {
+            "name": "Populist",
+            "seats": 0,
+            "votes": 3564
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3329
+        },
+        {
+            "name": "Alliance",
+            "seats": 0,
+            "votes": 2544
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 2109
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 7,
+        "total_votes": 1021991,
+        "gallagher_index": 4.644026
+    }
+}

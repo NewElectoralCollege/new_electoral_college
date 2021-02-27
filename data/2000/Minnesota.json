@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1168266
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1109659
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 126696
+        },
+        {
+            "name": "Reform Party Minnesota",
+            "seats": 0,
+            "votes": 24460
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 5282
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 3272
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 1022
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 28
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 10,
+        "total_votes": 2436391,
+        "gallagher_index": 5.106921
+    }
+}

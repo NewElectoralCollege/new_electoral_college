@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 635274
+        },
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 617417
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 31127
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 5531
+        },
+        {
+            "name": "Respect For Life",
+            "seats": 0,
+            "votes": 4233
+        },
+        {
+            "name": "Citizens",
+            "seats": 0,
+            "votes": 1304
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 393
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 348
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 9,
+        "total_votes": 1295627,
+        "gallagher_index": 5.428072
+    }
+}

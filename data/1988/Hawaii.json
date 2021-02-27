@@ -1,0 +1,35 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 158625
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 192364
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1999
+        },
+        {
+            "name": "No Party Affiliation",
+            "seats": 0,
+            "votes": 1003
+        },
+        {
+            "name": "National Economic Recovery",
+            "seats": 0,
+            "votes": 470
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 354461,
+        "gallagher_index": 4.806003
+    }
+}

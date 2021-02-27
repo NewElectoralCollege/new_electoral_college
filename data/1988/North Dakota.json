@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 166559
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 127739
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1315
+        },
+        {
+            "name": "National Economic Recovery",
+            "seats": 0,
+            "votes": 905
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 396
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 347
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 297261,
+        "gallagher_index": 10.157168
+    }
+}

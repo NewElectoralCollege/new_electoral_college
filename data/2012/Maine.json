@@ -1,0 +1,35 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 292276
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 401306
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 9352
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 8119
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 2127
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 713180,
+        "gallagher_index": 7.865735
+    }
+}

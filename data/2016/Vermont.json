@@ -11,11 +11,6 @@
             "votes": 178573
         },
         {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 22899
-        },
-        {
             "name": "Libertarian",
             "seats": 0,
             "votes": 10078
@@ -26,7 +21,7 @@
             "votes": 6758
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
             "votes": 1063
         },
@@ -34,6 +29,11 @@
             "name": "Liberty Union Party",
             "seats": 0,
             "votes": 327
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 22899
         }
     ],
     "stats": {

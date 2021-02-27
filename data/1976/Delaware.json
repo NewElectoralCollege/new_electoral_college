@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 122461
+        },
+        {
+            "name": "Republican",
+            "seats": 1,
+            "votes": 109780
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 645
+        },
+        {
+            "name": "U.S. Labor",
+            "seats": 0,
+            "votes": 135
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 103
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 2518
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 235642,
+        "gallagher_index": 14.016365
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 502752
+        },
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 430421
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 13185
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 4724
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 3242
+        },
+        {
+            "name": "Conservative",
+            "seats": 0,
+            "votes": 2118
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 1403
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 7,
+        "total_votes": 957845,
+        "gallagher_index": 3.762685
+    }
+}

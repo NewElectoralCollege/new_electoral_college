@@ -1,0 +1,40 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 199239
+        },
+        {
+            "name": "Republican",
+            "seats": 1,
+            "votes": 92698
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 3487
+        },
+        {
+            "name": "Justice",
+            "seats": 0,
+            "votes": 1128
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 695
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 2043
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 299290,
+        "gallagher_index": 1.949552
+    }
+}

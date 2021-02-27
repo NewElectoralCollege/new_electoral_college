@@ -1,0 +1,75 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 9,
+            "votes": 1546557
+        },
+        {
+            "name": "Democratic",
+            "seats": 7,
+            "votes": 1147364
+        },
+        {
+            "name": "Independent",
+            "seats": 1,
+            "votes": 234632
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 20652
+        },
+        {
+            "name": "Citizens",
+            "seats": 0,
+            "votes": 8203
+        },
+        {
+            "name": "Right-To-Life",
+            "seats": 0,
+            "votes": 3927
+        },
+        {
+            "name": "Middle Class Candidate",
+            "seats": 0,
+            "votes": 3694
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 2555
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 2198
+        },
+        {
+            "name": "Socialist",
+            "seats": 0,
+            "votes": 1973
+        },
+        {
+            "name": "Down With Lawyers",
+            "seats": 0,
+            "votes": 1718
+        },
+        {
+            "name": "Workers World",
+            "seats": 0,
+            "votes": 1288
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 923
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 17,
+        "total_votes": 2975684,
+        "gallagher_index": 2.491775
+    }
+}

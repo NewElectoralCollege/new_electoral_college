@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 469105
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 155369
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2447
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 1345
+        },
+        {
+            "name": "Citizens",
+            "seats": 0,
+            "votes": 844
+        },
+        {
+            "name": "Alliance",
+            "seats": 0,
+            "votes": 220
+        },
+        {
+            "name": "Communist Party Use",
+            "seats": 0,
+            "votes": 184
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 142
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 5,
+        "total_votes": 629656,
+        "gallagher_index": 5.113962
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 4,
+            "votes": 782989
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1148275
+        },
+        {
+            "name": "Louisiana Taxpayers Party",
+            "seats": 0,
+            "votes": 9368
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 9187
+        },
+        {
+            "name": "Independent (politician)",
+            "seats": 0,
+            "votes": 6997
+        },
+        {
+            "name": "Constitution Party",
+            "seats": 0,
+            "votes": 2581
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 735
+        },
+        {
+            "name": "Socialism And Liberation Party",
+            "seats": 0,
+            "votes": 354
+        },
+        {
+            "name": "Prohibition",
+            "seats": 0,
+            "votes": 275
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 9,
+        "total_votes": 1960761,
+        "gallagher_index": 3.872424
+    }
+}

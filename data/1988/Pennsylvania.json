@@ -1,0 +1,45 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 13,
+            "votes": 2300087
+        },
+        {
+            "name": "Consumer",
+            "seats": 0,
+            "votes": 19158
+        },
+        {
+            "name": "Democratic",
+            "seats": 12,
+            "votes": 2194944
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 12051
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 4379
+        },
+        {
+            "name": "Populist",
+            "seats": 0,
+            "votes": 3444
+        },
+        {
+            "name": "Workers League",
+            "seats": 0,
+            "votes": 2188
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 25,
+        "total_votes": 4536251,
+        "gallagher_index": 1.023236
+    }
+}

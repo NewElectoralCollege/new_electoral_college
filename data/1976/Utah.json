@@ -1,0 +1,50 @@
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 337908
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 182110
+        },
+        {
+            "name": "American",
+            "seats": 0,
+            "votes": 13304
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 3907
+        },
+        {
+            "name": "Liberal Party",
+            "seats": 0,
+            "votes": 2438
+        },
+        {
+            "name": "Concerned Citizens",
+            "seats": 0,
+            "votes": 1162
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 268
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 121
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 4,
+        "total_votes": 541218,
+        "gallagher_index": 10.942864
+    }
+}

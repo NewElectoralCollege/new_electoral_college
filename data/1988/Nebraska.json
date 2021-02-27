@@ -1,0 +1,30 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 259235
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2534
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 1740
+        },
+        {
+            "name": "Republican",
+            "seats": 3,
+            "votes": 397956
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 5,
+        "total_votes": 661465,
+        "gallagher_index": 0.669658
+    }
+}

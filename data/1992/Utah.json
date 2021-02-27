@@ -1,0 +1,75 @@
+{
+    "parties": [
+        {
+            "name": "Ross Perot",
+            "seats": 2,
+            "votes": 203400
+        },
+        {
+            "name": "Democratic",
+            "seats": 1,
+            "votes": 183429
+        },
+        {
+            "name": "Populist",
+            "seats": 0,
+            "votes": 28602
+        },
+        {
+            "name": "Republican",
+            "seats": 2,
+            "votes": 322632
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 1900
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 1319
+        },
+        {
+            "name": "Independents For Economic Recovery",
+            "seats": 0,
+            "votes": 1089
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 414
+        },
+        {
+            "name": "Taxpayers Party",
+            "seats": 0,
+            "votes": 393
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 200
+        },
+        {
+            "name": "Campaign For A New Tomorrow",
+            "seats": 0,
+            "votes": 177
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 151
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 292
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 5,
+        "total_votes": 743998,
+        "gallagher_index": 10.202889
+    }
+}

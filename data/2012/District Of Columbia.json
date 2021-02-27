@@ -1,0 +1,35 @@
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 267070
+        },
+        {
+            "name": "Republican",
+            "seats": 0,
+            "votes": 21381
+        },
+        {
+            "name": "D.C. Statehood Green",
+            "seats": 0,
+            "votes": 2458
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2083
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 772
+        }
+    ],
+    "stats": {
+        "name": "Seat Allocation",
+        "total_seats": 3,
+        "total_votes": 293764,
+        "gallagher_index": 8.270944
+    }
+}
