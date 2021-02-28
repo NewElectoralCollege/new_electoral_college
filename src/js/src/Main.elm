@@ -1,7 +1,9 @@
 module Main exposing (main)
 
 import Dict exposing (Dict)
-import Html exposing (Html)
+import Html exposing (..)
+import Maybe exposing (..)
+import String exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 
 type alias PartyList =
@@ -21,8 +23,12 @@ type alias Stats =
     , gallagher_index : Float
     }
 
-partyDecoder : Decoder Party
-partyDecoder =
+type Item 
+    = PartyTag PartyList
+    | StatTag Stats
+
+partyMapper : Decoder Party
+partyMapper =
     Decode.map5 Party
         (Decode.field "name" Decode.string)
         (Decode.field "seats" Decode.int)
@@ -30,35 +36,53 @@ partyDecoder =
         (Decode.field "extra_votes" Decode.int)
         (Decode.field "extra_seat" Decode.bool)
 
-dataDecoder : Decoder PartyList
-dataDecoder =
-    Decode.list partyDecoder
+{-statMapper : Decoder Stats
+statMapper =
+    Decode.map3 Stats
+        (Decode.field "total_seats" Decode.int)
+        (Decode.field "total_votes" Decode.int)
+        (Decode.field "gallagher_index" Decode.float)-}
 
-schoolsDecoder : Decoder (Dict String PartyList)
-schoolsDecoder =
-    Decode.dict dataDecoder
+partyDecoder : Decoder PartyList
+partyDecoder =
+    Decode.list partyMapper
+
+{-statDecoder : Decoder StatList
+statDecoder =
+    Decode.dict statMapper-}
+
+partiesDecoder : Decoder (Dict String PartyList)
+partiesDecoder =
+    Decode.dict partyDecoder
+
+{-statsDecoder : Decoder (Dict String StatList)
+statsDecoder =
+    Decode.dict statDecoder-}
+
+printer : List String -> String
+printer list =
+    case list of
+        [] -> ""
+        [x] -> x
+        (x::xs) ->
+            let
+                n = printer xs
+            in
+                n
 
 main : Html msg
 main =
-    case Decode.decodeString schoolsDecoder json of
+    case Decode.decodeString (Decode.at["parties","0","name"] Decode.string) json of
         Ok parties ->
-            Html.div []
-                [ Html.text <| "Total passed: " ++ String.fromInt (sum .votes parties)
-                , Html.br [] []
-                , Html.text <| "Total failed: " ++ String.fromInt (sum .seats parties)
-                ]
+            text parties
 
         Err error ->
-            Html.text ("Error: " ++ Decode.errorToString error)
-
-sum : (Party -> Int) -> Dict String PartyList -> Int
-sum toValue parties =
-    Dict.foldl
-        (\_ exams total ->
-            total + List.foldl (\party schoolTotal -> schoolTotal + toValue party) 0 exams
-        )
-        0
-        parties
+            text ("Error: " ++ Decode.errorToString error)
+            {-case Decode.decodeString (Decode.keyValuePairs Decode.int) json of
+                Ok stats ->
+                    text "Hello"
+                Err error2 ->
+                    text ("Error: " ++ Decode.errorToString error)-}
 
 json : String
 json =

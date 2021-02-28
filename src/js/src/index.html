@@ -4418,232 +4418,83 @@ var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
-var $elm$html$Html$br = _VirtualDom_node('br');
-var $elm$json$Json$Decode$decodeString = _Json_runOnString;
-var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Main$json = '\r\n{\r\n    "parties": [\r\n        {\r\n            "name": "Republican",\r\n            "seats": 4,\r\n            "votes": 691848,\r\n            "extra_votes": 125337,\r\n            "extra_seat": true\r\n        },\r\n        {\r\n            "name": "Democratic",\r\n            "seats": 4,\r\n            "votes": 671152,\r\n            "extra_votes": 104641,\r\n            "extra_seat": true\r\n        },\r\n        {\r\n            "name": "Reform",\r\n            "seats": 0,\r\n            "votes": 99629,\r\n            "extra_votes": 99629,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Green",\r\n            "seats": 0,\r\n            "votes": 25070,\r\n            "extra_votes": 25070,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Libertarian",\r\n            "seats": 0,\r\n            "votes": 12392,\r\n            "extra_votes": 12392,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Constitution Party",\r\n            "seats": 0,\r\n            "votes": 2813,\r\n            "extra_votes": 2813,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Independent",\r\n            "seats": 0,\r\n            "votes": 2809,\r\n            "extra_votes": 2809,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Natural Law",\r\n            "seats": 0,\r\n            "votes": 2545,\r\n            "extra_votes": 2545,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Socialist",\r\n            "seats": 0,\r\n            "votes": 669,\r\n            "extra_votes": 669,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Workers World",\r\n            "seats": 0,\r\n            "votes": 599,\r\n            "extra_votes": 599,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "American",\r\n            "seats": 0,\r\n            "votes": 557,\r\n            "extra_votes": 557,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Prohibition",\r\n            "seats": 0,\r\n            "votes": 375,\r\n            "extra_votes": 375,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Socialist Workers",\r\n            "seats": 0,\r\n            "votes": 244,\r\n            "extra_votes": 244,\r\n            "extra_seat": false\r\n        }\r\n    ],\r\n    "stats": {\r\n        "name": "Seat Allocation",\r\n        "total_seats": 8,\r\n        "total_votes": 1510702,\r\n        "gallagher_index": 6.919405\r\n    }\r\n}\r\n';
-var $elm$json$Json$Decode$list = _Json_decodeList;
-var $author$project$Main$Party = F5(
-	function (name, seats, votes, extra_votes, extra_seat) {
-		return {extra_seat: extra_seat, extra_votes: extra_votes, name: name, seats: seats, votes: votes};
-	});
-var $elm$json$Json$Decode$bool = _Json_decodeBool;
 var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$json$Json$Decode$int = _Json_decodeInt;
-var $elm$json$Json$Decode$map5 = _Json_map5;
+var $elm$core$List$foldrHelper = F4(
+	function (fn, acc, ctr, ls) {
+		if (!ls.b) {
+			return acc;
+		} else {
+			var a = ls.a;
+			var r1 = ls.b;
+			if (!r1.b) {
+				return A2(fn, a, acc);
+			} else {
+				var b = r1.a;
+				var r2 = r1.b;
+				if (!r2.b) {
+					return A2(
+						fn,
+						a,
+						A2(fn, b, acc));
+				} else {
+					var c = r2.a;
+					var r3 = r2.b;
+					if (!r3.b) {
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(fn, c, acc)));
+					} else {
+						var d = r3.a;
+						var r4 = r3.b;
+						var res = (ctr > 500) ? A3(
+							$elm$core$List$foldl,
+							fn,
+							acc,
+							$elm$core$List$reverse(r4)) : A4($elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(
+									fn,
+									c,
+									A2(fn, d, res))));
+					}
+				}
+			}
+		}
+	});
+var $elm$core$List$foldr = F3(
+	function (fn, acc, ls) {
+		return A4($elm$core$List$foldrHelper, fn, acc, 0, ls);
+	});
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$decodeString = _Json_runOnString;
+var $author$project$Main$json = '\r\n{\r\n    "parties": [\r\n        {\r\n            "name": "Republican",\r\n            "seats": 4,\r\n            "votes": 691848,\r\n            "extra_votes": 125337,\r\n            "extra_seat": true\r\n        },\r\n        {\r\n            "name": "Democratic",\r\n            "seats": 4,\r\n            "votes": 671152,\r\n            "extra_votes": 104641,\r\n            "extra_seat": true\r\n        },\r\n        {\r\n            "name": "Reform",\r\n            "seats": 0,\r\n            "votes": 99629,\r\n            "extra_votes": 99629,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Green",\r\n            "seats": 0,\r\n            "votes": 25070,\r\n            "extra_votes": 25070,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Libertarian",\r\n            "seats": 0,\r\n            "votes": 12392,\r\n            "extra_votes": 12392,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Constitution Party",\r\n            "seats": 0,\r\n            "votes": 2813,\r\n            "extra_votes": 2813,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Independent",\r\n            "seats": 0,\r\n            "votes": 2809,\r\n            "extra_votes": 2809,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Natural Law",\r\n            "seats": 0,\r\n            "votes": 2545,\r\n            "extra_votes": 2545,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Socialist",\r\n            "seats": 0,\r\n            "votes": 669,\r\n            "extra_votes": 669,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Workers World",\r\n            "seats": 0,\r\n            "votes": 599,\r\n            "extra_votes": 599,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "American",\r\n            "seats": 0,\r\n            "votes": 557,\r\n            "extra_votes": 557,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Prohibition",\r\n            "seats": 0,\r\n            "votes": 375,\r\n            "extra_votes": 375,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Socialist Workers",\r\n            "seats": 0,\r\n            "votes": 244,\r\n            "extra_votes": 244,\r\n            "extra_seat": false\r\n        }\r\n    ],\r\n    "stats": {\r\n        "name": "Seat Allocation",\r\n        "total_seats": 8,\r\n        "total_votes": 1510702,\r\n        "gallagher_index": 6.919405\r\n    }\r\n}\r\n';
 var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Main$partyDecoder = A6(
-	$elm$json$Json$Decode$map5,
-	$author$project$Main$Party,
-	A2($elm$json$Json$Decode$field, 'name', $elm$json$Json$Decode$string),
-	A2($elm$json$Json$Decode$field, 'seats', $elm$json$Json$Decode$int),
-	A2($elm$json$Json$Decode$field, 'votes', $elm$json$Json$Decode$int),
-	A2($elm$json$Json$Decode$field, 'extra_votes', $elm$json$Json$Decode$int),
-	A2($elm$json$Json$Decode$field, 'extra_seat', $elm$json$Json$Decode$bool));
-var $author$project$Main$dataDecoder = $elm$json$Json$Decode$list($author$project$Main$partyDecoder);
-var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
-var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
-var $elm$core$Dict$Black = {$: 'Black'};
-var $elm$core$Dict$RBNode_elm_builtin = F5(
-	function (a, b, c, d, e) {
-		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
-	});
-var $elm$core$Dict$Red = {$: 'Red'};
-var $elm$core$Dict$balance = F5(
-	function (color, key, value, left, right) {
-		if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Red')) {
-			var _v1 = right.a;
-			var rK = right.b;
-			var rV = right.c;
-			var rLeft = right.d;
-			var rRight = right.e;
-			if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
-				var _v3 = left.a;
-				var lK = left.b;
-				var lV = left.c;
-				var lLeft = left.d;
-				var lRight = left.e;
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Red,
-					key,
-					value,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rLeft, rRight));
-			} else {
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					color,
-					rK,
-					rV,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, left, rLeft),
-					rRight);
-			}
-		} else {
-			if ((((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) && (left.d.$ === 'RBNode_elm_builtin')) && (left.d.a.$ === 'Red')) {
-				var _v5 = left.a;
-				var lK = left.b;
-				var lV = left.c;
-				var _v6 = left.d;
-				var _v7 = _v6.a;
-				var llK = _v6.b;
-				var llV = _v6.c;
-				var llLeft = _v6.d;
-				var llRight = _v6.e;
-				var lRight = left.e;
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Red,
-					lK,
-					lV,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, key, value, lRight, right));
-			} else {
-				return A5($elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
-			}
-		}
-	});
-var $elm$core$Basics$compare = _Utils_compare;
-var $elm$core$Dict$insertHelp = F3(
-	function (key, value, dict) {
-		if (dict.$ === 'RBEmpty_elm_builtin') {
-			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
-		} else {
-			var nColor = dict.a;
-			var nKey = dict.b;
-			var nValue = dict.c;
-			var nLeft = dict.d;
-			var nRight = dict.e;
-			var _v1 = A2($elm$core$Basics$compare, key, nKey);
-			switch (_v1.$) {
-				case 'LT':
-					return A5(
-						$elm$core$Dict$balance,
-						nColor,
-						nKey,
-						nValue,
-						A3($elm$core$Dict$insertHelp, key, value, nLeft),
-						nRight);
-				case 'EQ':
-					return A5($elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
-				default:
-					return A5(
-						$elm$core$Dict$balance,
-						nColor,
-						nKey,
-						nValue,
-						nLeft,
-						A3($elm$core$Dict$insertHelp, key, value, nRight));
-			}
-		}
-	});
-var $elm$core$Dict$insert = F3(
-	function (key, value, dict) {
-		var _v0 = A3($elm$core$Dict$insertHelp, key, value, dict);
-		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
-			var _v1 = _v0.a;
-			var k = _v0.b;
-			var v = _v0.c;
-			var l = _v0.d;
-			var r = _v0.e;
-			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
-		} else {
-			var x = _v0;
-			return x;
-		}
-	});
-var $elm$core$Dict$fromList = function (assocs) {
-	return A3(
-		$elm$core$List$foldl,
-		F2(
-			function (_v0, dict) {
-				var key = _v0.a;
-				var value = _v0.b;
-				return A3($elm$core$Dict$insert, key, value, dict);
-			}),
-		$elm$core$Dict$empty,
-		assocs);
-};
-var $elm$json$Json$Decode$keyValuePairs = _Json_decodeKeyValuePairs;
-var $elm$json$Json$Decode$dict = function (decoder) {
-	return A2(
-		$elm$json$Json$Decode$map,
-		$elm$core$Dict$fromList,
-		$elm$json$Json$Decode$keyValuePairs(decoder));
-};
-var $author$project$Main$schoolsDecoder = $elm$json$Json$Decode$dict($author$project$Main$dataDecoder);
-var $elm$core$Dict$foldl = F3(
-	function (func, acc, dict) {
-		foldl:
-		while (true) {
-			if (dict.$ === 'RBEmpty_elm_builtin') {
-				return acc;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var $temp$func = func,
-					$temp$acc = A3(
-					func,
-					key,
-					value,
-					A3($elm$core$Dict$foldl, func, acc, left)),
-					$temp$dict = right;
-				func = $temp$func;
-				acc = $temp$acc;
-				dict = $temp$dict;
-				continue foldl;
-			}
-		}
-	});
-var $author$project$Main$sum = F2(
-	function (toValue, parties) {
-		return A3(
-			$elm$core$Dict$foldl,
-			F3(
-				function (_v0, exams, total) {
-					return total + A3(
-						$elm$core$List$foldl,
-						F2(
-							function (party, schoolTotal) {
-								return schoolTotal + toValue(party);
-							}),
-						0,
-						exams);
-				}),
-			0,
-			parties);
-	});
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$main = function () {
-	var _v0 = A2($elm$json$Json$Decode$decodeString, $author$project$Main$schoolsDecoder, $author$project$Main$json);
+	var _v0 = A2(
+		$elm$json$Json$Decode$decodeString,
+		A2(
+			$elm$json$Json$Decode$at,
+			_List_fromArray(
+				['parties', '0', 'name']),
+			$elm$json$Json$Decode$string),
+		$author$project$Main$json);
 	if (_v0.$ === 'Ok') {
 		var parties = _v0.a;
-		return A2(
-			$elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$elm$html$Html$text(
-					'Total passed: ' + $elm$core$String$fromInt(
-						A2(
-							$author$project$Main$sum,
-							function ($) {
-								return $.votes;
-							},
-							parties))),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil),
-					$elm$html$Html$text(
-					'Total failed: ' + $elm$core$String$fromInt(
-						A2(
-							$author$project$Main$sum,
-							function ($) {
-								return $.seats;
-							},
-							parties)))
-				]));
+		return $elm$html$Html$text(parties);
 	} else {
 		var error = _v0.a;
 		return $elm$html$Html$text(
