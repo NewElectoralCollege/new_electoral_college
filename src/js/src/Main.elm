@@ -1,10 +1,15 @@
-module Main exposing (main)
+port module Main exposing (..)
 
-import Dict exposing (Dict)
+import Browser exposing (..)
+import Dict exposing (..)
 import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Maybe exposing (..)
 import String exposing (..)
+import Debug exposing (..)
 import Json.Decode as Decode exposing (Decoder)
+import Http
 
 type alias PartyList =
     List Party
@@ -26,6 +31,12 @@ type alias Stats =
 type Item 
     = PartyTag PartyList
     | StatTag Stats
+
+dropMaybe : Maybe a -> a
+dropMaybe x =
+    case x of
+       Just y -> y
+       Nothing -> Debug.todo "A Nothing variable sent through dropMaybe function"
 
 partyMapper : Decoder Party
 partyMapper =
@@ -59,133 +70,140 @@ partiesDecoder =
 statsDecoder =
     Decode.dict statDecoder-}
 
-printer : List String -> String
-printer list =
-    case list of
-        [] -> ""
-        [x] -> x
-        (x::xs) ->
-            let
-                n = printer xs
-            in
-                n
+getPartyAt : (List Party) -> Int -> Party
+getPartyAt list n =
+    list
+        |> List.drop (n - 1)
+        |> List.head
+        |> dropMaybe
 
-main : Html msg
-main =
-    case Decode.decodeString (Decode.at["parties","0","name"] Decode.string) json of
+printer : (List Party) -> Int -> String
+printer list n =
+    let
+        len = List.length list
+    in
+        if n == len then
+            ""
+        else
+            let
+                element = getPartyAt list n
+            in
+                element.name ++ printer list (n + 1)
+
+getJson : Int -> String -> String
+getJson year state =
+    case Decode.decodeString (Decode.at["parties"] (Decode.list partyMapper)) "null" of
         Ok parties ->
-            text parties
+            printer parties 0
 
         Err error ->
-            text ("Error: " ++ Decode.errorToString error)
+            "Error: " ++ Decode.errorToString error
             {-case Decode.decodeString (Decode.keyValuePairs Decode.int) json of
                 Ok stats ->
                     text "Hello"
                 Err error2 ->
                     text ("Error: " ++ Decode.errorToString error)-}
 
-json : String
-json =
-    """
-{
-    "parties": [
-        {
-            "name": "Republican",
-            "seats": 4,
-            "votes": 691848,
-            "extra_votes": 125337,
-            "extra_seat": true
-        },
-        {
-            "name": "Democratic",
-            "seats": 4,
-            "votes": 671152,
-            "extra_votes": 104641,
-            "extra_seat": true
-        },
-        {
-            "name": "Reform",
-            "seats": 0,
-            "votes": 99629,
-            "extra_votes": 99629,
-            "extra_seat": false
-        },
-        {
-            "name": "Green",
-            "seats": 0,
-            "votes": 25070,
-            "extra_votes": 25070,
-            "extra_seat": false
-        },
-        {
-            "name": "Libertarian",
-            "seats": 0,
-            "votes": 12392,
-            "extra_votes": 12392,
-            "extra_seat": false
-        },
-        {
-            "name": "Constitution Party",
-            "seats": 0,
-            "votes": 2813,
-            "extra_votes": 2813,
-            "extra_seat": false
-        },
-        {
-            "name": "Independent",
-            "seats": 0,
-            "votes": 2809,
-            "extra_votes": 2809,
-            "extra_seat": false
-        },
-        {
-            "name": "Natural Law",
-            "seats": 0,
-            "votes": 2545,
-            "extra_votes": 2545,
-            "extra_seat": false
-        },
-        {
-            "name": "Socialist",
-            "seats": 0,
-            "votes": 669,
-            "extra_votes": 669,
-            "extra_seat": false
-        },
-        {
-            "name": "Workers World",
-            "seats": 0,
-            "votes": 599,
-            "extra_votes": 599,
-            "extra_seat": false
-        },
-        {
-            "name": "American",
-            "seats": 0,
-            "votes": 557,
-            "extra_votes": 557,
-            "extra_seat": false
-        },
-        {
-            "name": "Prohibition",
-            "seats": 0,
-            "votes": 375,
-            "extra_votes": 375,
-            "extra_seat": false
-        },
-        {
-            "name": "Socialist Workers",
-            "seats": 0,
-            "votes": 244,
-            "extra_votes": 244,
-            "extra_seat": false
-        }
-    ],
-    "stats": {
-        "name": "Seat Allocation",
-        "total_seats": 8,
-        "total_votes": 1510702,
-        "gallagher_index": 6.919405
+getFile : String -> String -> Cmd Msg
+getFile year state =
+    Http.get 
+    { url = "data/" ++ year ++ "/" ++ state ++ ".json"
+    , expect = Http.expectString GotText
     }
-}
-"""
+
+main : Program () Model Msg
+main =
+    Browser.element
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
+
+-- PORTS
+
+port askForJson : (String -> msg) -> Sub msg
+
+-- MODEL
+
+
+type Model
+    = Failure
+    | Loading
+    | Success String
+
+init : () -> ( Model, Cmd Msg )
+init flags =
+    ( Loading
+    , (getFile "2004" "Georgia")
+    )
+
+-- UPDATE
+
+type Msg
+    = GotText (Result Http.Error String)
+
+-- Use the `sendMessage` port when someone presses ENTER or clicks
+-- the "Send" button. Check out index.html to see the corresponding
+-- JS where this is piped into a WebSocket.
+--
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        GotText result ->
+            case result of
+                Ok fullText ->
+                    (Success fullText, Cmd.none)
+
+                Err _ ->
+                    (Failure, Cmd.none)
+
+
+
+-- SUBSCRIPTIONS
+-- Subscribe to the `messageReceiver` port to hear about messages coming in
+-- from JS. Check out the index.html file to see how this is hooked up to a
+-- WebSocket.
+--
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.none
+
+
+
+-- VIEW
+
+
+view : Model -> Html Msg
+view model =
+    case model of
+        Failure ->
+            text "I was unable to load your book."
+
+        Loading ->
+            text "Loading..."
+
+        Success fullText ->
+            pre [] [ text fullText ]
+
+
+
+-- DETECT ENTER
+
+
+ifIsEnter : msg -> Decode.Decoder msg
+ifIsEnter msg =
+    Decode.field "key" Decode.string
+        |> Decode.andThen
+            (\key ->
+                if key == "Enter" then
+                    Decode.succeed msg
+
+                else
+                    Decode.fail "some other key"
+            )
+

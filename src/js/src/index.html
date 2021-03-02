@@ -4480,7 +4480,85 @@ var $elm$json$Json$Decode$at = F2(
 	});
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
 var $author$project$Main$json = '\r\n{\r\n    "parties": [\r\n        {\r\n            "name": "Republican",\r\n            "seats": 4,\r\n            "votes": 691848,\r\n            "extra_votes": 125337,\r\n            "extra_seat": true\r\n        },\r\n        {\r\n            "name": "Democratic",\r\n            "seats": 4,\r\n            "votes": 671152,\r\n            "extra_votes": 104641,\r\n            "extra_seat": true\r\n        },\r\n        {\r\n            "name": "Reform",\r\n            "seats": 0,\r\n            "votes": 99629,\r\n            "extra_votes": 99629,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Green",\r\n            "seats": 0,\r\n            "votes": 25070,\r\n            "extra_votes": 25070,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Libertarian",\r\n            "seats": 0,\r\n            "votes": 12392,\r\n            "extra_votes": 12392,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Constitution Party",\r\n            "seats": 0,\r\n            "votes": 2813,\r\n            "extra_votes": 2813,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Independent",\r\n            "seats": 0,\r\n            "votes": 2809,\r\n            "extra_votes": 2809,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Natural Law",\r\n            "seats": 0,\r\n            "votes": 2545,\r\n            "extra_votes": 2545,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Socialist",\r\n            "seats": 0,\r\n            "votes": 669,\r\n            "extra_votes": 669,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Workers World",\r\n            "seats": 0,\r\n            "votes": 599,\r\n            "extra_votes": 599,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "American",\r\n            "seats": 0,\r\n            "votes": 557,\r\n            "extra_votes": 557,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Prohibition",\r\n            "seats": 0,\r\n            "votes": 375,\r\n            "extra_votes": 375,\r\n            "extra_seat": false\r\n        },\r\n        {\r\n            "name": "Socialist Workers",\r\n            "seats": 0,\r\n            "votes": 244,\r\n            "extra_votes": 244,\r\n            "extra_seat": false\r\n        }\r\n    ],\r\n    "stats": {\r\n        "name": "Seat Allocation",\r\n        "total_seats": 8,\r\n        "total_votes": 1510702,\r\n        "gallagher_index": 6.919405\r\n    }\r\n}\r\n';
+var $elm$json$Json$Decode$list = _Json_decodeList;
+var $author$project$Main$Party = F5(
+	function (name, seats, votes, extra_votes, extra_seat) {
+		return {extra_seat: extra_seat, extra_votes: extra_votes, name: name, seats: seats, votes: votes};
+	});
+var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $elm$json$Json$Decode$map5 = _Json_map5;
 var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$Main$partyMapper = A6(
+	$elm$json$Json$Decode$map5,
+	$author$project$Main$Party,
+	A2($elm$json$Json$Decode$field, 'name', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 'seats', $elm$json$Json$Decode$int),
+	A2($elm$json$Json$Decode$field, 'votes', $elm$json$Json$Decode$int),
+	A2($elm$json$Json$Decode$field, 'extra_votes', $elm$json$Json$Decode$int),
+	A2($elm$json$Json$Decode$field, 'extra_seat', $elm$json$Json$Decode$bool));
+var $elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
+var $elm$core$Debug$todo = _Debug_todo;
+var $author$project$Main$dropMaybe = function (x) {
+	if (x.$ === 'Just') {
+		var y = x.a;
+		return y;
+	} else {
+		return _Debug_todo(
+			'Main',
+			{
+				start: {line: 35, column: 19},
+				end: {line: 35, column: 29}
+			})('A Nothing variable sent through dropMaybe function');
+	}
+};
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Main$getPartyAt = F2(
+	function (list, n) {
+		return $author$project$Main$dropMaybe(
+			$elm$core$List$head(
+				A2($elm$core$List$drop, n - 1, list)));
+	});
+var $author$project$Main$printer = F2(
+	function (list, n) {
+		var len = $elm$core$List$length(list);
+		if (_Utils_eq(n, len)) {
+			return '';
+		} else {
+			var element = A2($author$project$Main$getPartyAt, list, n);
+			return _Utils_ap(
+				element.name,
+				A2($author$project$Main$printer, list, n + 1));
+		}
+	});
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$main = function () {
@@ -4489,12 +4567,13 @@ var $author$project$Main$main = function () {
 		A2(
 			$elm$json$Json$Decode$at,
 			_List_fromArray(
-				['parties', '0', 'name']),
-			$elm$json$Json$Decode$string),
+				['parties']),
+			$elm$json$Json$Decode$list($author$project$Main$partyMapper)),
 		$author$project$Main$json);
 	if (_v0.$ === 'Ok') {
 		var parties = _v0.a;
-		return $elm$html$Html$text(parties);
+		return $elm$html$Html$text(
+			A2($author$project$Main$printer, parties, 0));
 	} else {
 		var error = _v0.a;
 		return $elm$html$Html$text(

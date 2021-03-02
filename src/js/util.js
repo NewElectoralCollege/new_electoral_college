@@ -46,3 +46,5 @@ function getPathList() {
     output.sort((a, b) => (a.id.localeCompare(b.id) != -1) ? 1 : -1);
     return output;
 }
+
+// The reason why some of the charts on the main results page are shifted is because there are multiple of those parties in the JSONs

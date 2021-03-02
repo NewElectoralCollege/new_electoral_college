@@ -27,6 +27,8 @@ const new_results = {
 }
 
 function sendMeTo(state) {
+    document.querySelector('#state-name').innerHTML = state;
+    return;
     document.cookie = "state=" + state.id + "; expires=; path=/;";
     window.location = "state.html";
 }
@@ -38,6 +40,9 @@ let map;
 let hemicircle;
 
 async function ld() {
+    const census = roundTen(year - 1);
+    map = await (await fetch('src/img/maps/us_electoral_college_' + census.toString() + '.svg')).text();
+    hemicircle = await (await fetch('src/img/hemicircles/538_seats_electoral_college.svg')).text();
 
     document.querySelectorAll("#election").forEach(function (span, n) { span.innerHTML = year; });
     
@@ -54,113 +59,122 @@ async function ld() {
 
     const svg = document.querySelector("svg");
     
-    const recurseFunction = async function (path, n) {
-        let promise = new Promise(async function(rs, rj) {
-            let call = await fetch('data/' + year + '/' + path.id.replace("-", " ").replace("-", " ") + '.json');
-            (((call).status == 200) ? rs : rj)(call.json());
-        });
+    const recurseFunction = async function (json, old_json, n) {
+        path = paths[n];
+        path.setAttribute("mouseover", "sendMeTo(" + path.id + ")");
+        path.addEventListener("mouseover", function () { sendMeTo(path.id); } );
+        //document.querySelector(`rect.bb.${path.id}`).setAttribute("onclick", "sendMeTo(" + path.id + ")");
     
-        promise.then(async function (promise) {
-            path.setAttribute("onclick", "sendMeTo(" + path.id + ")");
-            //document.querySelector(`rect.bb.${path.id}`).setAttribute("onclick", "sendMeTo(" + path.id + ")");
-        
-            const state_json = promise;
-            const parties = state_json["parties"];
-    
-            //makeCircles(path.id, state_json.stats.total_seats, svg);
-            let state_circles = Array.from(document.querySelectorAll('#map circle.' + path.id));
-    
-            state_circles.sort((a, b) => (
-                (parseFloat(a.getAttribute("cy")) > parseFloat(b.getAttribute("cy"))) ||
-                (parseFloat(a.getAttribute("cy")) == parseFloat(b.getAttribute("cy")) && parseFloat(a.getAttribute("cx")) > parseFloat(b.getAttribute("cx")))
-            ) ? 1 : -1);
+        const state_json = json[path.id.replace("-", " ")];
+        const parties = state_json["parties"];
 
-            const previous_year = year - ((year == 1976) ? 0 : 4);
-            const state_json_previous = (await (await fetch('data/' + previous_year + '/' + path.id.replace("-", " ").replace("-", " ") + '.json')).json());
-    
-            parties.sort((a, b) => (a.votes < b.votes) ? 1 : -1);
-            parties.forEach(async (party, i) => {
-                for (let c = 0; c < party.seats; c++) {
-                    try {
-                        state_circles[0].style.fill = party_colors[party.name];
-                    } catch {
-                        console.log(path.id + " has too many circles");
-                    }
-                    state_circles.shift();
-                }
+        //makeCircles(path.id, state_json.stats.total_seats, svg);
+        let state_circles = Array.from(document.querySelectorAll('#map circle.' + path.id));
+
+        state_circles.sort((a, b) => (
+            (parseFloat(a.getAttribute("cy")) > parseFloat(b.getAttribute("cy"))) ||
+            (parseFloat(a.getAttribute("cy")) == parseFloat(b.getAttribute("cy")) && parseFloat(a.getAttribute("cx")) > parseFloat(b.getAttribute("cx")))
+        ) ? 1 : -1);
+
+        const previous_year = year - ((year == 1976) ? 0 : 4);
+        const state_json_previous = old_json[path.id.replace("-", " ")];
+
+        parties.sort((a, b) => (a.votes < b.votes) ? 1 : -1);
+        parties.forEach(async (party, i) => {
+            for (let c = 0; c < party.seats; c++) {
                 try {
-                    total_votes += party.votes;
-                    totals[party.name]['seats'] += party.seats;
-                    totals[party.name]['votes'] += party.votes;
+                    state_circles[0].style.fill = party_colors[party.name];
                 } catch {
-                    totals[party.name] = {
-                        'name': party.name,
-                        'seats': 0,
-                        'votes': 0
-                    };
-                    party_list[party_list.length] = party.name;
-                    totals[party.name]['seats'] = party.seats;
-                    totals[party.name]['votes'] = party.votes;
+                    console.log(path.id + " has too many circles");
                 }
-                if (party.name == "Democratic" || party.name == "Republican" || (["Reform", "Ross Perot"].includes(party.name) && [1992, 1996].includes(year))) {
-                    let i = (party.name == "Republican") ? 1 : ((["Reform", "Ross Perot"].includes(party.name)) ? 2 : 0);
-                    let previous_party_results;
-                    for (let x = 0; x < state_json_previous.parties.length; x++)
-                        if (state_json_previous.parties[x].name == party.name || (party.name == "Reform" && state_json_previous.parties[x].name == "Ross Perot"))
-                            previous_party_results = state_json_previous.parties[x];
-                    detailed_results_tables[i].innerHTML += `
-                        <tr>
-                            <td>${path.id.replace("-", " ").replace("-", " ")}</td>
-                            <td>${party.votes.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')}</td>
-                            <td>${(party.votes / state_json.stats.total_votes * 100).toFixed(2)}%</td>
-                            <td>${fix_change("+" + (((party.votes / state_json.stats.total_votes) - (party.votes / state_json_previous.stats.total_votes)) * 100).toFixed(2))}%</td>
-                            <td>
-                                ${party.seats} / ${state_json.stats.total_seats}
-                                <div style="border:1px solid black; width: 100px; height: 1.15em; padding: 0">
-                                    <div style="background-color:${party_colors[party.name]}; width:${party.seats / state_json.stats.total_seats * 100}%; height: 101%; display: inline-block;"></div>
-                                </div>
-                            </td>
-                            <td>${fix_change("+" + (party.seats - previous_party_results.seats).toString())}</td>
-                        </tr>
-                    `;
-                }
-            });
-    
-            if (paths.length == n + 1) {
-                const national_circles = Array.from(document.querySelectorAll('g#Results circle'));
-    
-                const table = document.querySelector("#single-results");
-                while (table.childNodes.length > 2) table.removeChild(table.lastChild);
-            
-                party_list.sort((a, b) => (totals[a].votes < totals[b].votes) ? 1 : -1);
-                party_list.forEach(function (party, n) {
-                    for (let na = 0; na < totals[party].seats; na++) {
-                        national_circles[0].setAttribute("fill", party_colors[totals[party].name]);
-                        national_circles.shift();
-                    }
-                    if (
-                        totals[party].seats > 0 ||
-                        totals[party].votes / total_votes >= 0.1
-                    ) table.innerHTML += `
-                        <tr>
-                            <td class="color" style="background-color: ${party_colors[party]}"></td>
-                            <td>${party}</td>
-                            <td>n/a</td>
-                            <td>${totals[party].votes.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')}</td>
-                            <td>${(totals[party].votes / total_votes * 100).toFixed(2)}%</td>
-                            <td>${totals[party].seats}</td>
-                            <td>${real_results[party][year / 4 - 494]}</td>
-                            <td>${fix_change("+" + (totals[party].seats - new_results[party][year / 4 - 495]).toString())}</td>
-                        </tr>
-                    `;
-                })
+                state_circles.shift();
             }
+            try {
+                total_votes += party.votes;
+                totals[party.name]['seats'] += party.seats;
+                totals[party.name]['votes'] += party.votes;
+            } catch {
+                totals[party.name] = {
+                    'name': party.name,
+                    'seats': 0,
+                    'votes': 0
+                };
+                party_list[party_list.length] = party.name;
+                totals[party.name]['seats'] = party.seats;
+                totals[party.name]['votes'] = party.votes;
+            }
+            if (party.name == "Democratic" || party.name == "Republican" || (["Reform", "Ross Perot"].includes(party.name) && [1992, 1996].includes(year))) {
+                let i = (party.name == "Republican") ? 1 : ((["Reform", "Ross Perot"].includes(party.name)) ? 2 : 0);
+                let previous_party_results;
+                for (let x = 0; x < state_json_previous.parties.length; x++)
+                    if (state_json_previous.parties[x].name == party.name || (party.name == "Reform" && state_json_previous.parties[x].name == "Ross Perot"))
+                        previous_party_results = state_json_previous.parties[x];
+                detailed_results_tables[i].innerHTML += `
+                    <tr>
+                        <td>${path.id.replace("-", " ").replace("-", " ")}</td>
+                        <td>${party.votes.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')}</td>
+                        <td>${(party.votes / state_json.stats.total_votes * 100).toFixed(2)}%</td>
+                        <td>${fix_change("+" + (((party.votes / state_json.stats.total_votes) - (previous_party_results.votes / state_json_previous.stats.total_votes)) * 100).toFixed(2))}%</td>
+                        <td>
+                            ${party.seats} / ${state_json.stats.total_seats}
+                            <div style="border:1px solid black; width: 100px; height: 1.15em; padding: 0">
+                                <div style="background-color:${party_colors[party.name]}; width:${party.seats / state_json.stats.total_seats * 100}%; height: 101%; display: inline-block;"></div>
+                            </div>
+                        </td>
+                        <td>${fix_change("+" + (party.seats - previous_party_results.seats).toString())}</td>
+                    </tr>
+                `;
+            }
+        });
 
-            if (paths.length != n + 1) recurseFunction(paths[n+1], n+1);
-        })
+        if (paths.length == n + 1) {
+            const national_circles = Array.from(document.querySelectorAll('g#Results circle'));
+
+            const table = document.querySelector("#single-results");
+            while (table.childNodes.length > 2) table.removeChild(table.lastChild);
+        
+            party_list.sort((a, b) => (totals[a].votes < totals[b].votes) ? 1 : -1);
+            party_list.forEach(function (party, n) {
+                for (let na = 0; na < totals[party].seats; na++) {
+                    national_circles[0].setAttribute("fill", party_colors[totals[party].name]);
+                    national_circles.shift();
+                }
+                if (
+                    totals[party].seats > 0 ||
+                    totals[party].votes / total_votes >= 0.1
+                ) table.innerHTML += `
+                    <tr>
+                        <td class="color" style="background-color: ${party_colors[party]}"></td>
+                        <td>${party}</td>
+                        <td>n/a</td>
+                        <td>${totals[party].votes.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,')}</td>
+                        <td>${(totals[party].votes / total_votes * 100).toFixed(2)}%</td>
+                        <td>${totals[party].seats}</td>
+                        <td>${real_results[party][year / 4 - 494]}</td>
+                        <td>${fix_change("+" + (totals[party].seats - new_results[party][year / 4 - 495]).toString())}</td>
+                    </tr>
+                `;
+            })
+        }
+
+        if (paths.length != n + 1) recurseFunction(json, old_json, n+1);
     };
 
-    recurseFunction(paths[0], 0);
+    $.ajax({
+        type: 'Get',
+        url: '/new_electoral_college/src/js/getJson.php?year=' + (year - 4),
+    }).done(function (old_response) {
+        $.ajax({
+            type: 'Get',
+            url: '/new_electoral_college/src/js/getJson.php?year=' + year,
+        }).done(function (response) {
+            recurseFunction(JSON.parse(response), JSON.parse(old_response), 0);
+        }).fail( function (error) {
+            console.log(error);
+        })
+    }).fail( function (error) {
+        console.log(error);
+    })
 }
 
 function changeYear(up) {
@@ -276,16 +290,13 @@ function makeCircles(state, number, svg) {
 }
 
 window.onload = async function () {
+    
     try {
         year = Number(document.cookie.match(new RegExp('(^| )' + "year" + '=([^;]+)'))[2]);
     } catch {
         year = 2020;
         document.cookie = "year=2020; expires=; path=/;";
     }
-
-    const census = roundTen(year - 1);
-    map = await (await fetch('src/img/maps/us_electoral_college_' + census.toString() + '.svg')).text();
-    hemicircle = await (await fetch('src/img/hemicircles/538_seats_electoral_college.svg')).text();
 
     ld();
 }
