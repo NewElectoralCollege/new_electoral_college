@@ -37,22 +37,21 @@ getAngle total_seats assigned =
 
 doParty : Party -> Int -> Int -> Int -> String
 doParty party n total_seats assigned =
-    case n of
-        19 ->
-            0
-        _ ->
-            let
-                angle = getAngle total_seats assigned
-                coords = [
-                    350 * (cos angle) + 450,
-                    350 * (sin angle) + 375
-                ]
-            in
-                text "
-                    <circle
-                        cx=" ++ String.fromInt coords.head ++ 
-                        "cy=" ++ String.fromInt coords.tail ++
-                        "r='10'" ++
-                        "id='" ++ String.fromInt assigned ++ 
-                        "style='fill:#000000'" ++
-                    "/>"
+    if n == 19 || assigned == total_seats then
+        ""
+    else
+        let
+            angle = getAngle total_seats assigned
+            coords = [
+                350 * (cos angle) + 450,
+                350 * (sin angle) + 375
+            ]
+        in
+            text "
+                <circle
+                    cx=" ++ String.fromInt coords.head ++ 
+                    "cy=" ++ String.fromInt coords.tail ++
+                    "r='10'" ++
+                    "id='" ++ String.fromInt assigned ++ 
+                    "style='fill:#000000'" ++
+                "/>" ++ doParty party n total_seats (assigned + 1)
