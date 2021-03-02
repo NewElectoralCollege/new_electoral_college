@@ -3,67 +3,93 @@
         {
             "name": "Democratic",
             "seats": 5,
-            "votes": 1630866
+            "votes": 1630866,
+            "extra_votes": 311650,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 5,
-            "votes": 1610184
+            "votes": 1610184,
+            "extra_votes": 290968,
+            "extra_seat": true
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 38491
-        },
-        {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 6367
+            "votes": 38491,
+            "extra_votes": 38491,
+            "extra_seat": false
         },
         {
             "name": "American Solidarity Party",
             "seats": 0,
-            "votes": 5259
+            "votes": 5259,
+            "extra_votes": 5259,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 5146
+            "votes": 5146,
+            "extra_votes": 5146,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 1089
+            "votes": 1089,
+            "extra_votes": 1089,
+            "extra_seat": false
         },
         {
             "name": "The Birthday Party",
             "seats": 0,
-            "votes": 411
+            "votes": 411,
+            "extra_votes": 411,
+            "extra_seat": false
         },
         {
             "name": "Party For Socialism And Liberation",
             "seats": 0,
-            "votes": 110
+            "votes": 110,
+            "extra_votes": 110,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 52
+            "votes": 52,
+            "extra_votes": 52,
+            "extra_seat": false
         },
         {
             "name": "Becoming One Nation",
             "seats": 0,
-            "votes": 36
+            "votes": 36,
+            "extra_votes": 36,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 25
+            "votes": 25,
+            "extra_votes": 25,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 5
+            "votes": 5,
+            "extra_votes": 5,
+            "extra_seat": false
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 6367,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

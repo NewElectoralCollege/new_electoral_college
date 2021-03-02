@@ -3,37 +3,51 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 343602
+            "votes": 343602,
+            "extra_votes": 142378,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 244786
+            "votes": 244786,
+            "extra_votes": 43562,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 15252
+            "votes": 15252,
+            "extra_votes": 15252,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 23
+            "votes": 23,
+            "extra_votes": 23,
+            "extra_seat": false
         },
         {
             "name": "Becoming One Nation",
             "seats": 0,
-            "votes": 6
+            "votes": 6,
+            "extra_votes": 6,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 3
+            "votes": 3,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 2
+            "votes": 2,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

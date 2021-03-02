@@ -3,117 +3,163 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 365654
+            "votes": 365654,
+            "extra_votes": 164109,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 424921
+            "votes": 424921,
+            "extra_votes": 21831,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 13235
-        },
-        {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 1158
+            "votes": 13235,
+            "extra_votes": 13235,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 217
+            "votes": 217,
+            "extra_votes": 217,
+            "extra_seat": false
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 1158,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 192
+            "votes": 192,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 170
+            "votes": 170,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 142
+            "votes": 142,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 82
+            "votes": 82,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 67
+            "votes": 67,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 58
+            "votes": 58,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 56
+            "votes": 56,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 47
+            "votes": 47,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 46
+            "votes": 46,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 23
+            "votes": 23,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 22
+            "votes": 22,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 19
+            "votes": 19,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 14
+            "votes": 14,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 14
+            "votes": 14,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 13
+            "votes": 13,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 12
+            "votes": 12,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 10
+            "votes": 10,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 10
+            "votes": 10,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

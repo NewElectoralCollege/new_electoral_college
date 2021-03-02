@@ -3,32 +3,44 @@
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 1340383
+            "votes": 1340383,
+            "extra_votes": 322819,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 958448
+            "votes": 958448,
+            "extra_votes": 280072,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 41582
-        },
-        {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 17089
+            "votes": 41582,
+            "extra_votes": 41582,
+            "extra_seat": false
         },
         {
             "name": "Pacific Green",
             "seats": 0,
-            "votes": 11831
+            "votes": 11831,
+            "extra_votes": 11831,
+            "extra_seat": false
         },
         {
             "name": "Progressive Party",
             "seats": 0,
-            "votes": 4988
+            "votes": 4988,
+            "extra_votes": 4988,
+            "extra_seat": false
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 17089,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

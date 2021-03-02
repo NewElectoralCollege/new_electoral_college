@@ -3,17 +3,23 @@
         {
             "name": "Republican",
             "seats": 10,
-            "votes": 3377674
+            "votes": 3377674,
+            "extra_votes": 265798,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 79380
+            "votes": 79380,
+            "extra_votes": 79380,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 10,
-            "votes": 3458229
+            "votes": 3458229,
+            "extra_votes": 589,
+            "extra_seat": false
         }
     ],
     "stats": {

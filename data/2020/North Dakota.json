@@ -3,22 +3,30 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 235595
+            "votes": 235595,
+            "extra_votes": 114989,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 114902
+            "votes": 114902,
+            "extra_votes": 114902,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 9393
+            "votes": 9393,
+            "extra_votes": 9393,
+            "extra_seat": false
         },
         {
-            "name": "Write-In",
+            "name": "Other",
             "seats": 0,
-            "votes": 1929
+            "votes": 1929,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

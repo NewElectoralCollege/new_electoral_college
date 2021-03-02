@@ -3,52 +3,72 @@
         {
             "name": "Republican",
             "seats": 10,
-            "votes": 3154834
+            "votes": 3154834,
+            "extra_votes": 193735,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 67569
+            "votes": 67569,
+            "extra_votes": 67569,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 8,
-            "votes": 2679165
+            "votes": 2679165,
+            "extra_votes": 47077,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 18812
+            "votes": 18812,
+            "extra_votes": 18812,
+            "extra_seat": false
         },
         {
             "name": "American Solidarity Party",
             "seats": 0,
-            "votes": 1450
+            "votes": 1450,
+            "extra_votes": 1450,
+            "extra_seat": false
         },
         {
             "name": "Becoming One Nation",
             "seats": 0,
-            "votes": 212
+            "votes": 212,
+            "extra_votes": 212,
+            "extra_seat": false
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 16,
+            "extra_votes": 16,
+            "extra_seat": false
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 3,
+            "extra_votes": 3,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 114
+            "votes": 114,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 27
-        },
-        {
-            "name": "Independent (politician)",
-            "seats": 0,
-            "votes": 16
-        },
-        {
-            "name": "Independent (politician)",
-            "seats": 0,
-            "votes": 3
+            "votes": 27,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

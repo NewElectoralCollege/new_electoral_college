@@ -3,32 +3,44 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 199922
+            "votes": 199922,
+            "extra_votes": 70675,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 307486
+            "votes": 307486,
+            "extra_votes": 48992,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 5053
-        },
-        {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 2759
+            "votes": 5053,
+            "extra_votes": 5053,
+            "extra_seat": false
         },
         {
             "name": "Alliance",
             "seats": 0,
-            "votes": 923
+            "votes": 923,
+            "extra_votes": 923,
+            "extra_seat": false
         },
         {
             "name": "Party For Socialism And Liberation",
             "seats": 0,
-            "votes": 847
+            "votes": 847,
+            "extra_votes": 847,
+            "extra_seat": false
+        },
+        {
+            "name": "Other",
+            "seats": 0,
+            "votes": 2759,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

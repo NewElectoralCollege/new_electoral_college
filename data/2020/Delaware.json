@@ -3,107 +3,149 @@
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 296268
+            "votes": 296268,
+            "extra_votes": 128153,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 1,
-            "votes": 200603
+            "votes": 200603,
+            "extra_votes": 32488,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 5000
+            "votes": 5000,
+            "extra_votes": 5000,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 2139
+            "votes": 2139,
+            "extra_votes": 2139,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 169
+            "votes": 169,
+            "extra_votes": 169,
+            "extra_seat": false
         },
         {
             "name": "American Solidarity Party",
             "seats": 0,
-            "votes": 87
+            "votes": 87,
+            "extra_votes": 87,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 28
+            "votes": 28,
+            "extra_votes": 28,
+            "extra_seat": false
         },
         {
             "name": "Party For Socialism And Liberation",
             "seats": 0,
-            "votes": 14
+            "votes": 14,
+            "extra_votes": 14,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 8
+            "votes": 8,
+            "extra_votes": 8,
+            "extra_seat": false
         },
         {
-            "name": "Write-In",
+            "name": "Independent",
             "seats": 0,
-            "votes": 7
+            "votes": 5,
+            "extra_votes": 5,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 5
+            "votes": 2,
+            "extra_votes": 2,
+            "extra_seat": false
         },
         {
-            "name": "Write-In",
+            "name": "Independent",
             "seats": 0,
-            "votes": 4
+            "votes": 2,
+            "extra_votes": 2,
+            "extra_seat": false
         },
         {
-            "name": "Write-In",
+            "name": "Independent",
             "seats": 0,
-            "votes": 3
-        },
-        {
-            "name": "Independent (politician)",
-            "seats": 0,
-            "votes": 2
-        },
-        {
-            "name": "Independent (politician)",
-            "seats": 0,
-            "votes": 2
-        },
-        {
-            "name": "Write-In",
-            "seats": 0,
-            "votes": 2
-        },
-        {
-            "name": "Independent (politician)",
-            "seats": 0,
-            "votes": 1
+            "votes": 1,
+            "extra_votes": 1,
+            "extra_seat": false
         },
         {
             "name": "Non-Affiliated",
             "seats": 0,
-            "votes": 1
+            "votes": 1,
+            "extra_votes": 1,
+            "extra_seat": false
         },
         {
             "name": "Non-Affiliated",
             "seats": 0,
-            "votes": 1
+            "votes": 1,
+            "extra_votes": 1,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 1
+            "votes": 2,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 1
+            "votes": 3,
+            "extra_votes": 0,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 7,
+            "extra_votes": 0,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 4,
+            "extra_votes": 0,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1,
+            "extra_votes": 0,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 1,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

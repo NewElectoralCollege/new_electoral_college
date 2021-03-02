@@ -3,47 +3,65 @@
         {
             "name": "Democratic",
             "seats": 3,
-            "votes": 539398
+            "votes": 539398,
+            "extra_votes": 101480,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 756764
+            "votes": 756764,
+            "extra_votes": 99887,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 8026
+            "votes": 8026,
+            "extra_votes": 8026,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 3657
+            "votes": 3657,
+            "extra_votes": 3657,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 1498
+            "votes": 1498,
+            "extra_votes": 1498,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 1317
+            "votes": 1317,
+            "extra_votes": 1317,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 1279
+            "votes": 1279,
+            "extra_votes": 1279,
+            "extra_seat": false
         },
         {
             "name": "American Solidarity Party",
             "seats": 0,
-            "votes": 1161
+            "votes": 1161,
+            "extra_votes": 1161,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 659
+            "votes": 659,
+            "extra_votes": 659,
+            "extra_seat": false
         }
     ],
     "stats": {
