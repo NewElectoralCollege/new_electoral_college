@@ -1,7 +1,9 @@
 module State exposing (..)
 
 import Browser
+import Browser.Dom exposing (..)
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Basics exposing (..)
 import Http exposing (..)
 import List exposing (..)
@@ -18,10 +20,6 @@ dropMaybe x =
     case x of
        Just y -> y
        Nothing -> Debug.todo "A Nothing variable sent through dropMaybe function"
-
-bar_coords : List Int
-bar_coords =
-    [100, 370]
 
 type Msg
     = SendRequestParty
@@ -75,8 +73,51 @@ getAngle model =
     in
         (pi / stats.total_seats * ((toFloat model.assigned) + stats.total_seats + 0.5))
 
-doParty : List (Svg msg) -> Party -> Int -> Model -> List (Svg msg)
-doParty list party n tempmodel =
+getWidth : Party -> Model -> Float
+getWidth party model =
+    let
+        stats = dropMaybe model.stats
+    in
+        (toFloat party.votes) / (toFloat stats.total_votes) * 700
+
+getInitialSeats : Party -> Int
+getInitialSeats party =
+    if party.extra_seat then
+        party.seats - 1
+    else
+        party.seats
+
+newRow : Party -> Stats -> List (Html msg)
+newRow party stats =
+    if (((toFloat party.votes) / (toFloat stats.total_votes) >= 0.01 || party.seats > 0) && party.name /= "Other") then
+        [ tr [] 
+            [ td [ Html.Attributes.class "color" ] []
+                , td [ ] [ Html.text (party.name) ]
+                , td [ ] [ Html.text "n/a" ]
+                , td [ ] [ Html.text (String.fromInt party.votes) ]
+                , td [ ] [ Html.text (String.fromFloat ((toFloat party.votes) / (toFloat stats.total_votes))) ]
+                , td [ ] [ Html.text (String.fromInt (getInitialSeats party)) ]
+                , td [ ] [ Html.text (String.fromInt party.extra_votes) ]
+                , td [ ] [ Html.text (String.fromInt (party.seats)) ]
+            ]
+        ]
+    else
+        []
+
+doPartyElectors : List (Html msg) -> List Party -> Model -> List (Html msg)
+doPartyElectors list parties model =
+    if List.length parties == 0 then
+        []
+    else
+        let
+            party = (dropMaybe (head parties))
+            stats = dropMaybe model.stats
+            new = newRow party stats
+        in
+            list ++ doPartyElectors new (List.drop 1 parties) model
+
+doPartyCircles : List (Svg msg) -> Party -> Int -> Model -> List (Svg msg)
+doPartyCircles list party n tempmodel =
     if n >= party.seats + 1 || party.seats == 0 then
         []
     else
@@ -90,13 +131,31 @@ doParty list party n tempmodel =
                 350 * (cos angle) + 450,
                 350 * (sin angle) + 375 ]
         in
-            list ++ doParty ([circle 
+            list ++ doPartyCircles ([circle 
                 [ cx (String.fromFloat (dropMaybe (head coords)))
                 , cy (String.fromFloat (dropMaybe (head (reverse coords))))
                 , r "10"
-                , id (String.fromInt model.assigned)
+                , Svg.Attributes.id (String.fromInt model.assigned)
                 , fill (dropMaybe(Dict.get party.name Data.colors))
                 ] []]) party (n + 1) model
+
+doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
+doPartyBars list parties nx model =
+    if List.length parties == 0 then
+        []
+    else
+        let
+            party = (dropMaybe (head parties))
+            nwidth = getWidth party model
+        in
+        list ++ (doPartyBars [
+            rect [ x (String.fromFloat nx)
+                 , y "370"
+                 , Svg.Attributes.width (String.fromFloat nwidth)
+                 , Svg.Attributes.height "50"
+                 --, fill (dropMaybe(Dict.get party.name Data.colors))
+                 ] []
+            ] (List.drop 1 parties) (nx + nwidth) model)
 
 partyMsg : Expect Msg
 partyMsg =
@@ -160,19 +219,30 @@ init _ =
 
 view : Model -> Html Msg
 view model =
-    svg
-        [ width "975"
-        , height "520"
-        ]
-        [ g
-            [ id "circles" ]
-            (List.concatMap (\party -> doParty [] party 0 model) model.list)
-        , g
-            [ id "bar"
-
+    div [ Html.Attributes.class "container" ]
+        [ svg
+            [ Html.Attributes.width 975
+            , Html.Attributes.height 520
             ]
-            []
-        ]
+            [ g
+                [ Html.Attributes.id "circles" ]
+                (List.concatMap (\party -> doPartyCircles [] party 0 model) model.list)
+            , g
+                [ Html.Attributes.id "bar" ]
+                (doPartyBars [] model.list 100.0 model)
+            ]
+        , div [ Html.Attributes.class "container" ]
+              [ table [ Html.Attributes.id "single-results" ]
+              ([ tr [] [ th [ colspan 2 ] [ Html.text "Party" ]
+                        , th [ ] [ Html.text "Nominee" ]
+                        , th [ colspan 2 ] [ Html.text "Votes" ]
+                        , th [ ] [ Html.text "Initial Electors" ]
+                        , th [ ] [ Html.text "Leftover Votes" ]
+                        , th [ ] [ Html.text "Total" ]
+                        ]
+              ] ++ (doPartyElectors [] model.list model))
+              ]
+        ] 
 
 main : Program () Model Msg
 main =
