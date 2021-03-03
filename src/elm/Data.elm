@@ -1,4 +1,4 @@
-module Nominees exposing (nominees)
+module Data exposing (..)
 
 import Html exposing (..)
 import Dict exposing (..)
@@ -47,7 +47,7 @@ nominees =
             ("Republican", "George H. W. Bush"),
             ("Ross Perot", "Ross Perot")
         ]),
-        ( 1988, Dict.fromList [   
+        ( 1988, Dict.fromList [
             ("Republican", "George H. W. Bush"),
             ("Democratic", "Michael Dukakis")
         ]),
@@ -66,3 +66,11 @@ nominees =
             ("Republican", "Gerald Ford")
         ])
     ]
+
+colors : Dict String String
+colors =
+    Dict.fromList [
+        ("Democratic", "#3333ff"),
+        ("Republican", "#ff3333")
+    ]
+
