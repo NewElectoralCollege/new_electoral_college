@@ -44,7 +44,8 @@ doParty party n total_seats assigned =
                 350 * (cos angle) + 450,
                 350 * (sin angle) + 375 ]
         in
-            (circle [cx String.fromFloat (dropMaybe (head coords)), cy String.fromFloat (dropMaybe (head (reverse coords))), r "10"] []) ++ doParty party n total_seats (assigned + 1)
+            --(circle [cx String.fromFloat (dropMaybe (head coords)), cy String.fromFloat (dropMaybe (head (reverse coords))), r "10"] []) ++ doParty party n total_seats (assigned + 1)
+            "Hello"
 
 getFile : String -> String -> Cmd Msg
 getFile year state =
