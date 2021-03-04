@@ -13,13 +13,8 @@ import Json.Decode as Decode exposing (Decoder)
 import Tuple exposing (..)
 import Dict exposing (..)
 
-import Data exposing(..)
-
-dropMaybe : Maybe a -> a
-dropMaybe x =
-    case x of
-       Just y -> y
-       Nothing -> Debug.todo "A Nothing variable sent through dropMaybe function"
+import Data exposing (..)
+import Util exposing (..)
 
 type Msg
     = SendRequestParty
@@ -29,14 +24,14 @@ type Msg
 
 type alias Model =
     { list : List Party
-    , stats : Maybe Stats
+    , stats : Stats
     , assigned : Int
     , errorMessage : String
     }
 
 type alias Stats =
     { name : String
-    , total_seats : Float
+    , total_seats : Int
     , total_votes : Int
     , gallagher_index : Float
     }
@@ -48,6 +43,10 @@ type alias Party =
     , extra_votes : Int
     , extra_seat : Bool
     }
+
+ifQualifyingParty : Party -> Model -> Bool
+ifQualifyingParty party model =
+    (((toFloat party.votes) / (toFloat model.stats.total_votes) >= 0.01 || party.seats > 0) && party.name /= "Other")
 
 newParty : Decoder Party
 newParty =
@@ -62,23 +61,17 @@ setStats : Decoder Stats
 setStats =
     Decode.map4 Stats
         (Decode.field "name" Decode.string)
-        (Decode.field "total_seats" Decode.float)
+        (Decode.field "total_seats" Decode.int)
         (Decode.field "total_votes" Decode.int)
         (Decode.field "gallagher_index" Decode.float)
 
-getAngle : Model -> Float
-getAngle model = 
-    let
-        stats = dropMaybe model.stats
-    in
-        (pi / stats.total_seats * ((toFloat model.assigned) + stats.total_seats + 0.5))
+getAngle : Stats -> Int -> Float
+getAngle stats assigned = 
+    (pi / (toFloat stats.total_seats) * ((toFloat assigned) + (toFloat stats.total_seats) + 0.5))
 
-getWidth : Party -> Model -> Float
-getWidth party model =
-    let
-        stats = dropMaybe model.stats
-    in
-        (toFloat party.votes) / (toFloat stats.total_votes) * 700
+getWidth : Float -> Model -> Float
+getWidth votes model =
+    (votes / (toFloat model.stats.total_votes)) * 700
 
 getInitialSeats : Party -> Int
 getInitialSeats party =
@@ -87,17 +80,24 @@ getInitialSeats party =
     else
         party.seats
 
-newRow : Party -> Stats -> List (Html msg)
-newRow party stats =
-    if (((toFloat party.votes) / (toFloat stats.total_votes) >= 0.01 || party.seats > 0) && party.name /= "Other") then
+getCheckIcon : Party -> String
+getCheckIcon party =
+    if party.extra_seat then
+        " <i class='fa' style='color:green'>&#xf058;</i>"
+    else
+        ""
+
+newRow : Party -> Model -> Int -> List (Html msg)
+newRow party model year =
+    if ifQualifyingParty party model then
         [ tr [] 
             [ td [ Html.Attributes.class "color" ] []
                 , td [ ] [ Html.text (party.name) ]
-                , td [ ] [ Html.text "n/a" ]
-                , td [ ] [ Html.text (String.fromInt party.votes) ]
-                , td [ ] [ Html.text (String.fromFloat ((toFloat party.votes) / (toFloat stats.total_votes))) ]
+                , td [ ] [ Html.text (getNominee year party.name) ]
+                , td [ ] [ Html.text (Util.styleNum party.votes) ]
+                , td [ ] [ Html.text (Util.stylePercent ((toFloat party.votes) / (toFloat model.stats.total_votes))) ]
                 , td [ ] [ Html.text (String.fromInt (getInitialSeats party)) ]
-                , td [ ] [ Html.text (String.fromInt party.extra_votes) ]
+                , td [ ] [ Html.text ((Util.styleNum party.extra_votes) ++ getCheckIcon party) ]
                 , td [ ] [ Html.text (String.fromInt (party.seats)) ]
             ]
         ]
@@ -110,34 +110,30 @@ doPartyElectors list parties model =
         []
     else
         let
-            party = (dropMaybe (head parties))
-            stats = dropMaybe model.stats
-            new = newRow party stats
+            party = (Util.dropMaybe (head parties))
+            stats = model.stats
+            new = newRow party model 2020
         in
             list ++ doPartyElectors new (List.drop 1 parties) model
 
-doPartyCircles : List (Svg msg) -> Party -> Int -> Model -> List (Svg msg)
-doPartyCircles list party n tempmodel =
-    if n >= party.seats + 1 || party.seats == 0 then
-        []
-    else
-        let
-            model = 
-                { tempmodel
-                | assigned = tempmodel.assigned + 1
-                }
-            angle = getAngle model
-            coords = [
-                350 * (cos angle) + 450,
-                350 * (sin angle) + 375 ]
-        in
-            list ++ doPartyCircles ([circle 
-                [ cx (String.fromFloat (dropMaybe (head coords)))
-                , cy (String.fromFloat (dropMaybe (head (reverse coords))))
+doPartyCircles : Float -> Model -> Int -> Svg Msg
+doPartyCircles angle model i =
+    let
+        party = (getPartyForCircle model.list i)
+        coords = [
+            350 * (cos angle) + 450,
+            350 * (sin angle) + 375 ]
+    in
+        if ifQualifyingParty party model then
+            circle 
+                [ cx (String.fromFloat (Util.dropMaybe (head coords)))
+                , cy (String.fromFloat (Util.dropMaybe (head (reverse coords))))
                 , r "10"
-                , Svg.Attributes.id (String.fromInt model.assigned)
-                , fill (dropMaybe(Dict.get party.name Data.colors))
-                ] []]) party (n + 1) model
+                , fill (Util.dropMaybe(Dict.get party.name Data.colors))
+                ] []
+        else
+            Svg.text ""
+            
 
 doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
 doPartyBars list parties nx model =
@@ -145,17 +141,36 @@ doPartyBars list parties nx model =
         []
     else
         let
-            party = (dropMaybe (head parties))
-            nwidth = getWidth party model
+            party = (Util.dropMaybe (head parties))
+            nwidth = getWidth (toFloat party.votes) model
         in
-        list ++ (doPartyBars [
-            rect [ x (String.fromFloat nx)
-                 , y "370"
-                 , Svg.Attributes.width (String.fromFloat nwidth)
-                 , Svg.Attributes.height "50"
-                 --, fill (dropMaybe(Dict.get party.name Data.colors))
-                 ] []
-            ] (List.drop 1 parties) (nx + nwidth) model)
+            if ifQualifyingParty party model then
+                list ++ (doPartyBars [
+                    rect [ x (String.fromFloat nx)
+                         , y "370"
+                         , Svg.Attributes.width (String.fromFloat nwidth)
+                         , Svg.Attributes.height "50"
+                         , fill (Util.dropMaybe(Dict.get party.name Data.colors))
+                         ] []
+                ] (List.drop 1 parties) (nx + nwidth) model)
+            else
+                list ++ [ rect [ x (String.fromFloat nx)
+                       , y "370"
+                       , Svg.Attributes.width "0"
+                       , Svg.Attributes.height "50"
+                       , fill "#dddddd"
+                       ] []
+                ]
+
+getPartyForCircle : List Party -> Int -> Party
+getPartyForCircle list n =
+    let
+        party = dropMaybe (head list)
+    in 
+        if party.seats < n then
+            party
+        else
+            getPartyForCircle list n
 
 partyMsg : Expect Msg
 partyMsg =
@@ -192,7 +207,7 @@ update msg model =
                 )
         StatSuccess (Ok stats) ->
             ( { model
-              | stats = Just stats
+              | stats = stats
               , errorMessage = "none"
               } 
             , Cmd.none
@@ -206,12 +221,8 @@ update msg model =
         
 init : () -> (Model, Cmd Msg)
 init _ =
-    let
-        model = { list = []
-                , stats = Nothing
-                , assigned = 0
-                , errorMessage = "none"
-                }
+    let 
+        model = (Model [] (Stats "none" 0 0 0.0 ) 0 "none")
     in
         ( model
         , second (update SendRequestParty model)
@@ -226,23 +237,25 @@ view model =
             ]
             [ g
                 [ Html.Attributes.id "circles" ]
-                (List.concatMap (\party -> doPartyCircles [] party 0 model) model.list)
+                (
+                    List.indexedMap (\i angle -> doPartyCircles angle model i) (List.map (\n -> getAngle model.stats n) (range 0 16))
+                )
             , g
                 [ Html.Attributes.id "bar" ]
                 (doPartyBars [] model.list 100.0 model)
             ]
         , div [ Html.Attributes.class "container" ]
               [ table [ Html.Attributes.id "single-results" ]
-              ([ tr [] [ th [ colspan 2 ] [ Html.text "Party" ]
+              ( tr [] [ th [ colspan 2 ] [ Html.text "Party" ]
                         , th [ ] [ Html.text "Nominee" ]
                         , th [ colspan 2 ] [ Html.text "Votes" ]
                         , th [ ] [ Html.text "Initial Electors" ]
                         , th [ ] [ Html.text "Leftover Votes" ]
                         , th [ ] [ Html.text "Total" ]
                         ]
-              ] ++ (doPartyElectors [] model.list model))
+               :: (doPartyElectors [] model.list model))
               ]
-        ] 
+        ]
 
 main : Program () Model Msg
 main =
