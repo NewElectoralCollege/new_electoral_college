@@ -3,6 +3,8 @@ module Data exposing (..)
 import Html exposing (..)
 import Dict exposing (..)
 
+import Util exposing (..)
+
 nominees : Dict Int (Dict String String)
 nominees =
     Dict.fromList [ 
@@ -71,6 +73,10 @@ colors : Dict String String
 colors =
     Dict.fromList [
         ("Democratic", "#3333ff"),
-        ("Republican", "#ff3333")
+        ("Republican", "#ff3333"),
+        ("Libertarian", "#dddddd")
     ]
 
+getNominee : Int -> String -> String
+getNominee year party =
+    dropMaybe (Dict.get party (dropMaybe (Dict.get year nominees)))
