@@ -24,8 +24,14 @@ type Msg
     | SendRequestStats
     | StatSuccess (Result Http.Error Stats)
 
+type alias Election =
+    { list : List Party
+    , stats : Stats
+    }
+
 type alias Model =
     { list : List Party
+    , elections : Dict Int Election
     , stats : Stats
     , assigned : Int
     , year : Int
@@ -63,6 +69,10 @@ getColor party =
             _ ->
                 dropMaybe result
 
+changeStats : Stats -> Election -> Election
+changeStats stats election =
+    { election | stats = stats }
+
 newParty : Decoder Party
 newParty =
     Decode.map5 Party
@@ -98,7 +108,6 @@ getInitialSeats party =
 getCheckIcon : Party -> List (Html msg)
 getCheckIcon party =
     if party.extra_seat then
-        -- <i class='fa' style='color:green'>&#xf058;</i>"
         [ i [ Html.Attributes.class "fa", Html.Attributes.style "color" "green" ] [ Html.text "&#xf058;" ] ]
     else
         [ Html.text "" ]
@@ -107,9 +116,9 @@ newRow : Party -> Model -> Int -> List (Html msg)
 newRow party model year =
     if ifQualifyingParty party model then
         [ tr [] 
-            [ td [ Html.Attributes.class "color" ] []
+            [ td [ Html.Attributes.class "color", Html.Attributes.style "backgroundColor" (getColor party) ] []
                 , td [ ] [ Html.text (party.name) ]
-                , td [ ] [ Html.text (getNominee year party.name) ]
+                , td [ ] [ Html.text {-(getNominee year party.name)-} "n/a" ]
                 , td [ ] [ Html.text (Util.styleNum party.votes) ]
                 , td [ ] [ Html.text (Util.stylePercent ((toFloat party.votes) / (toFloat model.stats.total_votes))) ]
                 , td [ ] [ Html.text (String.fromInt (getInitialSeats party)) ]
@@ -142,11 +151,11 @@ getCircles angle model i =
                 350 * (cos angle) + 450,
                 350 * (sin angle) + 375 ]
         in
-            [circle 
+            (circle 
                 [ cx (String.fromFloat (Util.dropMaybe (head coords)))
                 , cy (String.fromFloat (Util.dropMaybe (head (reverse coords))))
                 , r "10"
-                ] []] ++ getCircles (getAngle model.stats (i + 1)) model (i + 1)
+                ] []) :: getCircles (getAngle model.stats (i + 1)) model (i + 1)
             
 doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
 doPartyBars list parties nx model =
@@ -163,7 +172,7 @@ doPartyBars list parties nx model =
                          , y "370"
                          , Svg.Attributes.width (String.fromFloat nwidth)
                          , Svg.Attributes.height "50"
-                         , fill (Util.dropMaybe(Dict.get party.name Data.colors))
+                         , fill (getColor party)
                          ] []
                 ] (List.drop 1 parties) (nx + nwidth) model)
             else
@@ -175,22 +184,57 @@ doPartyBars list parties nx model =
                         ] []
                 ]
 
-doYearRow : Int -> Model -> Party -> List (Html Msg)
-doYearRow year model party =
+getPartyProgressBar : Party -> Election -> Maybe Election -> List (Html Msg)
+getPartyProgressBar party election previous_election =
+    [ Html.text ((String.fromInt party.seats) ++ " / " ++ (String.fromInt election.stats.total_seats)) 
+    , div [ Html.Attributes.class "progress-bar" ] 
+          [ div [ Html.Attributes.style "backgroundColor" (getColor party)
+                , Html.Attributes.width (round ((toFloat party.seats) / (toFloat election.stats.total_seats) * 100))
+                , Html.Attributes.height 1
+                , Html.Attributes.style "display" "inline-block"
+                ] 
+                [] 
+          ]
+    ] 
+
+doYearRow : Int -> Model -> String -> List (Html Msg)
+doYearRow year model party_name =
     case year of
         2024 ->
             []
         _ ->
             let
-                n = 9
+                election = dropMaybe (Dict.get year model.elections)
+                previous_election = Dict.get (year - 4) model.elections
+                party = dropMaybe (find (\n -> n.name == party_name) election.list)
+                previous_party = 
+                    case previous_election of
+                        Nothing ->
+                            party
+                        _ ->
+                            dropMaybe (find (\n -> n.name == party_name) (dropMaybe previous_election).list)
             in
-                [ tr []
+                ( tr []
                     [ td [] [ Html.text (String.fromInt year) ]
                     , td [] [ Html.text (styleNum party.votes) ]
-                    , td [] [ Html.text (stylePercent (toFloat party.votes / toFloat model.stats.total_votes)) ]
-                    , td [ onClick SendRequestParty ] [ Html.text "Hello" ]
+                    , td [] [ Html.text (stylePercent (toFloat party.votes / toFloat election.stats.total_votes)) ]
+                    , td [] (
+                        case previous_election of
+                            Nothing ->
+                                [ Html.text "n/a" ]
+                            _ ->
+                                fix_change ("+" ++ (stylePercent (((toFloat party.votes / toFloat election.stats.total_votes)) - ((toFloat previous_party.votes / toFloat (dropMaybe previous_election).stats.total_votes)))))
+                    )
+                    , td [] (getPartyProgressBar party election previous_election)
+                    , td [] (
+                        case previous_election of
+                            Nothing ->
+                                [ Html.text "n/a" ]
+                            _ ->
+                                fix_change ("+" ++ (String.fromInt (party.seats - previous_party.seats)))
+                    )
                     ]
-                ]-- ++ (doYearRow (year + 4) new_model party)
+                ) :: (doYearRow (year + 4) model party_name)
 
 partyContainer : String -> Model -> Html Msg
 partyContainer party model =
@@ -211,7 +255,7 @@ partyContainer party model =
         ]
       ] ++ (List.concatMap (\n -> (
         if n.name == party then
-            doYearRow 1976 model n
+            doYearRow 1976 model n.name
         else
             []
       )) model.list))
@@ -234,40 +278,75 @@ getFile msg year state =
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-    case msg of
-        SendRequestParty ->
-            (model, (getFile partyMsg model.year model.state))
-        SendRequestStats ->
-            (model, (getFile statsMsg model.year model.state))
-        PartySuccess (Ok parties) ->
-            let
-                tempmodel = 
-                    { model
-                    | list = parties
-                    , errorMessage = "yo1"
-                    } 
-            in
-                ( tempmodel
-                , second (update SendRequestStats tempmodel)
-                )
-        StatSuccess (Ok stats) ->
-            ( { model
-              | stats = stats
-              , errorMessage = "yo2"
-              } 
-            , Cmd.none
-            )
+    case Dict.get 2020 model.elections of
+        Just a ->
+            (model, Cmd.none)
         _ ->
-            ( { model
-              | errorMessage = "Error"
-              }
-            , Cmd.none
-            )
+            case msg of
+                SendRequestParty ->
+                    (model, (getFile partyMsg model.year model.state))
+                SendRequestStats ->
+                    (model, (getFile statsMsg model.year model.state))
+                PartySuccess (Ok parties) ->
+                    if length model.list > 0 then
+                        let
+                            tempmodel = 
+                                { model
+                                | elections = insert model.year (Election parties (Stats "none" 0 0 0.0 )) model.elections
+                                , errorMessage = "yo1"
+                                }
+                        in
+                            ( tempmodel
+                            , second (update SendRequestStats tempmodel)
+                            )
+                    else
+                        let
+                            tempmodel = 
+                                { model
+                                | list = parties
+                                , errorMessage = "yo1"
+                                } 
+                        in
+                            ( tempmodel
+                            , second (update SendRequestStats tempmodel)
+                            )
+                StatSuccess (Ok stats) ->
+                    if Dict.size model.elections > 0 then
+                        let
+                            tempmodel = 
+                                { model
+                                | elections = Dict.update model.year (Maybe.map (changeStats stats)) model.elections
+                                , year = model.year + 4
+                                , errorMessage = "yo1"
+                                } 
+                        in
+                            ( tempmodel
+                            , second (update SendRequestParty tempmodel)
+                            )
+                    else
+                        let
+                            tempmodel =
+                                { model
+                                | stats = stats
+                                , year = 1976
+                                , errorMessage = "yo2"
+                                } 
+                        in
+                            ( tempmodel
+                            , second (update SendRequestParty tempmodel)
+                            )
+                _ ->
+                    Debug.todo (Debug.toString msg)
+                    {-( { model
+                      | errorMessage = "Error"
+                      }
+                    , Cmd.none
+                    )-}
         
 init : Int -> (Model, Cmd Msg)
 init year =
     let 
-        r = update SendRequestParty (Model [] (Stats "none" 0 0 0.0 ) 0 year "Georgia" "none")
+        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 year "Georgia" "none")
     in
         ( first r
         , second r
@@ -317,7 +396,7 @@ view model =
               ]
         , div [ Html.Attributes.class "container" ]
               [ h2 [] [ Html.text "State History" ]
-              , table [ Html.Attributes.id "single-results" ]
+              , table [ Html.Attributes.class "container" ]
                       [ tr [] [ partyContainer "Democratic" model
                               , partyContainer "Republican" model 
                               ] 
