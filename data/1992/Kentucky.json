@@ -3,42 +3,58 @@
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 665104
+            "votes": 665104,
+            "extra_votes": 105268,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 617178
+            "votes": 617178,
+            "extra_votes": 57342,
+            "extra_seat": false
         },
         {
             "name": "Ross Perot",
             "seats": 1,
-            "votes": 203944
+            "votes": 203944,
+            "extra_votes": 17332,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 4513
+            "votes": 4513,
+            "extra_votes": 4513,
+            "extra_seat": false
         },
         {
             "name": "Taxpayers Party",
             "seats": 0,
-            "votes": 989
+            "votes": 989,
+            "extra_votes": 989,
+            "extra_seat": false
         },
         {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 695
+            "votes": 695,
+            "extra_votes": 695,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 430
+            "votes": 430,
+            "extra_votes": 430,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 47
+            "votes": 47,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

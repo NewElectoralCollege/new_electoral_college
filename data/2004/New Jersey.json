@@ -3,17 +3,23 @@
         {
             "name": "Democratic",
             "seats": 8,
-            "votes": 1911430
+            "votes": 1911430,
+            "extra_votes": 225977,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 7,
-            "votes": 1670003
+            "votes": 1670003,
+            "extra_votes": 225329,
+            "extra_seat": true
         },
         {
-            "name": "Independent (politician)",
+            "name": "Other",
             "seats": 0,
-            "votes": 30258
+            "votes": 30258,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

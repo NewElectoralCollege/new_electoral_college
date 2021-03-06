@@ -3,27 +3,37 @@
         {
             "name": "Republican",
             "seats": 5,
-            "votes": 890877
+            "votes": 890877,
+            "extra_votes": 157429,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 3,
-            "votes": 569597
+            "votes": 569597,
+            "extra_votes": 19511,
+            "extra_seat": false
         },
         {
             "name": "Communist Party Use",
             "seats": 0,
-            "votes": 4826
+            "votes": 4826,
+            "extra_votes": 4826,
+            "extra_seat": false
         },
         {
             "name": "Alliance",
             "seats": 0,
-            "votes": 1374
+            "votes": 1374,
+            "extra_votes": 1374,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 226
+            "votes": 226,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

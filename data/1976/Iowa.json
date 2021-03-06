@@ -3,57 +3,79 @@
         {
             "name": "Republican",
             "seats": 4,
-            "votes": 632864
+            "votes": 632864,
+            "extra_votes": 153128,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 619931
+            "votes": 619931,
+            "extra_votes": 140195,
+            "extra_seat": true
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 20057
+            "votes": 20057,
+            "extra_votes": 20057,
+            "extra_seat": false
         },
         {
             "name": "American Party Of Iowa",
             "seats": 0,
-            "votes": 3041
+            "votes": 3041,
+            "extra_votes": 3041,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 1454
+            "votes": 1454,
+            "extra_votes": 1454,
+            "extra_seat": false
         },
         {
             "name": "Communist Party Use",
             "seats": 0,
-            "votes": 551
+            "votes": 551,
+            "extra_votes": 551,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 262
+            "votes": 262,
+            "extra_votes": 262,
+            "extra_seat": false
         },
         {
             "name": "U.S. Labor",
             "seats": 0,
-            "votes": 241
+            "votes": 241,
+            "extra_votes": 241,
+            "extra_seat": false
         },
         {
             "name": "Socialist U.S.A.",
             "seats": 0,
-            "votes": 233
+            "votes": 233,
+            "extra_votes": 233,
+            "extra_seat": false
         },
         {
             "name": "Socialist Labor",
             "seats": 0,
-            "votes": 160
+            "votes": 160,
+            "extra_votes": 160,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 509
+            "votes": 509,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

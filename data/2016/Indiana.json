@@ -3,32 +3,44 @@
         {
             "name": "Libertarian",
             "seats": 1,
-            "votes": 133993
+            "votes": 133993,
+            "extra_votes": 133993,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 6,
-            "votes": 1557286
+            "votes": 1557286,
+            "extra_votes": 65494,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 1033126
+            "votes": 1033126,
+            "extra_votes": 38598,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 1937
+            "votes": 1937,
+            "extra_votes": 1937,
+            "extra_seat": false
         },
         {
             "name": "Socialist Party Usa",
             "seats": 0,
-            "votes": 57
+            "votes": 57,
+            "extra_votes": 57,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 8559
+            "votes": 8559,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

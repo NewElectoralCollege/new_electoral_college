@@ -3,37 +3,51 @@
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 251813
+            "votes": 251813,
+            "extra_votes": 82240,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 4,
-            "votes": 740600
+            "votes": 740600,
+            "extra_votes": 62308,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 12572
+            "votes": 12572,
+            "extra_votes": 12572,
+            "extra_seat": false
         },
         {
             "name": "Justice",
             "seats": 0,
-            "votes": 5335
+            "votes": 5335,
+            "extra_votes": 5335,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 3817
+            "votes": 3817,
+            "extra_votes": 3817,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 2871
+            "votes": 2871,
+            "extra_votes": 2871,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 432
+            "votes": 432,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

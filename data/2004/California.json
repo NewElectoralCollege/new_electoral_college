@@ -3,37 +3,51 @@
         {
             "name": "Democratic",
             "seats": 30,
-            "votes": 6745485
+            "votes": 6745485,
+            "extra_votes": 196067,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 25,
-            "votes": 5509826
+            "votes": 5509826,
+            "extra_votes": 89618,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 50165
+            "votes": 50165,
+            "extra_votes": 50165,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 40771
+            "votes": 40771,
+            "extra_votes": 40771,
+            "extra_seat": false
         },
         {
             "name": "Peace and Freedom Party",
             "seats": 0,
-            "votes": 27607
+            "votes": 27607,
+            "extra_votes": 27607,
+            "extra_seat": false
         },
         {
             "name": "American Independent Party",
             "seats": 0,
-            "votes": 26645
+            "votes": 26645,
+            "extra_votes": 26645,
+            "extra_seat": false
         },
         {
-            "name": "Write-In",
+            "name": "Other",
             "seats": 0,
-            "votes": 20854
+            "votes": 20854,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

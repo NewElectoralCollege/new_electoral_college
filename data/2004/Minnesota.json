@@ -3,52 +3,72 @@
         {
             "name": "Republican",
             "seats": 5,
-            "votes": 1346695
+            "votes": 1346695,
+            "extra_votes": 215343,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 5,
-            "votes": 1445014
+            "votes": 1445014,
+            "extra_votes": 30824,
+            "extra_seat": false
         },
         {
             "name": "Better Life",
             "seats": 0,
-            "votes": 18683
+            "votes": 18683,
+            "extra_votes": 18683,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 4639
+            "votes": 4639,
+            "extra_votes": 4639,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 4408
+            "votes": 4408,
+            "extra_votes": 4408,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 3074
+            "votes": 3074,
+            "extra_votes": 3074,
+            "extra_seat": false
         },
         {
             "name": "Christian Freedom Party",
             "seats": 0,
-            "votes": 2387
+            "votes": 2387,
+            "extra_votes": 2387,
+            "extra_seat": false
         },
         {
             "name": "Socialist Equality Party",
             "seats": 0,
-            "votes": 539
+            "votes": 539,
+            "extra_votes": 539,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 416
+            "votes": 416,
+            "extra_votes": 416,
+            "extra_seat": false
         },
         {
-            "name": "Write-In",
+            "name": "Other",
             "seats": 0,
-            "votes": 2532
+            "votes": 2532,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

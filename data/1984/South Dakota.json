@@ -3,22 +3,30 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 200267
+            "votes": 200267,
+            "extra_votes": 94312,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 116113
+            "votes": 116113,
+            "extra_votes": 10158,
+            "extra_seat": false
         },
         {
             "name": "Alliance",
             "seats": 0,
-            "votes": 1150
+            "votes": 1150,
+            "extra_votes": 1150,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 337
+            "votes": 337,
+            "extra_votes": 337,
+            "extra_seat": false
         }
     ],
     "stats": {

@@ -3,47 +3,65 @@
         {
             "name": "Republican",
             "seats": 5,
-            "votes": 1405284
+            "votes": 1405284,
+            "extra_votes": 214824,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 5,
-            "votes": 1382536
+            "votes": 1382536,
+            "extra_votes": 192076,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 106674
+            "votes": 106674,
+            "extra_votes": 106674,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 31072
+            "votes": 31072,
+            "extra_votes": 31072,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 12162
+            "votes": 12162,
+            "extra_votes": 12162,
+            "extra_seat": false
         },
         {
             "name": "Workers World Party",
             "seats": 0,
-            "votes": 1770
+            "votes": 1770,
+            "extra_votes": 1770,
+            "extra_seat": false
         },
         {
             "name": "American Delta Party",
             "seats": 0,
-            "votes": 1502
+            "votes": 1502,
+            "extra_votes": 1502,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 12386
+            "votes": 12386,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 22764
+            "votes": 22764,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

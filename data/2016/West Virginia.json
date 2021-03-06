@@ -3,27 +3,37 @@
         {
             "name": "Republican",
             "seats": 4,
-            "votes": 489371
+            "votes": 489371,
+            "extra_votes": 61541,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 188794
+            "votes": 188794,
+            "extra_votes": 46184,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 23004
+            "votes": 23004,
+            "extra_votes": 23004,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 8075
+            "votes": 8075,
+            "extra_votes": 8075,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 3807
+            "votes": 3807,
+            "extra_votes": 3807,
+            "extra_seat": false
         }
     ],
     "stats": {

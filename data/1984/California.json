@@ -3,27 +3,37 @@
         {
             "name": "Democratic",
             "seats": 20,
-            "votes": 3922519
+            "votes": 3922519,
+            "extra_votes": 80073,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 49951
+            "votes": 49951,
+            "extra_votes": 49951,
+            "extra_seat": false
         },
         {
             "name": "Populist",
             "seats": 0,
-            "votes": 39265
+            "votes": 39265,
+            "extra_votes": 39265,
+            "extra_seat": false
         },
         {
             "name": "Citizens",
             "seats": 0,
-            "votes": 26297
+            "votes": 26297,
+            "extra_votes": 26297,
+            "extra_seat": false
         },
         {
             "name": "Republican",
             "seats": 27,
-            "votes": 5467009
+            "votes": 5467009,
+            "extra_votes": 6691,
+            "extra_seat": false
         }
     ],
     "stats": {

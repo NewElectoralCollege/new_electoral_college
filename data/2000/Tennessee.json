@@ -3,23 +3,29 @@
         {
             "name": "Republican",
             "seats": 6,
-            "votes": 1061949
+            "votes": 1061949,
+            "extra_votes": 118234,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 5,
-            "votes": 981720
+            "votes": 981720,
+            "extra_votes": 38005,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 32512
+            "votes": 32512,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {
         "name": "Seat Allocation",
         "total_seats": 11,
-        "total_votes": 2075753,
-        "gallagher_index": 2.941303
+        "total_votes": 2076181,
+        "gallagher_index": 2.944253
     }
 }

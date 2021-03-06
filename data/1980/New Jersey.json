@@ -3,67 +3,93 @@
         {
             "name": "Republican",
             "seats": 9,
-            "votes": 1546557
+            "votes": 1546557,
+            "extra_votes": 146237,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 7,
-            "votes": 1147364
+            "votes": 1147364,
+            "extra_votes": 97124,
+            "extra_seat": true
         },
         {
             "name": "Independent",
             "seats": 1,
-            "votes": 234632
+            "votes": 234632,
+            "extra_votes": 59592,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 20652
+            "votes": 20652,
+            "extra_votes": 20652,
+            "extra_seat": false
         },
         {
             "name": "Citizens",
             "seats": 0,
-            "votes": 8203
+            "votes": 8203,
+            "extra_votes": 8203,
+            "extra_seat": false
         },
         {
             "name": "Right-To-Life",
             "seats": 0,
-            "votes": 3927
+            "votes": 3927,
+            "extra_votes": 3927,
+            "extra_seat": false
         },
         {
             "name": "Middle Class Candidate",
             "seats": 0,
-            "votes": 3694
+            "votes": 3694,
+            "extra_votes": 3694,
+            "extra_seat": false
         },
         {
             "name": "Communist Party Use",
             "seats": 0,
-            "votes": 2555
+            "votes": 2555,
+            "extra_votes": 2555,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 2198
+            "votes": 2198,
+            "extra_votes": 2198,
+            "extra_seat": false
         },
         {
             "name": "Socialist",
             "seats": 0,
-            "votes": 1973
+            "votes": 1973,
+            "extra_votes": 1973,
+            "extra_seat": false
         },
         {
             "name": "Down With Lawyers",
             "seats": 0,
-            "votes": 1718
+            "votes": 1718,
+            "extra_votes": 1718,
+            "extra_seat": false
         },
         {
             "name": "Workers World",
             "seats": 0,
-            "votes": 1288
+            "votes": 1288,
+            "extra_votes": 1288,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 923
+            "votes": 923,
+            "extra_votes": 923,
+            "extra_seat": false
         }
     ],
     "stats": {

@@ -3,62 +3,86 @@
         {
             "name": "Ross Perot",
             "seats": 3,
-            "votes": 562506
+            "votes": 562506,
+            "extra_votes": 92918,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 1020997
+            "votes": 1020997,
+            "extra_votes": 81821,
+            "extra_seat": false
         },
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 747841
+            "votes": 747841,
+            "extra_votes": 43459,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 3374
+            "votes": 3374,
+            "extra_votes": 3374,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 3363
+            "votes": 3363,
+            "extra_votes": 3363,
+            "extra_seat": false
         },
         {
             "name": "Grassroots",
             "seats": 0,
-            "votes": 2659
+            "votes": 2659,
+            "extra_votes": 2659,
+            "extra_seat": false
         },
         {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 1406
+            "votes": 1406,
+            "extra_votes": 1406,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 990
+            "votes": 990,
+            "extra_votes": 990,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 958
+            "votes": 958,
+            "extra_votes": 958,
+            "extra_seat": false
         },
         {
             "name": "Taxpayers Party",
             "seats": 0,
-            "votes": 733
+            "votes": 733,
+            "extra_votes": 733,
+            "extra_seat": false
         },
         {
             "name": "Independents For Economic Recovery",
             "seats": 0,
-            "votes": 622
+            "votes": 622,
+            "extra_votes": 622,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 2499
+            "votes": 2499,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

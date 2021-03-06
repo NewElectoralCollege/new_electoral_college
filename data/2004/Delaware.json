@@ -3,37 +3,51 @@
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 200152
+            "votes": 200152,
+            "extra_votes": 75089,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 1,
-            "votes": 171660
+            "votes": 171660,
+            "extra_votes": 46597,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 2153
+            "votes": 2153,
+            "extra_votes": 2153,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 586
+            "votes": 586,
+            "extra_votes": 586,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 289
+            "votes": 289,
+            "extra_votes": 289,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 250
+            "votes": 250,
+            "extra_votes": 250,
+            "extra_seat": false
         },
         {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 100
+            "votes": 100,
+            "extra_votes": 100,
+            "extra_seat": false
         }
     ],
     "stats": {

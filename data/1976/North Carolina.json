@@ -3,27 +3,37 @@
         {
             "name": "Republican",
             "seats": 6,
-            "votes": 741960
+            "votes": 741960,
+            "extra_votes": 96615,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 7,
-            "votes": 927365
+            "votes": 927365,
+            "extra_votes": 23882,
+            "extra_seat": false
         },
         {
             "name": "American",
             "seats": 0,
-            "votes": 5607
+            "votes": 5607,
+            "extra_votes": 5607,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 2219
+            "votes": 2219,
+            "extra_votes": 2219,
+            "extra_seat": false
         },
         {
             "name": "U.S. Labor",
             "seats": 0,
-            "votes": 755
+            "votes": 755,
+            "extra_votes": 755,
+            "extra_seat": false
         }
     ],
     "stats": {

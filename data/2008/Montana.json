@@ -3,27 +3,37 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 242763
+            "votes": 242763,
+            "extra_votes": 79394,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 231667
+            "votes": 231667,
+            "extra_votes": 68298,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 10638
+            "votes": 10638,
+            "extra_votes": 10638,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 3686
+            "votes": 3686,
+            "extra_votes": 3686,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 1355
+            "votes": 1355,
+            "extra_votes": 1355,
+            "extra_seat": false
         }
     ],
     "stats": {

@@ -3,32 +3,44 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 119251
+            "votes": 119251,
+            "extra_votes": 52546,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 72584
+            "votes": 72584,
+            "extra_votes": 5879,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 5484
+            "votes": 5484,
+            "extra_votes": 5484,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 1024
+            "votes": 1024,
+            "extra_votes": 1024,
+            "extra_seat": false
         },
         {
             "name": "National Economic Recovery",
             "seats": 0,
-            "votes": 816
+            "votes": 816,
+            "extra_votes": 816,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 957
+            "votes": 957,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

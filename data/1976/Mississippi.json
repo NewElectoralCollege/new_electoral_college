@@ -3,37 +3,51 @@
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 381329
+            "votes": 381329,
+            "extra_votes": 52019,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 366846
+            "votes": 366846,
+            "extra_votes": 37536,
+            "extra_seat": false
         },
         {
             "name": "American",
             "seats": 0,
-            "votes": 6678
+            "votes": 6678,
+            "extra_votes": 6678,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 4074
+            "votes": 4074,
+            "extra_votes": 4074,
+            "extra_seat": false
         },
         {
             "name": "American Independent Party",
             "seats": 0,
-            "votes": 4049
+            "votes": 4049,
+            "extra_votes": 4049,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 2805
+            "votes": 2805,
+            "extra_votes": 2805,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 2609
+            "votes": 2609,
+            "extra_votes": 2609,
+            "extra_seat": false
         }
     ],
     "stats": {

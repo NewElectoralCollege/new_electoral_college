@@ -1,34 +1,46 @@
 {
     "parties": [
         {
-            "name": "Libertarian",
+            "name": "Independence",
             "seats": 1,
-            "votes": 176598
+            "votes": 176598,
+            "extra_votes": 176598,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 11,
-            "votes": 2819534
+            "votes": 2819534,
+            "extra_votes": 156964,
+            "extra_seat": true
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 107934
+            "votes": 107934,
+            "extra_votes": 107934,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 17,
-            "votes": 4556124
+            "votes": 4556124,
+            "extra_votes": 29755,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 48447
+            "votes": 48447,
+            "extra_votes": 0,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 12816
+            "votes": 12816,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

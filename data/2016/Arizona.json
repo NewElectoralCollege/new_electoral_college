@@ -3,42 +3,58 @@
         {
             "name": "Democratic",
             "seats": 5,
-            "votes": 1161167
+            "votes": 1161167,
+            "extra_votes": 225471,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 1,
-            "votes": 106327
+            "votes": 106327,
+            "extra_votes": 106327,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 5,
-            "votes": 1252401
+            "votes": 1252401,
+            "extra_votes": 82781,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 34345
+            "votes": 34345,
+            "extra_votes": 34345,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 1058
+            "votes": 1058,
+            "extra_votes": 1058,
+            "extra_seat": false
         },
         {
             "name": "American Delta Party",
             "seats": 0,
-            "votes": 29
+            "votes": 29,
+            "extra_votes": 29,
+            "extra_seat": false
         },
         {
             "name": "We The People",
             "seats": 0,
-            "votes": 12
+            "votes": 12,
+            "extra_votes": 12,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 17826
+            "votes": 17826,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

@@ -3,27 +3,37 @@
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 495961
+            "votes": 495961,
+            "extra_votes": 158271,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 284494
+            "votes": 284494,
+            "extra_votes": 115649,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 38946
+            "votes": 38946,
+            "extra_votes": 38946,
+            "extra_seat": false
         },
         {
             "name": "Nominated By Petition",
             "seats": 0,
-            "votes": 8775
+            "votes": 8775,
+            "extra_votes": 8775,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 16051
+            "votes": 16051,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

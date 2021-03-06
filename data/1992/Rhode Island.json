@@ -3,42 +3,58 @@
         {
             "name": "Ross Perot",
             "seats": 1,
-            "votes": 105045
+            "votes": 105045,
+            "extra_votes": 105045,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 213299
+            "votes": 213299,
+            "extra_votes": 99958,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 1,
-            "votes": 131601
+            "votes": 131601,
+            "extra_votes": 18260,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 1878
+            "votes": 1878,
+            "extra_votes": 1878,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 571
+            "votes": 571,
+            "extra_votes": 571,
+            "extra_seat": false
         },
         {
             "name": "Independents For Larouche",
             "seats": 0,
-            "votes": 494
+            "votes": 494,
+            "extra_votes": 494,
+            "extra_seat": false
         },
         {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 262
+            "votes": 262,
+            "extra_votes": 262,
+            "extra_seat": false
         },
         {
             "name": "Taxpayers Party",
             "seats": 0,
-            "votes": 215
+            "votes": 215,
+            "extra_votes": 215,
+            "extra_seat": false
         }
     ],
     "stats": {

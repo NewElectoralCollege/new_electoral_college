@@ -3,27 +3,37 @@
         {
             "name": "Ross Perot",
             "seats": 1,
-            "votes": 51263
+            "votes": 51263,
+            "extra_votes": 51263,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 1,
-            "votes": 79347
+            "votes": 79347,
+            "extra_votes": 12719,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 68160
+            "votes": 68160,
+            "extra_votes": 1532,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 844
+            "votes": 844,
+            "extra_votes": 844,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 270
+            "votes": 270,
+            "extra_votes": 270,
+            "extra_seat": false
         }
     ],
     "stats": {

@@ -3,27 +3,37 @@
         {
             "name": "Democratic",
             "seats": 3,
-            "votes": 267070
+            "votes": 267070,
+            "extra_votes": 71228,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 0,
-            "votes": 21381
+            "votes": 21381,
+            "extra_votes": 21381,
+            "extra_seat": false
         },
         {
             "name": "D.C. Statehood Green",
             "seats": 0,
-            "votes": 2458
+            "votes": 2458,
+            "extra_votes": 2458,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 2083
+            "votes": 2083,
+            "extra_votes": 2083,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 772
+            "votes": 772,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

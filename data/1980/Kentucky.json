@@ -3,42 +3,58 @@
         {
             "name": "Republican",
             "seats": 5,
-            "votes": 635274
+            "votes": 635274,
+            "extra_votes": 59442,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 617417
+            "votes": 617417,
+            "extra_votes": 41585,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 31127
+            "votes": 31127,
+            "extra_votes": 31127,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 5531
+            "votes": 5531,
+            "extra_votes": 5531,
+            "extra_seat": false
         },
         {
             "name": "Respect For Life",
             "seats": 0,
-            "votes": 4233
+            "votes": 4233,
+            "extra_votes": 4233,
+            "extra_seat": false
         },
         {
             "name": "Citizens",
             "seats": 0,
-            "votes": 1304
+            "votes": 1304,
+            "extra_votes": 1304,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 393
+            "votes": 393,
+            "extra_votes": 393,
+            "extra_seat": false
         },
         {
             "name": "Communist Party Use",
             "seats": 0,
-            "votes": 348
+            "votes": 348,
+            "extra_votes": 348,
+            "extra_seat": false
         }
     ],
     "stats": {

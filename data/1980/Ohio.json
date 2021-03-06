@@ -3,47 +3,65 @@
         {
             "name": "Republican",
             "seats": 13,
-            "votes": 2206545
+            "votes": 2206545,
+            "extra_votes": 150417,
+            "extra_seat": true
         },
         {
             "name": "Independent",
             "seats": 2,
-            "votes": 254472
+            "votes": 254472,
+            "extra_votes": 83128,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 49033
+            "votes": 49033,
+            "extra_votes": 49033,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 10,
-            "votes": 1752414
+            "votes": 1752414,
+            "extra_votes": 38974,
+            "extra_seat": false
         },
         {
             "name": "Citizens",
             "seats": 0,
-            "votes": 8564
+            "votes": 8564,
+            "extra_votes": 8564,
+            "extra_seat": false
         },
         {
             "name": "Communist Party Use",
             "seats": 0,
-            "votes": 4729
+            "votes": 4729,
+            "extra_votes": 4729,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 4029
+            "votes": 4029,
+            "extra_votes": 4029,
+            "extra_seat": false
         },
         {
             "name": "Workers World",
             "seats": 0,
-            "votes": 3790
+            "votes": 3790,
+            "extra_votes": 3790,
+            "extra_seat": false
         },
         {
             "name": "Statesman",
             "seats": 0,
-            "votes": 27
+            "votes": 27,
+            "extra_votes": 27,
+            "extra_seat": false
         }
     ],
     "stats": {

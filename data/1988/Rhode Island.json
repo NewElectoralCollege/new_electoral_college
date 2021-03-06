@@ -3,47 +3,65 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 177761
+            "votes": 177761,
+            "extra_votes": 76606,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 225123
+            "votes": 225123,
+            "extra_votes": 22813,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 825
+            "votes": 825,
+            "extra_votes": 825,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 280
+            "votes": 280,
+            "extra_votes": 280,
+            "extra_seat": false
         },
         {
             "name": "Peace and Freedom Party",
             "seats": 0,
-            "votes": 195
+            "votes": 195,
+            "extra_votes": 195,
+            "extra_seat": false
         },
         {
             "name": "Populist",
             "seats": 0,
-            "votes": 159
+            "votes": 159,
+            "extra_votes": 159,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 130
+            "votes": 130,
+            "extra_votes": 130,
+            "extra_seat": false
         },
         {
             "name": "Socialist",
             "seats": 0,
-            "votes": 96
+            "votes": 96,
+            "extra_votes": 96,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 53
+            "votes": 53,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

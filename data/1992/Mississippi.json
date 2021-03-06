@@ -3,32 +3,44 @@
         {
             "name": "Democratic",
             "seats": 3,
-            "votes": 400258
+            "votes": 400258,
+            "extra_votes": 119746,
+            "extra_seat": true
         },
         {
             "name": "Ross Perot",
             "seats": 1,
-            "votes": 85626
+            "votes": 85626,
+            "extra_votes": 85626,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 487793
+            "votes": 487793,
+            "extra_votes": 67025,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 2154
+            "votes": 2154,
+            "extra_votes": 2154,
+            "extra_seat": false
         },
         {
             "name": "Taxpayers Party",
             "seats": 0,
-            "votes": 1652
+            "votes": 1652,
+            "extra_votes": 1652,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 4310
+            "votes": 4310,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

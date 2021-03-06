@@ -3,62 +3,86 @@
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 504891
+            "votes": 504891,
+            "extra_votes": 118073,
+            "extra_seat": true
         },
         {
             "name": "Ross Perot",
             "seats": 1,
-            "votes": 253468
+            "votes": 253468,
+            "extra_votes": 60059,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 3,
-            "votes": 586353
+            "votes": 586353,
+            "extra_votes": 6126,
+            "extra_seat": false
         },
         {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 3079
+            "votes": 3079,
+            "extra_votes": 3079,
+            "extra_seat": false
         },
         {
             "name": "America First",
             "seats": 0,
-            "votes": 1177
+            "votes": 1177,
+            "extra_votes": 1177,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 1076
+            "votes": 1076,
+            "extra_votes": 1076,
+            "extra_seat": false
         },
         {
             "name": "Grassroots",
             "seats": 0,
-            "votes": 669
+            "votes": 669,
+            "extra_votes": 669,
+            "extra_seat": false
         },
         {
             "name": "Taxpayers Party",
             "seats": 0,
-            "votes": 480
+            "votes": 480,
+            "extra_votes": 480,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 273
+            "votes": 273,
+            "extra_votes": 273,
+            "extra_seat": false
         },
         {
             "name": "Independents For Economic Recovery",
             "seats": 0,
-            "votes": 238
+            "votes": 238,
+            "extra_votes": 238,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 197
+            "votes": 197,
+            "extra_votes": 197,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 1965
+            "votes": 1965,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

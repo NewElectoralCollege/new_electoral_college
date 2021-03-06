@@ -3,37 +3,51 @@
         {
             "name": "Democratic",
             "seats": 22,
-            "votes": 3742284
+            "votes": 3742284,
+            "extra_votes": 100527,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 23,
-            "votes": 3882244
+            "votes": 3882244,
+            "extra_votes": 67070,
+            "extra_seat": true
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 56388
+            "votes": 56388,
+            "extra_votes": 56388,
+            "extra_seat": false
         },
         {
             "name": "American Independent Party",
             "seats": 0,
-            "votes": 51098
+            "votes": 51098,
+            "extra_votes": 51098,
+            "extra_seat": false
         },
         {
             "name": "Peace and Freedom Party",
             "seats": 0,
-            "votes": 41731
+            "votes": 41731,
+            "extra_votes": 41731,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 17259
+            "votes": 17259,
+            "extra_votes": 17259,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 12766
+            "votes": 12766,
+            "extra_votes": 12766,
+            "extra_seat": false
         }
     ],
     "stats": {

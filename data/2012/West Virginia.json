@@ -3,27 +3,37 @@
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 238269
+            "votes": 238269,
+            "extra_votes": 104182,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 417655
+            "votes": 417655,
+            "extra_votes": 15394,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 6302
+            "votes": 6302,
+            "extra_votes": 6302,
+            "extra_seat": false
         },
         {
             "name": "Mountain Party",
             "seats": 0,
-            "votes": 4406
+            "votes": 4406,
+            "extra_votes": 4406,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 3806
+            "votes": 3806,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

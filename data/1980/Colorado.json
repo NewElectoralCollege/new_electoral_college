@@ -3,42 +3,58 @@
         {
             "name": "Republican",
             "seats": 4,
-            "votes": 652264
+            "votes": 652264,
+            "extra_votes": 144643,
+            "extra_seat": true
         },
         {
             "name": "Independent",
             "seats": 1,
-            "votes": 130633
+            "votes": 130633,
+            "extra_votes": 130633,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 368009
+            "votes": 368009,
+            "extra_votes": 29595,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 25744
+            "votes": 25744,
+            "extra_votes": 25744,
+            "extra_seat": false
         },
         {
             "name": "Citizens",
             "seats": 0,
-            "votes": 5614
+            "votes": 5614,
+            "extra_votes": 5614,
+            "extra_seat": false
         },
         {
             "name": "Statesman",
             "seats": 0,
-            "votes": 1180
+            "votes": 1180,
+            "extra_votes": 1180,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 519
+            "votes": 519,
+            "extra_votes": 519,
+            "extra_seat": false
         },
         {
             "name": "Communist Party Use",
             "seats": 0,
-            "votes": 487
+            "votes": 487,
+            "extra_votes": 487,
+            "extra_seat": false
         }
     ],
     "stats": {

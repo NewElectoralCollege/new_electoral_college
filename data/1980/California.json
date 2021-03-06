@@ -3,37 +3,51 @@
         {
             "name": "Independent",
             "seats": 4,
-            "votes": 739618
+            "votes": 739618,
+            "extra_votes": 167425,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 1,
-            "votes": 148390
+            "votes": 148390,
+            "extra_votes": 148390,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 24,
-            "votes": 4522994
+            "votes": 4522994,
+            "extra_votes": 136181,
+            "extra_seat": true
         },
         {
             "name": "Citizens",
             "seats": 0,
-            "votes": 61046
+            "votes": 61046,
+            "extra_votes": 61046,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 16,
-            "votes": 3082943
+            "votes": 3082943,
+            "extra_votes": 31247,
+            "extra_seat": false
         },
         {
             "name": "Peace and Freedom Party",
             "seats": 0,
-            "votes": 18106
+            "votes": 18106,
+            "extra_votes": 18106,
+            "extra_seat": false
         },
         {
             "name": "American Independent Party",
             "seats": 0,
-            "votes": 9841
+            "votes": 9841,
+            "extra_votes": 9841,
+            "extra_seat": false
         }
     ],
     "stats": {

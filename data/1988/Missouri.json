@@ -3,17 +3,23 @@
         {
             "name": "Republican",
             "seats": 6,
-            "votes": 1084953
+            "votes": 1084953,
+            "extra_votes": 133488,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 5,
-            "votes": 1001619
+            "votes": 1001619,
+            "extra_votes": 50154,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 6656
+            "votes": 6656,
+            "extra_votes": 6656,
+            "extra_seat": false
         }
     ],
     "stats": {

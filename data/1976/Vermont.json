@@ -3,32 +3,44 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 100387
+            "votes": 100387,
+            "extra_votes": 39087,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 77798
+            "votes": 77798,
+            "extra_votes": 16498,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 4001
+            "votes": 4001,
+            "extra_votes": 4001,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 430
+            "votes": 430,
+            "extra_votes": 430,
+            "extra_seat": false
         },
         {
             "name": "U.S. Labor",
             "seats": 0,
-            "votes": 196
+            "votes": 196,
+            "extra_votes": 196,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 1090
+            "votes": 1090,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

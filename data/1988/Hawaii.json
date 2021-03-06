@@ -3,27 +3,37 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 158625
+            "votes": 158625,
+            "extra_votes": 70010,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 192364
+            "votes": 192364,
+            "extra_votes": 15134,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 1999
+            "votes": 1999,
+            "extra_votes": 1999,
+            "extra_seat": false
         },
         {
             "name": "No Party Affiliation",
             "seats": 0,
-            "votes": 1003
+            "votes": 1003,
+            "extra_votes": 1003,
+            "extra_seat": false
         },
         {
             "name": "National Economic Recovery",
             "seats": 0,
-            "votes": 470
+            "votes": 470,
+            "extra_votes": 470,
+            "extra_seat": false
         }
     ],
     "stats": {

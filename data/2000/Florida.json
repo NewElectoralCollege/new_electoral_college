@@ -3,57 +3,79 @@
         {
             "name": "Green",
             "seats": 1,
-            "votes": 97488
+            "votes": 97488,
+            "extra_votes": 97488,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 12,
-            "votes": 2912790
+            "votes": 2912790,
+            "extra_votes": 50502,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 12,
-            "votes": 2912253
+            "votes": 2912253,
+            "extra_votes": 49965,
+            "extra_seat": false
         },
         {
             "name": "Reform Party",
             "seats": 0,
-            "votes": 17484
+            "votes": 17484,
+            "extra_votes": 17484,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 16415
+            "votes": 16415,
+            "extra_votes": 16415,
+            "extra_seat": false
         },
         {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 2281
+            "votes": 2281,
+            "extra_votes": 2281,
+            "extra_seat": false
         },
         {
             "name": "Workers World",
             "seats": 0,
-            "votes": 1804
+            "votes": 1804,
+            "extra_votes": 1804,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 1371
+            "votes": 1371,
+            "extra_votes": 1371,
+            "extra_seat": false
         },
         {
             "name": "Socialist",
             "seats": 0,
-            "votes": 622
+            "votes": 622,
+            "extra_votes": 622,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 562
+            "votes": 562,
+            "extra_votes": 562,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 40
+            "votes": 40,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

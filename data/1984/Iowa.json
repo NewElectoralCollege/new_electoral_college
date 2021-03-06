@@ -3,47 +3,65 @@
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 605620
+            "votes": 605620,
+            "extra_votes": 110695,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 4,
-            "votes": 703088
+            "votes": 703088,
+            "extra_votes": 43188,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 6248
+            "votes": 6248,
+            "extra_votes": 6248,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 1844
+            "votes": 1844,
+            "extra_votes": 1844,
+            "extra_seat": false
         },
         {
             "name": "Big Deal Party",
             "seats": 0,
-            "votes": 892
+            "votes": 892,
+            "extra_votes": 892,
+            "extra_seat": false
         },
         {
             "name": "Alliance",
             "seats": 0,
-            "votes": 463
+            "votes": 463,
+            "extra_votes": 463,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 313
+            "votes": 313,
+            "extra_votes": 313,
+            "extra_seat": false
         },
         {
             "name": "Communist Party Use",
             "seats": 0,
-            "votes": 286
+            "votes": 286,
+            "extra_votes": 286,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 1051
+            "votes": 1051,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

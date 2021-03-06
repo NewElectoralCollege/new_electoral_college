@@ -3,47 +3,65 @@
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 207343
+            "votes": 207343,
+            "extra_votes": 77942,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 3,
-            "votes": 428442
+            "votes": 428442,
+            "extra_votes": 40239,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 7473
+            "votes": 7473,
+            "extra_votes": 7473,
+            "extra_seat": false
         },
         {
             "name": "American",
             "seats": 0,
-            "votes": 2158
+            "votes": 2158,
+            "extra_votes": 2158,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 455
+            "votes": 455,
+            "extra_votes": 455,
+            "extra_seat": false
         },
         {
             "name": "National Economic Recovery",
             "seats": 0,
-            "votes": 427
+            "votes": 427,
+            "extra_votes": 427,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 372
+            "votes": 372,
+            "extra_votes": 372,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 209
+            "votes": 209,
+            "extra_votes": 209,
+            "extra_seat": false
         },
         {
             "name": "Socialist",
             "seats": 0,
-            "votes": 129
+            "votes": 129,
+            "extra_votes": 129,
+            "extra_seat": false
         }
     ],
     "stats": {

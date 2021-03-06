@@ -3,52 +3,72 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 124331
+            "votes": 124331,
+            "extra_votes": 43222,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 115775
+            "votes": 115775,
+            "extra_votes": 34666,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 1000
+            "votes": 1000,
+            "extra_votes": 1000,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 275
+            "votes": 275,
+            "extra_votes": 275,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 205
+            "votes": 205,
+            "extra_votes": 205,
+            "extra_seat": false
         },
         {
             "name": "Populist",
             "seats": 0,
-            "votes": 189
+            "votes": 189,
+            "extra_votes": 189,
+            "extra_seat": false
         },
         {
             "name": "Peace and Freedom Party",
             "seats": 0,
-            "votes": 164
+            "votes": 164,
+            "extra_votes": 164,
+            "extra_seat": false
         },
         {
             "name": "Liberty Union Party",
             "seats": 0,
-            "votes": 142
+            "votes": 142,
+            "extra_votes": 142,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 113
+            "votes": 113,
+            "extra_votes": 113,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 1134
+            "votes": 1134,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

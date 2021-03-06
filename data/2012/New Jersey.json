@@ -3,52 +3,72 @@
         {
             "name": "Republican",
             "seats": 6,
-            "votes": 1478088
+            "votes": 1478088,
+            "extra_votes": 178628,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 8,
-            "votes": 2122786
+            "votes": 2122786,
+            "extra_votes": 43650,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 21035
+            "votes": 21035,
+            "extra_votes": 21035,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 9886
+            "votes": 9886,
+            "extra_votes": 9886,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 2063
+            "votes": 2063,
+            "extra_votes": 2063,
+            "extra_seat": false
         },
         {
             "name": "Justice",
             "seats": 0,
-            "votes": 1723
+            "votes": 1723,
+            "extra_votes": 1723,
+            "extra_seat": false
         },
         {
             "name": "Nsa Did 911",
             "seats": 0,
-            "votes": 1024
+            "votes": 1024,
+            "extra_votes": 1024,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 709
+            "votes": 709,
+            "extra_votes": 709,
+            "extra_seat": false
         },
         {
             "name": "American Third Position",
             "seats": 0,
-            "votes": 664
+            "votes": 664,
+            "extra_votes": 664,
+            "extra_seat": false
         },
         {
             "name": "Socialism And Liberation Party",
             "seats": 0,
-            "votes": 521
+            "votes": 521,
+            "extra_votes": 521,
+            "extra_seat": false
         }
     ],
     "stats": {

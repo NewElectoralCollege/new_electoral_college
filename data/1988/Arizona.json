@@ -3,27 +3,37 @@
         {
             "name": "Democratic",
             "seats": 3,
-            "votes": 454029
+            "votes": 454029,
+            "extra_votes": 119209,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 4,
-            "votes": 702541
+            "votes": 702541,
+            "extra_votes": 32901,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 13351
+            "votes": 13351,
+            "extra_votes": 13351,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 1662
+            "votes": 1662,
+            "extra_votes": 1662,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 290
+            "votes": 290,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

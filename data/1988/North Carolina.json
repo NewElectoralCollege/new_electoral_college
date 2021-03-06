@@ -3,22 +3,30 @@
         {
             "name": "Republican",
             "seats": 8,
-            "votes": 1237258
+            "votes": 1237258,
+            "extra_votes": 87984,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 5,
-            "votes": 890167
+            "votes": 890167,
+            "extra_votes": 69257,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 5682
+            "votes": 5682,
+            "extra_votes": 5682,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 1263
+            "votes": 1263,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

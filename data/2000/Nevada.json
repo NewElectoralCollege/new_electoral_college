@@ -3,42 +3,58 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 301575
+            "votes": 301575,
+            "extra_votes": 149333,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 279978
+            "votes": 279978,
+            "extra_votes": 127736,
+            "extra_seat": true
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 15008
+            "votes": 15008,
+            "extra_votes": 15008,
+            "extra_seat": false
         },
         {
             "name": "Citizens First",
             "seats": 0,
-            "votes": 4747
+            "votes": 4747,
+            "extra_votes": 4747,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 3311
+            "votes": 3311,
+            "extra_votes": 3311,
+            "extra_seat": false
         },
         {
             "name": "Independent American",
             "seats": 0,
-            "votes": 621
+            "votes": 621,
+            "extra_votes": 621,
+            "extra_seat": false
         },
         {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 415
+            "votes": 415,
+            "extra_votes": 415,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 3315
+            "votes": 3315,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

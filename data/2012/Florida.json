@@ -3,67 +3,93 @@
         {
             "name": "Democratic",
             "seats": 15,
-            "votes": 4237756
+            "votes": 4237756,
+            "extra_votes": 146774,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 14,
-            "votes": 4163447
+            "votes": 4163447,
+            "extra_votes": 72465,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 44726
+            "votes": 44726,
+            "extra_votes": 44726,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 8947
+            "votes": 8947,
+            "extra_votes": 8947,
+            "extra_seat": false
         },
         {
             "name": "Peace and Freedom Party",
             "seats": 0,
-            "votes": 8154
+            "votes": 8154,
+            "extra_votes": 8154,
+            "extra_seat": false
         },
         {
             "name": "Objectivist Party",
             "seats": 0,
-            "votes": 3856
+            "votes": 3856,
+            "extra_votes": 3856,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 2607
+            "votes": 2607,
+            "extra_votes": 2607,
+            "extra_seat": false
         },
         {
             "name": "Justice",
             "seats": 0,
-            "votes": 1754
+            "votes": 1754,
+            "extra_votes": 1754,
+            "extra_seat": false
         },
         {
             "name": "American Independent",
             "seats": 0,
-            "votes": 946
+            "votes": 946,
+            "extra_votes": 946,
+            "extra_seat": false
         },
         {
             "name": "Reform Party",
             "seats": 0,
-            "votes": 820
+            "votes": 820,
+            "extra_votes": 820,
+            "extra_seat": false
         },
         {
             "name": "Socialist",
             "seats": 0,
-            "votes": 799
+            "votes": 799,
+            "extra_votes": 799,
+            "extra_seat": false
         },
         {
             "name": "Socialism And Liberation Party",
             "seats": 0,
-            "votes": 322
+            "votes": 322,
+            "extra_votes": 322,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 45
+            "votes": 45,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

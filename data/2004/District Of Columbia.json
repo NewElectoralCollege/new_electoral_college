@@ -3,37 +3,51 @@
         {
             "name": "Democratic",
             "seats": 3,
-            "votes": 202970
+            "votes": 202970,
+            "extra_votes": 51246,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 0,
-            "votes": 21256
+            "votes": 21256,
+            "extra_votes": 21256,
+            "extra_seat": false
         },
         {
-            "name": "Independent (politician)",
+            "name": "Independent",
             "seats": 0,
-            "votes": 1485
+            "votes": 1485,
+            "extra_votes": 1485,
+            "extra_seat": false
         },
         {
             "name": "D.C. Statehood Green",
             "seats": 0,
-            "votes": 737
+            "votes": 737,
+            "extra_votes": 737,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 502
+            "votes": 502,
+            "extra_votes": 502,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 130
+            "votes": 130,
+            "extra_votes": 130,
+            "extra_seat": false
         },
         {
             "name": "Write-In",
             "seats": 0,
-            "votes": 506
+            "votes": 506,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

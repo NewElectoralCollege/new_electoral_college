@@ -3,42 +3,58 @@
         {
             "name": "Republican",
             "seats": 9,
-            "votes": 2661407
+            "votes": 2661407,
+            "extra_votes": 181047,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 49493
+            "votes": 49493,
+            "extra_votes": 49493,
+            "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 9,
-            "votes": 2827621
+            "votes": 2827621,
+            "extra_votes": 37216,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 18574
+            "votes": 18574,
+            "extra_votes": 18574,
+            "extra_seat": false
         },
         {
             "name": "Independent",
             "seats": 0,
-            "votes": 12502
+            "votes": 12502,
+            "extra_votes": 12502,
+            "extra_seat": false
         },
         {
             "name": "Constitution Party",
             "seats": 0,
-            "votes": 8151
+            "votes": 8151,
+            "extra_votes": 8151,
+            "extra_seat": false
         },
         {
             "name": "Socialist",
             "seats": 0,
-            "votes": 2967
+            "votes": 2967,
+            "extra_votes": 2967,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 107
+            "votes": 107,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

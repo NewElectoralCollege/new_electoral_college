@@ -3,22 +3,30 @@
         {
             "name": "Democratic",
             "seats": 3,
-            "votes": 306658
+            "votes": 306658,
+            "extra_votes": 89310,
+            "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 1,
-            "votes": 121015
+            "votes": 121015,
+            "extra_votes": 12341,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 3840
+            "votes": 3840,
+            "extra_votes": 3840,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 3184
+            "votes": 3184,
+            "extra_votes": 3184,
+            "extra_seat": false
         }
     ],
     "stats": {

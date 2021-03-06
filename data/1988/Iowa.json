@@ -3,52 +3,72 @@
         {
             "name": "Republican",
             "seats": 4,
-            "votes": 545355
+            "votes": 545355,
+            "extra_votes": 85752,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 4,
-            "votes": 670557
+            "votes": 670557,
+            "extra_votes": 57753,
+            "extra_seat": false
         },
         {
             "name": "Nominated By Petition",
             "seats": 0,
-            "votes": 3526
+            "votes": 3526,
+            "extra_votes": 3526,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 2494
+            "votes": 2494,
+            "extra_votes": 2494,
+            "extra_seat": false
         },
         {
             "name": "Patriotic Party",
             "seats": 0,
-            "votes": 755
+            "votes": 755,
+            "extra_votes": 755,
+            "extra_seat": false
         },
         {
             "name": "New Alliance",
             "seats": 0,
-            "votes": 540
+            "votes": 540,
+            "extra_votes": 540,
+            "extra_seat": false
         },
         {
             "name": "Socialist",
             "seats": 0,
-            "votes": 334
+            "votes": 334,
+            "extra_votes": 334,
+            "extra_seat": false
         },
         {
             "name": "Workers League",
             "seats": 0,
-            "votes": 235
+            "votes": 235,
+            "extra_votes": 235,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 205
+            "votes": 205,
+            "extra_votes": 205,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 1613
+            "votes": 1613,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

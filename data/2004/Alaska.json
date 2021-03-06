@@ -3,37 +3,51 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 190889
+            "votes": 190889,
+            "extra_votes": 86690,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 1,
-            "votes": 111025
+            "votes": 111025,
+            "extra_votes": 6826,
+            "extra_seat": false
         },
         {
             "name": "Populist",
             "seats": 0,
-            "votes": 5069
+            "votes": 5069,
+            "extra_votes": 5069,
+            "extra_seat": false
         },
         {
             "name": "Alaskan Independence Party",
             "seats": 0,
-            "votes": 2092
+            "votes": 2092,
+            "extra_votes": 2092,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 1675
+            "votes": 1675,
+            "extra_votes": 1675,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 1058
+            "votes": 1058,
+            "extra_votes": 1058,
+            "extra_seat": false
         },
         {
-            "name": "Write-In",
+            "name": "Other",
             "seats": 0,
-            "votes": 790
+            "votes": 790,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

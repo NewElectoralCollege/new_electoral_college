@@ -3,37 +3,51 @@
         {
             "name": "Republican",
             "seats": 8,
-            "votes": 2279543
+            "votes": 2279543,
+            "extra_votes": 179858,
+            "extra_seat": true
         },
         {
             "name": "Libertarian",
             "seats": 1,
-            "votes": 172136
+            "votes": 172136,
+            "extra_votes": 172136,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 7,
-            "votes": 2268839
+            "votes": 2268839,
+            "extra_votes": 169154,
+            "extra_seat": false
         },
         {
             "name": "Green",
             "seats": 0,
-            "votes": 51463
+            "votes": 51463,
+            "extra_votes": 51463,
+            "extra_seat": false
         },
         {
             "name": "U.S. Taxpayers Party",
             "seats": 0,
-            "votes": 16139
+            "votes": 16139,
+            "extra_votes": 16139,
+            "extra_seat": false
         },
         {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 2209
+            "votes": 2209,
+            "extra_votes": 2209,
+            "extra_seat": false
         },
         {
             "name": "Other",
             "seats": 0,
-            "votes": 8955
+            "votes": 8955,
+            "extra_votes": 0,
+            "extra_seat": false
         }
     ],
     "stats": {

@@ -3,32 +3,44 @@
         {
             "name": "Republican",
             "seats": 2,
-            "votes": 181249
+            "votes": 181249,
+            "extra_votes": 78603,
+            "extra_seat": true
         },
         {
             "name": "Democratic",
             "seats": 2,
-            "votes": 227636
+            "votes": 227636,
+            "extra_votes": 22344,
+            "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 715
+            "votes": 715,
+            "extra_votes": 715,
+            "extra_seat": false
         },
         {
             "name": "Socialist Workers",
             "seats": 0,
-            "votes": 462
+            "votes": 462,
+            "extra_votes": 462,
+            "extra_seat": false
         },
         {
             "name": "Communist Party Use",
             "seats": 0,
-            "votes": 334
+            "votes": 334,
+            "extra_votes": 334,
+            "extra_seat": false
         },
         {
             "name": "Socialist Labor",
             "seats": 0,
-            "votes": 188
+            "votes": 188,
+            "extra_votes": 188,
+            "extra_seat": false
         }
     ],
     "stats": {
