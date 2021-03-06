@@ -79,4 +79,8 @@ colors =
 
 getNominee : Int -> String -> String
 getNominee year party =
-    dropMaybe (Dict.get party (dropMaybe (Dict.get year nominees)))
+    nominees
+        |> Dict.get year
+        |> dropMaybe
+        |> Dict.get party
+        |> dropMaybe
