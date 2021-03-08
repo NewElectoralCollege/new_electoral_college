@@ -109,15 +109,11 @@ type alias Election =
     , stats : Stats
     }
 
-type alias MModel =
-    Int
-
 type Msg
     = SendRequestParty
     | PartySuccess (Result Http.Error (List Party))
     | SendRequestStats
     | StatSuccess (Result Http.Error Stats)
-    | Open MModel
 
 newParty : Decoder Party
 newParty =

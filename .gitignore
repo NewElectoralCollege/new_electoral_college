@@ -1,7 +1,7 @@
 elm-stuff
 src/elm/elm.js
 src/elm/index.html
-src/elm/Main.js
+src/elm/Main.*
 src/sass/.sass-cache
 src/sass/style.css
 src/sass/style.css.map
