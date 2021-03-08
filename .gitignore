@@ -6,5 +6,7 @@ src/sass/.sass-cache
 src/sass/style.css
 src/sass/style.css.map
 src/sass/agincourt_font.ttf
-src/js/*.js
+src/js/state.js
+src/js/util.js
 todo_list.txt
+results2.html
