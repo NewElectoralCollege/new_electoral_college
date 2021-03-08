@@ -74,7 +74,12 @@ colors =
     Dict.fromList [
         ("Democratic", "#3333ff"),
         ("Republican", "#ff3333"),
-        ("Libertarian", "#dddddd")
+        ("Libertarian", "#FED105"),
+        ("Green", "#17aa5c"),
+        ("Peace and Freedom Party", "#00ff00"),
+        ("Reform", "#6A287E"),
+        ("Ross Perot", "#6A287E"),
+        ("Independent", "#969696")
     ]
 
 getNominee : Int -> String -> String
