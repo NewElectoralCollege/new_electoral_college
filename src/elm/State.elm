@@ -18,17 +18,6 @@ import Dict exposing (..)
 import Data exposing (..)
 import Util exposing (..)
 
-type Msg
-    = SendRequestParty
-    | PartySuccess (Result Http.Error (List Party))
-    | SendRequestStats
-    | StatSuccess (Result Http.Error Stats)
-
-type alias Election =
-    { list : List Party
-    , stats : Stats
-    }
-
 type alias Model =
     { list : List Party
     , elections : Dict Int Election
@@ -38,21 +27,6 @@ type alias Model =
     , state : String
     , errorMessage : String
     } 
-
-type alias Stats =
-    { name : String
-    , total_seats : Int
-    , total_votes : Int
-    , gallagher_index : Float
-    }
-
-type alias Party =
-    { name : String
-    , seats : Int
-    , votes : Int
-    , extra_votes : Int
-    , extra_seat : Bool
-    }
 
 ifQualifyingParty : Party -> Model -> Bool
 ifQualifyingParty party model =
@@ -72,23 +46,6 @@ getColor party =
 changeStats : Stats -> Election -> Election
 changeStats stats election =
     { election | stats = stats }
-
-newParty : Decoder Party
-newParty =
-    Decode.map5 Party
-        (Decode.field "name" Decode.string)
-        (Decode.field "seats" Decode.int)
-        (Decode.field "votes" Decode.int)
-        (Decode.field "extra_votes" Decode.int)
-        (Decode.field "extra_seat" Decode.bool)
-
-setStats : Decoder Stats
-setStats =
-    Decode.map4 Stats
-        (Decode.field "name" Decode.string)
-        (Decode.field "total_seats" Decode.int)
-        (Decode.field "total_votes" Decode.int)
-        (Decode.field "gallagher_index" Decode.float)
 
 getAngle : Stats -> Int -> Float
 getAngle stats assigned = 
@@ -118,7 +75,7 @@ newRow party model year =
         [ tr [] 
             [ td [ Html.Attributes.class "color", Html.Attributes.style "backgroundColor" (getColor party) ] []
                 , td [ ] [ Html.text (party.name) ]
-                , td [ ] [ Html.text {-(getNominee year party.name)-} "n/a" ]
+                , td [ ] [ Html.text (getNominee year party.name) ]
                 , td [ ] [ Html.text (Util.styleNum party.votes) ]
                 , td [ ] [ Html.text (Util.stylePercent ((toFloat party.votes) / (toFloat model.stats.total_votes))) ]
                 , td [ ] [ Html.text (String.fromInt (getInitialSeats party)) ]
@@ -260,21 +217,6 @@ partyContainer party model =
             []
       )) model.list))
     ] 
-
-partyMsg : Expect Msg
-partyMsg =
-    Http.expectJson PartySuccess (Decode.at["parties"] (Decode.list newParty))
-
-statsMsg : Expect Msg
-statsMsg =
-    Http.expectJson StatSuccess (Decode.at["stats"] setStats)
-
-getFile : Expect Msg -> Int -> String -> Cmd Msg
-getFile msg year state =
-    Http.get 
-    { url = "http://localhost/new_electoral_college/data/" ++ String.fromInt year ++ "/" ++ state ++ ".json"
-    , expect = msg
-    }
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
