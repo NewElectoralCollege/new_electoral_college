@@ -25,6 +25,11 @@ type alias Party =
     , extra_seat : Bool
     }
 
+type alias Election =
+    { list : List Party
+    , stats : Stats
+    }
+
 dropMaybe : Maybe a -> a
 dropMaybe x =
     case x of
@@ -44,23 +49,23 @@ styleNum num =
             _ ->
                 o
 
-divide : Int -> Float
-divide a = 
-    (Basics.toFloat a) / 100
+divide : Int -> Int -> Float
+divide a b = 
+    (Basics.toFloat b) / (Basics.toFloat a)
+
+multiply : Float -> Float -> Float
+multiply a b =
+    a * b
 
 stylePercent : Float -> String
 stylePercent percent =
     let
         n = percent * 10000
             |> round
-            |> divide
+            |> divide 100
             |> String.fromFloat
     in
         n ++ "%"
-
-multiply : Float -> Float
-multiply int =
-    int * 100
 
 toInt : String -> Int
 toInt string =
@@ -72,7 +77,7 @@ toInt string =
                 |> dropRight 1
                 |> String.toFloat
                 |> dropMaybe
-                |> multiply
+                |> multiply 100.0
                 |> floor
 
 fromInt : Int -> String
@@ -81,9 +86,12 @@ fromInt int =
         String.fromInt int
     else
         int
-            |> divide
+            |> divide 100
             |> String.fromFloat
-            |> String.append "%"
+            |> singleton
+            |> List.append ["%"]
+            |> List.reverse
+            |> String.concat
 
 fix_string : String -> String
 fix_string string =
@@ -96,18 +104,13 @@ fix_string string =
 fix_change : String -> List (Html msg)
 fix_change string =
     if Regex.contains (dropMaybe (fromString "(\\+0(?!.)|\\+0.00)")) string then
-        [ i [ class "steady" ] [ text "&#9644;" ], text (fix_string string) ]
+        [ i [ class "steady" ] [ Html.text (String.fromChar '\u{25AC}') ], text (fix_string string) ]
     else if String.contains "+-" string then
-        [ i [ class "decrease" ] [ text "&#9660;" ], text (fix_string string) ]
+        [ i [ class "decrease" ] [ Html.text (String.fromChar '\u{25BC}') ], text (fix_string string) ]
     else if String.contains "+" string then
-        [ i [ class "increase" ] [ text "&#9650;" ], text (fix_string string) ]
+        [ i [ class "increase" ] [ Html.text (String.fromChar '\u{25B2}') ], text (fix_string string) ]
     else 
         [ text "n/a" ]
-
-type alias Election =
-    { list : List Party
-    , stats : Stats
-    }
 
 type Msg
     = SendRequestParty
