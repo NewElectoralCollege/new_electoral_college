@@ -79,7 +79,7 @@ svg {
     float: right;
 }
 .results_table {
-    border: 1px solid black;
+    border: 1px solid #00022D;
     padding: 5px;
     width: fit-content;
     font-family: sans-serif;
@@ -122,4 +122,12 @@ path {
     width: 100px;
     height: 1.15em;
     padding: 0;
+}
+.arrow-line {
+    fill: none;
+    stroke: #000000;
+    stroke-width: 5;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    stroke-opacity: 1;
 }
