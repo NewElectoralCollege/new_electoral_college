@@ -10,6 +10,18 @@ import List exposing (..)
 import Regex exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 
+-- Constants
+
+firstYear : Int
+firstYear =
+    1976
+
+lastYear : Int
+lastYear =
+    2020
+
+-- Utils
+
 type alias Stats =
     { name : String
     , total_seats : Int
@@ -80,11 +92,9 @@ toInt string =
                 |> multiply 100.0
                 |> floor
 
-fromInt : Int -> String
-fromInt int =
-    if int < 100 then
-        String.fromInt int
-    else
+fromInt : Bool -> Int -> String
+fromInt ispercent int =
+    if ispercent then
         int
             |> divide 100
             |> String.fromFloat
@@ -92,23 +102,25 @@ fromInt int =
             |> List.append ["%"]
             |> List.reverse
             |> String.concat
-
+    else
+        String.fromInt int
+        
 fix_string : String -> String
 fix_string string =
     string
         |> dropLeft 1
         |> toInt
         |> abs
-        |> fromInt
+        |> fromInt (String.contains "." string)
 
 fix_change : String -> List (Html msg)
 fix_change string =
     if Regex.contains (dropMaybe (fromString "(\\+0(?!.)|\\+0.00)")) string then
-        [ i [ class "steady" ] [ Html.text (String.fromChar '\u{25AC}') ], text (fix_string string) ]
+        [ i [ class "steady" ] [ Html.text (String.fromChar '\u{25AC}') ], text (" " ++ fix_string string) ]
     else if String.contains "+-" string then
-        [ i [ class "decrease" ] [ Html.text (String.fromChar '\u{25BC}') ], text (fix_string string) ]
+        [ i [ class "decrease" ] [ Html.text (String.fromChar '\u{25BC}') ], text (" " ++ fix_string string) ]
     else if String.contains "+" string then
-        [ i [ class "increase" ] [ Html.text (String.fromChar '\u{25B2}') ], text (fix_string string) ]
+        [ i [ class "increase" ] [ Html.text (String.fromChar '\u{25B2}') ], text (" " ++ fix_string string) ]
     else 
         [ text "n/a" ]
 
