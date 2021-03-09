@@ -3,15 +3,14 @@ module State exposing (..)
 import Browser
 import Browser.Dom exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes as Ha exposing (..)
 import Html.Events exposing (..)
 import Basics exposing (..)
 import Http exposing (..)
 import List exposing (..)
 import List.Extra exposing (..)
 import Svg exposing (..)
-import Svg.Attributes exposing (..)
-import Json.Decode as Decode exposing (Decoder)
+import Svg.Attributes as Sa exposing (..)
 import Tuple exposing (..)
 import Dict exposing (..)
 
@@ -55,6 +54,10 @@ getWidth : Float -> Model -> Float
 getWidth votes model =
     (votes / (toFloat model.stats.total_votes)) * 700
 
+arrowD : String
+arrowD =
+    "m 762.51419,433.49972 c 0,14.82816 0,29.65633 7.07661,37.07192 7.07661,7.41558 21.22692,7.41558 35.37718,7.41558"
+
 getInitialSeats : Party -> Int
 getInitialSeats party =
     if party.extra_seat then
@@ -65,15 +68,15 @@ getInitialSeats party =
 getCheckIcon : Party -> List (Html msg)
 getCheckIcon party =
     if party.extra_seat then
-        [ i [ Html.Attributes.class "fa", Html.Attributes.style "color" "green" ] [ Html.text (String.fromChar '\u{f058}') ] ]
+        [ Html.text " ", i [ Ha.class "fa", Ha.style "color" "green" ] [ Html.text (String.fromChar '\u{f058}') ] ]
     else
         [ Html.text "" ]
 
 newRow : Party -> Model -> Int -> List (Html msg)
 newRow party model year =
     if ifQualifyingParty party model then
-        [ tr [] 
-            [ td [ Html.Attributes.class "color", Html.Attributes.style "backgroundColor" (getColor party) ] []
+        [ tr [ ] 
+            [ td [ Ha.class "color", Ha.style "backgroundColor" (getColor party) ] []
                 , td [ ] [ Html.text (party.name) ]
                 , td [ ] [ Html.text (getNominee year party.name) ]
                 , td [ ] [ Html.text (Util.styleNum party.votes) ]
@@ -81,6 +84,7 @@ newRow party model year =
                 , td [ ] [ Html.text (String.fromInt (getInitialSeats party)) ]
                 , td [ ] ([ Html.text ((Util.styleNum party.extra_votes)) ] ++ getCheckIcon party)
                 , td [ ] [ Html.text (String.fromInt (party.seats)) ]
+                , td [ ] [ Html.text (Util.stylePercent ((toFloat party.seats) / (toFloat model.stats.total_seats))) ]
             ]
         ]
     else
@@ -93,8 +97,7 @@ doPartyElectors list parties model =
     else
         let
             party = (Util.dropMaybe (head parties))
-            stats = model.stats
-            new = newRow party model 2020
+            new = newRow party model lastYear
         in
             list ++ doPartyElectors new (List.drop 1 parties) model
 
@@ -112,6 +115,7 @@ getCircles angle model i =
                 [ cx (String.fromFloat (Util.dropMaybe (head coords)))
                 , cy (String.fromFloat (Util.dropMaybe (head (reverse coords))))
                 , r "10"
+                , Sa.style "stroke-width:2;stroke:#969696"
                 ] []) :: getCircles (getAngle model.stats (i + 1)) model (i + 1)
             
 doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
@@ -127,28 +131,61 @@ doPartyBars list parties nx model =
                 list ++ (doPartyBars [
                     rect [ x (String.fromFloat nx)
                          , y "370"
-                         , Svg.Attributes.width (String.fromFloat nwidth)
-                         , Svg.Attributes.height "50"
+                         , Sa.width (String.fromFloat nwidth)
+                         , Sa.height "50"
                          , fill (getColor party)
                          ] []
                 ] (List.drop 1 parties) (nx + nwidth) model)
             else
                 list ++ [ rect [ x (String.fromFloat nx)
                         , y "370"
-                        , Svg.Attributes.width "0"
-                        , Svg.Attributes.height "50"
+                        , Sa.width "0"
+                        , Sa.height "50"
                         , fill "#dddddd"
                         ] []
                 ]
 
-getPartyProgressBar : Party -> Election -> Maybe Election -> List (Html Msg)
-getPartyProgressBar party election previous_election =
+summaryHeader : Model -> List (Html msg)
+summaryHeader model =
+    [ thead [ Ha.style "background-color" "#eaecf0" ]
+        [ tr [] [ th [ colspan 9 ] [ Html.text (model.state ++ " - " ++ String.fromInt model.year) ] ]
+        , tr [] [ th [ colspan 2 ] [ Html.text "Party" ]
+                , th [ ] [ Html.text "Nominee" ]
+                , th [ colspan 2 ] [ Html.text "Votes" ]
+                , th [ ] [ Html.text "Initial" ]
+                , th [ ] [ Html.text "Leftover Votes" ]
+                , th [ colspan 2 ] [ Html.text "Total" ]
+                ]
+        ]
+    ]
+
+summaryFooter : Model -> List (Html msg)
+summaryFooter model =
+    [ tfoot [ Ha.style "background-color" "#eaecf0" ] [ tr [ ] 
+        [ td [ colspan 9 ] (List.intersperse (br [] []) (List.map Html.text (String.lines
+        ( "Total Votes: " ++ 
+          (Util.styleNum model.stats.total_votes) ++
+          "\n" ++
+          "Total Electors: " ++ 
+          (String.fromInt model.stats.total_seats) ++
+          "\n" ++
+          "Quota: " ++
+          (Util.styleNum (getQuota model.stats.total_votes model.stats.total_seats)) ++
+          "\n" ++
+          "Gallagher Index: " ++
+          (String.fromFloat model.stats.gallagher_index) ++
+          "\n"
+        ))))]
+    ]]
+
+getPartyProgressBar : Party -> Election -> List (Html Msg)
+getPartyProgressBar party election =
     [ Html.text ((String.fromInt party.seats) ++ " / " ++ (String.fromInt election.stats.total_seats)) 
-    , div [ Html.Attributes.class "progress-bar-party" ] 
-          [ div [ Html.Attributes.style "backgroundColor" (getColor party)
-                , Html.Attributes.style "width" (String.fromInt (round ((toFloat party.seats) / (toFloat election.stats.total_seats) * 100)) ++ "%")
-                , Html.Attributes.style "height" "100%"
-                , Html.Attributes.style "display" "inline-block"
+    , div [ Ha.class "progress-bar-party" ] 
+          [ div [ Ha.style "backgroundColor" (getColor party)
+                , Ha.style "width" (String.fromFloat ((toFloat party.seats) / (toFloat election.stats.total_seats) * 100) ++ "%")
+                , Ha.style "height" "101%"
+                , Ha.style "display" "inline-block"
                 ] 
                 [] 
           ]
@@ -160,37 +197,6 @@ getQuota total_votes total_seats =
         |> divide total_seats
         |> floor
 
-summaryHeader : Model -> List (Html msg)
-summaryHeader model =
-    [ tr [] [ th [ colspan 8 ] [ Html.text (model.state ++ " - " ++ String.fromInt model.year) ] ]
-    , tr [] [ th [ colspan 2 ] [ Html.text "Party" ]
-            , th [ ] [ Html.text "Nominee" ]
-            , th [ colspan 2 ] [ Html.text "Votes" ]
-            , th [ ] [ Html.text "Initial Electors" ]
-            , th [ ] [ Html.text "Leftover Votes" ]
-            , th [ ] [ Html.text "Total" ]
-            ]]
-
-summaryFooter : Model -> List (Html msg)
-summaryFooter model =
-    [ tr [ ] 
-        [ td [ colspan 8 ] [ Html.text 
-        ( "Total Votes: " ++ 
-          (Util.styleNum model.stats.total_votes) ++
-          "   " ++
-          "Total Electors: " ++ 
-          (String.fromInt model.stats.total_seats) ++
-          "   " ++
-          "Quota: " ++
-          (Util.styleNum (getQuota model.stats.total_votes model.stats.total_seats)) ++
-          "   " ++
-          "Gallagher Index: " ++
-          (String.fromFloat model.stats.gallagher_index) ++
-          "   "
-        )]]
-    ]
-
-
 doYearRow : Int -> Model -> String -> List (Html Msg)
 doYearRow year model party_name =
     case Dict.get year model.elections of
@@ -198,7 +204,11 @@ doYearRow year model party_name =
             []
         _ ->
             let
-                election = dropMaybe (Dict.get year model.elections)
+                election = 
+                    if year == lastYear then
+                        Election model.list model.stats
+                    else
+                        dropMaybe (Dict.get year model.elections)
                 previous_election = Dict.get (year - 4) model.elections
                 party = dropMaybe (find (\n -> n.name == party_name) election.list)
                 previous_party = 
@@ -219,7 +229,7 @@ doYearRow year model party_name =
                             _ ->
                                 fix_change ("+" ++ (stylePercent (((toFloat party.votes / toFloat election.stats.total_votes)) - ((toFloat previous_party.votes / toFloat (dropMaybe previous_election).stats.total_votes)))))
                     )
-                    , td [] (getPartyProgressBar party election previous_election)
+                    , td [] (getPartyProgressBar party election)
                     , td [] (
                         case previous_election of
                             Nothing ->
@@ -232,10 +242,10 @@ doYearRow year model party_name =
 
 partyContainer : String -> Model -> Html Msg
 partyContainer party model =
-    td [ Html.Attributes.class "detailed-results-cell" ] 
+    td [ Ha.class "detailed-results-cell" ] 
     [ p [] [ Html.text (party ++ " Party") ]
-    , table [ Html.Attributes.id "state-results" ]
-      ([ tr []
+    , table [ Ha.id "state-results" ]
+      ([ thead [ Ha.style "background-color" "#eaecf0" ] [ tr []
         [ th [ rowspan 2 ] [ Html.text "Year" ]
         , th [ colspan 3 ] []
         , th [ colspan 2 ] []
@@ -246,10 +256,10 @@ partyContainer party model =
         , th [] [ Html.text "+/-" ]
         , th [] [ Html.text "Electors" ]
         , th [] [ Html.text "+/-" ]
-        ]
+        ]]
       ] ++ (List.concatMap (\n -> (
         if n.name == party then
-            doYearRow 1976 model n.name
+            doYearRow firstYear model n.name
         else
             []
       )) model.list))
@@ -257,7 +267,7 @@ partyContainer party model =
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-    case Dict.get 2020 model.elections of
+    case Dict.get lastYear model.elections of
         Just a ->
             (model, Cmd.none)
         _ ->
@@ -307,7 +317,7 @@ update msg model =
                             tempmodel =
                                 { model
                                 | stats = stats
-                                , year = 1976
+                                , year = firstYear
                                 , errorMessage = "none"
                                 } 
                         in
@@ -328,15 +338,22 @@ init year =
 
 view : Model -> Html Msg
 view model =
-    div [ Html.Attributes.class "container" ]
-        [ button [ Html.Attributes.class "btn btn-secondary", Html.Attributes.style "float" "right" ] 
-                 [ Html.a [ Html.Attributes.attribute "download" model.state, Html.Attributes.href ("/new_electoral_college/data/" ++ String.fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ Html.text "Download" ] ]
+    div [ Ha.class "container" ]
+        [ button [ Ha.class "btn btn-secondary", Ha.style "float" "right" ] 
+                 [ Html.a [ Ha.attribute "download" model.state, Ha.href ("/new_electoral_college/data/" ++ String.fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ Html.text "Download" ] ]
         , svg
-            [ Html.Attributes.width 975
-            , Html.Attributes.height 520
+            [ Ha.width 975
+            , Ha.height 520
             ]
-            [ g
-                [ Html.Attributes.id "circles" ]
+            [ defs 
+                []
+                [ marker [ Sa.class "arrowhead", Sa.id "bars", Sa.markerWidth "10", Sa.markerHeight "7", Sa.refX "6", Sa.refY "2", Sa.orient "0" ] [ polygon [ Sa.style "display:inline-block", Sa.points "4 2, 6 0, 8 2" ] [] ] ]
+            , Svg.path [ Sa.d arrowD, Sa.class "arrow-line", Sa.transform "rotate(180 810.60504 433.49972)", Sa.markerStart "url(#bars)" ] []
+            , Svg.path [ Sa.d arrowD, Sa.class "arrow-line", Sa.transform "rotate(180 487.5 260) translate(-10 20)", Sa.markerStart "url(#bars)" ] []
+            , Svg.text_ [ Sa.x "810.60504", Sa.y "470.66422" ] [ Svg.text "Vote Percentage" ]
+            , Svg.text_ [ Sa.x "-810.60504", Sa.y "-484.66422", Sa.transform "rotate(180 487.5 260) translate(50 10) scale(-1)" ] [ Svg.text "Electors" ]
+            , g
+                [ Ha.id "circles" ]
                 (
                     let
                         circles = getCircles (getAngle model.stats 0) model 0
@@ -356,19 +373,28 @@ view model =
                         ) model.list)
                 )
             , g
-                [ Html.Attributes.id "bar" ]
+                [ Ha.id "bar", Sa.style "" ]
                 (doPartyBars [] model.list 100.0 model)
+            , rect 
+                [ Sa.style "stroke-width:2;stroke:#969696;fill-opacity:0"
+                , x "100"
+                , y "370"
+                , Sa.width "700"
+                , Sa.height "50"
+                ] []
             ]
-        , div [ Html.Attributes.class "container" ]
-              [ table [ Html.Attributes.id "single-results" ]
+        , div [ Ha.class "container" ]
+              [ table [ Ha.id "single-results", Ha.class "table-bordered" ]
               ( summaryHeader model ++ (doPartyElectors [] model.list model) ++ summaryFooter model)
               ]
-        , div [ Html.Attributes.class "container" ]
+        , div [ Ha.class "container" ]
               [ h2 [] [ Html.text "State History" ]
-              , table [ Html.Attributes.class "container" ]
-                      [ tr [] [ partyContainer "Democratic" model
-                              , partyContainer "Republican" model 
-                              ] 
+              , table [ Ha.class "container" ]
+                      [ tr 
+                        [] 
+                        [ partyContainer "Democratic" model
+                        , partyContainer "Republican" model 
+                        ] 
                       ]
               ]
         ]
