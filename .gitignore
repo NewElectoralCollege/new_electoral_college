@@ -8,5 +8,6 @@ src/sass/style.css.map
 src/sass/agincourt_font.ttf
 src/js/state.js
 src/js/util.js
+src/js/state_compiled.js
 todo_list.txt
 results2.html
