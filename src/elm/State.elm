@@ -65,7 +65,7 @@ getInitialSeats party =
 getCheckIcon : Party -> List (Html msg)
 getCheckIcon party =
     if party.extra_seat then
-        [ i [ Html.Attributes.class "fa", Html.Attributes.style "color" "green" ] [ Html.text "&#xf058;" ] ]
+        [ i [ Html.Attributes.class "fa", Html.Attributes.style "color" "green" ] [ Html.text (String.fromChar '\u{f058}') ] ]
     else
         [ Html.text "" ]
 
@@ -144,20 +144,57 @@ doPartyBars list parties nx model =
 getPartyProgressBar : Party -> Election -> Maybe Election -> List (Html Msg)
 getPartyProgressBar party election previous_election =
     [ Html.text ((String.fromInt party.seats) ++ " / " ++ (String.fromInt election.stats.total_seats)) 
-    , div [ Html.Attributes.class "progress-bar" ] 
+    , div [ Html.Attributes.class "progress-bar-party" ] 
           [ div [ Html.Attributes.style "backgroundColor" (getColor party)
-                , Html.Attributes.width (round ((toFloat party.seats) / (toFloat election.stats.total_seats) * 100))
-                , Html.Attributes.height 1
+                , Html.Attributes.style "width" (String.fromInt (round ((toFloat party.seats) / (toFloat election.stats.total_seats) * 100)) ++ "%")
+                , Html.Attributes.style "height" "100%"
                 , Html.Attributes.style "display" "inline-block"
                 ] 
                 [] 
           ]
     ] 
 
+getQuota : Int -> Int -> Int
+getQuota total_votes total_seats =
+    total_votes
+        |> divide total_seats
+        |> floor
+
+summaryHeader : Model -> List (Html msg)
+summaryHeader model =
+    [ tr [] [ th [ colspan 8 ] [ Html.text (model.state ++ " - " ++ String.fromInt model.year) ] ]
+    , tr [] [ th [ colspan 2 ] [ Html.text "Party" ]
+            , th [ ] [ Html.text "Nominee" ]
+            , th [ colspan 2 ] [ Html.text "Votes" ]
+            , th [ ] [ Html.text "Initial Electors" ]
+            , th [ ] [ Html.text "Leftover Votes" ]
+            , th [ ] [ Html.text "Total" ]
+            ]]
+
+summaryFooter : Model -> List (Html msg)
+summaryFooter model =
+    [ tr [ ] 
+        [ td [ colspan 8 ] [ Html.text 
+        ( "Total Votes: " ++ 
+          (Util.styleNum model.stats.total_votes) ++
+          "   " ++
+          "Total Electors: " ++ 
+          (String.fromInt model.stats.total_seats) ++
+          "   " ++
+          "Quota: " ++
+          (Util.styleNum (getQuota model.stats.total_votes model.stats.total_seats)) ++
+          "   " ++
+          "Gallagher Index: " ++
+          (String.fromFloat model.stats.gallagher_index) ++
+          "   "
+        )]]
+    ]
+
+
 doYearRow : Int -> Model -> String -> List (Html Msg)
 doYearRow year model party_name =
-    case year of
-        2024 ->
+    case Dict.get year model.elections of
+        Nothing ->
             []
         _ ->
             let
@@ -235,7 +272,7 @@ update msg model =
                             tempmodel = 
                                 { model
                                 | elections = insert model.year (Election parties (Stats "none" 0 0 0.0 )) model.elections
-                                , errorMessage = "yo1"
+                                , errorMessage = "none"
                                 }
                         in
                             ( tempmodel
@@ -246,7 +283,7 @@ update msg model =
                             tempmodel = 
                                 { model
                                 | list = parties
-                                , errorMessage = "yo1"
+                                , errorMessage = "none"
                                 } 
                         in
                             ( tempmodel
@@ -259,7 +296,7 @@ update msg model =
                                 { model
                                 | elections = Dict.update model.year (Maybe.map (changeStats stats)) model.elections
                                 , year = model.year + 4
-                                , errorMessage = "yo1"
+                                , errorMessage = "none"
                                 } 
                         in
                             ( tempmodel
@@ -271,7 +308,7 @@ update msg model =
                                 { model
                                 | stats = stats
                                 , year = 1976
-                                , errorMessage = "yo2"
+                                , errorMessage = "none"
                                 } 
                         in
                             ( tempmodel
@@ -279,11 +316,6 @@ update msg model =
                             )
                 _ ->
                     Debug.todo (Debug.toString msg)
-                    {-( { model
-                      | errorMessage = "Error"
-                      }
-                    , Cmd.none
-                    )-}
         
 init : Int -> (Model, Cmd Msg)
 init year =
@@ -297,7 +329,9 @@ init year =
 view : Model -> Html Msg
 view model =
     div [ Html.Attributes.class "container" ]
-        [ svg
+        [ button [ Html.Attributes.class "btn btn-secondary", Html.Attributes.style "float" "right" ] 
+                 [ Html.a [ Html.Attributes.attribute "download" model.state, Html.Attributes.href ("/new_electoral_college/data/" ++ String.fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ Html.text "Download" ] ]
+        , svg
             [ Html.Attributes.width 975
             , Html.Attributes.height 520
             ]
@@ -327,14 +361,7 @@ view model =
             ]
         , div [ Html.Attributes.class "container" ]
               [ table [ Html.Attributes.id "single-results" ]
-              ( tr [] [ th [ colspan 2 ] [ Html.text "Party" ]
-                      , th [ ] [ Html.text "Nominee" ]
-                      , th [ colspan 2 ] [ Html.text "Votes" ]
-                      , th [ ] [ Html.text "Initial Electors" ]
-                      , th [ ] [ Html.text "Leftover Votes" ]
-                      , th [ ] [ Html.text "Total" ]
-                      ]
-               :: (doPartyElectors [] model.list model))
+              ( summaryHeader model ++ (doPartyElectors [] model.list model) ++ summaryFooter model)
               ]
         , div [ Html.Attributes.class "container" ]
               [ h2 [] [ Html.text "State History" ]
@@ -345,11 +372,7 @@ view model =
                       ]
               ]
         ]
-{-
-  <link rel="stylesheet" href="http://localhost/new_electoral_college/src/sass/style.css"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
--}
+
 main : Program Int Model Msg
 main =
     Browser.element
