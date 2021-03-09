@@ -3,8 +3,8 @@ src/elm/elm.js
 src/elm/index.html
 src/elm/Main.*
 src/sass/.sass-cache
-src/sass/style.css
-src/sass/style.css.map
+src/sass/*.css
+src/sass/*.css.map
 src/sass/agincourt_font.ttf
 src/js/state.js
 src/js/util.js
