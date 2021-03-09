@@ -26,6 +26,25 @@ const new_results = {
     "Free Libertarian": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 }
 
+const detailed_results_starting_point = `
+<td class="detailed-results-cell">
+    <table class="detailed-results">
+        <tr>
+            <th rowspan="2">State</th>
+            <th colspan="3"></th>
+            <th colspan="2"></th>
+        </tr>
+        <tr>
+            <th>Votes</th>
+            <th>%</th>
+            <th>+/-</th>
+            <th>Electors</th>
+            <th>+/-</th>
+        </tr>
+    </table>
+</td>
+`
+
 function sendMeTo(state) {
     document.querySelector('#state-name').innerHTML = state;
     return;
@@ -53,9 +72,9 @@ async function ld() {
     let party_list = Array();
 
     const paths = getPathList();
-    
+
+    document.querySelector('#row-for-detailed-results').innerHTML = detailed_results_starting_point + detailed_results_starting_point;
     const detailed_results_tables = document.querySelectorAll(".detailed-results");
-    detailed_results_tables.forEach((elem, n) => { elem.innerHTML = '' });
 
     const svg = document.querySelector("svg");
     
