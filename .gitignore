@@ -11,3 +11,7 @@ src/js/util.js
 src/js/state_compiled.js
 todo_list.txt
 results2.html
+*.sty
+the_proposal/*.aux
+the_proposal/*.pdf
+the_proposal/*.log
