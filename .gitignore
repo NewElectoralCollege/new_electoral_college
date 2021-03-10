@@ -15,3 +15,4 @@ dirtytalk.sty
 the_proposal/*.aux
 the_proposal/*.pdf
 the_proposal/*.log
+*.bat
