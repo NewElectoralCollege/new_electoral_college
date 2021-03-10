@@ -3,6 +3,9 @@
 
 \RequirePackage{xstring}
 \RequirePackage{hang}
+\RequirePackage{geometry}
+
+\geometry{legalpaper, portrait, margin=1in}
 
 \newcommand{\type}[1]
 {\IfSubStr{#1}{bill}
@@ -24,11 +27,20 @@
 {\textit
     {\\Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled%
         {\IfSubStr{#1}{True}
-            { (two-thirds of each House concurring therein),\\\\}
-            {,\\\\}
+            { (two-thirds of each House concurring therein),}
+            {,}
         }
     }\end{hangingpar}
 }
+
+\newcommand{\repealcodesection}[4][3]
+{Section #2 of title #3, chapter #4, United States Code is hereby repealed.}
+
+\newcommand{\repealcodetitle}[3][2]
+{Title #3, chapter #2, United States Code is hereby repealed.}
+
+\newcommand{\repealcodechapter}[1]
+{Chapter #1, United States Code is hereby repealed.}
 
 \newcommand{\unnamedsection}[1]
 {\large\textbf{
@@ -45,5 +57,10 @@
             {\\\\SECTION #2. \uppercase{#3}.}
             {\\\\SEC. #2. \uppercase{#3}.}
         }
-    }\normalsize\\%
+    }\normalsize%
 }
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+\renewcommand{\labelenumiii}{(\Alph{enumiii})}
+\renewcommand{\labelenumiv}{(\roman{enumiv})}
