@@ -15,32 +15,48 @@ svg {
     display: inline-block;
 }
 .fade-on-hover:hover {
-    animation: fadeIn ease 20s;
-    -webkit-animation: fadeIn ease 20s;
-    -moz-animation: fadeIn ease 20s;
-    -o-animation: fadeIn ease 20s;
-    -ms-animation: fadeIn ease 20s;
+    animation: hoverfadeIn ease 20s;
+    -webkit-animation: hoverfadeIn ease 20s;
+    -moz-animation: hoverfadeIn ease 20s;
+    -o-animation: hoverfadeIn ease 20s;
+    -ms-animation: hoverfadeIn ease 20s;
     cursor: pointer;
 }
-@keyframes fadeIn {
+@keyframes hoverfadeIn {
     0% { opacity: 0.5; }
     50% { opacity: 1; }
 }
-@-moz-keyframes fadeIn {
+@-moz-keyframes hoverfadeIn {
     0% { opacity: 0.5; }
     50% { opacity: 1; }
 }  
+@-webkit-keyframes hoverfadeIn {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+@-o-keyframes hoverfadeIn {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+@-ms-keyframes hoverfadeIn {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
 @-webkit-keyframes fadeIn {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
-@-o-keyframes fadeIn {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
 }
-@-ms-keyframes fadeIn {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
 }
 @mixin arrow($color, $size, $orientation) {
     width: 0;
@@ -130,4 +146,13 @@ path {
     stroke-linecap: butt;
     stroke-linejoin: miter;
     stroke-opacity: 1;
+}
+div#gallagher-formula, div#wasted-vote {
+    width: 500px;
+    position: absolute;
+    padding: 10px;
+    visibility: visible;
+    background-color: #ffffff;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
 }
