@@ -115,8 +115,8 @@ fix_string string =
 
 fix_change : String -> List (Html msg)
 fix_change string =
-    if Regex.contains (dropMaybe (fromString "(\\+0(?!.)|\\+0.00)")) string then
-        [ i [ class "steady" ] [ Html.text (String.fromChar '\u{25AC}') ], text (" " ++ fix_string string) ]
+    if Regex.contains (dropMaybe (fromString "(\\+0(?!.)|\\+0%)")) string then
+        [ i [ class "steady" ] [ Html.text (String.fromChar '\u{25AC}') ], text (" " ++ dropLeft 1 string) ]
     else if String.contains "+-" string then
         [ i [ class "decrease" ] [ Html.text (String.fromChar '\u{25BC}') ], text (" " ++ fix_string string) ]
     else if String.contains "+" string then
@@ -129,6 +129,7 @@ type Msg
     | PartySuccess (Result Http.Error (List Party))
     | SendRequestStats
     | StatSuccess (Result Http.Error Stats)
+    | RevealPopup (String)
 
 newParty : Decoder Party
 newParty =

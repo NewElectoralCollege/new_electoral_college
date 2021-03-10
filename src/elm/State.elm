@@ -16,6 +16,8 @@ import Dict exposing (..)
 
 import Data exposing (..)
 import Util exposing (..)
+import Html
+import Svg
 
 type alias Model =
     { list : List Party
@@ -23,7 +25,9 @@ type alias Model =
     , stats : Stats
     , assigned : Int
     , year : Int
+    , page_year : Int
     , state : String
+    , revealed : String
     , errorMessage : String
     } 
 
@@ -97,7 +101,7 @@ doPartyElectors list parties model =
     else
         let
             party = (Util.dropMaybe (head parties))
-            new = newRow party model lastYear
+            new = newRow party model model.page_year
         in
             list ++ doPartyElectors new (List.drop 1 parties) model
 
@@ -107,13 +111,13 @@ getCircles angle model i =
         []
     else
         let
-            coords = [
+            coords = (
                 350 * (cos angle) + 450,
-                350 * (sin angle) + 375 ]
+                350 * (sin angle) + 375 )
         in
             (circle 
-                [ cx (String.fromFloat (Util.dropMaybe (head coords)))
-                , cy (String.fromFloat (Util.dropMaybe (head (reverse coords))))
+                [ cx (String.fromFloat (first coords))
+                , cy (String.fromFloat (second coords))
                 , r "10"
                 , Sa.style "stroke-width:2;stroke:#969696"
                 ] []) :: getCircles (getAngle model.stats (i + 1)) model (i + 1)
@@ -148,7 +152,7 @@ doPartyBars list parties nx model =
 summaryHeader : Model -> List (Html msg)
 summaryHeader model =
     [ thead [ Ha.style "background-color" "#eaecf0" ]
-        [ tr [] [ th [ colspan 9 ] [ Html.text (model.state ++ " - " ++ String.fromInt model.year) ] ]
+        [ tr [] [ th [ colspan 9 ] [ Html.text (model.state ++ " - " ++ String.fromInt model.page_year) ] ]
         , tr [] [ th [ colspan 2 ] [ Html.text "Party" ]
                 , th [ ] [ Html.text "Nominee" ]
                 , th [ colspan 2 ] [ Html.text "Votes" ]
@@ -161,22 +165,33 @@ summaryHeader model =
 
 summaryFooter : Model -> List (Html msg)
 summaryFooter model =
+    let
+        string = (
+            "Total Votes: " ++ 
+            (Util.styleNum model.stats.total_votes) ++
+            "\n" ++
+            "Total Electors: " ++ 
+            (String.fromInt model.stats.total_seats) ++
+            "\n" ++
+            "Quota: " ++
+            (Util.styleNum (getQuota model.stats.total_votes model.stats.total_seats)) ++
+            "\n" ++
+            "Gallagher Index: " ++
+            (String.fromFloat model.stats.gallagher_index) ++ " " ++
+            "\n" ++
+            "\n"
+            )
+    in
     [ tfoot [ Ha.style "background-color" "#eaecf0" ] [ tr [ ] 
-        [ td [ colspan 9 ] (List.intersperse (br [] []) (List.map Html.text (String.lines
-        ( "Total Votes: " ++ 
-          (Util.styleNum model.stats.total_votes) ++
-          "\n" ++
-          "Total Electors: " ++ 
-          (String.fromInt model.stats.total_seats) ++
-          "\n" ++
-          "Quota: " ++
-          (Util.styleNum (getQuota model.stats.total_votes model.stats.total_seats)) ++
-          "\n" ++
-          "Gallagher Index: " ++
-          (String.fromFloat model.stats.gallagher_index) ++
-          "\n"
-        ))))]
+        [ td [ colspan 9 ] (
+            string
+                |> String.lines
+                |> List.map Html.text
+                |> List.intersperse (br [] [])
+                |> setAt 7 (i [ Ha.class "fa", Ha.style "color" "blue" ] [ Html.text (String.fromChar '\u{F059}') ])
+        ) ]
     ]]
+    
 
 getPartyProgressBar : Party -> Election -> List (Html Msg)
 getPartyProgressBar party election =
@@ -265,6 +280,17 @@ partyContainer party model =
       )) model.list))
     ] 
 
+translateElectorsArrow : Stats -> String
+translateElectorsArrow stats =
+    let
+        angle = getAngle stats (round (toFloat stats.total_seats * 0.25))
+        coords = (
+            350 * (cos angle) + 450 - 810.60504,
+            350 * (sin angle) + 375 - 433.49972)
+    in
+        "translate(-566 -342) scale(-1)"
+        -- ++ String.fromInt (round (first coords)) ++ " " ++ String.fromInt (round (second coords)) ++ 
+
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case Dict.get lastYear model.elections of
@@ -292,7 +318,7 @@ update msg model =
                         let
                             tempmodel = 
                                 { model
-                                | list = parties
+                                | list = reverse (sortBy .votes parties)
                                 , errorMessage = "none"
                                 } 
                         in
@@ -324,13 +350,15 @@ update msg model =
                             ( tempmodel
                             , second (update SendRequestParty tempmodel)
                             )
+                RevealPopup (popup) ->
+                    ({model | revealed = popup}, Cmd.none)
                 _ ->
                     Debug.todo (Debug.toString msg)
         
 init : Int -> (Model, Cmd Msg)
 init year =
     let 
-        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 year "Georgia" "none")
+        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 year year "California" "" "none")
     in
         ( first r
         , second r
@@ -348,10 +376,11 @@ view model =
             [ defs 
                 []
                 [ marker [ Sa.class "arrowhead", Sa.id "bars", Sa.markerWidth "10", Sa.markerHeight "7", Sa.refX "6", Sa.refY "2", Sa.orient "0" ] [ polygon [ Sa.style "display:inline-block", Sa.points "4 2, 6 0, 8 2" ] [] ] ]
-            , Svg.path [ Sa.d arrowD, Sa.class "arrow-line", Sa.transform "rotate(180 810.60504 433.49972)", Sa.markerStart "url(#bars)" ] []
-            , Svg.path [ Sa.d arrowD, Sa.class "arrow-line", Sa.transform "rotate(180 487.5 260) translate(-10 20)", Sa.markerStart "url(#bars)" ] []
+            , Svg.path [ Sa.d arrowD, Sa.class "arrow-line", Sa.transform "rotate(180 810.60504 433.49972)", Sa.markerEnd "url(#bars)" ] []
+            , Svg.path [ Sa.d arrowD, Sa.class "arrow-line", Sa.transform (translateElectorsArrow model.stats), Sa.markerStart "url(#bars)" ] []
             , Svg.text_ [ Sa.x "810.60504", Sa.y "470.66422" ] [ Svg.text "Vote Percentage" ]
-            , Svg.text_ [ Sa.x "-810.60504", Sa.y "-484.66422", Sa.transform "rotate(180 487.5 260) translate(50 10) scale(-1)" ] [ Svg.text "Electors" ]
+            , Svg.text_ [ Sa.x "-810.60504", Sa.y "-484.66422", Sa.transform (translateElectorsArrow model.stats) ] [ Svg.text "Electors" ]
+            , Svg.circle [ Sa.cx "244.275", Sa.cy "91.84405", Sa.r "2", Sa.style "fill:#000000" ] []
             , g
                 [ Ha.id "circles" ]
                 (
@@ -361,15 +390,14 @@ view model =
                         (List.indexedMap (
                             \n party ->
                                 g [ fill (getColor party) ] (
-                                    if n == 0 then
-                                        first (splitAt party.seats circles)
-                                    else
-                                        circles
-                                            |> splitAt (dropMaybe (getAt n model.list)).seats
-                                            |> second
-                                            |> splitAt party.seats
-                                            |> first
-                                    )
+                                    splitAt (model.list
+                                                |> splitAt n
+                                                |> first
+                                                |> List.map (\p -> p.seats)
+                                                |> sum) circles
+                                        |> second
+                                        |> splitAt party.seats
+                                        |> first)
                         ) model.list)
                 )
             , g
@@ -397,6 +425,13 @@ view model =
                         ] 
                       ]
               ]
+        , div
+            [ Ha.id "gallagher-formula"
+            , Ha.style "display" ""
+            ]
+            [ p [] [ Html.text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
+            , p [] [ Html.text "Where ", var [] [ Html.text "V" ], Html.text " is the percentage of votes cast for the party, and ", var [] [ Html.text "S" ], Html.text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
+            ]
         ]
 
 main : Program Int Model Msg

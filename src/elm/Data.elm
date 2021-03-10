@@ -47,7 +47,8 @@ nominees =
         ( 1992, Dict.fromList [   
             ("Democratic", "Bill Clinton"),
             ("Republican", "George H. W. Bush"),
-            ("Ross Perot", "Ross Perot")
+            ("Ross Perot", "Ross Perot"),
+            ("Independent", "Ross Perot")
         ]),
         ( 1988, Dict.fromList [
             ("Republican", "George H. W. Bush"),
@@ -89,3 +90,4 @@ getNominee year party =
         |> dropMaybe
         |> Dict.get party
         |> dropMaybe
+    
