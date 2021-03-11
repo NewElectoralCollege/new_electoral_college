@@ -143,8 +143,8 @@ colorCircles : List Party -> List (Svg a) -> Dict String String -> List (Svg a)
 colorCircles parties circles colors =
     (List.indexedMap (
         \n party ->
-            g [ fill (getColor party colors) ] (
-                splitAt (parties
+            g [ fill (getColor party colors) ] 
+                (splitAt (parties
                             |> splitAt n
                             |> first
                             |> List.map (\p -> p.seats)
