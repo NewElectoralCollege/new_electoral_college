@@ -1,0 +1,66 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bills}[2021/03/09]
+
+\RequirePackage{xstring}
+\RequirePackage{hang}
+\RequirePackage{geometry}
+
+\geometry{legalpaper, portrait, margin=1in}
+
+\newcommand{\type}[1]
+{\IfSubStr{#1}{bill}
+    {\huge\textbf{\begin{center}A BILL\end{center}}\normalsize}
+    {\IfSubStr{#1}{joint resolution}
+        {\huge\textbf{\begin{center}JOINT RESOLUTION\end{center}}\normalsize}
+        {\IfSubStr{#1}{act}
+            {\huge\textbf{\begin{center}AN ACT\end{center}}\normalsize}
+            {}
+        }
+    }
+}
+
+\setlength{\hangingindent}{1.5cm}
+\newcommand{\subject}[1]
+{\begin{hangingpar} #1\\}
+
+\newcommand{\formula}[1]
+{\textit
+    {\\Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled%
+        {\IfSubStr{#1}{True}
+            { (two-thirds of each House concurring therein),}
+            {,}
+        }
+    }\end{hangingpar}
+}
+
+\newcommand{\repealcodesection}[4][3]
+{Section #2 of title #3, chapter #4, United States Code is hereby repealed.}
+
+\newcommand{\repealcodetitle}[3][2]
+{Title #3, chapter #2, United States Code is hereby repealed.}
+
+\newcommand{\repealcodechapter}[1]
+{Chapter #1, United States Code is hereby repealed.}
+
+\newcommand{\unnamedsection}[1]
+{\large\textbf{
+        {\IfSubStr{#1}{1}
+            {\\\\SECTION #1.}
+            {\\\\SEC. #1.}
+        }
+    }\normalsize\\%
+}
+
+\newcommand{\namedsection}[3][2]
+{\large\textbf{
+        {\IfSubStr{#2}{1}
+            {\\\\SECTION #2. \uppercase{#3}.}
+            {\\\\SEC. #2. \uppercase{#3}.}
+        }
+    }\normalsize%
+}
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+\renewcommand{\labelenumiii}{(\Alph{enumiii})}
+\renewcommand{\labelenumiv}{(\roman{enumiv})}
