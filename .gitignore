@@ -11,7 +11,8 @@ src/js/util.js
 src/js/*compiled.js
 todo_list.txt
 old_results.html
-dirtytalk.sty
+*.sty
+the_proposal/the_proposal.tex
 the_proposal/*.aux
 the_proposal/*.pdf
 the_proposal/*.log
