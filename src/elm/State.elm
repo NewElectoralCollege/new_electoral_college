@@ -16,8 +16,6 @@ import Dict exposing (..)
 
 import Data exposing (..)
 import Util exposing (..)
-import Html
-import Svg
 
 type alias Model =
     { list : List Party
@@ -34,17 +32,6 @@ type alias Model =
 ifQualifyingParty : Party -> Model -> Bool
 ifQualifyingParty party model =
     (((toFloat party.votes) / (toFloat model.stats.total_votes) >= 0.01 || party.seats > 0) && party.name /= "Other")
-
-getColor : Party -> String
-getColor party =
-    let
-        result = Dict.get party.name colors
-    in
-        case result of
-            Nothing ->
-                "#dddddd"
-            _ ->
-                dropMaybe result
 
 changeStats : Stats -> Election -> Election
 changeStats stats election =
@@ -80,7 +67,7 @@ newRow : Party -> Model -> Int -> List (Html msg)
 newRow party model year =
     if ifQualifyingParty party model then
         [ tr [ ] 
-            [ td [ Ha.class "color", Ha.style "backgroundColor" (getColor party) ] []
+            [ td [ Ha.class "color", Ha.style "backgroundColor" (getColor party colors) ] []
                 , td [ ] [ Html.text (party.name) ]
                 , td [ ] [ Html.text (getNominee year party.name) ]
                 , td [ ] [ Html.text (Util.styleNum party.votes) ]
@@ -137,7 +124,7 @@ doPartyBars list parties nx model =
                          , y "370"
                          , Sa.width (String.fromFloat nwidth)
                          , Sa.height "50"
-                         , fill (getColor party)
+                         , fill (getColor party colors)
                          ] []
                 ] (List.drop 1 parties) (nx + nwidth) model)
             else
@@ -191,13 +178,12 @@ summaryFooter model =
                 |> setAt 7 (i [ Ha.class "fa", Ha.style "color" "blue" ] [ Html.text (String.fromChar '\u{F059}') ])
         ) ]
     ]]
-    
 
 getPartyProgressBar : Party -> Election -> List (Html Msg)
 getPartyProgressBar party election =
     [ Html.text ((String.fromInt party.seats) ++ " / " ++ (String.fromInt election.stats.total_seats)) 
     , div [ Ha.class "progress-bar-party" ] 
-          [ div [ Ha.style "backgroundColor" (getColor party)
+          [ div [ Ha.style "backgroundColor" (getColor party colors)
                 , Ha.style "width" (String.fromFloat ((toFloat party.seats) / (toFloat election.stats.total_seats) * 100) ++ "%")
                 , Ha.style "height" "101%"
                 , Ha.style "display" "inline-block"
@@ -220,7 +206,7 @@ doYearRow year model party_name =
         _ ->
             let
                 election = 
-                    if year == lastYear then
+                    if year == lastYear && model.page_year == lastYear then
                         Election model.list model.stats
                     else
                         dropMaybe (Dict.get year model.elections)
@@ -293,7 +279,7 @@ translateElectorsArrow stats =
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-    case Dict.get lastYear model.elections of
+    case Dict.get (lastYear + 4) model.elections of
         Just a ->
             (model, Cmd.none)
         _ ->
@@ -358,7 +344,7 @@ update msg model =
 init : Int -> (Model, Cmd Msg)
 init year =
     let 
-        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 year year "California" "" "none")
+        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 year year "Utah" "" "none")
     in
         ( first r
         , second r
@@ -387,18 +373,7 @@ view model =
                     let
                         circles = getCircles (getAngle model.stats 0) model 0
                     in
-                        (List.indexedMap (
-                            \n party ->
-                                g [ fill (getColor party) ] (
-                                    splitAt (model.list
-                                                |> splitAt n
-                                                |> first
-                                                |> List.map (\p -> p.seats)
-                                                |> sum) circles
-                                        |> second
-                                        |> splitAt party.seats
-                                        |> first)
-                        ) model.list)
+                        colorCircles model.list circles colors
                 )
             , g
                 [ Ha.id "bar", Sa.style "" ]
@@ -415,6 +390,7 @@ view model =
               [ table [ Ha.id "single-results", Ha.class "table-bordered" ]
               ( summaryHeader model ++ (doPartyElectors [] model.list model) ++ summaryFooter model)
               ]
+        , br [] []
         , div [ Ha.class "container" ]
               [ h2 [] [ Html.text "State History" ]
               , table [ Ha.class "container" ]

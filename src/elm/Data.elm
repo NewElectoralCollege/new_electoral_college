@@ -48,7 +48,8 @@ nominees =
             ("Democratic", "Bill Clinton"),
             ("Republican", "George H. W. Bush"),
             ("Ross Perot", "Ross Perot"),
-            ("Independent", "Ross Perot")
+            ("Independent", "Ross Perot"),
+            ("Reform", "Ross Perot")
         ]),
         ( 1988, Dict.fromList [
             ("Republican", "George H. W. Bush"),

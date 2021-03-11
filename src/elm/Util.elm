@@ -7,8 +7,12 @@ import String exposing (..)
 import Maybe exposing (..)
 import Tuple exposing (..)
 import List exposing (..)
+import List.Extra exposing (..)
 import Regex exposing (..)
+import Dict exposing (..)
 import Json.Decode as Decode exposing (Decoder)
+import Svg exposing (g, Svg)
+import Svg.Attributes exposing (fill)
 
 -- Constants
 
@@ -47,6 +51,17 @@ dropMaybe x =
     case x of
        Just y -> y
        Nothing -> Debug.todo "A Nothing variable sent through dropMaybe function"
+
+getColor : Party -> Dict String String -> String
+getColor party colors =
+    let
+        result = Dict.get party.name colors
+    in
+        case result of
+            Nothing ->
+                "#dddddd"
+            _ ->
+                dropMaybe result
 
 styleNum : Int -> String
 styleNum num =
@@ -98,7 +113,7 @@ fromInt ispercent int =
         int
             |> divide 100
             |> String.fromFloat
-            |> singleton
+            |> List.singleton
             |> List.append ["%"]
             |> List.reverse
             |> String.concat
@@ -123,6 +138,21 @@ fix_change string =
         [ i [ class "increase" ] [ Html.text (String.fromChar '\u{25B2}') ], text (" " ++ fix_string string) ]
     else 
         [ text "n/a" ]
+
+colorCircles : List Party -> List (Svg a) -> Dict String String -> List (Svg a)
+colorCircles parties circles colors =
+    (List.indexedMap (
+        \n party ->
+            g [ fill (getColor party colors) ] (
+                splitAt (parties
+                            |> splitAt n
+                            |> first
+                            |> List.map (\p -> p.seats)
+                            |> sum) circles
+                    |> second
+                    |> splitAt party.seats
+                    |> first)
+        ) parties)
 
 type Msg
     = SendRequestParty
