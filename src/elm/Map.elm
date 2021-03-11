@@ -9,8 +9,10 @@ import Basics exposing (..)
 import Dict exposing (..)
 import List.Extra exposing (..)
 import Json.Decode as Decode exposing (Decoder)
-import Svg exposing (Svg, svg)
+import Svg exposing (Svg, svg, circle, g)
+import Svg.Attributes as Sa exposing (r, cx, cy, width, height, viewBox)
 import Tuple exposing (..)
+import String exposing (..)
 
 import Util exposing (..)
 import Data exposing (..)
@@ -28,7 +30,7 @@ complexPattern a b total_seats =
         100
     else
         total_seats
-            |> toFloat
+            |> Basics.toFloat
             |> sqrt
             |> round
 
@@ -37,8 +39,8 @@ getPattern bb number = -- bb becomes so and number becomes total_seats
     let
         r = 5.5
     in
-        if (sqrt (toFloat number) == (toFloat <| round <| sqrt <| toFloat number) && bb.width < (r * 2 * sqrt (toFloat number))) then
-            ((round <| sqrt <| toFloat number, round <| sqrt <| toFloat number), False)
+        if (sqrt (Basics.toFloat number) == (Basics.toFloat <| Basics.round <| sqrt <| Basics.toFloat number) && bb.width < (r * 2 * sqrt (Basics.toFloat number))) then
+            ((round <| sqrt <| Basics.toFloat number, round <| sqrt <| Basics.toFloat number), False)
         else if number < 4 then
             if bb.width > bb.height then
                 ((number, 1), False)
@@ -46,34 +48,57 @@ getPattern bb number = -- bb becomes so and number becomes total_seats
                 ((1, number), False)
         else if modBy number 2 == 0 && number < 9 then
             if bb.width > bb.height then
-                ((round (toFloat number / 2), 2), False)
+                ((round (Basics.toFloat number / 2), 2), False)
             else 
-                ((2, round (toFloat number / 2)), False)
+                ((2, round (Basics.toFloat number / 2)), False)
         else if modBy number 2 /= 0 && number < 9 then
-            ((round (toFloat number / 2), 2), True)
+            ((round (Basics.toFloat number / 2), 2), True)
         else
             if bb.width > bb.height then
                 let
                     columns = Basics.min (round (bb.width / (r * 2))) (complexPattern bb.width bb.height number)
-                    rows = (floor <| toFloat number / toFloat columns)
+                    rows = (floor <| Basics.toFloat number / Basics.toFloat columns)
                 in
                     ((columns, rows), True)
             else 
                 let
                     rows = Basics.min (round (bb.height / (r * 2))) (complexPattern bb.height bb.width number)
-                    columns = (floor <| toFloat number / toFloat rows)
+                    columns = (floor <| Basics.toFloat number / Basics.toFloat rows)
                 in
                     ((columns, rows), True)
+
+makeCircles : List (Float, Float) -> (Int, Int) -> (Float, Float) -> (Float, Float) -> Int -> Int -> Bool -> List (Float, Float)
+makeCircles list pattern center offset total_seats in_this_row increment =
+    if List.length list == total_seats then
+        []
+    else
+        (
+            let
+                coords =
+                    if first pattern <= in_this_row then
+                        if total_seats - List.length list < in_this_row && increment then
+                            (((first center) - (first offset)) + (5.5 * (Basics.toFloat <| in_this_row - (total_seats - List.length list))), (second <| dropMaybe <| last list) + (5.5 * 2))
+                        else
+                            ((first center) - (first offset), (second <| dropMaybe <| last list) + (5.5 * 2))
+                    else
+                        ((first <| dropMaybe <| last list) + (5.5 * 2), 3)
+            in
+                [coords] ++ (makeCircles (list ++ [coords]) pattern center offset total_seats (in_this_row + 1) increment)
+        )
 
 makeState : Election -> List (Svg Msg)
 makeState election =
     let
-        pattern = getPattern (StateOutline 492.4187 129.51944 37.238781 82.202576) election.stats.total_seats
-        offset = ( 5.5 * 2 * (toFloat (first (first pattern)) / 2 - 0.5)
-                 , 5.5 * 2 * (toFloat (second (first pattern)) / 2 - 0.5)
+        outline = StateOutline 492.4187 129.51944 37.238781 82.202576
+        pattern = getPattern outline election.stats.total_seats
+        offset = ( 5.5 * 2 * (Basics.toFloat (first (first pattern)) / 2 - 0.5)
+                 , 5.5 * 2 * (Basics.toFloat (second (first pattern)) / 2 - 0.5)
+                 )
+        center = ( outline.x + (outline.width / 2)
+                 , outline.y + (outline.height / 2)
                  )
     in
-        colorCircles election.list [] colors
+        colorCircles election.list (List.map (\n -> circle [ r "5.5", cx (fromFloat <| first n), cy (fromFloat <| second n) ] []) (makeCircles [((first center) - (first offset), (second center) - (second offset))] (first pattern) center offset election.stats.total_seats 0 False)) colors
 
 type Msg 
     = ChangeYear (Int)
@@ -118,7 +143,7 @@ view model =
                 [ class "container" ]
                 [ Html.span [ id "leftArrow", onClick <| ChangeYear (model.year - 4) ] []
                 , div [ class "container col-sm-4", id "map", style "display" "inline-block" ] --(makeState (dropMaybe <| Dict.get "Alabama" model.states))
-                   [ svg [] (List.concatMap (\n -> makeState n) (values model.states))]
+                   [ svg [ Sa.width "400mm", Sa.height "200mm", viewBox "0 0 800 193" ] (List.concatMap (\n -> makeState n) (values model.states))]
                 , Html.span [ id "rightArrow", onClick <| ChangeYear (model.year + 4) ] []
                 ]
             , div
@@ -155,23 +180,23 @@ update msg model =
             ({ model | year = int }, getFile int)
         Response (Ok response) ->
             let
-                states = ["Alabama", "Alaska"]
+                nstates = ["Alabama", "Alaska"]
                 parties = List.map (\n ->
                     case Decode.decodeString (Decode.at["parties"] <| Decode.list newParty) <| dropMaybe <| Dict.get n response of
                         Ok (list) ->
                             list
                         _ ->
                             []
-                    ) states
+                    ) nstates
                 stats = List.map (\n ->
                     case Decode.decodeString (Decode.at["stats"] <| setStats) <| dropMaybe <| Dict.get n response of
                         Ok (stat) ->
                             stat
                         _ ->
                             Stats "" 0 0 0.0
-                    ) states
+                    ) nstates
             in
-                ({ model | states = fromList <| List.indexedMap (\i state -> (state, Election (dropMaybe <| getAt i parties) (dropMaybe <| getAt i stats) )) states }, Cmd.none)
+                ({ model | states = Dict.fromList <| List.indexedMap (\i state -> (state, Election (dropMaybe <| getAt i parties) (dropMaybe <| getAt i stats) )) nstates }, Cmd.none)
         _ ->
             Debug.todo (Debug.toString msg)
 
