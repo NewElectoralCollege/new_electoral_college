@@ -8,9 +8,9 @@ src/sass/*.css.map
 src/sass/agincourt_font.ttf
 src/js/state.js
 src/js/util.js
-src/js/state_compiled.js
+src/js/*compiled.js
 todo_list.txt
-results2.html
+old_results.html
 dirtytalk.sty
 the_proposal/*.aux
 the_proposal/*.pdf
