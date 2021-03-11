@@ -20,7 +20,10 @@ foreach (poptwice(array_reverse(scandir("$path_begin/data/" . $_GET["year"]))) a
         $output[$state] .= chop(fgets($file));
     }
 
-    $output[$state] = json_decode($output[$state]);
+    if (isset($_GET["string"])) 
+        $output[$state] = $output[$state];
+    else 
+        $output[$state] = json_decode($output[$state]);
 
     fclose($file);
 }
