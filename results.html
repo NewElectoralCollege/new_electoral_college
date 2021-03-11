@@ -18,7 +18,7 @@
 
         <div class="include" w3-include-html="header.html"></div><br><br><br><br>
     
-        <main role="main" class="container">
+        <main role="main" class="container" id="main">
     
             <div class="container">
                     <h1 id="election"> </h1>
@@ -87,9 +87,17 @@
         </footer>
 
         <script src="src/js/util.js"></script>
-        <script src="src/js/state.js"></script>
-        <script src="src/js/map.js"></script>
         <script>includeHTML()</script>
+
+        <script src="src/js/map_compiled.js"></script>
+        <script>
+            var app = Elm.Map.init({
+                node: document.getElementById("main"),
+                flags: 2020
+            });
+
+            console.log(app);
+        </script>
 
     </body>
 </html>
