@@ -9,11 +9,16 @@ function poptwice($array) {
     return $array;
 }
 
+if (isset($_GET["string"]))
+    $replace = " of ";
+else 
+    $replace = " of-";
+
 $path_begin = implode("/", poptwice(explode("\\", dirname(__FILE__))));
 
 foreach (poptwice(array_reverse(scandir("$path_begin/data/" . $_GET["year"]))) as $filename) {
     $file = fopen("$path_begin/data/" . $_GET["year"] . "/$filename", "r");
-    $state = explode(".", str_replace(" Of ", " of-", $filename))[0];
+    $state = explode(".", str_replace(" Of ", $replace, $filename))[0];
     $output[$state] = "";
 
     while (!feof($file)) {
