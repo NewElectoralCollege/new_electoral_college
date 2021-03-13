@@ -273,7 +273,7 @@ update msg model =
                         let
                             tempmodel = 
                                 { model
-                                | elections = insert model.year (Election parties (Stats "none" 0 0 0.0 )) model.elections
+                                | elections = insert model.year (Election (List.map (\p -> { p | color = getColor p colors }) parties) (Stats "none" 0 0 0.0 )) model.elections
                                 , errorMessage = "none"
                                 }
                         in
@@ -284,7 +284,7 @@ update msg model =
                         let
                             tempmodel = 
                                 { model
-                                | list = reverse (sortBy .votes parties)
+                                | list = reverse <| sortBy .votes <| List.map (\p -> { p | color = getColor p colors }) parties
                                 , errorMessage = "none"
                                 } 
                         in
