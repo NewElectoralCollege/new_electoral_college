@@ -52,6 +52,10 @@ dropMaybe x =
        Just y -> y
        Nothing -> Debug.todo "A Nothing variable sent through dropMaybe function"
 
+ifQualifyingParty : Party -> Float -> Bool
+ifQualifyingParty party total_votes =
+    (((Basics.toFloat party.votes) / total_votes >= 0.01 || party.seats > 0) && party.name /= "Other")
+
 getColor : Party -> Dict String String -> String
 getColor party colors =
     let
@@ -62,6 +66,23 @@ getColor party colors =
                 "#dddddd"
             _ ->
                 dropMaybe result
+
+getStateColor : String -> String
+getStateColor state =
+    let 
+        colors = 
+            Dict.fromList 
+            [ ("A", "#000000")
+            , ("C", "cyan")
+            , ("D", "#3333dd")
+            , ("F", "fuchsia")
+            , ("G", "#00ff00")
+            , ("H", "hotpink")
+            , ("I", "indianred")
+            , ("K", "khaki")
+            ]
+    in
+        dropMaybe <| Dict.get (left 1 state) colors
 
 styleNum : Int -> String
 styleNum num =
