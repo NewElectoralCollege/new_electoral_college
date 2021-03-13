@@ -29,10 +29,6 @@ type alias Model =
     , errorMessage : String
     } 
 
-ifQualifyingParty : Party -> Model -> Bool
-ifQualifyingParty party model =
-    (((toFloat party.votes) / (toFloat model.stats.total_votes) >= 0.01 || party.seats > 0) && party.name /= "Other")
-
 changeStats : Stats -> Election -> Election
 changeStats stats election =
     { election | stats = stats }
@@ -65,7 +61,7 @@ getCheckIcon party =
 
 newRow : Party -> Model -> Int -> List (Html msg)
 newRow party model year =
-    if ifQualifyingParty party model then
+    if ifQualifyingParty party <| toFloat model.stats.total_votes then
         [ tr [ ] 
             [ td [ Ha.class "color", Ha.style "backgroundColor" (getColor party colors) ] []
                 , td [ ] [ Html.text (party.name) ]
@@ -118,7 +114,7 @@ doPartyBars list parties nx model =
             party = (Util.dropMaybe (head parties))
             nwidth = getWidth (toFloat party.votes) model
         in
-            if ifQualifyingParty party model then
+            if ifQualifyingParty party <| toFloat model.stats.total_votes then
                 list ++ (doPartyBars [
                     rect [ x (String.fromFloat nx)
                          , y "370"
