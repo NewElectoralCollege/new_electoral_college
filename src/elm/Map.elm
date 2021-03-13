@@ -273,11 +273,10 @@ view model =
         [ div 
             [ class "container" ]
             [ h1 [ id "election" ] [ text <| String.fromInt model.year ]
-            , p [] [ text ("These are the projected results of the " ++ String.fromInt model.year ++ " Election using our proposal. It uses the final " ++
-                "certified results of the Election " ++
-                "according to the electoral office in each state for Presidential Electors. If the election were actually run under the New Electoral " ++
-                "College, the results would have been slightly different, because voters behave differently when they can use a more representative " ++
-                "voting system.") ]
+            , p [] [ text ("These are the projected results of the " ++ String.fromInt model.year ++ " Election using our proposal. It takes the final " ++
+                "certified results of the Election, and allocates the electors in each state. If the election were actually run under the New Electoral " ++
+                "College, the results would have been slightly different. Voters change their behavior under more representative " ++
+                "electoral systems.") ]
             ]
         , div
             [ class "container" ]
