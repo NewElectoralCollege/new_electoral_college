@@ -60,7 +60,7 @@ newRow : Party -> Model -> Int -> List (Html msg)
 newRow party model year =
     if ifQualifyingParty party <| toFloat model.stats.total_votes then
         [ tr [ ] 
-            [ td [ Ha.class "color", Ha.style "backgroundColor" (getColor party colors) ] []
+            [ td [ Ha.class "color", Ha.style "backgroundColor" party.color ] []
                 , td [ ] [ text (party.name) ]
                 , td [ ] [ text (getNominee year party.name) ]
                 , td [ ] [ text (Util.styleNum party.votes) ]
@@ -117,7 +117,7 @@ doPartyBars list parties nx model =
                          , y "370"
                          , Sa.width (String.fromFloat nwidth)
                          , Sa.height "50"
-                         , fill (getColor party colors)
+                         , fill party.color
                          ] []
                 ] (List.drop 1 parties) (nx + nwidth) model)
             else
@@ -172,19 +172,6 @@ summaryFooter model =
         ) ]
     ]]
 
-getPartyProgressBar : Party -> Election -> List (Html Msg)
-getPartyProgressBar party election =
-    [ text ((String.fromInt party.seats) ++ " / " ++ (String.fromInt election.stats.total_seats)) 
-    , div [ Ha.class "progress-bar-party" ] 
-          [ div [ Ha.style "backgroundColor" (getColor party colors)
-                , Ha.style "width" (String.fromFloat ((toFloat party.seats) / (toFloat election.stats.total_seats) * 100) ++ "%")
-                , Ha.style "height" "101%"
-                , Ha.style "display" "inline-block"
-                ] 
-                [] 
-          ]
-    ] 
-
 getQuota : Int -> Int -> Int
 getQuota total_votes total_seats =
     total_votes
@@ -223,7 +210,7 @@ doYearRow year model party_name =
                             _ ->
                                 fix_change ("+" ++ (stylePercent (((toFloat party.votes / toFloat election.stats.total_votes)) - ((toFloat previous_party.votes / toFloat (dropMaybe previous_election).stats.total_votes)))))
                     )
-                    , td [] (getPartyProgressBar party election)
+                    , td [] (getPartyProgressBar party election party.color)
                     , td [] (
                         case previous_election of
                             Nothing ->
