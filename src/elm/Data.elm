@@ -104,7 +104,7 @@ states =
         ("Colorado", StateOutline 246.25554 36.569534 83.914627 62.180717),
         ("Connecticut", StateOutline 691.57336 94.687637 44.673531 22.36248),
         ("Delaware", StateOutline 721.02448 201.64488 18.868713 45.751633),
-        ("District of-Columbia", StateOutline 646.30328 269.89484 9.2927532 6.7461395),
+        ("District of Columbia", StateOutline 646.30328 269.89484 9.2927532 6.7461395),
         ("Florida", StateOutline 502.44095 191.65808 90.914276 99.892456),
         ("Georgia", StateOutline 531.38696 128.69734 37.325054 68.420944),
         ("Hawaii", StateOutline 207.24611 218.67052 55.956772 34.094986),
@@ -151,8 +151,16 @@ states =
 
 getNominee : Int -> String -> String
 getNominee year party =
-    nominees
-        |> Dict.get year
-        |> dropMaybe
-        |> Dict.get party
-        |> dropMaybe
+    let
+        nominee =
+            nominees
+                |> Dict.get year
+                |> dropMaybe
+                |> Dict.get party
+    in
+        case nominee of
+            Nothing ->
+                "n/a"
+            Just a ->
+                a
+        
