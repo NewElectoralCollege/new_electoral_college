@@ -5,6 +5,8 @@ import Dict exposing (..)
 
 import Util exposing (..)
 
+--This may not be the cleanest way of storing data, but it is better than having to make a bunch of GET calls. 
+
 nominees : Dict Int (Dict String String)
 nominees =
     Dict.fromList [ 

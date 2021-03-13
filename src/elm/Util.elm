@@ -24,7 +24,7 @@ lastYear : Int
 lastYear =
     2020
 
--- Utils
+-- Types
 
 type alias Stats =
     { name : String
@@ -46,6 +46,8 @@ type alias Election =
     , stats : Stats
     }
 
+-- Common Functions
+
 dropMaybe : Maybe a -> a
 dropMaybe x =
     case x of
@@ -55,6 +57,8 @@ dropMaybe x =
 ifQualifyingParty : Party -> Float -> Bool
 ifQualifyingParty party total_votes =
     (((Basics.toFloat party.votes) / total_votes >= 0.01 || party.seats > 0) && party.name /= "Other")
+
+-- Used to get Party or State colors from Data.elm
 
 getColor : Party -> Dict String String -> String
 getColor party colors =
@@ -84,6 +88,18 @@ getStateColor state =
     in
         dropMaybe <| Dict.get (left 1 state) colors
 
+-- Basic operations
+
+divide : Int -> Int -> Float -- Takes the divisor as the first argument. This is used while pipeing (|>).
+divide a b = 
+    (Basics.toFloat b) / (Basics.toFloat a)
+
+multiply : Float -> Float -> Float -- This is also used for pipeing.
+multiply a b =
+    a * b
+
+-- Used to style numbers with commas, for instance (1000000 -> 1,000,000)
+
 styleNum : Int -> String
 styleNum num =
     let 
@@ -97,14 +113,6 @@ styleNum num =
             _ ->
                 o
 
-divide : Int -> Int -> Float
-divide a b = 
-    (Basics.toFloat b) / (Basics.toFloat a)
-
-multiply : Float -> Float -> Float
-multiply a b =
-    a * b
-
 stylePercent : Float -> String
 stylePercent percent =
     let
@@ -114,6 +122,8 @@ stylePercent percent =
             |> String.fromFloat
     in
         n ++ "%"
+
+-- Modifications of the functions from the elm/core/Basics module.
 
 toInt : String -> Int
 toInt string =
@@ -140,6 +150,8 @@ fromInt ispercent int =
             |> String.concat
     else
         String.fromInt int
+
+-- Used to insert green and red triangles for change measurements
         
 fix_string : String -> String
 fix_string string =
@@ -160,6 +172,8 @@ fix_change string =
     else 
         [ text "n/a" ]
 
+-- This colors a list of circles according to Party seat results.
+
 colorCircles : List Party -> List (Svg a) -> Dict String String -> List (Svg a)
 colorCircles parties circles colors =
     (List.indexedMap (
@@ -175,12 +189,16 @@ colorCircles parties circles colors =
                     |> first)
         ) parties)
 
+-- Msg for Http functions
+
 type Msg
     = SendRequestParty
     | PartySuccess (Result Http.Error (List Party))
     | SendRequestStats
     | StatSuccess (Result Http.Error Stats)
     | RevealPopup (String)
+
+-- JSON decoders
 
 newParty : Decoder Party
 newParty =
@@ -206,6 +224,8 @@ partyMsg =
 statsMsg : Expect Msg
 statsMsg =
     Http.expectJson StatSuccess (Decode.at["stats"] setStats)
+
+-- Contacts a single file
 
 getFile : Expect Msg -> Int -> String -> Cmd Msg
 getFile msg year state =
