@@ -96,7 +96,7 @@ svg {
 }
 .results_table {
     border: 1px solid #00022D;
-    padding: 5px;
+    padding: 4px;
     width: fit-content;
     font-family: sans-serif;
     border-collapse: collapse;
@@ -109,6 +109,7 @@ svg {
 }
 .detailed-results, .detailed-results td, .detailed-results th, .detailed-results tr {
     @extend .results_table;
+    min-width: fit-content;
 }
 .change-arrow {
     font-size: 16px;
@@ -134,7 +135,7 @@ path {
     z-index: 0;
 }
 .progress-bar-party {
-    border: 1px solid black;
+    border: 1px solid gray;
     width: 100px;
     height: 1.15em;
     padding: 0;
