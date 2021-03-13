@@ -39,6 +39,7 @@ type alias Party =
     , votes : Int
     , extra_votes : Int
     , extra_seat : Bool
+    , color : String
     }
 
 type alias Election =
@@ -123,43 +124,11 @@ stylePercent percent =
     in
         n ++ "%"
 
--- Modifications of the functions from the elm/core/Basics module.
-
-toInt : String -> Int
-toInt string =
-    case String.toInt string of
-        Just a ->
-            a
-        Nothing ->
-            string
-                |> dropRight 1
-                |> String.toFloat
-                |> dropMaybe
-                |> multiply 100.0
-                |> floor
-
-fromInt : Bool -> Int -> String
-fromInt ispercent int =
-    if ispercent then
-        int
-            |> divide 100
-            |> String.fromFloat
-            |> List.singleton
-            |> List.append ["%"]
-            |> List.reverse
-            |> String.concat
-    else
-        String.fromInt int
-
 -- Used to insert green and red triangles for change measurements
-        
+
 fix_string : String -> String
 fix_string string =
-    string
-        |> dropLeft 1
-        |> toInt
-        |> abs
-        |> fromInt (String.contains "." string)
+    String.replace "-" "" <| String.replace "+" "" string
 
 fix_change : String -> List (Html msg)
 fix_change string =
@@ -178,7 +147,7 @@ colorCircles : List Party -> List (Svg a) -> Dict String String -> List (Svg a)
 colorCircles parties circles colors =
     (List.indexedMap (
         \n party ->
-            g [ fill (getColor party colors) ] 
+            g [ fill party.color ] 
                 (splitAt (parties
                             |> splitAt n
                             |> first
@@ -188,6 +157,20 @@ colorCircles parties circles colors =
                     |> splitAt party.seats
                     |> first)
         ) parties)
+
+-- This is used to generate the bars that show how many seats out of the total a party has gotten
+
+getPartyProgressBar : Party -> Election -> String -> List (Html msg)
+getPartyProgressBar party election color =
+    [ text <| String.fromInt party.seats ++ " / " ++ (String.fromInt election.stats.total_seats)
+    , div [ class "progress-bar-party" ] 
+          [ div [ style "backgroundColor" color
+                , style "width" (String.fromFloat ((Basics.toFloat party.seats) / (Basics.toFloat election.stats.total_seats) * 100) ++ "%")
+                , style "height" "100%"
+                ] 
+                [] 
+          ]
+    ] 
 
 -- Msg for Http functions
 
@@ -202,12 +185,13 @@ type Msg
 
 newParty : Decoder Party
 newParty =
-    Decode.map5 Party
+    Decode.map6 Party
         (Decode.field "name" Decode.string)
         (Decode.field "seats" Decode.int)
         (Decode.field "votes" Decode.int)
         (Decode.field "extra_votes" Decode.int)
         (Decode.field "extra_seat" Decode.bool)
+        (Decode.field "name" Decode.string)
 
 setStats : Decoder Stats
 setStats =
