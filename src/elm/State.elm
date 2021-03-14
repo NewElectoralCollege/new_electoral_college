@@ -10,6 +10,8 @@ import Svg exposing (Svg, circle, rect, svg, defs, marker, g, polygon)
 import Svg.Attributes as Sa exposing (..)
 import Tuple exposing (first, second)
 import Dict exposing (Dict, insert, empty)
+import Formula exposing (toString)
+import Formula.Parser exposing (parse)
 
 import Data exposing (..)
 import Util exposing (..)
@@ -386,6 +388,7 @@ view model =
             , Ha.style "display" ""
             ]
             [ p [] [ text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
+            --, text <| toString <| parse "This **is** a test: $a^2 + b^2 = c^2$."
             , p [] [ text "Where ", var [] [ text "V" ], text " is the percentage of votes cast for the party, and ", var [] [ text "S" ], text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
             ]
         ]
