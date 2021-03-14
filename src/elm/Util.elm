@@ -156,7 +156,7 @@ colorCircles parties circles colors =
                     |> second
                     |> splitAt party.seats
                     |> first)
-        ) parties)
+        ) <| List.filter (\n -> n.seats > 0) parties)
 
 -- This is used to generate the bars that show how many seats out of the total a party has gotten
 
