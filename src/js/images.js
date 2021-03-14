@@ -5,14 +5,16 @@ window.onload = async function () {
     });
 
     const hemicircle = await (await fetch('src/img/hemicircles/538_seats_electoral_college.svg')).text();
+    const map = await (await fetch('src/img/maps/us_electoral_college_2010.svg')).text();
 
     const hemicircle_div = document.querySelector('#hemicircle');
+    const map_svg = document.querySelector("#map-svg");
 
     app.ports.updateImages.subscribe(function (parties) {
-        //const map = await (await fetch('src/img/maps/us_electoral_college_' + census.toString() + '.svg')).text();
-        
-        //document.querySelector('#map').innerHTML = map;
+    
+        console.log(map);
         hemicircle_div.innerHTML = hemicircle;
+        map_svg.innerHTML += map;
         
         let circles = Array.from(document.querySelectorAll('g#Results circle'));
 

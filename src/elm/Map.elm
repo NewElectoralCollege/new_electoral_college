@@ -286,7 +286,7 @@ view model =
                 , div 
                     [ class "container col-sm-4", id "map", style "display" "inline-block" ]
                     [ svg 
-                        [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193" ] 
+                        [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193", id "map-svg" ] 
                         (
                             List.concatMap (\n -> makeState (dropMaybe <| Dict.get n model.current.states) n) (keys model.current.states)
                         )
