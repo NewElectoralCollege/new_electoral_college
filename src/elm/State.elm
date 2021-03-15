@@ -326,7 +326,7 @@ update msg model =
 init : Int -> (Model, Cmd Msg)
 init year =
     let 
-        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 year year "Utah" "" "none")
+        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 year year "" "District Of Columbia" "none")
     in
         ( first r
         , second r
