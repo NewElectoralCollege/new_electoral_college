@@ -28,39 +28,39 @@ complexPattern a b total_seats =
             |> sqrt
 
 getPattern : StateOutline -> Int -> ((Int, Int), String)
-getPattern bb number = -- bb becomes so and number becomes total_seats
+getPattern so total_seats =
     let
         r = 5.5
     in
-        if List.member number [4, 9, 16, 25, 36, 49] then
-            ((round <| sqrt <| Basics.toFloat number, round <| sqrt <| Basics.toFloat number), "#ff0000")
-        else if number == 2 then
-            if bb.width > bb.height then
-                ((4, 2), "orange")
+        if List.member total_seats [4, 9, 16, 25, 36, 49] then
+            ((round <| sqrt <| Basics.toFloat total_seats, round <| sqrt <| Basics.toFloat total_seats), "#ff0000")
+        else if total_seats == 3 then
+            if so.width > so.height then
+                ((3, 1), "orange")
             else 
                 ((1, 3), "#000000")
-        else if List.member number [6, 8] && number < 9 then
-            if bb.width > bb.height then
-                ((round (Basics.toFloat number / 2), 2), "#00ff00")
+        else if List.member total_seats [6, 8] && total_seats < 9 then
+            if so.width > so.height then
+                ((round (Basics.toFloat total_seats / 2), 2), "#00ff00")
             else 
-                ((2, round (Basics.toFloat number / 2)), "#00a0ff")
-        else if number < 9 then
-            ((round (Basics.toFloat number / 2), 2), "#3333ff")
+                ((2, round (Basics.toFloat total_seats / 2)), "#00a0ff")
+        else if total_seats < 9 then
+            ((round (Basics.toFloat total_seats / 2), 2), "#3333ff")
         else
             let
                 a = 
-                    if (Basics.min bb.width bb.height) * 2 < (Basics.max bb.width bb.height) then
-                        round <| Basics.toFloat number / (Basics.min bb.width bb.height
+                    if (Basics.min so.width so.height) * 2 < (Basics.max so.width so.height) then
+                        round <| Basics.toFloat total_seats / (Basics.min so.width so.height
                             |> round
                             |> divide 10
                             |> round
                             |> Basics.toFloat
                             )
                     else 
-                        round <| sqrt <| Basics.toFloat number
-                b = floor <| Basics.toFloat number / Basics.toFloat a
+                        round <| sqrt <| Basics.toFloat total_seats
+                b = floor <| Basics.toFloat total_seats / Basics.toFloat a
             in
-                if bb.width > bb.height then
+                if so.width > so.height then
                     ((a, b), "#000000")
                 else
                     ((b, a), "#000000")
@@ -76,18 +76,21 @@ makeCircles list pattern total_seats =
                 ))
                 (dropMaybe <| List.Extra.init <| range 0 <| first <| first pattern)
     in
-        case compare (List.length list + (first <| first pattern)) total_seats of
-            GT ->
-                List.map 
-                    (\n -> (first n + (5.5 * Basics.toFloat (List.length coords - (total_seats - List.length list))), second n))
-                    (take (total_seats - List.length list) coords)
-            EQ ->
-                coords
-            LT ->
-                if List.length list == 1 && first (first pattern) /= 1 then
-                    coords ++ (makeCircles coords pattern total_seats)
-                else
-                    coords ++ (makeCircles (list ++ coords) pattern total_seats)
+        if total_seats == 3 && (first <| first pattern) == 3 then 
+            coords
+        else
+            case compare (List.length list + (first <| first pattern)) total_seats of
+                GT ->
+                    List.map 
+                        (\n -> (first n + (5.5 * Basics.toFloat (List.length coords - (total_seats - List.length list))), second n))
+                        (take (total_seats - List.length list) coords)
+                EQ ->
+                    coords
+                LT ->
+                    if List.length list == 1 && first (first pattern) /= 1 then
+                        coords ++ (makeCircles coords pattern total_seats)
+                    else
+                        coords ++ (makeCircles (list ++ coords) pattern total_seats)
 
 makeState : Election -> String -> List (Svg Msg)
 makeState election state =
@@ -104,7 +107,7 @@ makeState election state =
         colorCircles election.list (List.map 
             (\n -> circle [ r "5.5", cx (fromFloat <| first n), cy (fromFloat <| second n), Sa.style ("stroke-width:0.8534;stroke:#000000") ] []) 
             (makeCircles 
-                [((first center) - (first offset), (second center) - (second offset))]
+                [((first center) - (first offset), (second center) - (second offset) - (5.5 * 2))]
                 pattern
                 election.stats.total_seats
             )) colors
@@ -118,6 +121,12 @@ makePartyRow party previous_party model =
                     Party party.name 0 0 0 False "#dddddd"
                 Just a ->
                     a
+        real_results = 
+            case Dict.get party.name <| dropMaybe <| Dict.get model.year realResults of
+                Nothing ->
+                    0
+                Just a ->
+                    a
     in
         tr 
             []
@@ -127,8 +136,8 @@ makePartyRow party previous_party model =
             , td [] [ text <| styleNum party.votes ]
             , td [] [ text <| stylePercent <| Basics.toFloat party.votes / Basics.toFloat model.current.total_votes ]
             , td [] [ text <| String.fromInt party.seats ]
-            , td [] [ text <| String.fromInt pp.seats ]
-            , td [] <| fix_change <| "+" ++ (String.fromInt <| party.seats - pp.seats)
+            , td [] [ text <| String.fromInt <| real_results ]
+            , td [] <| fix_change <| "+" ++ (String.fromInt <| party.seats - real_results)
             ]
 
 rewriteInstance : Instance -> List (List Party) -> List Stats -> Instance
@@ -231,10 +240,11 @@ getArrow side model =
         if (side == "left" && model.year == firstYear) || (side == "right" && model.year == lastYear) then
             []
         else
-            [ id (side ++ "Arrow"), onClick <| ChangeYear (model.year + change) False ]
+            [ id (side ++ "Arrow"), onClick <| Reset (model.year + change) ]
 
 type Msg 
-    = ChangeYear (Int) (Bool)
+    = Reset (Int)
+    | ChangeYear (Int) (Bool)
     | Response (Result Http.Error (Dict String String))
 
 type alias Instance =
@@ -269,7 +279,7 @@ init year =
 
 view : Model -> Html Msg
 view model =
-    div [ class "container" ]
+    div [ class "container", id "main" ]
         [ div 
             [ class "container" ]
             [ h1 [ id "election" ] [ text <| String.fromInt model.year ]
@@ -286,7 +296,7 @@ view model =
                 , div 
                     [ class "container col-sm-4", id "map", style "display" "inline-block" ]
                     [ svg 
-                        [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193", id "map-svg" ] 
+                        [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193", Sa.class "include", id "map-svg", attribute "w3-include-html" "src/img/maps/us_electoral_college_2010.svg" ] 
                         (
                             List.concatMap (\n -> makeState (dropMaybe <| Dict.get n model.current.states) n) (keys model.current.states)
                         )
@@ -294,10 +304,10 @@ view model =
                 , Html.span (getArrow "right" model) []
                 ]
             , div
-                [ class "container" ]
+                [ class "container", style "width" "fit-content" ]
                 [ div [ class "container col-sm-2", id "hemicircle", style "display" "inline-block" ] []
                 , div 
-                    [ class "container col-sm-2", style "display" "inline-block", style "vertical-align" "middle", style "left" "360px" ]
+                    [ class "container col-sm-2", style "display" "inline-block", style "vertical-align" "middle", style "left" "260px", style "min-width" "fit-content" ]
                     [ table 
                         [ id "single-results" ]
                         ([ tr 
@@ -306,7 +316,7 @@ view model =
                             , th [ rowspan 2 ] [ text "Nominee" ]
                             , th [ colspan 2, rowspan 2 ] [ text "Votes" ]
                             , th [ colspan 2 ] [ text "Electors" ]
-                            , th [ rowspan 2 ] [ text "Change" ]
+                            , th [ rowspan 2 ] [ text "+/-" ]
                             ]
                         , tr
                             []
@@ -320,7 +330,6 @@ view model =
                     ]
                 ]
             , br [] []
-
             , table 
                 [ class "container" ]
                 [ tr 
@@ -335,6 +344,12 @@ view model =
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
+        Reset (year) ->
+            let
+                a = wipeContent ()
+                --r = update (ChangeYear year False) model
+            in
+                (model, wipeContent ())
         ChangeYear (year) (previous) ->
             ({ model | writingToPrevious = previous, year = year }, getFile year)
         Response (Ok response) ->
@@ -375,3 +390,4 @@ main =
         }
 
 port updateImages : List Party -> Cmd msg
+port wipeContent : () -> Cmd msg
