@@ -2,6 +2,21 @@ const roundTen = function (n) {
     return Math.floor(n / 10) * 10;
 };
 
+const fix_change = function (text) {
+    return text.replace(/(\+0(?!.)|\+0.00)/g, "<i class='steady'>&#9644;</i> 0").replace("+-", "<i class='decrease'>&#9660;</i> ").replace("+", "<i class='increase'>&#9650;</i> ")
+}
+
+const party_colors = {
+    "Democratic": "#3333ff",
+    "Republican": "#ff3333",
+    "Libertarian": "#FED105",
+    "Green": "#17aa5c",
+    "Peace and Freedom Party": "#00FF00",
+    "Reform": "#6A287E",
+    "Ross Perot": "#6A287E",
+    "Independent": "#969696"
+}
+
 const real_results = {
     "Democratic": [297, 49, 13, 112, 370, 379, 266, 251, 365, 332, 232, 306],
     "Republican": [240, 489, 525, 426, 168, 159, 271, 286, 173, 206, 304, 232],
@@ -24,6 +39,17 @@ const new_results = {
     "Ross Perot": [0, 0, 0, 0, 103, 43, 0, 0, 0, 0, 0, 0],
     "Independent": [1, 37, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
     "Free Libertarian": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+}
+
+function getPathList() {
+    let array = Array.from(document.querySelectorAll("#map path"));
+    let output = [];
+    array.forEach((item, n) => {
+        if (!item.id.startsWith('path') && !item.id.startsWith("Puerto-Rico"))
+            output.push(item);
+    })
+    output.sort((a, b) => (a.id.localeCompare(b.id) != -1) ? 1 : -1);
+    return output;
 }
 
 const detailed_results_starting_point = `
@@ -60,7 +86,7 @@ let hemicircle;
 
 async function ld() {
     const census = roundTen(year - 1);
-    map = await (await fetch('src/img/maps/us_electoral_college_' + census.toString() + '.svg')).text();
+    map = await (await fetch('src/img/maps/us_electoral_college_2010_backup.svg')).text();
     hemicircle = await (await fetch('src/img/hemicircles/538_seats_electoral_college.svg')).text();
 
     document.querySelectorAll("#election").forEach(function (span, n) { span.innerHTML = year; });
