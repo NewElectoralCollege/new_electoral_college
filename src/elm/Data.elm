@@ -149,6 +149,59 @@ states =
         ("Wyoming", StateOutline 222.40602 -25.508213 83.726303 62.197315)
     ]
 
+realResults : Dict Int (Dict String Int)
+realResults =
+    Dict.fromList [ 
+        ( 2020, Dict.fromList [ 
+            ("Democratic", 306),
+            ("Republican", 232)
+        ]),
+        ( 2016, Dict.fromList [ 
+            ("Republican", 306),
+            ("Democratic", 232)
+        ]),
+        ( 2012, Dict.fromList [ 
+            ("Democratic", 332),
+            ("Republican", 206)
+        ]),
+        ( 2008, Dict.fromList [ 
+            ("Democratic", 365),
+            ("Republican", 173)
+        ]),
+        ( 2004, Dict.fromList [   
+            ("Republican", 286),
+            ("Democratic", 252)
+        ]),
+        ( 2000, Dict.fromList [   
+            ("Republican", 271),
+            ("Democratic", 267)
+        ]),
+        ( 1996, Dict.fromList [   
+            ("Democratic", 379),
+            ("Republican", 159)
+        ]),
+        ( 1992, Dict.fromList [   
+            ("Democratic", 370),
+            ("Republican", 168)
+        ]),
+        ( 1988, Dict.fromList [
+            ("Republican", 426),
+            ("Democratic", 112)
+        ]),
+        ( 1984, Dict.fromList [   
+            ("Republican", 525),
+            ("Democratic", 13)
+        ]),
+        ( 1980, Dict.fromList [   
+            ("Republican", 489),
+            ("Democratic", 49)
+        ]),
+        ( 1976, Dict.fromList [   
+            ("Democratic", 297),
+            ("Republican", 241)
+        ])
+    ]
+
 getNominee : Int -> String -> String
 getNominee year party =
     let
