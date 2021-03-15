@@ -30,7 +30,7 @@
             <script>
                 var app = Elm.State.init({
                     node: document.getElementById("elm-container"),
-                    flags: 1984
+                    flags: [getCookie("state", "Georgia"), Number(getCookie("year", 2020))]
                 });
             </script>
     </body>
