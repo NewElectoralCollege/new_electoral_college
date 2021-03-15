@@ -6,23 +6,33 @@ function replace(needle, replace, haystack) {
     return haystack;
 }
 
+// Handle Cookies
+function getCookie(name, fallback) {
+    try {
+        return document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))[2];
+    } catch {
+        document.cookie = name + '=' + fallback;
+        return fallback;
+    }
+}
+
 function includeHTML() {
     let z, i, elmnt, file, xhttp;
-    z = document.getElementsByTagName("*");
+    z = document.getElementsByClassName('include');
     for (i = 0; i < z.length; i++) {
         elmnt = z[i];
-        file = elmnt.getAttribute("w3-include-html");
+        file = elmnt.getAttribute('w3-include-html');
         if (file) {
             xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4) {
-                    if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-                    if (this.status == 404) {console.log("Hello");}
-                    elmnt.removeAttribute("w3-include-html");
+                    if (this.status == 200) {elmnt.insertAdjacentHTML('afterbegin', this.responseText);}
+                    if (this.status == 404) {console.log('Hello');}
+                    elmnt.removeAttribute('w3-include-html');
                     includeHTML();
                 }
             }
-            xhttp.open("GET", file, true);
+            xhttp.open('GET', file, true);
             xhttp.send();
             return;
         }
