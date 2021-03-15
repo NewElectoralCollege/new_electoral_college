@@ -261,7 +261,7 @@ translateElectorsArrow stats =
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-    case Dict.get (lastYear + 4) model.elections of
+    case Dict.get lastYear model.elections of
         Just a ->
             (model, Cmd.none)
         _ ->
@@ -323,10 +323,10 @@ update msg model =
                 _ ->
                     Debug.todo (Debug.toString msg)
         
-init : Int -> (Model, Cmd Msg)
-init year =
+init : (String, Int) -> (Model, Cmd Msg)
+init flags =
     let 
-        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 year year "" "District Of Columbia" "none")
+        r = update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 (second flags) (second flags) (first flags) "" "none")
     in
         ( first r
         , second r
@@ -393,7 +393,7 @@ view model =
             ]
         ]
 
-main : Program Int Model Msg
+main : Program (String, Int) Model Msg
 main =
     element
         { init = init
@@ -401,5 +401,3 @@ main =
         , update = update
         , subscriptions = \_ -> Sub.none
         }
-
-
