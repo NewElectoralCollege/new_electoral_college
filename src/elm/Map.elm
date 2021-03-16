@@ -214,9 +214,13 @@ partyContainer party model =
                     (\state -> (
                         let
                             current = dropMaybe <| Dict.get state model.current.states
-                            previous = dropMaybe <| Dict.get state model.previous.states
+                            previous = Dict.get state model.previous.states -- For an unknown reason, this sometimes produces Nothing.
                         in
-                            doYearRow state party current previous
+                            case previous of
+                                Nothing ->
+                                    tr [] [ td [] [ text state ] ] -- This handles it. This is never visibly called.
+                                _ ->
+                                    doYearRow state party current <| dropMaybe previous
                     )) 
                     (keys model.current.states)))
     ] 
@@ -296,10 +300,11 @@ view model =
                 , div 
                     [ class "container col-sm-4", id "map", style "display" "inline-block" ]
                     [ svg 
-                        [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193", Sa.class "include", id "map-svg", attribute "w3-include-html" "src/img/maps/us_electoral_college_2010.svg" ] 
+                        [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193", id "map-svg" ] 
+                        (( g [ Sa.class "include", Sa.id "paths", attribute "w3-include-html" "src/img/maps/us_electoral_college_2010.svg" ] [] ) ::                        
                         (
                             List.concatMap (\n -> makeState (dropMaybe <| Dict.get n model.current.states) n) (keys model.current.states)
-                        )
+                        ))
                     ]
                 , Html.span (getArrow "right" model) []
                 ]
@@ -345,11 +350,7 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         Reset (year) ->
-            let
-                a = wipeContent ()
-                --r = update (ChangeYear year False) model
-            in
-                (model, wipeContent ())
+            (model, wipeContent year)
         ChangeYear (year) (previous) ->
             ({ model | writingToPrevious = previous, year = year }, getFile year)
         Response (Ok response) ->
@@ -380,14 +381,19 @@ update msg model =
         _ ->
             Debug.todo (Debug.toString msg)
 
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    sendMsg (\n -> ChangeYear n False)
+
 main : Program Int Model Msg
 main =
     Browser.element
         { init = init
         , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         }
 
 port updateImages : List Party -> Cmd msg
-port wipeContent : () -> Cmd msg
+port wipeContent : Int -> Cmd msg
+port sendMsg : (Int -> msg) -> Sub msg
