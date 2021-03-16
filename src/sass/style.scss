@@ -149,3 +149,19 @@ div#gallagher-formula, div#wasted-vote {
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
 }
+g#labels text {
+    font-size: 15px;
+}
+g#labels rect {
+    width: 2px;
+    height: 60px;
+    background: #00022D;
+}
+#state-list {
+    max-width: fit-content;
+    position: absolute;
+    left: 10%;
+}
+#state-list .list-group-item {
+    padding: 3px;
+}
