@@ -1,20 +1,20 @@
 module State exposing (..)
 
 import Browser exposing (element)
-import Html exposing (text, Html, i, tr, td, th, thead, tfoot, br, div, table, p, button, h2, var)
+import Html exposing (text, Html, i, tr, td, th, thead, tfoot, br, div, table, p, button, h2, var, span, a)
 import Html.Attributes as Ha exposing (..)
-import Html.Events exposing (..)
+import Html.Events exposing (onClick, onMouseOver)
 import List exposing (head, length, reverse, sortBy)
 import List.Extra exposing (setAt, find)
-import Svg exposing (Svg, circle, rect, svg, defs, marker, g, polygon)
+import Svg exposing (Svg, circle, rect, svg, defs, marker, g, polygon, text_)
 import Svg.Attributes as Sa exposing (..)
 import Tuple exposing (first, second)
-import Dict exposing (Dict, insert, empty)
-import Formula exposing (toString)
-import Formula.Parser exposing (parse)
+import Dict exposing (Dict, insert, empty, keys)
+import String exposing (fromInt)
 
 import Data exposing (..)
 import Util exposing (..)
+
 
 type alias Model =
     { list : List Party
@@ -101,7 +101,7 @@ getCircles angle model i =
                 [ cx (String.fromFloat (first coords))
                 , cy (String.fromFloat (second coords))
                 , r "10"
-                , Sa.style "stroke-width:2;stroke:#969696"
+                , Sa.style "stroke-width:1;stroke:#969696"
                 ] []) :: getCircles (getAngle model.stats (i + 1)) model (i + 1)
             
 doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
@@ -115,12 +115,15 @@ doPartyBars list parties nx model =
         in
             if ifQualifyingParty party <| toFloat model.stats.total_votes then
                 list ++ (doPartyBars [
-                    rect [ x (String.fromFloat nx)
-                         , y "370"
-                         , Sa.width (String.fromFloat nwidth)
-                         , Sa.height "50"
-                         , fill party.color
-                         ] []
+                    rect 
+                        [ x (String.fromFloat nx)
+                        , y "370"
+                        , Sa.width (String.fromFloat nwidth)
+                        , Sa.height "50"
+                        , fill party.color
+                        , Sa.style "stroke-width:2;stroke:#fff;"
+                        ] 
+                        []
                 ] (List.drop 1 parties) (nx + nwidth) model)
             else
                 list ++ [ rect [ x (String.fromFloat nx)
@@ -145,7 +148,7 @@ summaryHeader model =
         ]
     ]
 
-summaryFooter : Model -> List (Html msg)
+summaryFooter : Model -> List (Html Msg)
 summaryFooter model =
     let
         string = (
@@ -170,7 +173,7 @@ summaryFooter model =
                 |> String.lines
                 |> List.map text
                 |> List.intersperse (br [] [])
-                |> setAt 7 (i [ Ha.class "fa", Ha.style "color" "blue" ] [ text (String.fromChar '\u{F059}') ])
+                |> setAt 7 (i [ Ha.class "fa", Ha.style "color" "blue", onClick <| RevealPopup "gallagher" ] [ text (String.fromChar '\u{F059}') ])
         ) ]
     ]]
 
@@ -259,6 +262,37 @@ translateElectorsArrow stats =
         "translate(-566 -342) scale(-1)"
         -- ++ String.fromInt (round (first coords)) ++ " " ++ String.fromInt (round (second coords)) ++ 
 
+judgePopupShow : String -> Model -> String
+judgePopupShow name model =
+    case compare name model.revealed of
+        EQ ->
+            "inline-block"
+        _ -> 
+            "none"
+
+makeStateList : String -> String -> Html Msg
+makeStateList state year =
+    div
+        [ Ha.class "list-group", Ha.id "state-list" ]
+        (List.map 
+            (\n ->
+                let
+                    active =
+                        case compare state n of
+                            EQ ->
+                                " active"
+                            _ ->
+                                ""
+                in
+                    a 
+                        [ Ha.class <| "list-group-item list-group-item-action" ++ active
+                        , Ha.href ("state.html?state=" ++ n ++ "&year=" ++ year) 
+                        ] 
+                        [ text n ]
+            )
+            (keys states)
+        )
+
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case Dict.get lastYear model.elections of
@@ -335,8 +369,7 @@ init flags =
 view : Model -> Html Msg
 view model =
     div [ Ha.class "container" ]
-        [ button [ Ha.class "btn btn-secondary", Ha.style "float" "right" ] 
-                 [ Html.a [ Ha.attribute "download" model.state, Ha.href ("/new_electoral_college/data/" ++ String.fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ text "Download" ] ]
+        [ makeStateList model.state <| fromInt model.year
         , svg
             [ Ha.width 975
             , Ha.height 520
@@ -358,20 +391,48 @@ view model =
                         colorCircles model.list circles colors
                 )
             , g
-                [ Ha.id "bar", Sa.style "" ]
+                [ Ha.id "bar" ]
                 (doPartyBars [] model.list 100.0 model)
+            , g
+                [ Ha.id "labels" ]
+                (List.map 
+                    (\n -> 
+                        g 
+                            [] 
+                            [ rect 
+                                [ Sa.x <| String.fromFloat <| 100.0 + (n * 700.0), Sa.y "370" ] 
+                                []
+                            , text_ 
+                                [ Sa.x <| String.fromFloat <| 90.0 + (n * 700.0), Sa.y "460" ] 
+                                [ Svg.text <| stylePercent n ]
+                            ]
+                    ) 
+                    [0.5, 0.25, 0.75, 0, 1]
+                )
             , rect 
-                [ Sa.style "stroke-width:2;stroke:#969696;fill-opacity:0"
-                , x "100"
+                [ x "100"
                 , y "370"
                 , Sa.width "700"
                 , Sa.height "50"
+                , Sa.style "fill-opacity:0"
                 ] []
             ]
-        , div [ Ha.class "container" ]
-              [ table [ Ha.id "single-results", Ha.class "table-bordered" ]
-              ( summaryHeader model ++ (doPartyElectors [] model.list model) ++ summaryFooter model)
-              ]
+        , div 
+            [ Ha.class "container" ]
+            [ span 
+                [ Ha.class "btn-group", Ha.attribute "role" "group" ] 
+                [ button 
+                    [ Ha.type_ "button", Ha.class "btn btn-secondary", Ha.style "display" "inline-block" ] 
+                    [ Html.a [ Ha.style "color" "#fff", Ha.attribute "download" model.state, Ha.href ("/new_electoral_college/data/" ++ String.fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ text "Download" ] ]
+                , button 
+                    [ Ha.type_ "button", Ha.class "btn btn-secondary", Ha.style "display" "inline-block" ] 
+                    [ Html.a [ Ha.style "color" "#fff", Ha.href "results.html" ] [ text "Back" ] ]
+                ]
+            , br [] []
+            , br [] []
+            , table [ Ha.id "single-results", Ha.class "table-bordered" ]
+                ( summaryHeader model ++ (doPartyElectors [] model.list model) ++ summaryFooter model )
+            ]
         , br [] []
         , div [ Ha.class "container" ]
               [ h2 [] [ text "State History" ]
@@ -385,10 +446,10 @@ view model =
               ]
         , div
             [ Ha.id "gallagher-formula"
-            , Ha.style "display" ""
+            , Ha.style "display" <| judgePopupShow "gallagher" model
             ]
             [ p [] [ text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
-            --, text <| toString <| parse "This **is** a test: $a^2 + b^2 = c^2$."
+            , p [] [ text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
             , p [] [ text "Where ", var [] [ text "V" ], text " is the percentage of votes cast for the party, and ", var [] [ text "S" ], text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
             ]
         ]
