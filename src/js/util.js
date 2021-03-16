@@ -16,6 +16,16 @@ function getCookie(name, fallback) {
     }
 }
 
+//Get GET
+function getGet(key, fallback) {
+    let get = (new RegExp('[?&]'+encodeURIComponent(key)+'=([^&]*)')).exec(location.search);
+    if (get) {
+        return decodeURIComponent(get[1]);
+    } else {
+        return fallback;
+    }
+}
+
 function includeHTML() {
     let z, i, elmnt, file, xhttp;
     z = document.getElementsByClassName('include');
