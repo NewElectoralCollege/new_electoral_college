@@ -18,15 +18,6 @@ import String exposing (..)
 import Util exposing (..)
 import Data exposing (..)
 
-complexPattern : Float -> Float -> Int -> Float
-complexPattern a b total_seats =
-    if a > b * 2 then
-        100
-    else
-        total_seats
-            |> Basics.toFloat
-            |> sqrt
-
 getPattern : StateOutline -> Int -> ((Int, Int), String)
 getPattern so total_seats =
     let

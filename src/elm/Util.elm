@@ -72,32 +72,11 @@ getColor party colors =
             _ ->
                 dropMaybe result
 
-getStateColor : String -> String
-getStateColor state =
-    let 
-        colors = 
-            Dict.fromList 
-            [ ("A", "#000000")
-            , ("C", "cyan")
-            , ("D", "#3333dd")
-            , ("F", "fuchsia")
-            , ("G", "#00ff00")
-            , ("H", "hotpink")
-            , ("I", "indianred")
-            , ("K", "khaki")
-            ]
-    in
-        dropMaybe <| Dict.get (left 1 state) colors
-
 -- Basic operations
 
 divide : Int -> Int -> Float -- Takes the divisor as the first argument. This is used while pipeing (|>).
 divide a b = 
     (Basics.toFloat b) / (Basics.toFloat a)
-
-multiply : Float -> Float -> Float -- This is also used for pipeing.
-multiply a b =
-    a * b
 
 -- Used to style numbers with commas, for instance (1000000 -> 1,000,000)
 
