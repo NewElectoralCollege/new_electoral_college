@@ -23,8 +23,10 @@ window.onload = async function () {
     });
 
     app.ports.wipeContent.subscribe(function (data) {
-        const main = document.querySelector('.include#map-svg');
-        main.removeChild(document.querySelector('#data'));
-        console.log("Hello");
+        let p = document.querySelector('#paths');
+        while (p.firstChild) {
+            p.removeChild(p.firstChild);
+        }
+        app.ports.sendMsg.send(data);
     });
 }
