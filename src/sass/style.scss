@@ -165,3 +165,13 @@ g#labels rect {
 #state-list .list-group-item {
     padding: 3px;
 }
+#LaTeX, mjx-container {
+    max-width: fit-content;
+    display: inline-block;
+}
+#pdf {
+    padding: 17px 20px;
+}
+#pdf a {
+    font-size: 20px;
+}
