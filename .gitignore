@@ -7,6 +7,7 @@ src/sass/*.css
 src/sass/*.css.map
 src/sass/agincourt_font.ttf
 src/js/state.js
+src/js/map.js
 src/js/*compiled.js
 todo_list.txt
 old_results.html
