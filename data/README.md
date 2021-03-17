@@ -5,9 +5,9 @@
     "parties": [
         {
             "name": "Party A",
-            "seats": 4,              // Seats
-            "votes": 4100,           // Votes
-            "extra_votes": 60,       // Votes after quota division
+            "seats": 4,    
+            "votes": 4100,      
+            "extra_votes": 60,      
             "extra_seat": false
         },
         {
@@ -27,9 +27,9 @@
     ],
     "stats": {
         "name": "Seat Allocation",
-        "total_seats": 10,             // Total Seats
-        "total_votes": 10100,          // Total Votes
-        "gallagher_index": 0.52391     // Gallagher Index 
+        "total_seats": 10,
+        "total_votes": 10100,     
+        "gallagher_index": 0.52391    
     }
 }
 ```
