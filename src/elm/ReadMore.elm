@@ -1,4 +1,4 @@
-module ReadMore exposing (..)
+port module ReadMore exposing (..)
 
 import Html exposing (text, h2, div, Html, a, p, span)
 import Html.Attributes exposing (class, id, property, href, style, type_, attribute, width)
@@ -15,7 +15,7 @@ modules : List (String, String)
 modules =
     [ ( "The Proposal", "See the entire proposal in professional form." )
     , ( "The Amendment", "See the draft Joint Resolution for a Constitutional Amendment that would allow for the New Electoral College." )
-    , ( "The Gallagher Index", "See explinations of the Gallagher Index." )
+    , ( "Gallagher Index", "See explinations of the Gallagher Index." )
     ]
 
 -- Type Definitions
@@ -30,7 +30,7 @@ type Msg
 
 init : () -> (Model, Cmd Msg)
 init _ =
-    ("", Cmd.none)
+    ("The-Proposal", Cmd.none)
 
 view : Model -> Html Msg
 view model =
@@ -39,6 +39,11 @@ view model =
         [ h2
             [ ]
             [ text "Read More" ]
+        , p
+            [ ]
+            [ text <| "This page contains a number of articles written by our team on different topics related to the New Electoral College, " ++ 
+            "Proportional Representation, or other topics. They are avaliable in both LaTeX and PDF form." 
+            ]
         , div
             [ class "list-group list-group-flush"
             , id "reading-list"
@@ -49,10 +54,11 @@ view model =
                     (\i n -> 
                         let
                             active =
-                                if i == 0 then
-                                    " show active"
-                                else
-                                    ""
+                                case compare (replace " " "-" <| first n) model of
+                                    EQ ->
+                                        " show active"
+                                    _ ->
+                                        ""
                         in
                             a 
                                 [ class <| "list-group-item list-group-item-action" ++ active
@@ -73,10 +79,11 @@ view model =
                     (\i n -> 
                         let
                             active =
-                                if i == 0 then
-                                    " show active"
-                                else
-                                    ""
+                                case compare (replace " " "-" <| first n) model of
+                                    EQ ->
+                                        " show active"
+                                    _ ->
+                                        ""
                         in
                             div 
                                 [ class <| "tab-pane fade" ++ active 
@@ -114,6 +121,10 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     (model, Cmd.none)
 
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    reset (\n -> CreateHtml)
+
 main : Program () Model Msg
 main =
     element
@@ -122,3 +133,5 @@ main =
         , update = update
         , subscriptions = \_ -> Sub.none
         }
+
+port reset : (String -> msg) -> Sub msg

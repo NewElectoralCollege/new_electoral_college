@@ -34,6 +34,11 @@
             var app = Elm.ReadMore.init({
                 node: document.getElementById('main')
             });
+
+            $('.list-group-item').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
         </script>
 
     </body>
