@@ -14,7 +14,8 @@ text = "".join(list(open(directory + "/email.html", "r")))
 # It is the file that contains the password for the email account.
 try:
     password = list(open(directory + "/key.txt", "r"))[0].strip()
-    open(directory + "/key.txt", "w")
+    file = open(directory + "/key.txt", "w")
+    file.close()
 except FileNotFoundError:
     print("You don't have the password.")
     exit(-1)
