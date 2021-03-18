@@ -10,8 +10,8 @@ import Dict exposing (..)
 import List exposing (..)
 import List.Extra exposing (..)
 import Json.Decode as Decode exposing (Decoder)
-import Svg exposing (Svg, svg, circle, g, image, use)
-import Svg.Attributes as Sa exposing (r, cx, cy, width, height, viewBox, xlinkHref)
+import Svg exposing (Svg, svg, circle, g)
+import Svg.Attributes as Sa exposing (r, cx, cy)
 import Tuple exposing (..)
 import String exposing (..)
 
@@ -216,12 +216,6 @@ partyContainer party model =
                     (keys model.current.states)))
     ] 
 
-{-
-There is a possibility, that when the flickering year is fixed, that this wont work. In that case:
-lastYear - 4
-firstYear + 4
--}
-
 getArrow : String -> Model -> List (Attribute Msg)
 getArrow side model =
     let
@@ -250,6 +244,7 @@ type alias Instance =
 
 type alias Model =
     { year : Int
+    , real_year : Int
     , writingToPrevious : Bool
     , current : Instance
     , previous : Instance
@@ -266,7 +261,7 @@ init : Int -> (Model, Cmd Msg)
 init year =
     let
         emptyInstance = Instance empty [] 0
-        r = update (ChangeYear year False) <| Model year False emptyInstance emptyInstance
+        r = update (ChangeYear year False) <| Model year year False emptyInstance emptyInstance
     in
         ( first r
         , second r 
@@ -277,8 +272,8 @@ view model =
     div [ class "container", id "main" ]
         [ div 
             [ class "container" ]
-            [ h1 [ id "election" ] [ text <| String.fromInt model.year ]
-            , p [] [ text ("These are the projected results of the " ++ String.fromInt model.year ++ " Election using our proposal. It takes the final " ++
+            [ h1 [ id "election" ] [ text <| String.fromInt model.real_year ]
+            , p [] [ text ("These are the projected results of the " ++ String.fromInt model.real_year ++ " Election using our proposal. It takes the final " ++
                 "certified results of the Election, and allocates the electors in each state. If the election were actually run under the New Electoral " ++
                 "College, the results would have been slightly different. Voters change their behavior under more representative " ++
                 "electoral systems.") ]
@@ -365,7 +360,7 @@ update msg model =
                     ({ model | previous = rewriteInstance model.previous parties stats, writingToPrevious = False, year = model.year + 4 }, updateImages model.current.list)
                 else
                     let
-                        tempmodel = { model | current = rewriteInstance model.current parties stats }
+                        tempmodel = { model | current = rewriteInstance model.current parties stats, real_year = model.year }
                         r = update (ChangeYear (tempmodel.year - 4) True) tempmodel
                     in
                         (first r, second r)
