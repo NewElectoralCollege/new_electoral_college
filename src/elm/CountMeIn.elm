@@ -1,8 +1,12 @@
 module CountMeIn exposing (..)
 
-import Html exposing (text, div, Html, h2, p, b, br)
-import Html.Attributes exposing (class)
+import Html exposing (text, div, Html, h2, p, b, form, label, input, small, select, option, button)
+import Html.Attributes exposing (class, id, for, type_, placeholder, novalidate, required, name, method, action)
 import Browser exposing (element)
+import Dict exposing (keys)
+import List exposing (map, append, sort)
+
+import Data exposing (states)
 
 -- Type Definitions
 
@@ -36,6 +40,88 @@ view model =
         , p
             [ ]
             [ text <| "The newsletter is not regular. It doesn’t come out weekly, or monthly. We will send it out whenever we think we need to." ]
+        , form
+            [ class "needs-validation"
+            , action "/new_electoral_college/emails/addPerson.py"
+            , method "POST"
+            , novalidate True
+            ]
+            [ div
+                [ class "form-row" ]
+                [ div
+                    [ class "col" ]
+                    [ label
+                        [ for "first-name" ]
+                        [ text "First Name" ]
+                    , input
+                        [ type_ "text" 
+                        , class "form-control"
+                        , id "first-name"
+                        , name "first-name"
+                        , placeholder "First"
+                        , required True
+                        ]
+                        [ ]
+                    ]
+                , div
+                    [ class "col" ]
+                    [ label
+                        [ for "last-name" ]
+                        [ text "Last Name" ]
+                    , input
+                        [ type_ "text" 
+                        , class "form-control"
+                        , id "last-name"
+                        , name "last-name"
+                        , placeholder "Last"
+                        , required True
+                        ]
+                        [ ]
+                    ]
+                ]
+            , div
+                [ class "form-group" ]
+                [ label
+                    [ for "state" ]
+                    [ text "State" ]
+                , select
+                    [ class "form-control"
+                    , id "state"
+                    , name "state"
+                    , required True
+                    ]
+                    ( map
+                        (\n -> option [] [ text n ] )
+                        <| sort
+                        <| append ["American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands"] 
+                        <| keys states
+                    )
+                ]
+            , div
+                [ class "form-group" ]
+                [ label
+                    [ for "email" ]
+                    [ text "Email address" ]
+                , input
+                    [ type_ "email" 
+                    , class "form-control"
+                    , id "email"
+                    , name "email"
+                    , placeholder "name@example.com"
+                    , required True
+                    ]
+                    [ ]
+                , small
+                    [ class "form-text text-muted" ]
+                    [ text "We'll never share your email with anyone else." ]
+                ]
+            , button
+                [ type_ "submit"
+                , class "btn btn-primary mb-2"
+                , required True
+                ]
+                [ text "Submit" ]
+            ]
         ]
 
 update : Msg -> Model -> (Model, Cmd Msg)
