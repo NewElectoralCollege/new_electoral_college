@@ -237,7 +237,7 @@ type alias Model =
 getFile : Int -> Cmd Msg
 getFile year =
     Http.get 
-    { url = "http://localhost/new_electoral_college/src/js/getJson.php?year=" ++ String.fromInt year ++ "&string=yes"
+    { url = "http://localhost/new_electoral_college/src/js/getJson.py"-- " ++ String.fromInt year
     , expect = Http.expectJson Response (Decode.dict Decode.string)
     }
 
