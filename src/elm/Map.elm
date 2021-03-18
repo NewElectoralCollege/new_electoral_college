@@ -20,41 +20,25 @@ import Data exposing (..)
 
 getPattern : StateOutline -> Int -> ((Int, Int), String)
 getPattern so total_seats =
-    let
-        r = 5.5
-    in
-        if List.member total_seats [4, 9, 16, 25, 36, 49] then
-            ((round <| sqrt <| Basics.toFloat total_seats, round <| sqrt <| Basics.toFloat total_seats), "#ff0000")
-        else if total_seats == 3 then
-            if so.width > so.height then
-                ((3, 1), "orange")
-            else 
-                ((1, 3), "#000000")
-        else if List.member total_seats [6, 8] && total_seats < 9 then
-            if so.width > so.height then
-                ((round (Basics.toFloat total_seats / 2), 2), "#00ff00")
-            else 
-                ((2, round (Basics.toFloat total_seats / 2)), "#00a0ff")
-        else if total_seats < 9 then
-            ((round (Basics.toFloat total_seats / 2), 2), "#3333ff")
-        else
-            let
-                a = 
-                    if (Basics.min so.width so.height) * 2 < (Basics.max so.width so.height) then
-                        round <| Basics.toFloat total_seats / (Basics.min so.width so.height
-                            |> round
-                            |> divide 10
-                            |> round
-                            |> Basics.toFloat
-                            )
-                    else 
-                        round <| sqrt <| Basics.toFloat total_seats
-                b = floor <| Basics.toFloat total_seats / Basics.toFloat a
-            in
-                if so.width > so.height then
-                    ((a, b), "#000000")
+    if 5.5 * 2 * (Basics.toFloat total_seats) / (so.width * so.height) < 0.9 then
+        let
+            sq = sqrt <| Basics.toFloat total_seats
+            bottom = floor <| Basics.min so.width so.height / (2 * 5.5)
+            leftover = 
+                if bottom == 0 then
+                    total_seats
                 else
-                    ((b, a), "#000000")
+                    round <| Basics.toFloat total_seats / Basics.toFloat bottom
+        in
+            if 2 * 5.5 * sq > Basics.min so.width so.height then
+                if so.width < so.height then
+                    ((bottom, leftover), "false")
+                else
+                    ((leftover, bottom), "false")
+            else
+                ((round sq, (floor sq) + 1), "false")
+    else
+        ((1, 1), "false")
                     
 makeCircles : List (Float, Float) -> ((Int, Int), String) -> Int -> List (Float, Float)
 makeCircles list pattern total_seats =
