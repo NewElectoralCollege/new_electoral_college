@@ -1,13 +1,12 @@
-port module ReadMore exposing (..)
+module ReadMore exposing (..)
 
-import Html exposing (text, h2, div, Html, a, p, span)
+import Html exposing (text, h2, div, Html, a, p, span, button)
 import Html.Attributes exposing (class, id, property, href, style, type_, attribute, width)
 import List exposing (indexedMap)
 import Browser exposing (element)
 import Json.Encode exposing (string)
 import Tuple exposing (first, second)
 import String exposing (replace, toLower)
-import Html exposing (button)
 
 -- Modules
 
@@ -121,10 +120,6 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     (model, Cmd.none)
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    reset (\n -> CreateHtml)
-
 main : Program () Model Msg
 main =
     element
@@ -133,5 +128,3 @@ main =
         , update = update
         , subscriptions = \_ -> Sub.none
         }
-
-port reset : (String -> msg) -> Sub msg
