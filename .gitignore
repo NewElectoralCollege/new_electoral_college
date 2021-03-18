@@ -15,4 +15,6 @@ dirtytalk.sty
 the_proposal/*.aux
 the_proposal/*.pdf
 the_proposal/*.log
+emails/key.txt
+emails/emails.csv
 *.bat
