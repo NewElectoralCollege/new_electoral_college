@@ -37,6 +37,8 @@
                 const hemicircle = await (await fetch('src/img/hemicircles/538_seats_electoral_college.svg')).text();
 
                 app.ports.updateImages.subscribe(function (parties) {
+                    $('.include#paths').attr('w3-include-html', 'src/img/maps/us_electoral_college_2010.svg')
+
                     includeHTML();
 
                     const hemicircle_div = document.querySelector('#hemicircle');

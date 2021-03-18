@@ -292,7 +292,7 @@ view model =
                     [ class "container col-sm-4", id "map", style "display" "inline-block" ]
                     [ svg 
                         [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193", id "map-svg" ] 
-                        (( g [ Sa.class "include", Sa.id "paths", attribute "w3-include-html" "src/img/maps/us_electoral_college_2010.svg" ] [] ) ::                        
+                        (( g [ Sa.class "include", Sa.id "paths" ] [] ) ::                        
                         (
                             List.concatMap (\n -> makeState (dropMaybe <| Dict.get n model.current.states) n) (keys model.current.states)
                         ))
