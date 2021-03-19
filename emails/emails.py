@@ -6,9 +6,9 @@ import email.mime.text as emT
 
 directory = "/".join(__file__.split("\\")[:-1])
 
-restrict = ("None", True)
-subject = "Test"
-text = "".join(list(open(directory + "/email.html", "r")))
+restrict = ("None", False)
+subject = "Thank you for Signing Up for the Newsletter!"
+text = "".join(x.strip() for x in list(open(directory + "/welcome_email.html", "r")))
 
 # For obvious reasons, the "key.txt" file is not put in the github repository.
 # It is the file that contains the password for the email account.
