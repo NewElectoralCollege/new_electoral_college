@@ -4,30 +4,23 @@ print("Content-Type: text/html; charset=utf-8\n\n")
 
 import os
 import json
-import sys
-from flask import Flask, session, redirect, url_for, request
+import cgi
 
-app = Flask(__name__)
+year = cgi.FieldStorage().getvalue("year")
 
-@app.route('/')
-def summary():
-    sys.argv.append("2020")
+output = {}
 
-    year = sys.argv[1]
+directory = "/".join(__file__.split("/")[:-3]) + "/data/" + year + "/"
+for state in os.listdir(directory):
+    file = open(directory + state, "r")
+    state = state.split(".")[0].replace(" Of ", " of ")
+    output[state] = ""
 
-    output = {}
+    for line in file:
+        output[state] += line.strip()
 
-    directory = "/".join(__file__.split("\\")[:-3]) + "/data/" + year + "/"
-    for state in os.listdir(directory):
-        file = open(directory + state, "r")
-        state = state.split(".")[0]
-        output[state] = ""
+    output[state] = output[state]
 
-        for line in file:
-            output[state] += line.strip()
+    file.close()
 
-        output[state] = output[state]
-
-        file.close()
-
-        return app.response_class(response=json.dumps(output), mimetype="application/json")
+print(json.dumps(output))
