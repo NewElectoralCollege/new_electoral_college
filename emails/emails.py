@@ -11,7 +11,6 @@ subject = "Thank you for Signing Up for the Newsletter!"
 text = "".join(x.strip() for x in list(open(directory + "/welcome_email.html", "r")))
 
 # For obvious reasons, the "key.txt" file is not put in the github repository.
-# It is the file that contains the password for the email account.
 try:
     password = list(open(directory + "/key.txt", "r"))[0].strip()
     file = open(directory + "/key.txt", "w")
