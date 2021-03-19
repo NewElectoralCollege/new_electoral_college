@@ -1,7 +1,7 @@
 module ReadMore exposing (..)
 
 import Html exposing (text, h2, div, Html, a, p, span, button)
-import Html.Attributes exposing (class, id, property, href, style, type_, attribute, width)
+import Html.Attributes exposing (class, id, property, href, style, type_, attribute)
 import List exposing (indexedMap)
 import Browser exposing (element)
 import Json.Encode exposing (string)
