@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="src/img/other/icon.png">
-        <title>The New Electoral College - Count Me In</title>
-        <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="src/sass/style.css"/>
     </head>
     <body>
+        <script src="src/js/Header_compiled.js"></script>
+        <script src="src/js/util.js"></script>
+        <script src="src/js/CountMeIn_compiled.js"></script>
+        <script>
+            window.onload = function () {
+                makeHeader('Count Me In');
+                includeHTML();
+
+                var app = Elm.CountMeIn.init({
+                    node: document.getElementById('main')
+                });
+
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }
+        </script>
 
         <div class="include" w3-include-html="header.html"></div><br><br><br><br>
     
@@ -23,28 +37,6 @@
         <footer class="container">
         <p>&copy; The New Electoral College 2021</p>
         </footer>
-
-        <script src="src/js/util.js"></script>
-        <script src="src/js/CountMeIn_compiled.js"></script>
-        <script>
-            includeHTML();
-
-            var app = Elm.CountMeIn.init({
-                node: document.getElementById('main')
-            });
-
-            var forms = document.getElementsByClassName('needs-validation');
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-
-        </script>
 
     </body>
 </html>

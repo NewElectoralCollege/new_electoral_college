@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="src/img/other/icon.png">
-        <title>The New Electoral College - More Reading</title>
-        <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script type="text/javascript" id="MathJax-script" async
-            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-        <link rel="stylesheet" href="src/sass/style.css"/>
     </head>
     <body>
+        <script src="src/js/Header_compiled.js"></script>
+        <script src="src/js/util.js"></script>
+        <script src="src/js/ReadMore_compiled.js"></script>
+        <script>
+            window.onload = function () {
+                makeHeader('More Reading');
+                includeHTML();
+
+                var app = Elm.ReadMore.init({
+                    node: document.getElementById('main')
+                });
+
+                $('.list-group-item').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+            }
+        </script>
 
         <div class="include" w3-include-html="header.html"></div><br><br><br><br>
     
@@ -25,21 +31,6 @@
         <footer class="container">
         <p>&copy; The New Electoral College 2021</p>
         </footer>
-
-        <script src="src/js/util.js"></script>
-        <script src="src/js/ReadMore_compiled.js"></script>
-        <script>
-            includeHTML();
-
-            var app = Elm.ReadMore.init({
-                node: document.getElementById('main')
-            });
-
-            $('.list-group-item').on('click', function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
-        </script>
 
     </body>
 </html>

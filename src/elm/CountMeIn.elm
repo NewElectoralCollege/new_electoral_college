@@ -39,7 +39,7 @@ view model =
             ]
         , p
             [ ]
-            [ text <| "The newsletter is not regular. It doesn’t come out weekly, or monthly. We will send it out whenever we think we need to." ]
+            [ text <| "The newsletter is not regular. It doesn't come out weekly, or monthly. We will send it out whenever we think we need to." ]
         , form
             [ class "needs-validation"
             , action "/new_electoral_college/emails/addPerson.py"

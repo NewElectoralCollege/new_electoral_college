@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="src/img/other/icon.png">
-        <title>The New Electoral College - Viewing Results</title>
-        <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="src/sass/style.css"/>
     </head>
     <body>
 
@@ -25,19 +14,21 @@
         <p>&copy; The New Electoral College 2021</p>
         </footer>
 
+        <script src="src/js/Header_compiled.js"></script>
         <script src="src/js/util.js"></script>
         <script src="src/js/map_compiled.js"></script>
         <script>
+            makeHeader('Viewing Results');
             window.onload = async function () {
                 let app = Elm.Map.init({
                     node: document.getElementById('main'),
                     flags: Number(getCookie('year', 2020))
                 });
 
-                const hemicircle = await (await fetch('src/img/hemicircles/538_seats_electoral_college.svg')).text();
+                const hemicircle = await (await fetch('src/img/538_seats_electoral_college.svg')).text();
 
                 app.ports.updateImages.subscribe(function (parties) {
-                    $('.include#paths').attr('w3-include-html', 'src/img/maps/us_electoral_college_2010.svg')
+                    $('.include#paths').attr('w3-include-html', 'src/img/us_electoral_college_2010.svg')
 
                     includeHTML();
 

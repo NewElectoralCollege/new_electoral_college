@@ -26,6 +26,17 @@ function getGet(key, fallback) {
     }
 }
 
+function makeHeader(name) {
+    let app = Elm.Header.init({
+        node: document.getElementsByTagName('head')[0],
+        flags: name
+    });
+
+    app.ports.title.subscribe(function (title) {
+        document.title = title;
+    });
+}
+
 function includeHTML() {
     let z, i, elmnt, file, xhttp;
     z = document.getElementsByClassName('include');

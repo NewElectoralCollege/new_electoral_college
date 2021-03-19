@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="src/img/other/icon.png">
-        <title>The New Electoral College - Viewing State</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script type="text/javascript" id="MathJax-script" async
-            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-        <script src="src/js/util.js"></script>
-        <link rel="stylesheet" href="src/sass/style.css"/>
     </head>
     <body>
+            <script src="src/js/Header_compiled.js"></script>
+            <script src="src/js/util.js"></script>
+            <script src="src/js/state_compiled.js"></script>
+            <script>
+                window.onload = function () {
+                    makeHeader('Viewing State');
+                    includeHTML();
+                    var app = Elm.State.init({
+                        node: document.getElementById('elm-container'),
+                        flags: 
+                            (new RegExp('[?&]'+encodeURIComponent('state')+'=([^&]*)')).exec(location.search) ?
+                                [
+                                    getGet('state', 'Georgia'), 
+                                    Number(getGet('year', 2020))
+                                ] :
+                                [
+                                    getCookie('state', 'Georgia'), 
+                                    Number(getCookie('year', 2020))
+                                ] 
+                    });
+                }
+            </script>   
+
             <div class="include" w3-include-html="header.html"></div><br><br><br><br>
         
             <main role="main" id="elm-container">
@@ -27,22 +37,5 @@
             <p style="float:right; text-align: left;">Data Source: <a target="_blank" href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX">Massachusetts Institute of Technology (MIT) Election Lab</a></p>
             </footer>
 
-            <script>includeHTML()</script>
-            <script src="src/js/state_compiled.js"></script>
-            <script>
-                var app = Elm.State.init({
-                    node: document.getElementById('elm-container'),
-                    flags: 
-                        (new RegExp('[?&]'+encodeURIComponent('state')+'=([^&]*)')).exec(location.search) ?
-                            [
-                                getGet('state', 'Georgia'), 
-                                Number(getGet('year', 2020))
-                            ] :
-                            [
-                                getCookie('state', 'Georgia'), 
-                                Number(getCookie('year', 2020))
-                            ] 
-                });
-            </script>
     </body>
 </html>
