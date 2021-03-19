@@ -141,7 +141,12 @@ doYearRow state partyname current previous =
     in
     tr
         []
-        [ td [] [ text state ]
+        [ td 
+            [ ]
+            [ a
+                [ href <| "state.html?year=2020&state=" ++ state ]
+                [ text state ]
+            ]
         , td [] [ text <| styleNum <| (first party).votes ]
         , td [] [ text <| stylePercent <| popularVotePercent ]
         , td [] (
