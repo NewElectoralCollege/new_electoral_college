@@ -142,8 +142,8 @@ rewriteInstance before parties stats =
         ) [] (uniqueBy .name <| concat parties)
     }
 
-doYearRow : String -> String -> Election -> Election -> Html Msg
-doYearRow state partyname current previous =
+doYearRow : String -> String -> Election -> Election -> Int -> Html Msg
+doYearRow state partyname current previous year =
     let 
         party = 
             ( dropMaybe <| find (\n -> n.name == partyname) current.list
@@ -156,7 +156,7 @@ doYearRow state partyname current previous =
         [ td 
             [ ]
             [ a
-                [ href <| "state.html?year=2020&state=" ++ state ]
+                [ href <| "state.html?year=" ++ fromInt year ++ "&state=" ++ state ]
                 [ text state ]
             ]
         , td [] [ text <| styleNum <| (first party).votes ]
@@ -212,7 +212,7 @@ partyContainer party model =
                                 Nothing ->
                                     tr [] [ td [] [ text state ] ] -- This handles it. This is never visibly called.
                                 _ ->
-                                    doYearRow state party current <| dropMaybe previous
+                                    doYearRow state party current (dropMaybe previous) model.year
                     )) 
                     (keys model.current.states)))
     ] 
