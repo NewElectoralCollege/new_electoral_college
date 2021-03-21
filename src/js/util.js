@@ -33,6 +33,7 @@ function makeHeader(name) {
     });
 
     app.ports.title.subscribe(function (title) {
+        document.getElementById('MathJax-script').async = true;
         document.title = title;
     });
 }

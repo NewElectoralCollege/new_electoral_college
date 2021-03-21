@@ -3,12 +3,24 @@
     <head>
     </head>
     <body>
+
+        <div class="include" w3-include-html="header.html"></div><br><br><br><br>
+    
+        <main role="main" class="container" id="main">
+            
+        </main>
+        
+        <footer class="container">
+        <p>&copy; The New Electoral College 2021</p>
+        </footer>
+
         <script src="src/js/Header_compiled.js"></script>
         <script src="src/js/util.js"></script>
         <script src="src/js/ReadMore_compiled.js"></script>
         <script>
+            makeHeader('More Reading');
             window.onload = function () {
-                makeHeader('More Reading');
+                
                 includeHTML();
 
                 var app = Elm.ReadMore.init({
@@ -21,16 +33,6 @@
                 });
             }
         </script>
-
-        <div class="include" w3-include-html="header.html"></div><br><br><br><br>
-    
-        <main role="main" class="container" id="main">
-            
-        </main>
-        
-        <footer class="container">
-        <p>&copy; The New Electoral College 2021</p>
-        </footer>
 
     </body>
 </html>
