@@ -48,7 +48,7 @@ type alias Model
 
 init : String -> (Model, Cmd Msg)
 init page =
-    (page, title <| "The New Electoral College" ++ page)
+    (page, title <| "The New Electoral College - " ++ page)
 
 view : Model -> Html Msg
 view model =

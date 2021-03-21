@@ -68,7 +68,7 @@ newRow party model year =
                 , td [ ] [ text <| styleNum party.votes ]
                 , td [ ] [ text <| stylePercent ((toFloat party.votes) / (toFloat model.stats.total_votes)) ]
                 , td [ ] [ text <| fromInt (getInitialSeats party) ]
-                , td [ ] ([ text ((styleNum party.extra_votes)) ] ++ getCheckIcon party)
+                , td [ ] (( text <| styleNum party.extra_votes ) :: (getCheckIcon party))
                 , td [ ] [ text <| fromInt (party.seats) ]
                 , td [ ] [ text <| stylePercent ((toFloat party.seats) / (toFloat model.stats.total_seats)) ]
             ]
@@ -232,7 +232,7 @@ partyContainer party model =
         [ class "detailed-results-cell" ] 
         [ p [] [ text (party ++ " Party") ]
         , table 
-            [ class "state-results" ]
+            [ id "state-results" ]
             (( thead 
                 [ Ha.style "background-color" "#eaecf0" ] 
                 [ tr 
@@ -257,16 +257,6 @@ partyContainer party model =
                     []
             )) model.list))
     ] 
-
-translateElectorsArrow : Stats -> String
-translateElectorsArrow stats =
-    let
-        angle = getAngle stats (round (toFloat stats.total_seats * 0.25))
-        coords = (
-            350 * (cos angle) + 450 - 810.60504,
-            350 * (sin angle) + 375 - 433.49972)
-    in
-        "translate(-566 -342) scale(-1)" ++ fromInt (round (first coords)) ++ " " ++ fromInt (round (second coords))
 
 judgePopupShow : String -> Model -> String
 judgePopupShow name model =
@@ -374,7 +364,7 @@ init flags =
 
 view : Model -> Html Msg
 view model =
-    div [ class "container" ]
+    div [ class "container", id "main" ]
         [ makeStateList model.state <| fromInt model.year
         , svg
             [ width "975"
@@ -382,12 +372,7 @@ view model =
             ]
             [ defs 
                 []
-                [ marker [ class "arrowhead", id "bars", markerWidth "10", markerHeight "7", refX "6", refY "2", orient "0" ] [ polygon [ Sa.style "display:inline-block", points "4 2, 6 0, 8 2" ] [] ] ]
-            , path [ d arrowD, class "arrow-line", transform "rotate(180 810.60504 433.49972)", markerEnd "url(#bars)" ] []
-            , path [ d arrowD, class "arrow-line", transform (translateElectorsArrow model.stats), markerStart "url(#bars)" ] []
-            , text_ [ x "810.60504", y "470.66422" ] [ text "Vote Percentage" ]
-            , text_ [ x "-810.60504", y "-484.66422", transform (translateElectorsArrow model.stats) ] [ text "Electors" ]
-            , circle [ cx "244.275", cy "91.84405", r "2", Sa.style "fill:#000000" ] []
+                [ marker [ Sa.class "arrowhead", id "bars", markerWidth "10", markerHeight "7", refX "6", refY "2", orient "0" ] [ polygon [ Sa.style "display:inline-block", points "4 2, 6 0, 8 2" ] [] ] ]
             , g
                 [ id "circles" ]
                 (

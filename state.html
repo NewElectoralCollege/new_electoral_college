@@ -11,7 +11,7 @@
                     makeHeader('Viewing State');
                     includeHTML();
                     var app = Elm.State.init({
-                        node: document.getElementById('elm-container'),
+                        node: document.getElementById('main'),
                         flags: 
                             (new RegExp('[?&]'+encodeURIComponent('state')+'=([^&]*)')).exec(location.search) ?
                                 [
@@ -28,8 +28,8 @@
 
             <div class="include" w3-include-html="header.html"></div><br><br><br><br>
         
-            <main role="main" id="elm-container">
-                
+            <main role="main" class="container" id="main">
+    
             </main>
         
             <footer class="container">
