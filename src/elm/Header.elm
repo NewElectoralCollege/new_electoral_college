@@ -28,10 +28,6 @@ import List exposing (member)
 
 -- Required
 
-needsFontAwesome : List String
-needsFontAwesome =
-    ["404 Page Not Found", "Main", "Viewing Results", "Viewing State"]
-
 needsMathJax : List String
 needsMathJax =
     ["More Reading", "Viewing State"]
@@ -71,12 +67,10 @@ view model =
             "link"
             [ rel "stylesheet", href "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" ]
             [ ]
-        , (
-            if member model needsFontAwesome then
-                node "link" [ rel "stylesheet", href "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
-            else
-                text ""
-        )
+        , node 
+            "link" 
+            [ rel "stylesheet", href "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] 
+            [ ]
         , node
             "script"
             [ src "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" ]
