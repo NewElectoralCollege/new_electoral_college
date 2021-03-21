@@ -33,7 +33,9 @@ function makeHeader(name) {
     });
 
     app.ports.title.subscribe(function (title) {
-        document.getElementById('MathJax-script').async = true;
+        try {
+            document.getElementById('MathJax-script').async = true;
+        } catch {}
         document.title = title;
     });
 }
