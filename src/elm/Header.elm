@@ -9,14 +9,14 @@ so the Header_compiled.js file must be edited to allow for this:
 
 function _VirtualDom_noScript(tag)
 {
-	return tag == 'script' ? 'p' : tag;
+    return tag == 'script' ? 'p' : tag;
 }
 
 becomes
 
 function _VirtualDom_noScript(tag)
 {
-	return tag == 'scrip' ? 'p' : tag;
+    return tag == 'scrip' ? 'p' : tag;
 }
 
 -}

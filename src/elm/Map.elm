@@ -1,36 +1,37 @@
 port module Map exposing (..)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Http exposing (..)
-import Browser exposing (..)
-import Basics exposing (..)
-import Dict exposing (..)
-import List exposing (..)
-import List.Extra exposing (..)
-import Json.Decode as Decode exposing (Decoder)
+import Basics exposing (toFloat, min)
+import Browser exposing (element)
+import Debug exposing (todo, toString)
+import Dict exposing (fromList, keys, Dict, empty)
+import Html exposing (span, Html, tr, td, text, a, table, thead, th, p, Attribute, div, h1, br)
+import Html.Attributes exposing (class, id, style, href, rowspan, colspan)
+import Html.Events exposing (onClick)
+import Http exposing (Error, expectJson)
+import Json.Decode exposing (dict, string, decodeString, at, list)
+import List exposing (length, map, indexedMap, foldl, reverse, append, filter, concat, concatMap, reverse, head, range, take, sortBy)
+import List.Extra exposing (init, last, getAt, uniqueBy, find, takeWhile)
+import String exposing (fromInt, fromFloat, replace)
 import Svg exposing (Svg, svg, circle, g)
 import Svg.Attributes as Sa exposing (r, cx, cy)
-import Tuple exposing (..)
-import String exposing (..)
+import Tuple exposing (first, second)
 
-import Util exposing (..)
 import Data exposing (..)
+import Util exposing (..)
 
 getPattern : StateOutline -> Int -> ((Int, Int), String)
 getPattern so total_seats =
-    if 5.5 * 2 * (Basics.toFloat total_seats) / (so.width * so.height) < 0.9 then
+    if 5.5 * 2 * (toFloat total_seats) / (so.width * so.height) < 0.9 then
         let
-            sq = sqrt <| Basics.toFloat total_seats
-            bottom = floor <| Basics.min so.width so.height / (2 * 5.5)
+            sq = sqrt <| toFloat total_seats
+            bottom = floor <| min so.width so.height / (2 * 5.5)
             leftover = 
                 if bottom == 0 then
                     total_seats
                 else
-                    round <| Basics.toFloat total_seats / Basics.toFloat bottom
+                    round <| toFloat total_seats / toFloat bottom
         in
-            if 2 * 5.5 * sq > Basics.min so.width so.height then
+            if 2 * 5.5 * sq > min so.width so.height then
                 if so.width < so.height then
                     ((bottom, leftover), "false")
                 else
@@ -44,9 +45,9 @@ makeCircles : List (Float, Float) -> ((Int, Int), String) -> Int -> List (Float,
 makeCircles list pattern total_seats =
     let
         coords = 
-            List.map 
+            map 
                 (\n -> (
-                    (first <| dropMaybe <| head list) + (5.5 * 2 * Basics.toFloat n), 
+                    (first <| dropMaybe <| head list) + (5.5 * 2 * toFloat n), 
                     (second <| dropMaybe <| last list) + (5.5 * 2)
                 ))
                 (dropMaybe <| List.Extra.init <| range 0 <| first <| first pattern)
@@ -54,15 +55,15 @@ makeCircles list pattern total_seats =
         if total_seats == 3 && (first <| first pattern) == 3 then 
             coords
         else
-            case compare (List.length list + (first <| first pattern)) total_seats of
+            case compare (length list + (first <| first pattern)) total_seats of
                 GT ->
-                    List.map 
-                        (\n -> (first n + (5.5 * Basics.toFloat (List.length coords - (total_seats - List.length list))), second n))
-                        (take (total_seats - List.length list) coords)
+                    map 
+                        (\n -> (first n + (5.5 * toFloat (length coords - (total_seats - length list))), second n))
+                        (take (total_seats - length list) coords)
                 EQ ->
                     coords
                 LT ->
-                    if List.length list == 1 && first (first pattern) /= 1 then
+                    if length list == 1 && first (first pattern) /= 1 then
                         coords ++ (makeCircles coords pattern total_seats)
                     else
                         coords ++ (makeCircles (list ++ coords) pattern total_seats)
@@ -72,20 +73,20 @@ makeState election state =
     let
         outline = dropMaybe <| Dict.get state states
         pattern = getPattern outline election.stats.total_seats
-        offset = ( 5.5 * 2 * ((Basics.toFloat <| first <| first pattern) / 2 - 0.5)
-                 , 5.5 * 2 * ((Basics.toFloat <| second <| first pattern) / 2 - 0.5)
+        offset = ( 5.5 * 2 * ((toFloat <| first <| first pattern) / 2 - 0.5)
+                 , 5.5 * 2 * ((toFloat <| second <| first pattern) / 2 - 0.5)
                  )
         center = ( outline.x + (outline.width / 2)
                  , outline.y + (outline.height / 2)
                  )
     in
-        colorCircles election.list (List.map 
+        colorCircles election.list (map 
             (\n -> circle [ r "5.5", cx (fromFloat <| first n), cy (fromFloat <| second n), Sa.style ("stroke-width:0.8534;stroke:#000000") ] []) 
             (makeCircles 
                 [((first center) - (first offset), (second center) - (second offset) - (5.5 * 2))]
                 pattern
                 election.stats.total_seats
-            )) colors
+            ))
 
 makePartyRow : Party -> Maybe Party -> Model -> Html Msg
 makePartyRow party previous_party model =
@@ -109,25 +110,25 @@ makePartyRow party previous_party model =
             , td [] [ text party.name ]
             , td [] [ text <| getNominee model.year party.name ]
             , td [] [ text <| styleNum party.votes ]
-            , td [] [ text <| stylePercent <| Basics.toFloat party.votes / Basics.toFloat model.current.total_votes ]
-            , td [] [ text <| String.fromInt party.seats ]
-            , td [] [ text <| String.fromInt <| real_results ]
-            , td [] <| fix_change <| "+" ++ (String.fromInt <| party.seats - real_results)
+            , td [] [ text <| stylePercent <| toFloat party.votes / toFloat model.current.total_votes ]
+            , td [] [ text <| fromInt party.seats ]
+            , td [] [ text <| fromInt <| real_results ]
+            , td [] <| fix_change <| "+" ++ (fromInt <| party.seats - real_results)
             ]
 
 rewriteInstance : Instance -> List (List Party) -> List Stats -> Instance
 rewriteInstance before parties stats =
     { before
-    | states = Dict.fromList <| List.indexedMap (\i state -> (state, Election (dropMaybe <| getAt i parties) (dropMaybe <| getAt i stats) )) (keys states) 
-    , total_votes = List.foldl (\n s -> s + n.total_votes) 0 stats
-    , list = List.reverse <| sortBy .seats <| List.foldl (
+    | states = fromList <| indexedMap (\i state -> (state, Election (dropMaybe <| getAt i parties) (dropMaybe <| getAt i stats) )) (keys states) 
+    , total_votes = foldl (\n s -> s + n.total_votes) 0 stats
+    , list = reverse <| sortBy .seats <| foldl (
         \n list -> 
-            List.append list 
+            append list 
             [{ n 
-            | votes = (List.foldl (\p s -> s + p.votes) 0 <| List.filter (\p -> p.name == n.name) <| List.concat parties)
-            , seats = (List.foldl (\p s -> s + p.seats) 0 <| List.filter (\p -> p.name == n.name) <| List.concat parties)
+            | votes = (foldl (\p s -> s + p.votes) 0 <| filter (\p -> p.name == n.name) <| concat parties)
+            , seats = (foldl (\p s -> s + p.seats) 0 <| filter (\p -> p.name == n.name) <| concat parties)
             }]
-        ) [] (uniqueBy .name <| List.concat parties)
+        ) [] (uniqueBy .name <| concat parties)
     }
 
 doYearRow : String -> String -> Election -> Election -> Html Msg
@@ -137,7 +138,7 @@ doYearRow state partyname current previous =
             ( dropMaybe <| find (\n -> n.name == partyname) current.list
             , find (\n -> n.name == replace "Reform" "Ross Perot" partyname) previous.list
             )
-        popularVotePercent = Basics.toFloat (first party).votes / Basics.toFloat current.stats.total_votes
+        popularVotePercent = toFloat (first party).votes / toFloat current.stats.total_votes
     in
     tr
         []
@@ -154,7 +155,7 @@ doYearRow state partyname current previous =
                 Nothing ->
                     [ text "n/a" ]
                 _ ->
-                    fix_change <| "+" ++ (stylePercent <| popularVotePercent - (Basics.toFloat (dropMaybe <| second party).votes / Basics.toFloat previous.stats.total_votes))
+                    fix_change <| "+" ++ (stylePercent <| popularVotePercent - (toFloat (dropMaybe <| second party).votes / toFloat previous.stats.total_votes))
             )
         , td [] <| getPartyProgressBar (first party) current (first party).color
         , td [] (
@@ -162,7 +163,7 @@ doYearRow state partyname current previous =
                 Nothing ->
                     [ text "n/a" ]
                 _ ->
-                    fix_change <| "+" ++ (String.fromInt <| (first party).seats - (dropMaybe <| second party).seats)
+                    fix_change <| "+" ++ (fromInt <| (first party).seats - (dropMaybe <| second party).seats)
             )
         ]
 
@@ -190,7 +191,7 @@ partyContainer party model =
                     , th [] [ text "+/-" ]
                     ]
                 ]
-            ) :: (List.map 
+            ) :: (map 
                     (\state -> (
                         let
                             current = dropMaybe <| Dict.get state model.current.states
@@ -223,7 +224,7 @@ getArrow side model =
 type Msg 
     = Reset (Int)
     | ChangeYear (Int) (Bool)
-    | Response (Result Http.Error (Dict String String))
+    | Response (Result Error (Dict String String))
 
 type alias Instance =
     { states : Dict String Election
@@ -242,8 +243,8 @@ type alias Model =
 getFile : Int -> Cmd Msg
 getFile year =
     Http.get 
-    { url = "/new_electoral_college/src/js/getJson.py?year=" ++ String.fromInt year
-    , expect = Http.expectJson Response (Decode.dict Decode.string)
+    { url = "/new_electoral_college/src/js/getJson.py?year=" ++ fromInt year
+    , expect = expectJson Response (dict string)
     }
 
 init : Int -> (Model, Cmd Msg)
@@ -261,8 +262,8 @@ view model =
     div [ class "container", id "main" ]
         [ div 
             [ class "container" ]
-            [ h1 [ id "election" ] [ text <| String.fromInt model.real_year ]
-            , p [] [ text ("These are the projected results of the " ++ String.fromInt model.real_year ++ " Election using our proposal. It takes the final " ++
+            [ h1 [ id "election" ] [ text <| fromInt model.real_year ]
+            , p [] [ text ("These are the projected results of the " ++ fromInt model.real_year ++ " Election using our proposal. It takes the final " ++
                 "certified results of the Election, and allocates the electors in each state. If the election were actually run under the New Electoral " ++
                 "College, the results would have been slightly different. Voters change their behavior under more representative " ++
                 "electoral systems.") ]
@@ -278,10 +279,10 @@ view model =
                         [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193", id "map-svg" ] 
                         (( g [ Sa.class "include", Sa.id "paths" ] [] ) ::                        
                         (
-                            List.concatMap (\n -> makeState (dropMaybe <| Dict.get n model.current.states) n) (keys model.current.states)
+                            concatMap (\n -> makeState (dropMaybe <| Dict.get n model.current.states) n) (keys model.current.states)
                         ))
                     ]
-                , Html.span (getArrow "right" model) []
+                , span (getArrow "right" model) []
                 ]
             , div
                 [ class "container", style "width" "fit-content" ]
@@ -304,9 +305,9 @@ view model =
                             , th [] [ text "Old" ]
                             ]
                         ] ++ (
-                            List.map 
+                            map 
                                 (\n -> makePartyRow n (find (\p -> p.name == n.name) model.previous.list) model) 
-                                <| takeWhile (\n -> ifQualifyingParty n <| Basics.toFloat model.current.total_votes) model.current.list))
+                                <| takeWhile (\n -> ifQualifyingParty n <| toFloat model.current.total_votes) model.current.list))
                     ]
                 ]
             , br [] []
@@ -330,15 +331,15 @@ update msg model =
             ({ model | writingToPrevious = previous, year = year }, getFile year)
         Response (Ok response) ->
             let
-                parties = List.map (\n ->
-                    case Decode.decodeString (Decode.at["parties"] <| Decode.list newParty) <| dropMaybe <| Dict.get n response of
+                parties = map (\n ->
+                    case decodeString (at["parties"] <| list newParty) <| dropMaybe <| Dict.get n response of
                         Ok (list) ->
-                            List.reverse <| sortBy .votes <| List.map (\p -> { p | color = getColor p colors }) list
+                            reverse <| sortBy .votes <| map (\p -> { p | color = getColor p colors }) list
                         _ ->
                             []
                     ) (keys states)
-                stats = List.map (\n ->
-                    case Decode.decodeString (Decode.at["stats"] <| setStats) <| dropMaybe <| Dict.get n response of
+                stats = map (\n ->
+                    case decodeString (at["stats"] <| setStats) <| dropMaybe <| Dict.get n response of
                         Ok (stat) ->
                             stat
                         _ ->
@@ -354,7 +355,7 @@ update msg model =
                     in
                         (first r, second r)
         _ ->
-            Debug.todo (Debug.toString msg)
+            todo (toString msg)
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
@@ -362,7 +363,7 @@ subscriptions model =
 
 main : Program Int Model Msg
 main =
-    Browser.element
+    element
         { init = init
         , view = view
         , update = update

@@ -394,7 +394,7 @@ view model =
                     let
                         circles = getCircles (getAngle model.stats 0) model 0
                     in
-                        colorCircles model.list circles colors
+                        colorCircles model.list circles
                 )
             , g
                 [ id "bar" ]
