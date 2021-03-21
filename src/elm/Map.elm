@@ -21,7 +21,7 @@ import Util exposing (..)
 
 getPattern : StateOutline -> Int -> ((Int, Int), String)
 getPattern so total_seats =
-    if 5.5 * 2 * (toFloat total_seats) / (so.width * so.height) < 0.9 then
+    if total_seats > 3 then
         let
             sq = sqrt <| toFloat total_seats
             bottom = floor <| min so.width so.height / (2 * 5.5)
@@ -33,13 +33,16 @@ getPattern so total_seats =
         in
             if 2 * 5.5 * sq > min so.width so.height then
                 if so.width < so.height then
-                    ((bottom, leftover), "false")
+                    ((bottom, leftover), "1")
                 else
-                    ((leftover, bottom), "false")
+                    ((leftover, bottom), "2")
             else
-                ((round sq, (floor sq) + 1), "false")
+                ((round sq, (floor sq) + 1), "3")
     else
-        ((1, 1), "false")
+        if so.width < so.height then
+            ((3, 1), "4")
+        else
+            ((3, 1), "5")
                     
 makeCircles : List (Float, Float) -> ((Int, Int), String) -> Int -> List (Float, Float)
 makeCircles list pattern total_seats =
@@ -48,12 +51,17 @@ makeCircles list pattern total_seats =
             map 
                 (\n -> (
                     (first <| dropMaybe <| head list) + (5.5 * 2 * toFloat n), 
-                    (second <| dropMaybe <| last list) + (5.5 * 2)
-                ))
+                    (second <| dropMaybe <| last list) + (5.5 * 2))
+                )
                 (dropMaybe <| List.Extra.init <| range 0 <| first <| first pattern)
     in
-        if total_seats == 3 && (first <| first pattern) == 3 then 
-            coords
+        if total_seats == 3 then
+            if second pattern == "4" then 
+                map (\n -> (
+                    (first <| dropMaybe <| head list) + (5.5 * 2),
+                    (second <| dropMaybe <| last list) + (5.5 * 2 * toFloat n))) <| range 0 3
+            else
+                coords
         else
             case compare (length list + (first <| first pattern)) total_seats of
                 GT ->
@@ -81,7 +89,10 @@ makeState election state =
                  )
     in
         colorCircles election.list (map 
-            (\n -> circle [ r "5.5", cx (fromFloat <| first n), cy (fromFloat <| second n), Sa.style ("stroke-width:0.8534;stroke:#000000") ] []) 
+            (\n -> circle 
+                [ r "5.5", cx (fromFloat <| first n), cy (fromFloat <| second n), Sa.style ("stroke-width:0.8534;stroke:#000000"), id <| second pattern ] 
+                []
+            )
             (makeCircles 
                 [((first center) - (first offset), (second center) - (second offset) - (5.5 * 2))]
                 pattern

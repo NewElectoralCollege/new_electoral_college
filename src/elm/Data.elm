@@ -134,7 +134,7 @@ states =
         ("North Carolina", StateOutline 566.56183 105.01874 106.32806 28.595343),
         ("North Dakota", StateOutline 306.1832 -87.449394 89.606354 47.531338),
         ("Pennsylvania", StateOutline 576.2406 22.070066 101.0198 35.881847),
-        ("Rhode Island", StateOutline 750.56775 121.27811 11.989563 14.674789),
+        ("Rhode Island", StateOutline 750.56775 121.27811 25 25),
         ("South Carolina", StateOutline 568.53125 133.27658 51.624866 47.587463),
         ("South Dakota", StateOutline 306.07565 -40.075359 91.091095 45.277149),
         ("Tennessee", StateOutline 473.63629 104.30125 84.314865 25.581249),
