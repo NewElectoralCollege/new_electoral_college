@@ -58,4 +58,12 @@ function includeHTML() {
             return;
         }
     }
+
+    document.getElementById(
+        document
+            .location
+            .pathname
+            .replace(".html", "")
+            .replace("/new_electoral_college/", "")
+    ).classList.add('active');
 }
