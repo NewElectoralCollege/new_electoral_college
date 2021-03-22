@@ -365,7 +365,7 @@ init flags =
 view : Model -> Html Msg
 view model =
     div [ class "container", id "main" ]
-        [ makeStateList model.state <| fromInt model.year
+        [ makeStateList model.state <| fromInt model.page_year
         , svg
             [ width "975"
             , height "520"

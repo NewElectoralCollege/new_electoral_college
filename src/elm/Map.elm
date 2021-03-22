@@ -150,11 +150,18 @@ doYearRow state partyname current previous year =
             , find (\n -> n.name == replace "Reform" "Ross Perot" partyname) previous.list
             )
         popularVotePercent = toFloat (first party).votes / toFloat current.stats.total_votes
+        bold =
+            if (dropMaybe <| head <| reverse <| sortBy .votes current.list).name == partyname 
+                && (dropMaybe <| head <| reverse <| sortBy .votes previous.list).name /= partyname
+            then
+                "bold"
+            else
+                "normal"
     in
     tr
         []
         [ td 
-            [ ]
+            [ style "font-weight" bold ]
             [ a
                 [ href <| "state.html?year=" ++ fromInt year ++ "&state=" ++ state ]
                 [ text state ]
