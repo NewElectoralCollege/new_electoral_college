@@ -14,7 +14,8 @@ modules : List (String, String)
 modules =
     [ ( "The Proposal", "See the entire proposal in professional form." )
     , ( "The Amendment", "See the draft Joint Resolution for a Constitutional Amendment that would allow for the New Electoral College." )
-    , ( "Gallagher Index", "See explinations of the Gallagher Index." )
+    , ( "Gallagher Index", "See explanations of the Gallagher Index." )
+    , ( "Programmer's Guide to Proportional Representation", "See implementations of Proportional Representation in multiple programming langugages." )
     ]
 
 -- Type Definitions
@@ -62,7 +63,7 @@ view model =
                             a 
                                 [ class <| "list-group-item list-group-item-action" ++ active
                                 , property "data-toggle" <| string "list"
-                                , href <| "#" ++ (replace " " "-" <| first n) 
+                                , href <| "#" ++ (replace " " "-" <| replace "'" "" <| first n) 
                                 , property "role" <| string "tab"
                                 ]
                                 [ h2 [] [ text <| first n ]
@@ -86,7 +87,7 @@ view model =
                         in
                             div 
                                 [ class <| "tab-pane fade" ++ active 
-                                , id <| replace " " "-" <| first n
+                                , id <| replace " " "-" <| replace "'" "" <| first n
                                 , property "role" <| string "tabpanel"
                                 ]
                                 [ button 
@@ -94,7 +95,7 @@ view model =
                                     [ Html.a 
                                         [ style "color" "#fff"
                                         , attribute "download" <| (toLower <| replace " " "_" <| first n) ++ ".tex"
-                                        , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| first n) ++ ".tex"
+                                        , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| replace "'" "" <| first n) ++ ".tex"
                                         ] 
                                         [ span
                                             [ id "LaTeX" ]
