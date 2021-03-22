@@ -7,25 +7,27 @@
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 
-\lstdefinestyle{mystyle}{  
+\lstdefinestyle{coding}{  
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=false,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=false,
+    captionpos=b,   
+    keepspaces=true,
+    numbers=left,   
+    numbersep=5pt, 
+    showspaces=false,       
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false, 
     tabsize=1
 }
 
-\lstset{style=mystyle}
+% Coding examples can be found here: https://github.com/KingWither/new_electoral_college/tree/main/the_proposal/programming_examples
+
+\lstset{style=coding}
 
 \title{A Programmer's Guide to Proportional Representation}
 \author{David G. Boers}
@@ -37,155 +39,17 @@
     \section{C/C++}
     C is probably the best language to use for Proportional Representation if you are creating an application that needs to run PR calculations repeatedly. For instance, doing analysis on PR, or forcasting results requires processing a lot of elections. 
 
-    \begin{lstlisting}[language=C]
-#include <stdio.h>
-#include <math.h>
-
-int main() {
-    // {#, Votes, Seats}
-    int parties[5][3] = {
-        {1, 400000, 0},
-        {2, 250000, 0},
-        {3, 100000, 0},
-        {4, 73000, 0},
-        {5, 5000, 0}
-    };
-
-    int quota, total_votes, seats, awarded, awarding, i;
-    total_votes = 828000;
-    seats = 5;
-    quota = floor(total_votes / seats);
-
-    for (i = 0; i < 5; i++) {
-        awarding = floor(parties[i][1] / quota);
-        awarded += awarding;
-        parties[i][2] += awarding;
-    }
-
-    for (; awarded < seats; awarded++) {
-        int party = 0;
-        for (i = 1; i < 5; i++) {
-            int remainder = parties[i][1] - (parties[i][2] * quota);
-            if (
-                parties[i][1] - (parties[i][2] * quota) > 
-                parties[party][1] - (parties[party][2] * quota)
-            ) {
-                party = i;
-            }
-        }
-        parties[party][2] += 1;
-    }
-
-    for (i = 0; i < 5; i++) {
-        printf("%i, %i seats\n", parties[i][0], parties[i][2]);
-    }
-}
-    \end{lstlisting}
+    \lstinputlisting[language=C]{programming_examples/c.txt}
 
     The C++ implementation can be a little simpler. It is much easier to import data, and the arrays can be consolidated. In my expirence it is also faster.
 
-    \begin{lstlisting}[language=C++]
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <math.h>
-
-using namespace std;
-
-static int total_votes;
-static int quota;
-
-class Party {
-    public:
-        int number, votes, seats;
-
-        Party(int votes);
-
-        static vector<Party> list;
-
-        struct ScoreOperator {
-            bool operator()(const Party &a, const Party &b) const {
-                return
-                    a.votes - (a.seats * quota) <
-                    b.votes - (b.seats * quota);
-            }
-        };
-};
-
-vector<Party> Party::list;
-
-Party::Party(int votes) {
-    this->number = Party::list.size() + 1;
-    this->votes = votes;
-    this->seats = 0;
-    total_votes += votes;
-}
-
-int main() {
-    Party::list.push_back(Party(400000));
-    Party::list.push_back(Party(250000));
-    Party::list.push_back(Party(100000));
-    Party::list.push_back(Party(73000));
-    Party::list.push_back(Party(5000));
-
-    int seats, awarded, awarding, i;
-    seats = 5;
-    quota = floor(total_votes / seats);
-
-    for (Party &p : Party::list) {
-        awarding = floor(p.votes / quota);
-        awarded += awarding;
-        p.seats += awarding;
-    }
-
-    for (; awarded < seats; awarded++) {
-        int n = distance(Party::list.begin(), max_element(
-                                                Party::list.begin(), 
-                                                Party::list.end(), 
-                                                Party::ScoreOperator()));
-        Party &p = Party::list.at(n);
-        p.seats += 1;
-    }
-
-    for (Party p : Party::list) {
-        cout << p.number << ", " << p.seats << " seats\n";
-    }
-}
-
-    \end{lstlisting}
+    \lstinputlisting[language=C++]{programming_examples/c++.txt}
 
     \section{Python}
 
     Python will likley be the most effective way of running a PR election. It's simple syntax and huge library makes it easy for newer programmers to understand.
 
-    \begin{lstlisting}[language=Python]
-parties = {
-    1: {'votes': 400000, 'seats': 0},
-    2: {'votes': 250000, 'seats': 0},
-    3: {'votes': 100000, 'seats': 0},
-    4: {'votes': 73000, 'seats': 0},
-    5: {'votes': 5000, 'seats': 0}
-}
-
-def sortRemainder(val):
-    return val['remainder']
-
-total_votes = 828000
-seats = 5
-quota = total_votes // seats
-awarded = 0
-
-for p in parties.values():
-    awarding = p['votes'] // quota
-    p['seats'] += awarding
-    awarded += awarding
-    p['remainder'] = p['votes'] - (awarding * quota)
-
-for p in sorted(list(parties.values()), key=sortRemainder, reverse=True)[:seats-awarded]:
-    p['seats'] += 1
-
-print(parties)
-    \end{lstlisting}
+    \lstinputlisting[language=Python]{programming_examples/python.txt}
 
     Notice how the Python example has the smallest number of lines; 26. C needed 42, and C++ needed 66.
 
@@ -193,160 +57,23 @@ print(parties)
 
     It is very simple to connect a PHP program to another language. If you are creating a webapp, PHP may be the best option if you don't plan to use eRuby to create HTML. PHP is actually a server-scripting language, so it could be used on a server as well. 
 
-    \begin{lstlisting}[language=PHP]
-<?php
-
-$parties = array(
-    1=>array('votes'=>400000, 'seats'=>0),
-    2=>array('votes'=>250000, 'seats'=>0),
-    3=>array('votes'=>100000, 'seats'=>0),
-    4=>array('votes'=>73000, 'seats'=>0),
-    5=>array('votes'=>5000, 'seats'=>0)
-);
-
-$total_votes = 828000;
-$seats = 5;
-$quota = floor($total_votes / $seats);
-$awarded = 0;
-
-foreach ($parties as $n=>$p) {
-    $awarding = floor($parties[$n]['votes'] / $quota);
-    $parties[$n]['seats'] += $awarding;
-    $awarded += $awarding;
-}
-
-for (; $awarded < $seats; $awarded++) {
-    $n = array_reduce(array_values($parties), 
-        function ($carry, $o) use ($awarded, $quota) {
-            if (
-                $carry['votes'] - ($carry['seats'] * $quota) > 
-                $o['votes'] - ($o['seats'] * $quota)
-            ) {
-                return $carry;
-            } else {
-                return $o;
-            }
-        }, array('votes'=>0, 'seats'=>0)
-    );
-    $parties[array_search($n, $parties)]['seats'] += 1;
-}
-
-print_r($parties);
-
-?>
-    \end{lstlisting}
+    \lstinputlisting[language=PHP]{programming_examples/php.txt}
 
     \section{Ruby}
 
     If you are going to use eRuby, are on a Ruby on Rails server, or just prefer Ruby's syntax, the language will probably get the job done as well as PHP.
 
-    \begin{lstlisting}[language=Ruby]
-class Party
-    @@list = []
-    @@awarded = 0
-    attr_reader :number, :seats
-
-    def initialize(votes)
-        @number = @@list.size + 1
-        @votes = votes
-        @seats = 0
-
-        @@list.push(self)
-    end
-
-    def assign(quota)
-        awarding = (@votes / quota).floor
-        @seats += awarding
-        @@awarded += awarding
-    end
-
-    def remainder(quota)
-        @votes - (@seats * quota)
-    end
-
-    def extra_seat
-        @seats += 1
-    end
-
-    def Party.list
-        return @@list
-    end
-
-    def Party.awarded
-        return @@awarded
-    end
-end
-
-Party.new(400000)
-Party.new(250000)
-Party.new(100000)
-Party.new(73000)
-Party.new(5000)
-
-total_votes = 828000
-seats = 5
-quota = (total_votes / seats).floor
-
-Party.list.each do |n|
-    n.assign(quota)
-end
-
-(Party.list.sort_by {|n| n.remainder(quota)}).reverse
-
-Party.list[1..(seats - Party.awarded)].each do |n|
-    n.extra_seat
-end
-
-Party.list.each do |n|
-    puts "#{n.number}, #{n.seats} seats"
-end
-    \end{lstlisting}
+    \lstinputlisting[language=Ruby]{programming_examples/ruby.txt}
 
     \section{Object Oriented Programming}
 
     Object Oriented languages have an advantage over functional ones when it comes to calculating PR. Classes can easily hold large numbers of parties, each with many extra variables. This is helpfull when it comes to party lists. See the following C++ example:
 
-    \begin{lstlisting}[language=C++]
-#include <vector>
-#include <string>
-
-using namespace std;
-
-class Party {
-    public:
-        const string name;
-        const int votes;
-        int seats;
-        vector<string> candidates;
-
-        int getRemainder(int quota) {
-            return votes - (seats * quota);
-        }
-
-        Party(int votes);
-
-        static vector<Party> list;
-
-        // In addition to the necessary variables, here are a couple extra
-
-        float percent_female;
-        bool getsExtraSeat;
-        int wasted_vote;
-};
-    \end{lstlisting}
+    \lstinputlisting[language=C++]{programming_examples/object_oriented.txt}
 
     Haskell's types can help with this two:
 
-    \begin{lstlisting}[language=Haskell]
-data Party = Party
-    { name :: String
-    , votes :: Int
-    , seats :: Int
-    , percent_female :: Float
-    , getsExtraSeat :: Bool
-    , wasted_vote :: Int
-    }
-    \end{lstlisting}
+    \lstinputlisting[language=Haskell]{programming_examples/haskell_records.txt}
 
     although the fact that Haskell records can't contain functions like C++ or Ruby can makes this much more complex. 
 
