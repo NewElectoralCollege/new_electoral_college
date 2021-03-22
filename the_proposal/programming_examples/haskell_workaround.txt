@@ -1,0 +1,6 @@
+data Party = Party { ... } deriving (Show)
+
+getTotalSeats :: Party -> Int
+getTotalSeats (Party {extra_seat = ex, initial_seats = is})
+    | ex = is + 1
+    | otherwise = is
