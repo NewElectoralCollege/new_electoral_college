@@ -6,4 +6,9 @@ src/sass/.sass-cache/
 src/sass/*.css
 src/sass/*.css.map
 the_proposal/*.pdf
+the_proposal/*.aux
+the_proposal/*.fdb_latexmk
+the_proposal/*.fls
+the_proposal/*.log
+the_proposal/*.gz
 the_proposal/dirtytalk.sty
