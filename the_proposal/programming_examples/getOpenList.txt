@@ -14,7 +14,8 @@ Jack,687
 If a candidate gets 10% of the party's votes, they are elected. 
 This Party won 4 seats.
 Michelle got a very high number of preference votes: 37% of the party's total.
-Bob (22.33%) and Steve (12.21%) also clear the threshold, but they are first on the list, so they would be elected anyway.
+Bob (22.33%) and Steve (12.21%) also clear the threshold, but they are first on the list, 
+ so they would be elected anyway.
 Alex is also elected, because the party needs a fourth seat and he is placed next on the list.
 
 So the candidates from this party are:
