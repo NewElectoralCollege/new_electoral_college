@@ -11,16 +11,11 @@ David
 Rich
 Jack
 
-This Party won 4 seats.
-
-So the candidates from this party are:
+The candidates from this party are:
 Bob
 Steve
 Alex
 Theo
-
-The code only loops as many times as it needs to. 
-This is to save space, compile time, and memory.
 */
 
 #include <iostream>

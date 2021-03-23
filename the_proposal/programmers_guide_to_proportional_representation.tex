@@ -93,9 +93,11 @@
 
     Be carefull with Party Lists. Storing a list of 5 candidates for 5 parties is 25 names, but if you have 50 seats, and 20-30 parties, you are going to have a ton of candidates. This takes up a lot of memory, and in some languages that can get to be highly impractical. The following example only takes the names from the \verb|list.txt| file that it needs.
 
+    This Party won 4 seats. 
+
     \lstinputlisting[language=C++]{programming_examples/getClosedList.txt}
 
-    However, it isn't always this simple. Open Lists, for example, require the analysis of all candidates.
+    However, it isn't always this simple. Open Lists, for example, require the analysis of all candidates. Under the example below, if a candidate gets 10\% of the party's votes, they are elected. 
 
     \lstinputlisting[language=C++]{programming_examples/getOpenList.txt}
 
