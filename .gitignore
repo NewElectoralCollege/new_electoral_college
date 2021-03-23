@@ -1,11 +1,16 @@
 elm-stuff
+
 emails/emails.csv
 emails/key.txt
 emails/welcome_key.txt
+
 src/js/*_compiled.js
+emails/unsubscribe.html
+
 src/sass/.sass-cache/
 src/sass/*.css
 src/sass/*.css.map
+
 the_proposal/*.pdf
 the_proposal/*.aux
 the_proposal/*.fdb_latexmk

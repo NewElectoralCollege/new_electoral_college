@@ -1,10 +1,17 @@
+#!C:\Python27\python
+
+print("Content-Type: text/html; charset=utf-8\n\n")
+
 import csv
-from sys import argv
+import cgi
 
-remove = ""
+fs = cgi.FieldStorage().value
 
-if len(argv) > 1:
-    remove = argv[1]
+if fs == None:
+    print("An error occured. Please contact the administrators. (Error 222)")
+    assert 1 == 2
+else:
+    remove = fs
 
 before = []
 after = []
@@ -18,8 +25,8 @@ for first, last, state, email, admin in lines:
     before.append(",".join([first, last, state, email, admin]))
 file.close()
 
-if len(after) > 0:
-    file = open("emails.csv", "w")
-    for n in before + after:
-        file.write(n + ("" if n == after[-1] else "\n"))
-    file.close()
+file = open("emails.csv", "w")
+file.write("\n".join(before + after))
+file.close()
+
+print("You are now unsubscribed!")
