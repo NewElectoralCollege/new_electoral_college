@@ -4,6 +4,7 @@ print("Content-Type: text/html; charset=utf-8\n\n")
 
 import cgi
 import csv
+from emails import send
 
 form = cgi.FieldStorage()
 
@@ -21,5 +22,7 @@ with open("emails.csv", "r") as file:
 file.close()
 
 file = open("emails.csv", "a")
-file.write("\n" + ",".join(list))
+#file.write("\n" + ",".join(list))
 file.close()
+
+send("Thank you for Signing Up for the Newsletter!", "/welcome_email.html", list)

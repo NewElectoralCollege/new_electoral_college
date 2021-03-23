@@ -1,6 +1,7 @@
 elm-stuff
 emails/emails.csv
 emails/key.txt
+emails/welcome_key.txt
 src/js/*_compiled.js
 src/sass/.sass-cache/
 src/sass/*.css
