@@ -11,7 +11,7 @@
         </main>
         
         <footer class="container">
-        <p>&copy; The New Electoral College 2021</p>
+        <p id="footer">&copy; The New Electoral College 2021</p>
         </footer>
 
         <script src="src/js/Header_compiled.js"></script>
@@ -19,19 +19,20 @@
         <script src="src/js/ReadMore_compiled.js"></script>
         <script>
             makeHeader('More Reading');
+
+            includeHTML();
+
+            var app = Elm.ReadMore.init({
+                node: document.getElementById('main')
+            });
+
             window.onload = function () {
-                
-                includeHTML();
-
-                var app = Elm.ReadMore.init({
-                    node: document.getElementById('main')
-                });
-
                 $('.list-group-item').on('click', function (e) {
                     e.preventDefault();
                     $(this).tab('show');
-                });
+                }); 
             }
+            
         </script>
 
     </body>

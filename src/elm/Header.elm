@@ -23,7 +23,7 @@ function _VirtualDom_noScript(tag)
 
 import Browser exposing (element)
 import Html exposing (Html, node, text)
-import Html.Attributes exposing (attribute, name, title, href, rel, src, attribute, id)
+import Html.Attributes exposing (attribute, name, title, href, rel, src, attribute, id, type_)
 import List exposing (member)
 
 -- Required
@@ -88,6 +88,7 @@ view model =
                 node
                     "script"
                     [ id "MathJax-script"
+                    , type_ "text/javascript"
                     , src "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
                     ]
                     []
