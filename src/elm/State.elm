@@ -287,67 +287,66 @@ makeStateList state year =
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-    case get lastYear model.elections of
-        Just _ ->
-            (model, Cmd.none)
-        _ ->
-            case msg of
-                SendRequestParty ->
-                    (model, (getFile partyMsg model.year model.state))
-                SendRequestStats ->
-                    (model, (getFile statsMsg model.year model.state))
-                PartySuccess (Ok parties) ->
-                    if length model.list > 0 then
-                        let
-                            tempmodel = 
-                                { model
-                                | elections = insert model.year (Election (map (\p -> { p | color = getColor p colors }) parties) (Stats "none" 0 0 0.0 )) model.elections
-                                , errorMessage = "none"
-                                }
-                        in
-                            ( tempmodel
-                            , second (update SendRequestStats tempmodel)
-                            )
-                    else
-                        let
-                            tempmodel = 
-                                { model
-                                | list = reverse <| sortBy .votes <| map (\p -> { p | color = getColor p colors }) parties
-                                , errorMessage = "none"
-                                } 
-                        in
-                            ( tempmodel
-                            , second (update SendRequestStats tempmodel)
-                            )
-                StatSuccess (Ok stats) ->
-                    if size model.elections > 0 then
-                        let
-                            tempmodel = 
-                                { model
-                                | elections = Dict.update model.year (Maybe.map (changeStats stats)) model.elections
-                                , year = model.year + 4
-                                , errorMessage = "none"
-                                } 
-                        in
-                            ( tempmodel
-                            , second (update SendRequestParty tempmodel)
-                            )
-                    else
-                        let
-                            tempmodel =
-                                { model
-                                | stats = stats
-                                , year = firstYear
-                                , errorMessage = "none"
-                                } 
-                        in
-                            ( tempmodel
-                            , second (update SendRequestParty tempmodel)
-                            )
-                RevealPopup (popup) ->
-                    ({model | revealed = popup}, Cmd.none)
-                _ ->
-                    Debug.todo (Debug.toString msg)
+    if model.year == 2024 then
+        (model, Cmd.none)
+    else
+        case msg of
+            SendRequestParty ->
+                (model, (getFile partyMsg model.year model.state))
+            SendRequestStats ->
+                (model, (getFile statsMsg model.year model.state))
+            PartySuccess (Ok parties) ->
+                if length model.list > 0 then
+                    let
+                        tempmodel = 
+                            { model
+                            | elections = insert model.year (Election (map (\p -> { p | color = getColor p colors }) parties) (Stats "none" 0 0 0.0 )) model.elections
+                            , errorMessage = "none"
+                            }
+                    in
+                        ( tempmodel
+                        , second (update SendRequestStats tempmodel)
+                        )
+                else
+                    let
+                        tempmodel = 
+                            { model
+                            | list = reverse <| sortBy .votes <| map (\p -> { p | color = getColor p colors }) parties
+                            , errorMessage = "none"
+                            } 
+                    in
+                        ( tempmodel
+                        , second (update SendRequestStats tempmodel)
+                        )
+            StatSuccess (Ok stats) ->
+                if size model.elections > 0 then
+                    let
+                        tempmodel = 
+                            { model
+                            | elections = Dict.update model.year (Maybe.map (changeStats stats)) model.elections
+                            , year = model.year + 4
+                            , errorMessage = "none"
+                            } 
+                    in
+                        ( tempmodel
+                        , second (update SendRequestParty tempmodel)
+                        )
+                else
+                    let
+                        tempmodel =
+                            { model
+                            | stats = stats
+                            , year = firstYear
+                            , errorMessage = "none"
+                            } 
+                    in
+                        ( tempmodel
+                        , second (update SendRequestParty tempmodel)
+                        )
+            RevealPopup (popup) ->
+                ({model | revealed = popup}, Cmd.none)
+            _ ->
+                Debug.todo (Debug.toString msg)        
         
 init : (String, Int) -> (Model, Cmd Msg)
 init flags =
