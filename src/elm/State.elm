@@ -287,7 +287,7 @@ makeStateList state year =
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-    if model.year == 2024 then
+    if model.year == lastYear + 4 then
         (model, Cmd.none)
     else
         case msg of
