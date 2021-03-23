@@ -61,7 +61,7 @@ view model =
             [ ]
         , node
             "link"
-            [ rel "icon", href "src/img/icon.png" ]
+            [ rel "icon", href "/new_electoral_college/src/img/icon.png" ]
             [ ]
         , node
             "link"
@@ -100,7 +100,7 @@ view model =
                 node
                     "link"
                     [ rel "stylesheet"
-                    , href "src/sass/404.css"
+                    , href "/new_electoral_college/src/sass/404.css"
                     ]
                     []
             else
@@ -109,7 +109,7 @@ view model =
         , node
             "link"
             [ rel "stylesheet"
-            , href "src/sass/style.css" ]
+            , href "/new_electoral_college/src/sass/style.css" ]
             [ ]
         ]
 
