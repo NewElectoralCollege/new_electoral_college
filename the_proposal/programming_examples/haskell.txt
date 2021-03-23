@@ -15,9 +15,11 @@ data Info = Info
 
 initialize :: [Party] -> Info -> [Party]
 initialize [] info = []
-initialize (x@(Party { votes = votes }):xs) info@(Info { quota = quota }) =
-    let awarding = votes `div` quota
-    in  x { initial_seats = awarding } : initialize xs info
+initialize 
+    (x@(Party {votes = votes}):xs) 
+    info@(Info { quota = quota }) =
+        let awarding = votes `div` quota
+        in  x { initial_seats = awarding } : initialize xs info
 
 compOperator :: Info -> Party -> Party -> Ordering
 compOperator 
@@ -31,7 +33,10 @@ compOperator
 cutList :: [Party] -> Info -> [Party]
 cutList list info@(Info { seats = seats }) =
     let 
-        index = seats - (foldl (\y (Party { initial_seats = initial_seats }) -> y + initial_seats) 0 list)
+        index = seats - (foldl 
+                        (\y (Party { initial_seats = initial_seats }) -> 
+                            y + initial_seats)
+                        0 list)
         sortedList = sortBy (flip $ compOperator info) list
     in  (extra $ take index sortedList) ++ drop index sortedList
 

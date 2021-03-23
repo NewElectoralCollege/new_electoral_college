@@ -19,7 +19,8 @@ Steve
 Alex
 Theo
 
-The code only loops as many times as it needs to. This is to save space, compile time, and memory.
+The code only loops as many times as it needs to. 
+This is to save space, compile time, and memory.
 */
 
 #include <iostream>

@@ -65,6 +65,16 @@
 
     \lstinputlisting[language=Ruby]{programming_examples/ruby.txt}
 
+    \section{Haskell}
+
+    The fact that Haskell's values are immutable makes it difficult to handle certain variables in PR. Instead of using a single \texttt{seats} variable, a separate boolean called \verb|extra_seat| can be used.
+
+    \lstinputlisting[language=Haskell]{programming_examples/haskell_workaround.txt}
+    
+    Here is the complete Haskell implementation:
+
+    \lstinputlisting[language=Haskell]{programming_examples/haskell.txt}
+
     \section{Object Oriented Programming}
 
     Object Oriented languages have an advantage over functional ones when it comes to calculating PR. Classes can easily hold large numbers of parties, each with many extra variables. This is helpfull when it comes to party lists. See the following C++ example:
@@ -76,5 +86,15 @@
     \lstinputlisting[language=Haskell]{programming_examples/haskell_records.txt}
 
     although the fact that Haskell records can't contain functions like C++ or Ruby can makes this much more complex. 
+
+    \section{Lists}
+
+    Be carefull with Party Lists. Storing a list of 5 candidates for 5 parties is 25 names, but if you have 50 seats, and 20-30 parties, you are going to have a ton of candidates. This takes up a lot of memory, and in some languages that can get to be highly impractical. The following example only takes the names from the \verb|list.txt| file that it needs.
+
+    \lstinputlisting[language=C++]{programming_examples/getClosedList.txt}
+
+    However, it isn't always this simple. Open Lists, for example, require the analysis of all candidates.
+
+    \lstinputlisting[language=C++]{programming_examples/getOpenList.txt}
 
 \end{document}
