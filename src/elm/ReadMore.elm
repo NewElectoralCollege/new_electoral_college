@@ -92,7 +92,7 @@ view model =
                                 ]
                                 [ button 
                                     [ type_ "button", class "btn btn-secondary" ] 
-                                    [ Html.a 
+                                    [ a 
                                         [ style "color" "#fff"
                                         , attribute "download" <| (toLower <| replace " " "_" <| first n) ++ ".tex"
                                         , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| replace "'" "" <| first n) ++ ".tex"
@@ -104,7 +104,7 @@ view model =
                                     ]
                                 , button 
                                     [ type_ "button", class "btn btn-secondary", id "pdf" ] 
-                                    [ Html.a 
+                                    [ a 
                                         [ style "color" "#ff0000"
                                         , attribute "download" <| (toLower <| replace " " "_" <| first n) ++ ".pdf"
                                         , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| first n) ++ ".pdf"
