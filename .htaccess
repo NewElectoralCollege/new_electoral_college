@@ -1,0 +1,2 @@
+ErrorDocument 404 /new_electoral_college/404.html
+ErrorDocument 403 /new_electoral_college/403.html
