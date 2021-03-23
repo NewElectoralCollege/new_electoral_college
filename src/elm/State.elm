@@ -6,9 +6,9 @@ import Html.Attributes as Ha exposing (class, colspan, rowspan, id, href, attrib
 import Html.Events exposing (onClick)
 import List exposing (head, length, reverse, sortBy, drop, map, intersperse, concatMap)
 import List.Extra exposing (setAt, find)
-import Svg exposing (Svg, circle, rect, svg, defs, marker, g, polygon, text_, path)
+import Svg exposing (Svg, circle, rect, svg, defs, marker, g, polygon, text_)
 import Svg.Attributes as Sa exposing 
-    (r, cx, cy, x, y, fill, height, width, markerWidth, markerHeight, transform, refX, refY, orient, markerStart, markerEnd, d, points)
+    (r, cx, cy, x, y, fill, height, width, markerWidth, markerHeight, refX, refY, orient, points)
 import Tuple exposing (first, second)
 import Dict exposing (Dict, insert, empty, keys, get, size)
 import String exposing (fromInt, fromChar, fromFloat, lines)
@@ -39,10 +39,6 @@ getAngle stats assigned =
 getWidth : Float -> Model -> Float
 getWidth votes model =
     (votes / (toFloat model.stats.total_votes)) * 700
-
-arrowD : String
-arrowD =
-    "m 762.51419,433.49972 c 0,14.82816 0,29.65633 7.07661,37.07192 7.07661,7.41558 21.22692,7.41558 35.37718,7.41558"
 
 getInitialSeats : Party -> Int
 getInitialSeats party =
