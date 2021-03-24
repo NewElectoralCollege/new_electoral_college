@@ -19,11 +19,13 @@
         <script src="src/js/Home_compiled.js"></script>
         <script>
             makeHeader('Main');
-            includeHTML();
-            window.onload = async function () {
+            
+            window.onload = function () {
                 let app = Elm.Home.init({
                     node: document.getElementById('main')
                 });
+
+                includeHTML();
             }
         </script>
 
