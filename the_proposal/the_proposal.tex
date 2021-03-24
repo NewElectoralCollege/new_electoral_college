@@ -2,6 +2,7 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{dirtytalk}
+\usepackage{adjustbox}
 \title{The New Electoral College}
 \author{David G. Boers}
 
@@ -12,8 +13,8 @@
 
     \say{Each State shall appoint, in such Manner as the Legislature thereof may direct, a Number of Electors, equal to the whole Number of Senators and Representatives to which the State may be entitled in the Congress: but no Senator or Representative, or Person holding an Office of Trust or Profit under the United States, shall be appointed an Elector.}\\
 
-    In the first Presidential Election, held during both 1788 and 1789, only 5 of the 13 states held an election for Presidential electors. In the rest, the state legislature themselves appointed the electors. Given that George Washington was unnaposed, and that only 39,624 votes voted at all, representing 11.6\% of the eligible voters, the election was not truley democratic. It was not until 1872 that all electors were chosen by a popular vote. The following table shows the movement by states over time of how they chose electors. 
-    \begin{center} 
+    In the first Presidential Election, held during both 1788 and 1789, only 5 of the 13 states held an election for Presidential electors. In the rest, the state legislature themselves appointed the electors. Given that George Washington was unnaposed, and that only 39,624 votes voted at all, representing 11.6\% of the eligible voters, the election was not truley democratic. It was not until 1872 that all electors were chosen by a popular vote. The following table shows the movement by states over time of how they chose electors.\\
+    \begin{adjustbox}{center}
     \begin{tabular}{ |l|l|l|l|l| }
         \multicolumn{5}{|l|}{Number of electors chosen by each method over time} \\
         \hline
@@ -22,7 +23,7 @@
         1788-1789 & 18 & 15 & 15 & 33 \\
         1792 & 25 & 25 & 22 & 63
     \end{tabular}
-    \end{center} 
+    \end{adjustbox} \\
 
     Over time, states began to drift away from legislative selection as a method of appointing electors to popular election. Hence, the "United States Presidential Election" was created by de facto, and the misconception of the President being a directly elected position began. Perhaps just as importantly, the laws regarding popular votes for President changed. In the first several elections, just as many or more states used a district-based method to allocate electors as at-large. Over time, states switched to an at-large method. By 1836, no states used the district method. In 1892, the State of Michigan used the method. The reasons for this were entierly partisan. The Democratic controlled legislature wanted to boost former President Grover Cleveland's chances in the state, but felt unsure that he could win it. Cleveland recieved 5 votes, while Republican Benjamin Harrison recieved 9. In 1972, Maine changed to the district based system, and in 1992, Nebraska joined it. \\
 
@@ -36,7 +37,7 @@
 
     In Proportional Representation, true and exact proportionality is not possible. If all votes directly contriuted towards a seat, in other words, an exact ratio, all participants would win at least one seat. Additionaly, there is a finite amount of seats to be awarded, so there is a limited number of combinations of seat allocations. \\
 
-    Hare's original method has seveal names, including the Hare-Niemeyer method, Largest remainder method, Hamilton's method, and Vinton's method. The Largest remainder method (LRM), is in fact, a family of methods, and the latter two are named after American Founding Father Alexander Hamilton and Representative Samuel Finley Vinton respectivly, both of whom supported the method. \\
+    Hare's original method has several names, including the Hare-Niemeyer method, Largest remainder method, Hamilton's method, and Vinton's method. The Largest remainder method (LRM), is in fact, a family of methods, and the latter two are named after American Founding Father Alexander Hamilton and Representative Samuel Finley Vinton respectivly, both of whom supported the method. \\
 
     When performing an allocation under Proportional Representation, a quota is calculated to determine how many votes will entitle a party to a seat. Hare's quota is represented as:
 
@@ -50,8 +51,9 @@
 
     The \textit{total valid poll} is the number of votes cast in an election that count. This excludes ballots where more than one vote was cast, or where no option was marked. The $\lfloor \rfloor$ markers mean the number is rounded down to the nearest integer.\\
 
-    A party will win a seat for every time their vote count can be divided evenly into the quota. Any extra seats will be awarded to each party in descending order of the party's remainder. The following example election displays the calculation process. In this election, there are 11 seats to be filled, and a total of 1,650,799 votes are cast. Therefore, the quota is 150,072.
-    \begin{center} 
+    A party will win a seat for every time their vote count can be divided evenly into the quota. Any extra seats will be awarded to each party in descending order of the party's remainder. The following example election displays the calculation process. In this election, there are 11 seats to be filled, and a total of 1,650,799 votes are cast. Therefore, the quota is 150,072.\\
+
+    \begin{adjustbox}{center}
     \begin{tabular}{ |l|l|l|l|l|l|l| }
         \hline
         Party & Votes & Divisor & Initial Seats & Remainder (Rank) & Extra Seats & Total Seats \\
@@ -63,12 +65,13 @@
         C & 39,205 & 0.26 & 0 & 0.26 (3) & 0 & 0 \\
         \hline
     \end{tabular}
-    \end{center} 
+    \end{adjustbox}\\
     
     9 seats may be awarded based on the quota, leaving 2 seats remaining. Party B has the highest remainder, and gets the first extra seat. Party A has the next highest, and so also gets an extra seat. \\
 
-    When the vote percentages are compared with the seat percentages, the results approxamitly align.
-    \begin{center}
+    When the vote percentages are compared with the seat percentages, the results approxamitly align.\\
+    
+    \begin{adjustbox}{center}
     \begin{tabular}{ |l|l|l| }
         \hline
         Party & Vote Percentage & Seat Percentage \\
@@ -80,6 +83,56 @@
         C & 2.37\% & 0\% \\
         \hline
     \end{tabular}
-    \end{center}
+    \end{adjustbox}\\
+
+    \section{An important caveat}
+
+    In most countries, the votes are counted by party. That is the way the votes are cast, so it is most accurate to award them that way. However, this fails in the Electoral College. The following example is from the 2016 election in New York.\\
+
+    \begin{adjustbox}{center}
+    \begin{tabular}{ |l|l|l|l|l|l|l|l| }
+        \hline
+        Party & Nominee & Votes & Divisor & Initial Seats & Remainder (Rank) & Extra Seats & Total Seats \\
+        \hline
+        Democratic & Hillary Clinton & 4,379,804 & 16.45 & 16 & 0.45 & 1 & 17 \\
+        \hline
+        Republican & Donald Trump & 2,527,164 & 9.49 & 9 & 0.49 & 1 & 10 \\
+        \hline
+        Conservative & Donald Trump & 292,393 & 1.10 & 1 & 0.10 & 0 & 1 \\
+        \hline
+        Working Families & Hillary Clinton & 140,044 & 0.53 & 0 & 0.53 & 1 & 1 \\
+        \hline
+        Independence & Gary Johnson & 119,162 & 0.45 & 0 & 0.45 & 0 & 0 \\
+        \hline
+        Green & Jill Stein & 107,937 & 0.41 & 0 & 0.41 & 0 & 0 \\
+        \hline
+        Libertarian & Gary Johnson & 57,438 & 0.22 & 0 & 0.22 & 0 & 0 \\
+        \hline
+        Women's Equality & Hillary Clinton & 36,292 & 0.14 & 0 & 0.14 & 0 & 0 \\
+        \hline
+    \end{tabular}
+    \end{adjustbox} \\
+
+    New York has rather unique laws that allow a candidate to be nominated by more than one party. This is known as fusion voting. Allocating seats by party under this method is impractical, because it doesn't reflect the vote for President. The following figure shows the results calculated for the same election by candidate. In the example, the votes for each candidate is the sum of votes for all parties that nominated that candidate.\\
+
+    \begin{adjustbox}{center}
+    \begin{tabular}{ |l|l|l|l|l|l|l| }
+        \hline
+        Party & Votes & Divisor & Initial Seats & Remainder (Rank) & Extra Seats & Total Seats \\
+        \hline
+        Hillary Clinton & 4,556,124 & 17.11 & 17 & 0.11 (4) & 0 & 17 \\
+        \hline
+        Donald Trump & 2,819,534 & 10.59 & 10 & 0.59 (2) & 1 & 11 \\
+        \hline
+        Gary Johnson & 176,598 & 0.66 & 0 & 0.66 (1) & 1 & 1 \\
+        \hline
+        Jill Stein & 107,934 & 0.41 & 0 & 0.41 (3) & 0 & 0 \\
+        \hline
+    \end{tabular}
+    \end{adjustbox} \\
+
+    Johnson is allocated a seat that was assigned to Clinton in the party-wise election. This should be the prefered method of allocating electors, because it relfects the vote for President; The Electoral College is not a legislature, where parties are elected.\\
+    
+    After the allocation of seats to candidates, it is still neccisary to allocate seats to parties. The Largest-Remainder calculation is performed again, between the parties that nominated each candidate.
 
 \end{document}
