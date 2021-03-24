@@ -1,9 +1,11 @@
 module Home exposing (..)
 
-import Html exposing (text, Html, div, h1, p, a, h2, hr, b)
-import Html.Attributes exposing (class, href, attribute)
+import Html exposing (text, Html, div, h1, p, a, h2, hr, b, br, span)
+import Html.Attributes exposing (class, href, attribute, style)
 import Browser exposing (element)
 import String exposing (fromChar)
+import Html exposing (blockquote)
+import Html exposing (footer)
 
 -- Type definitions
 
@@ -91,6 +93,20 @@ view model =
         , div
             [ class "include container", attribute "w3-include-html" "src/img/electors_example.svg" ]
             [ ]
+        , div
+            [ class "container" ]
+            [ blockquote
+                [ class "blockquote text-right" ]
+                [ text <| "Two roads diverged in a wood, and I" ++ (fromChar '\u{2014}')
+                , br [] []
+                , text "I took the one less traveled by,"
+                , br [] []
+                , text "And that has made all the difference."
+                , footer
+                    [ class "blockquote-footer" ]
+                    [ text "Robert Frost" ]
+                ]
+            ]
         ]
 
 update : Msg -> Model -> (Model, Cmd Msg)
