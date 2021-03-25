@@ -46,3 +46,15 @@
     text-decoration: none;
     color: white;
 }
+#languages a {
+    padding-left: 4em;
+}
+#languages::before {
+    display: block;
+    font-size: large;
+    padding: 5px;
+    content: "Or download the implementations directly by clicking on one of the following icons:"
+}
+.language-icon:hover {
+    opacity: 0.5;
+}
