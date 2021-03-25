@@ -1,13 +1,12 @@
 module ReadMore exposing (..)
 
 import Html exposing (text, h2, div, Html, a, p, span, button, br, img)
-import Html.Attributes exposing (class, id, property, href, style, type_, attribute, src, width, height, target, title)
+import Html.Attributes exposing (class, id, property, href, style, type_, attribute, src, target, title)
 import List exposing (indexedMap, map, head)
 import Browser exposing (element)
 import Json.Encode exposing (string)
-import Tuple exposing (first, second, pair, mapFirst)
-import String exposing (replace, toLower, split, uncons, fromChar, fromList, concat)
-import Char exposing (toUpper)
+import Tuple exposing (first, second)
+import String exposing (replace, toLower, split)
 
 import Util exposing (dropMaybe)
 
