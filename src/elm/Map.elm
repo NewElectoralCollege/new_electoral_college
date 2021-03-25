@@ -5,7 +5,7 @@ import Browser exposing (element)
 import Debug exposing (todo, toString)
 import Dict exposing (fromList, keys, Dict, empty)
 import Html exposing (span, Html, tr, td, text, a, table, thead, th, p, Attribute, div, h1, br)
-import Html.Attributes exposing (class, id, style, href, rowspan, colspan)
+import Html.Attributes exposing (class, id, style, href, rowspan, colspan, width, height)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (dict, string, decodeString, at, list)
@@ -292,9 +292,12 @@ view model =
                 [ class "container" ]
                 [ Html.span (getArrow "left" model) []
                 , div 
-                    [ class "container col-sm-4", id "map", style "display" "inline-block" ]
+                    [ class "container col-sm-4"
+                    , id "map"
+                    , style "display" "inline-block" 
+                    ]
                     [ svg 
-                        [ Sa.width "400mm", Sa.height "200mm", Sa.viewBox "0 0 800 193", id "map-svg" ] 
+                        [ Sa.width "975px", Sa.height "520px", Sa.viewBox "0 0 800 193", id "map-svg" ] 
                         (( g [ Sa.class "include", Sa.id "paths" ] [] ) ::                        
                         (
                             concatMap (\n -> makeState (dropMaybe <| Dict.get n model.current.states) n) (keys model.current.states)

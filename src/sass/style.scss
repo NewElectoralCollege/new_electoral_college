@@ -1,3 +1,7 @@
+@import "arrows";
+@import "tables.scss";
+@import "change-arrows.scss";
+
 @font-face {
     font-family: Agincourt;
     src: url(agincourt_font.ttf);
@@ -11,159 +15,19 @@
     width: 975px;
     height: 520px;
 }
-svg {
-    display: inline-block;
-}
-.fade-on-hover:hover {
-    animation: hoverfadeIn ease 20s;
-    -webkit-animation: hoverfadeIn ease 20s;
-    -moz-animation: hoverfadeIn ease 20s;
-    -o-animation: hoverfadeIn ease 20s;
-    -ms-animation: hoverfadeIn ease 20s;
-    cursor: pointer;
-}
-@keyframes hoverfadeIn {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-@-moz-keyframes hoverfadeIn {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-}  
-@-webkit-keyframes hoverfadeIn {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-@-o-keyframes hoverfadeIn {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-@-ms-keyframes hoverfadeIn {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-@-webkit-keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity:1 ;}
-}
-@-webkit-keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
-}
-@keyframes fadeOut {
-    0% {opacity: 1;}
-    100% {opacity: 0;}
-}
-@mixin arrow($color, $size, $orientation) {
-    width: 0;
-    height: 0;
-    @if $orientation == top {
-        border-left: $size solid transparent;
-        border-right: $size solid transparent;
-        border-bottom: $size solid $color;
-    } @else if $orientation == right {
-        border-top: $size solid transparent;
-        border-bottom: $size solid transparent;
-        border-left: $size solid $color;
-    } @else if $orientation == down {
-        border-left: $size solid transparent;
-        border-right: $size solid transparent;
-        border-top: $size solid $color;
-    } @else {
-        border-top: $size solid transparent;
-        border-bottom: $size solid transparent;
-        border-right: $size solid $color;
-    }
-}
-.arrow {
-    @extend .fade-on-hover;
-    display: inline-block;
-    width: fit-content;
-}
-#leftArrow {
-    @extend .arrow;
-    @include arrow(gray, 25px, left);
-    float: left;
-}
-#rightArrow {
-    @extend .arrow;
-    @include arrow(gray, 25px, right);
-    float: right;
-}
-.results_table {
-    border: 1px solid #00022D;
-    padding: 4px;
-    width: fit-content;
-    font-family: sans-serif;
-    border-collapse: collapse;
-}
-#single-results, #single-results td, #single-results th, #single-results tr {
-    @extend .results_table;
-}
-#state-results, #state-results td, #state-results th, #state-results tr {
-    @extend .results_table;
-}
-.detailed-results, .detailed-results td, .detailed-results th, .detailed-results tr {
-    @extend .results_table;
-    min-width: fit-content;
-}
-.change-arrow {
-    font-size: 16px;
-}
-.increase {
-    @extend .change-arrow;
-    color: limegreen;
-}
-.decrease {
-    @extend .change-arrow;
-    color: red;
-}
-.steady {
-    @extend .change-arrow;
-    color: skyblue;
-}
 .progress-bar-party {
     border: 1px solid gray;
     width: 100px;
     height: 1.15em;
     padding: 0;
 }
-.arrow-line {
-    fill: none;
-    stroke: #000000;
-    stroke-width: 5;
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
-    stroke-opacity: 1;
-}
-div#gallagher-formula, div#wasted-vote {
-    width: 500px;
-    position: absolute;
-    padding: 10px;
-    visibility: visible;
-    background-color: #ffffff;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-g#labels text {
-    font-size: 15px;
-}
-g#labels rect {
-    width: 2px;
-    height: 60px;
-    background: #00022D;
-}
 #state-list {
     max-width: fit-content;
     position: absolute;
     left: 10%;
-}
-#state-list .list-group-item {
-    padding: 3px;
+    .list-group-item {
+        padding: 3px;
+    }
 }
 #LaTeX, mjx-container {
     max-width: fit-content;
@@ -171,9 +35,9 @@ g#labels rect {
 }
 #pdf {
     padding: 17px 20px;
-}
-#pdf a {
-    font-size: 20px;
+    a {
+        font-size: 20px;
+    }
 }
 #sm a {
     padding: 10px;

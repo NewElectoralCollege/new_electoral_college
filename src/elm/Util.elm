@@ -111,11 +111,11 @@ fix_string string =
 fix_change : String -> List (Html msg)
 fix_change string =
     if Regex.contains (dropMaybe <| fromString "(\\+0(?!.)|\\+0%)") string then
-        [ i [ class "steady" ] [ text (fromChar '\u{25AC}') ], text (" " ++ dropLeft 1 string) ]
+        [ i [ class "steady" ] [ ], text (" " ++ dropLeft 1 string) ]
     else if String.contains "+-" string then
-        [ i [ class "decrease" ] [ text (fromChar '\u{25BC}') ], text (" " ++ fix_string string) ]
+        [ i [ class "decrease" ] [ ], text (" " ++ fix_string string) ]
     else if String.contains "+" string then
-        [ i [ class "increase" ] [ text (fromChar '\u{25B2}') ], text (" " ++ fix_string string) ]
+        [ i [ class "increase" ] [ ], text (" " ++ fix_string string) ]
     else 
         [ text "n/a" ]
 
