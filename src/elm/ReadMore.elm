@@ -1,12 +1,13 @@
 module ReadMore exposing (..)
 
 import Html exposing (text, h2, div, Html, a, p, span, button, br, img)
-import Html.Attributes exposing (class, id, property, href, style, type_, attribute, src, width, height, target)
+import Html.Attributes exposing (class, id, property, href, style, type_, attribute, src, width, height, target, title)
 import List exposing (indexedMap, map, head)
 import Browser exposing (element)
 import Json.Encode exposing (string)
-import Tuple exposing (first, second)
-import String exposing (replace, toLower, split)
+import Tuple exposing (first, second, pair, mapFirst)
+import String exposing (replace, toLower, split, uncons, fromChar, fromList, concat)
+import Char exposing (toUpper)
 
 import Util exposing (dropMaybe)
 
@@ -18,6 +19,41 @@ modules =
     , ( "The Amendment", "See the draft Joint Resolution for a Constitutional Amendment that would allow for the New Electoral College." )
     , ( "Gallagher Index", "See explanations of the Gallagher Index." )
     , ( "Programmer's Guide to Proportional Representation", "See implementations of Proportional Representation in multiple programming langugages." )
+    ]
+
+-- Language Logos
+
+languageLogos : List (Html Msg)
+languageLogos =
+    map 
+    (\f -> 
+        a 
+            [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ (dropMaybe <| head <| split "." f) ++ ".txt"
+            , attribute "download" f
+            , target "_blank"
+            , title <| (f
+                |> split "."
+                |> head
+                |> dropMaybe
+                |> replace "cs" "C#"
+                )
+            ] 
+            [ img 
+                [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| head <| split "." f) ++ ".svg"
+                , style "max-width" "100px"
+                , style "max-height" "75px"
+                , class "language-icon"
+                ] 
+                []
+            ]
+    ) 
+    [ "C.c"
+    , "C++.cpp"
+    , "cs.cs"
+    , "Python.py"
+    , "PHP.php"
+    , "Ruby.rb"
+    , "Haskell.hs"
     ]
 
 -- Type Definitions
@@ -118,31 +154,8 @@ view model =
                                     case compare (replace " " "-" <| first n) "Programmer's-Guide-to-Proportional-Representation" of
                                         EQ ->
                                             div
-                                                [ id "languages" ] <|
-                                                map 
-                                                    (\f -> 
-                                                    a 
-                                                        [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ (dropMaybe <| head <| split "." f) ++ ".txt"
-                                                        , attribute "download" f
-                                                        , target "_blank"
-                                                        ] 
-                                                        [
-                                                    img 
-                                                        [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| head <| split "." f) ++ ".svg"
-                                                        , style "max-width" "100px"
-                                                        , style "max-height" "75px"
-                                                        , class "language-icon"
-                                                        ] 
-                                                        []
-                                                    ]) 
-                                                    [ "c.c"
-                                                    , "c++.cpp"
-                                                    , "cs.cs"
-                                                    , "python.py"
-                                                    , "php.php"
-                                                    , "ruby.rb"
-                                                    , "haskell.hs"
-                                                    ]
+                                                [ id "languages" ]
+                                                languageLogos
                                         _ ->
                                             br [] []
                                   )
