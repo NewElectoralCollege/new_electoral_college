@@ -131,6 +131,7 @@ view model =
                                                         [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| head <| split "." f) ++ ".svg"
                                                         , style "max-width" "100px"
                                                         , style "max-height" "75px"
+                                                        , class "language-icon"
                                                         ] 
                                                         []
                                                     ]) 
