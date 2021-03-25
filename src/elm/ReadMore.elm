@@ -118,11 +118,11 @@ view model =
                                     case compare (replace " " "-" <| first n) "Programmer's-Guide-to-Proportional-Representation" of
                                         EQ ->
                                             div
-                                                [] <|
+                                                [ id "languages" ] <|
                                                 map 
                                                     (\f -> 
                                                     a 
-                                                        [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ f 
+                                                        [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ (dropMaybe <| head <| split "." f) ++ ".txt"
                                                         , attribute "download" f
                                                         , target "_blank"
                                                         ] 
@@ -146,6 +146,7 @@ view model =
                                         _ ->
                                             br [] []
                                   )
+                                , br [] []
                                 ]
                     )
                     modules
