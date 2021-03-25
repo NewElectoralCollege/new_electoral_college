@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    </head>
+    <head> </head>
     <body>
-
         <div class="include" w3-include-html="header.html"></div>
-    
-        <main role="main" class="container" id="main">
-    
-        </main>
-        
+
+        <main role="main" class="container" id="main"></main>
+
         <footer class="container">
-        <p>&copy; The New Electoral College 2021</p>
+            <p>&copy; The New Electoral College 2021</p>
         </footer>
 
         <script src="src/js/Header_compiled.js"></script>
         <script src="src/js/util.js"></script>
         <script src="src/js/Home_compiled.js"></script>
         <script>
-            makeHeader('Main');
-            
+            makeHeader('Main')
+
             window.onload = function () {
                 let app = Elm.Home.init({
-                    node: document.getElementById('main')
-                });
+                    node: document.getElementById('main'),
+                })
 
-                includeHTML();
+                includeHTML()
             }
         </script>
-
     </body>
 </html>

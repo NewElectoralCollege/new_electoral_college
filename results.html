@@ -1,59 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    </head>
+    <head> </head>
     <body>
+        <div class="include" w3-include-html="header.html"></div>
+        <br /><br /><br /><br />
 
-        <div class="include" w3-include-html="header.html"></div><br><br><br><br>
-    
-        <main role="main" class="container" id="main">
-    
-        </main>
-        
+        <main role="main" class="container" id="main"></main>
+
         <footer class="container">
-        <p>&copy; The New Electoral College 2021</p>
+            <p>&copy; The New Electoral College 2021</p>
         </footer>
 
         <script src="src/js/Header_compiled.js"></script>
         <script src="src/js/util.js"></script>
         <script src="src/js/map_compiled.js"></script>
         <script>
-            makeHeader('Viewing Results');
+            makeHeader('Viewing Results')
             window.onload = async function () {
                 let app = Elm.Map.init({
                     node: document.getElementById('main'),
-                    flags: Number(getCookie('year', 2020))
-                });
+                    flags: Number(getCookie('year', 2020)),
+                })
 
-                const hemicircle = await (await fetch('src/img/538_seats_electoral_college.svg')).text();
+                const hemicircle = await (
+                    await fetch('src/img/538_seats_electoral_college.svg')
+                ).text()
 
                 app.ports.updateImages.subscribe(function (parties) {
-                    $('.include#paths').attr('w3-include-html', 'src/img/us_electoral_college_2010.svg')
+                    $('.include#paths').attr(
+                        'w3-include-html',
+                        'src/img/us_electoral_college_2010.svg'
+                    )
 
-                    includeHTML();
+                    includeHTML()
 
-                    const hemicircle_div = document.querySelector('#hemicircle');
-                    hemicircle_div.innerHTML = hemicircle;
-        
-                    let circles = Array.from(document.querySelectorAll('g#Results circle'));
+                    const hemicircle_div = document.querySelector('#hemicircle')
+                    hemicircle_div.innerHTML = hemicircle
+
+                    let circles = Array.from(
+                        document.querySelectorAll('g#Results circle')
+                    )
                     parties.forEach(function (party, n) {
                         for (let i = 0; i < party.seats; i++) {
-                            circles[i].style.fill = party.color;
+                            circles[i].style.fill = party.color
                         }
 
-                        circles.splice(0, party.seats);
+                        circles.splice(0, party.seats)
                     })
-                });
+                })
 
                 app.ports.wipeContent.subscribe(function (data) {
-                    let p = document.querySelector('#paths');
+                    let p = document.querySelector('#paths')
                     while (p.firstChild) {
-                        p.removeChild(p.firstChild);
+                        p.removeChild(p.firstChild)
                     }
-                    app.ports.sendMsg.send(data);
-                });
+                    app.ports.sendMsg.send(data)
+                })
             }
         </script>
-
     </body>
 </html>

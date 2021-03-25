@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    </head>
+    <head> </head>
     <body>
-            <script src="/new_electoral_college/src/js/Header_compiled.js"></script>
-            <script src="/new_electoral_college/src/js/util.js"></script>
-            <script>
-                window.onload = function () {
-                    makeHeader('404 Page Not Found');
-                    includeHTML();
-                }
-            </script>  
+        <script src="/new_electoral_college/src/js/Header_compiled.js"></script>
+        <script src="/new_electoral_college/src/js/util.js"></script>
+        <script>
+            window.onload = function () {
+                makeHeader('404 Page Not Found')
+                includeHTML()
+            }
+        </script>
 
-            <div class="include" w3-include-html="/new_electoral_college/header.html"></div>
-        
-            <main role="main"><br>
-                <div class="container">
-                    <span class="logo" style="top: 50px; left: 50%">Error 404</span><br>
-                    <div class="container col-sm-4 include" id="map" style="display:inline-block;" w3-include-html="/new_electoral_college/src/img/blank_states.svg"></div>
-                    <span style="top: 25px; left: -10%; font-size: 200px; color: midnightblue;">?</span>
-                    <span style="top: -20%; left: 0; font-size: 20px; color: black;">Sorry, We can't find the page you're looking for.</span>
-                </div>
-            </main>
-        
-            <footer class="container">
+        <div
+            class="include"
+            w3-include-html="/new_electoral_college/header.html"
+        ></div>
+
+        <main role="main">
+            <br />
+            <div class="container">
+                <span class="logo" style="top: 50px; left: 50%">Error 404</span
+                ><br />
+                <div
+                    class="container col-sm-4 include"
+                    id="map"
+                    style="display: inline-block"
+                    w3-include-html="/new_electoral_college/src/img/blank_states.svg"
+                ></div>
+                <span
+                    style="
+                        top: 25px;
+                        left: -10%;
+                        font-size: 200px;
+                        color: midnightblue;
+                    "
+                    >?</span
+                >
+                <span style="top: -20%; left: 0; font-size: 20px; color: black"
+                    >Sorry, We can't find the page you're looking for.</span
+                >
+            </div>
+        </main>
+
+        <footer class="container">
             <p>&copy; The New Electoral College 2021</p>
-            </footer>
-
+        </footer>
     </body>
 </html>

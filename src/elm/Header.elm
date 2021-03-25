@@ -2,120 +2,132 @@ port module Header exposing (..)
 
 {-
 
-This page requires the use of <script> tags. These are imported in elm. The compiler does not allow you to import scripts like that,
-so the Header_compiled.js file must be edited to allow for this:
+   This page requires the use of <script> tags. These are imported in elm. The compiler does not allow you to import scripts like that,
+   so the Header_compiled.js file must be edited to allow for this:
 
-// XSS ATTACK VECTOR CHECKS
+   // XSS ATTACK VECTOR CHECKS
 
-function _VirtualDom_noScript(tag)
-{
-    return tag == 'script' ? 'p' : tag;
-}
+   function _VirtualDom_noScript(tag)
+   {
+       return tag == 'script' ? 'p' : tag;
+   }
 
-becomes
+   becomes
 
-function _VirtualDom_noScript(tag)
-{
-    return tag == 'scrip' ? 'p' : tag;
-}
+   function _VirtualDom_noScript(tag)
+   {
+       return tag == 'scrip' ? 'p' : tag;
+   }
 
 -}
 
 import Browser exposing (element)
 import Html exposing (Html, node, text)
-import Html.Attributes exposing (attribute, name, title, href, rel, src, attribute, id, type_)
+import Html.Attributes exposing (attribute, href, id, name, rel, src, title, type_)
 import List exposing (member)
+
+
 
 -- Required
 
+
 needsMathJax : List String
 needsMathJax =
-    ["More Reading", "Viewing State"]
+    [ "More Reading", "Viewing State" ]
+
+
 
 -- Type definitions
+
 
 type Msg
     = CreateHtml
 
-type alias Model
-    = String
+
+type alias Model =
+    String
+
+
 
 -- Required functions
 
-init : String -> (Model, Cmd Msg)
+
+init : String -> ( Model, Cmd Msg )
 init page =
-    (page, title <| "The New Electoral College - " ++ page)
+    ( page, title <| "The New Electoral College - " ++ page )
+
 
 view : Model -> Html Msg
 view model =
     node
         "head"
-        [ ]
+        []
         [ node
             "meta"
             [ attribute "charset" "utf-8" ]
-            [ ]
+            []
         , node
             "meta"
             [ name "viewport", attribute "content" "width=device-width,initial-scale=1,shrink-to-fit=no" ]
-            [ ]
+            []
         , node
             "link"
             [ rel "icon", href "/new_electoral_college/src/img/icon.png" ]
-            [ ]
+            []
         , node
             "link"
             [ rel "stylesheet", href "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" ]
-            [ ]
-        , node 
-            "link" 
-            [ rel "stylesheet", href "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] 
-            [ ]
+            []
+        , node
+            "link"
+            [ rel "stylesheet", href "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ]
+            []
         , node
             "script"
             [ src "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" ]
-            [ ]
+            []
         , node
             "script"
             [ src "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" ]
-            [ ]
+            []
         , node
             "script"
             [ src "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ]
-            [ ]
-        , (
-            if member model needsMathJax then
-                node
-                    "script"
-                    [ id "MathJax-script"
-                    , type_ "text/javascript"
-                    , src "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
-                    ]
-                    []
-            else
-                text ""
-            )
-        , (
-            if compare model "404 Page Not Found" == EQ then
-                node
-                    "link"
-                    [ rel "stylesheet"
-                    , href "/new_electoral_college/src/sass/404.css"
-                    ]
-                    []
-            else
-                text ""
-            )
+            []
+        , if member model needsMathJax then
+            node
+                "script"
+                [ id "MathJax-script"
+                , type_ "text/javascript"
+                , src "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+                ]
+                []
+
+          else
+            text ""
+        , if compare model "404 Page Not Found" == EQ then
+            node
+                "link"
+                [ rel "stylesheet"
+                , href "/new_electoral_college/src/sass/404.css"
+                ]
+                []
+
+          else
+            text ""
         , node
             "link"
             [ rel "stylesheet"
-            , href "/new_electoral_college/src/sass/style.css" ]
-            [ ]
+            , href "/new_electoral_college/src/sass/style.css"
+            ]
+            []
         ]
 
-update : Msg -> Model -> (Model, Cmd Msg)
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    (model, Cmd.none)
+    ( model, Cmd.none )
+
 
 main : Program String Model Msg
 main =
@@ -125,5 +137,6 @@ main =
         , update = update
         , subscriptions = \_ -> Sub.none
         }
+
 
 port title : String -> Cmd a

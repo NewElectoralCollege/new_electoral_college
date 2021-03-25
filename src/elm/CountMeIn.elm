@@ -1,44 +1,51 @@
 module CountMeIn exposing (..)
 
-import Html exposing (text, div, Html, h2, p, b, form, label, input, small, select, option, button)
-import Html.Attributes exposing (class, id, for, type_, placeholder, novalidate, required, name, method, action)
 import Browser exposing (element)
 import Dict exposing (keys)
-import List exposing (map, append, sort)
+import Html exposing (Html, b, button, div, form, h2, input, label, option, p, select, small, text)
+import Html.Attributes exposing (action, class, for, id, method, name, novalidate, placeholder, required, type_)
+import List exposing (append, map, sort)
 
 import Data exposing (states)
 
 -- Type Definitions
 
-type alias Model 
-    = String
+
+type alias Model =
+    String
+
 
 type Msg
     = CreateHtml
 
+
+
 -- Setup Functions
 
-init : () -> (Model, Cmd Msg)
+
+init : () -> ( Model, Cmd Msg )
 init _ =
-    ("", Cmd.none)
+    ( "", Cmd.none )
+
 
 view : Model -> Html Msg
 view model =
     div
         [ class "container" ]
         [ h2
-            [ ]
+            []
             [ text "Count Me In" ]
         , p
-            [ ]
-            [ text <| "We are so grateful to have you on board! Enter in your information below to receive our newsletter, which will tell you about" ++
-            " important events coming up for the New Electoral College. This is the best way to keep updated about major developments. You can also follow" ++
-            " us on Twitter at "
+            []
+            [ text <|
+                "We are so grateful to have you on board! Enter in your information below to receive our newsletter, which will tell you about"
+                    ++ " important events coming up for the New Electoral College. This is the best way to keep updated about major developments. You can also follow"
+                    ++ " us on Twitter at "
             , b [] [ text "@newelectoralcollege" ]
             , text <| " for daily updates."
             ]
         , p
-            [ ]
+            []
             [ text <| "The newsletter is not regular. It doesn't come out weekly, or monthly. We will send it out whenever we think we need to." ]
         , form
             [ class "needs-validation"
@@ -54,14 +61,14 @@ view model =
                         [ for "first-name" ]
                         [ text "First Name" ]
                     , input
-                        [ type_ "text" 
+                        [ type_ "text"
                         , class "form-control"
                         , id "first-name"
                         , name "first-name"
                         , placeholder "First"
                         , required True
                         ]
-                        [ ]
+                        []
                     ]
                 , div
                     [ class "col" ]
@@ -69,14 +76,14 @@ view model =
                         [ for "last-name" ]
                         [ text "Last Name" ]
                     , input
-                        [ type_ "text" 
+                        [ type_ "text"
                         , class "form-control"
                         , id "last-name"
                         , name "last-name"
                         , placeholder "Last"
                         , required True
                         ]
-                        [ ]
+                        []
                     ]
                 ]
             , div
@@ -90,11 +97,12 @@ view model =
                     , name "state"
                     , required True
                     ]
-                    ( map
-                        (\n -> option [] [ text n ] )
-                        <| sort
-                        <| append ["American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands"] 
-                        <| keys states
+                    (map
+                        (\n -> option [] [ text n ])
+                     <|
+                        sort <|
+                            append [ "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands" ] <|
+                                keys states
                     )
                 ]
             , div
@@ -103,14 +111,14 @@ view model =
                     [ for "email" ]
                     [ text "Email address" ]
                 , input
-                    [ type_ "email" 
+                    [ type_ "email"
                     , class "form-control"
                     , id "email"
                     , name "email"
                     , placeholder "name@example.com"
                     , required True
                     ]
-                    [ ]
+                    []
                 , small
                     [ class "form-text text-muted" ]
                     [ text "We'll never share your email with anyone else." ]
@@ -124,9 +132,11 @@ view model =
             ]
         ]
 
-update : Msg -> Model -> (Model, Cmd Msg)
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    (model, Cmd.none)
+    ( model, Cmd.none )
+
 
 main : Program () Model Msg
 main =

@@ -1,10 +1,10 @@
 #!C:\Python27\python
 
+import cgi
+import json
+import os
 print("Content-Type: text/html; charset=utf-8\n\n")
 
-import os
-import json
-import cgi
 
 year = cgi.FieldStorage().getvalue("year")
 

@@ -1,39 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    </head>
+    <head> </head>
     <body>
+        <div class="include" w3-include-html="header.html"></div>
+        <br /><br /><br /><br />
 
-        <div class="include" w3-include-html="header.html"></div><br><br><br><br>
-    
-        <main role="main" class="container" id="main">
-            
-        </main>
-        
+        <main role="main" class="container" id="main"></main>
+
         <footer class="container">
-        <p>&copy; The New Electoral College 2021</p>
+            <p>&copy; The New Electoral College 2021</p>
         </footer>
 
         <script src="src/js/Header_compiled.js"></script>
         <script src="src/js/util.js"></script>
         <script src="src/js/ReadMore_compiled.js"></script>
         <script>
-            makeHeader('More Reading');
+            makeHeader('More Reading')
 
-            includeHTML();
+            includeHTML()
 
             var app = Elm.ReadMore.init({
-                node: document.getElementById('main')
-            });
+                node: document.getElementById('main'),
+            })
 
             window.onload = function () {
                 $('.list-group-item').on('click', function (e) {
-                    e.preventDefault();
-                    $(this).tab('show');
-                }); 
+                    e.preventDefault()
+                    $(this).tab('show')
+                })
             }
-            
         </script>
-
     </body>
 </html>

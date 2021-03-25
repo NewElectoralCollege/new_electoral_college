@@ -1,39 +1,46 @@
 module Home exposing (..)
 
-import Html exposing (text, Html, div, h1, p, a, h2, hr, b, br, span)
-import Html.Attributes exposing (class, href, attribute, style)
 import Browser exposing (element)
+import Html exposing (Html, a, b, blockquote, br, div, footer, h1, h2, hr, p, text)
+import Html.Attributes exposing (attribute, class, href)
 import String exposing (fromChar)
-import Html exposing (blockquote)
-import Html exposing (footer)
+
+
 
 -- Type definitions
+
 
 type Msg
     = CreateHtml
 
-type alias Model
-    = String
+
+type alias Model =
+    String
+
+
 
 -- Required functions
 
-init : () -> (Model, Cmd Msg)
+
+init : () -> ( Model, Cmd Msg )
 init _ =
-    ("", Cmd.none)
+    ( "", Cmd.none )
+
 
 view : Model -> Html Msg
 view model =
-    div 
-        [ ]
+    div
+        []
         [ div
             [ class "jumbotron" ]
             [ div
                 [ class "container" ]
                 [ h1 [ class "display-4" ] [ text "A Fairer, More Ballanced Electoral College" ]
-                , p 
-                    [] 
-                    [ text <| "We have a proposal to modify the Electoral College of the United States to make it more reflective of the voters. Instead " ++
-                    "of all the electoral votes in a state going to the candidate that won the state's contest, the electors will be split proportionally."
+                , p
+                    []
+                    [ text <|
+                        "We have a proposal to modify the Electoral College of the United States to make it more reflective of the voters. Instead "
+                            ++ "of all the electoral votes in a state going to the candidate that won the state's contest, the electors will be split proportionally."
                     ]
                 , p
                     []
@@ -41,14 +48,14 @@ view model =
                     , b [] [ text "New Electoral College" ]
                     , text "."
                     ]
-                , p 
-                    [] 
+                , p
+                    []
                     [ a
-                        [ class "btn btn-primary btn-lg" 
+                        [ class "btn btn-primary btn-lg"
                         , href "#"
                         , attribute "role" "button"
                         ]
-                        [ text <| "Learn more " ++ (fromChar '\u{000BB}') ]
+                        [ text <| "Learn more " ++ fromChar '»' ]
                     ]
                 ]
             ]
@@ -59,32 +66,34 @@ view model =
                 [ div
                     [ class "col-md-4" ]
                     [ h2
-                        [ ]
+                        []
                         [ text "It's Fair" ]
                     , p
-                        [ ]
+                        []
                         [ text "The New Electoral College will ensure that all votes matter, no matter who they are cast for, or where they are cast." ]
                     ]
                 , div
                     [ class "col-md-4" ]
                     [ h2
-                        [ ]
+                        []
                         [ text "It's Ballanced" ]
                     , p
-                        [ ]
-                        [ text <| "Candidates will only get the electoral votes that they deserve. Candidates will have to appeal to all voters, not just " ++
-                        "those who live in a couple of swing states."
+                        []
+                        [ text <|
+                            "Candidates will only get the electoral votes that they deserve. Candidates will have to appeal to all voters, not just "
+                                ++ "those who live in a couple of swing states."
                         ]
                     ]
                 , div
                     [ class "col-md-4" ]
                     [ h2
-                        [ ]
+                        []
                         [ text "It's Tested" ]
                     , p
-                        [ ]
-                        [ text <| "Nearly 100 countries use Proportional Representation. It allows all factions to be represented, and prevents a monopoly " ++
-                        "on power by a single party."
+                        []
+                        [ text <|
+                            "Nearly 100 countries use Proportional Representation. It allows all factions to be represented, and prevents a monopoly "
+                                ++ "on power by a single party."
                         ]
                     ]
                 ]
@@ -92,12 +101,12 @@ view model =
         , hr [] []
         , div
             [ class "include container", attribute "w3-include-html" "src/img/electors_example.svg" ]
-            [ ]
+            []
         , div
             [ class "container" ]
             [ blockquote
                 [ class "blockquote text-right" ]
-                [ text <| "Two roads diverged in a wood, and I" ++ (fromChar '\u{2014}')
+                [ text <| "Two roads diverged in a wood, and I" ++ fromChar '—'
                 , br [] []
                 , text "I took the one less traveled by,"
                 , br [] []
@@ -109,9 +118,11 @@ view model =
             ]
         ]
 
-update : Msg -> Model -> (Model, Cmd Msg)
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    (model, Cmd.none)
+    ( model, Cmd.none )
+
 
 main : Program () Model Msg
 main =

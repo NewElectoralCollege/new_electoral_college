@@ -1,9 +1,9 @@
 #!C:\Python27\python
 
+import cgi
+import csv
 print("Content-Type: text/html; charset=utf-8\n\n")
 
-import csv
-import cgi
 
 fs = cgi.FieldStorage().value
 

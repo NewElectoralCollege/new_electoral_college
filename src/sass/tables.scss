@@ -1,11 +1,15 @@
 .results-table {
-    border: 1px solid #00022D;
-    padding: 4px;
-    border-collapse: collapse;
+	border: 1px solid #00022d;
+	padding: 4px;
+	border-collapse: collapse;
 }
 
-#single-results, #state-results, .detailed-results {
-    td, th, tr {
-        @extend .results-table;
-    }
+#single-results,
+#state-results,
+.detailed-results {
+	td,
+	th,
+	tr {
+		@extend .results-table;
+	}
 }

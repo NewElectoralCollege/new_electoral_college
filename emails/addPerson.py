@@ -1,10 +1,10 @@
 #!C:\Python27\python
 
+from emails import send
+import csv
+import cgi
 print("Content-Type: text/html; charset=utf-8\n\n")
 
-import cgi
-import csv
-from emails import send
 
 form = cgi.FieldStorage()
 
