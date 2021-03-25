@@ -1,12 +1,14 @@
 module ReadMore exposing (..)
 
-import Html exposing (text, h2, div, Html, a, p, span, button)
-import Html.Attributes exposing (class, id, property, href, style, type_, attribute)
-import List exposing (indexedMap)
+import Html exposing (text, h2, div, Html, a, p, span, button, br, img)
+import Html.Attributes exposing (class, id, property, href, style, type_, attribute, src, width, height, target)
+import List exposing (indexedMap, map, head)
 import Browser exposing (element)
 import Json.Encode exposing (string)
 import Tuple exposing (first, second)
-import String exposing (replace, toLower)
+import String exposing (replace, toLower, split)
+
+import Util exposing (dropMaybe)
 
 -- Modules
 
@@ -72,6 +74,7 @@ view model =
                     )
                     modules
             )
+        , br [] []
         , div
             [ class "tab-content" ]
             (
@@ -111,6 +114,37 @@ view model =
                                         ] 
                                         [ text "pdf" ]
                                     ]
+                                , (
+                                    case compare (replace " " "-" <| first n) "Programmer's-Guide-to-Proportional-Representation" of
+                                        EQ ->
+                                            div
+                                                [] <|
+                                                map 
+                                                    (\f -> 
+                                                    a 
+                                                        [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ f 
+                                                        , attribute "download" f
+                                                        , target "_blank"
+                                                        ] 
+                                                        [
+                                                    img 
+                                                        [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| head <| split "." f) ++ ".svg"
+                                                        , style "max-width" "100px"
+                                                        , style "max-height" "75px"
+                                                        ] 
+                                                        []
+                                                    ]) 
+                                                    [ "c.c"
+                                                    , "c++.cpp"
+                                                    , "cs.cs"
+                                                    , "python.py"
+                                                    , "php.php"
+                                                    , "ruby.rb"
+                                                    , "haskell.hs"
+                                                    ]
+                                        _ ->
+                                            br [] []
+                                  )
                                 ]
                     )
                     modules
