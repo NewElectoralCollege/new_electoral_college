@@ -23,11 +23,7 @@ function getGet(key, fallback) {
 	let get = new RegExp("[?&]" + encodeURIComponent(key) + "=([^&]*)").exec(
 		location.search
 	);
-	if (get) {
-		return decodeURIComponent(get[1]);
-	} else {
-		return fallback;
-	}
+	return (get) ? decodeURIComponent(get[1]) : fallback;
 }
 
 function makeHeader(name) {
