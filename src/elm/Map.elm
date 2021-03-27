@@ -271,13 +271,13 @@ partyContainer party model =
                             previous =
                                 Dict.get state model.previous.states
 
-                            -- For an unknown reason, this sometimes produces Nothing.
+                            
                         in
-                        case previous of
+                        case previous of -- For an unknown reason, this sometimes produces Nothing.
+                            -- This handles it. This is never visibly called.
                             Nothing ->
                                 tr [] [ td [] [ text state ] ]
 
-                            -- This handles it. This is never visibly called.
                             _ ->
                                 doYearRow state party current (dropMaybe previous) model.year
                     )
