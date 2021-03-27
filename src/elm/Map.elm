@@ -270,10 +270,9 @@ partyContainer party model =
 
                             previous =
                                 Dict.get state model.previous.states
-
-                            
                         in
-                        case previous of -- For an unknown reason, this sometimes produces Nothing.
+                        case previous of
+                            -- For an unknown reason, this sometimes produces Nothing.
                             -- This handles it. This is never visibly called.
                             Nothing ->
                                 tr [] [ td [] [ text state ] ]
