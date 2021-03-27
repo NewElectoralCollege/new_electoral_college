@@ -3,67 +3,75 @@
 @import "change-arrows.scss";
 
 @font-face {
-	font-family: Agincourt;
-	src: url(agincourt_font.ttf);
+    font-family: Agincourt;
+    src: url(agincourt_font.ttf);
 }
 .logo {
-	font-family: Agincourt;
-	font-weight: normal;
-	font-size: 2.25rem;
+    font-family: Agincourt;
+    font-weight: normal;
+    font-size: 2.25rem;
 }
 #map svg {
-	width: 975px;
-	height: 520px;
+    width: 975px;
+    height: 520px;
 }
 .progress-bar-party {
-	border: 1px solid gray;
-	width: 100px;
-	height: 1.15em;
-	padding: 0;
+    border: 1px solid gray;
+    width: 100px;
+    height: 1.15em;
+    padding: 0;
 }
 #state-list {
-	max-width: fit-content;
-	position: absolute;
-	left: 10%;
-	.list-group-item {
-		padding: 3px;
-	}
+    max-width: fit-content;
+    position: absolute;
+    left: 5%;
+    .list-group-item {
+        padding: 3px;
+    }
 }
 #LaTeX,
 mjx-container {
-	max-width: fit-content;
-	display: inline-block;
+    max-width: fit-content;
+    display: inline-block;
 }
 #pdf {
-	padding: 17px 20px;
-	a {
-		font-size: 20px;
-	}
+    padding: 17px 20px;
+    a {
+        font-size: 20px;
+    }
 }
 #sm a {
-	padding: 10px;
-	width: 35px;
-	text-align: center;
-	text-decoration: none;
-	color: white;
+    padding: 10px;
+    width: 35px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
 }
 #languages a {
-	padding-left: 4em;
+    padding-left: 4em;
 }
 #languages::before {
-	display: block;
-	font-size: large;
-	padding: 5px;
-	content: "Or download the implementations directly by clicking on one of the following icons:";
+    display: block;
+    font-size: large;
+    padding: 5px;
+    content: "Or download the implementations directly by clicking on one of the following icons:";
 }
 .language-icon:hover {
-	opacity: 0.5;
+    opacity: 0.5;
 }
 g#labels text {
-	font-size: 15px;
+    font-size: 15px;
 }
 g#labels rect {
-	width: 2px;
-	height: 60px;
-	background: #00022d;
+    width: 2px;
+    height: 60px;
+    background: #00022d;
+}
+
+#state-container {
+    display: block;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+	overflow: hidden;
 }
