@@ -54,7 +54,7 @@ init _ =
 
 
 view : Model -> Html Msg
-view model =
+view _ =
     div
         []
         [ div
@@ -161,7 +161,7 @@ view model =
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update _ model =
     ( model, Cmd.none )
 
 

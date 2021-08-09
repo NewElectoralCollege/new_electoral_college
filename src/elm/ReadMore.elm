@@ -7,8 +7,9 @@ import Json.Encode exposing (string)
 import List exposing (head, indexedMap, map)
 import String exposing (replace, split, toLower)
 import Tuple exposing (first, second)
-
 import Util exposing (dropMaybe)
+
+
 
 -- Modules
 
@@ -101,7 +102,7 @@ view model =
             , property "role" <| string "tablist"
             ]
             (indexedMap
-                (\i n ->
+                (\_ n ->
                     let
                         active =
                             case compare (replace " " "-" <| first n) model of
@@ -127,7 +128,7 @@ view model =
         , div
             [ class "tab-content" ]
             (indexedMap
-                (\i n ->
+                (\_ n ->
                     let
                         active =
                             case compare (replace " " "-" <| first n) model of
@@ -180,7 +181,7 @@ view model =
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update _ model =
     ( model, Cmd.none )
 
 

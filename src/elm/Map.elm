@@ -2,6 +2,7 @@ port module Map exposing (..)
 
 import Basics exposing (min, toFloat)
 import Browser exposing (element)
+import Data exposing (..)
 import Debug exposing (toString, todo)
 import Dict exposing (Dict, empty, fromList, keys)
 import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, text, th, thead, tr)
@@ -15,9 +16,8 @@ import String exposing (fromFloat, fromInt, replace)
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r)
 import Tuple exposing (first, second)
-
-import Data exposing (..)
 import Util exposing (..)
+
 
 getPattern : StateOutline -> Int -> ( ( Int, Int ), String )
 getPattern so total_seats =
@@ -131,17 +131,9 @@ makeState election state =
         )
 
 
-makePartyRow : Party -> Maybe Party -> Model -> Html Msg
-makePartyRow party previous_party model =
+makePartyRow : Party -> Model -> Html Msg
+makePartyRow party model =
     let
-        pp =
-            case previous_party of
-                Nothing ->
-                    Party party.name 0 0 0 False "#dddddd"
-
-                Just a ->
-                    a
-
         real_results =
             case Dict.get party.name <| dropMaybe <| Dict.get model.year realResults of
                 Nothing ->
@@ -404,7 +396,7 @@ view model =
                             ]
                          ]
                             ++ (map
-                                    (\n -> makePartyRow n (find (\p -> p.name == n.name) model.previous.list) model)
+                                    (\n -> makePartyRow n model)
                                 <|
                                     takeWhile (\n -> ifQualifyingParty n <| toFloat model.current.total_votes) model.current.list
                                )
