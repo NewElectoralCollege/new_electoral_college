@@ -73,5 +73,10 @@ g#labels rect {
     max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
-	overflow: hidden;
+    overflow: hidden;
+}
+
+.centered-text {
+    vertical-align: middle;
+    display: table-cell;
 }
