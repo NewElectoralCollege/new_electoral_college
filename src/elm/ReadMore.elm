@@ -17,6 +17,7 @@ import Util exposing (dropMaybe)
 modules : List ( String, String )
 modules =
     [ ( "The Proposal", "See the entire proposal in professional form." )
+    , ( "Proportional Representation", "Explination and Analysis of Proportional Representation methods." )
     , ( "The Amendment", "See the draft Joint Resolution for a Constitutional Amendment that would allow for the New Electoral College." )
     , ( "Gallagher Index", "See explanations of the Gallagher Index." )
     , ( "Programmer's Guide to Proportional Representation", "See implementations of Proportional Representation in multiple programming langugages." )
