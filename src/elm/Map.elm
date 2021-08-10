@@ -469,7 +469,7 @@ update msg model =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     sendMsg (\n -> ChangeYear n False)
 
 
