@@ -1,15 +1,29 @@
 .results-table {
-	border: 1px solid #00022d;
-	padding: 4px;
-	border-collapse: collapse;
+    border: 1px solid #00022d;
+    padding: 4px;
+    border-collapse: collapse;
 }
 
 #single-results,
 #state-results,
 .detailed-results {
-	td,
-	th,
-	tr {
-		@extend .results-table;
-	}
+    td,
+    th,
+    tr {
+        @extend .results-table;
+    }
+}
+
+table.quota {
+    td {
+        text-align: center;
+    }
+
+    td#votes {
+        border-bottom: 1px solid black;
+    }
+
+    td#seats {
+        border-top: 1px solid black;
+    }
 }
