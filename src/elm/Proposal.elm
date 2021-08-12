@@ -1,4 +1,4 @@
-module Proposal exposing (..)
+module Proposal exposing (main)
 
 import Browser exposing (element)
 import Either exposing (Either(..))
@@ -318,11 +318,6 @@ eater =
 insertPercent : Match -> String
 insertPercent =
     \_ -> "%"
-
-
-highlight : Match -> String
-highlight =
-    \_ -> "==="
 
 
 

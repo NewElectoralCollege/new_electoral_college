@@ -1,12 +1,12 @@
-module ReadMore exposing (..)
+module ReadMore exposing (main)
 
 import Browser exposing (element)
 import Html exposing (Html, a, br, button, div, h2, img, p, span, text)
 import Html.Attributes exposing (attribute, class, href, id, property, src, style, target, title, type_)
 import Json.Encode exposing (string)
-import List exposing (head, indexedMap, map)
+import List exposing (head, map)
 import String exposing (replace, split, toLower)
-import Tuple exposing (first, second)
+import Tuple exposing (first)
 import Util exposing (dropMaybe)
 
 
@@ -28,7 +28,7 @@ modules =
 -- Language Logos
 
 
-languageLogos : List (Html Msg)
+languageLogos : List (Html msg)
 languageLogos =
     map
         (\f ->
@@ -81,20 +81,16 @@ type alias Model =
     String
 
 
-type Msg
-    = CreateHtml
-
-
 
 -- Setup Functions
 
 
-init : () -> ( Model, Cmd Msg )
+init : () -> ( Model, Cmd msg )
 init _ =
     ( "The-Proposal", Cmd.none )
 
 
-view : Model -> Html Msg
+view : Model -> Html msg
 view model =
     div
         [ class "container" ]
@@ -173,12 +169,12 @@ view model =
         ]
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : msg -> Model -> ( Model, Cmd msg )
 update _ model =
     ( model, Cmd.none )
 
 
-main : Program () Model Msg
+main : Program () Model msg
 main =
     element
         { init = init

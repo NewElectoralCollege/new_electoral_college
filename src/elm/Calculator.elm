@@ -1,4 +1,4 @@
-module Calculator exposing (..)
+module Calculator exposing (main)
 
 import Browser exposing (element)
 import Browser.Events exposing (onAnimationFrameDelta)
@@ -7,7 +7,6 @@ import Html.Attributes exposing (class, id, placeholder, rowspan, style, type_, 
 import Html.Events exposing (onInput, onMouseEnter, onMouseLeave)
 import List exposing (all, any, concatMap, filter, foldl, map, sort)
 import List.Extra exposing (getAt, splitWhen, updateIf)
-import Map exposing (subscriptions)
 import String exposing (fromFloat, fromInt)
 import Svg exposing (Svg, path, svg)
 import Svg.Attributes exposing (d, fill, stroke, transform)

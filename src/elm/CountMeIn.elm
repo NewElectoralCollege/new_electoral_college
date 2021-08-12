@@ -1,12 +1,13 @@
-module CountMeIn exposing (..)
+module CountMeIn exposing (main)
 
 import Browser exposing (element)
+import Data exposing (states)
 import Dict exposing (keys)
 import Html exposing (Html, b, button, div, form, h2, input, label, option, p, select, small, text)
 import Html.Attributes exposing (action, class, for, id, method, name, novalidate, placeholder, required, type_)
 import List exposing (append, map, sort)
 
-import Data exposing (states)
+
 
 -- Type Definitions
 
@@ -15,20 +16,16 @@ type alias Model =
     String
 
 
-type Msg
-    = CreateHtml
-
-
 
 -- Setup Functions
 
 
-init : () -> ( Model, Cmd Msg )
+init : () -> ( Model, Cmd msg )
 init _ =
     ( "", Cmd.none )
 
 
-view : Model -> Html Msg
+view : Model -> Html msg
 view _ =
     div
         [ class "container" ]
@@ -133,12 +130,12 @@ view _ =
         ]
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : msg -> Model -> ( Model, Cmd msg )
 update _ model =
     ( model, Cmd.none )
 
 
-main : Program () Model Msg
+main : Program () Model msg
 main =
     element
         { init = init

@@ -1,7 +1,7 @@
-module State exposing (..)
+module State exposing (main)
 
 import Browser exposing (element)
-import Data exposing (..)
+import Data exposing (colors, getNominee, states)
 import Dict exposing (Dict, empty, get, insert, keys, size)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr, var)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, rowspan, type_)
@@ -13,7 +13,29 @@ import String exposing (fromChar, fromFloat, fromInt, lines)
 import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
 import Svg.Attributes as Sa exposing (cx, cy, fill, height, markerHeight, markerWidth, orient, points, r, refX, refY, width, x, y)
 import Tuple exposing (first, second)
-import Util exposing (..)
+import Util
+    exposing
+        ( Election
+        , Msg(..)
+        , Party
+        , Stats
+        , areEqual
+        , boolToInt
+        , colorCircles
+        , divide
+        , dropMaybe
+        , firstYear
+        , fix_change
+        , getColor
+        , getFile
+        , getPartyProgressBar
+        , ifQualifyingParty
+        , lastYear
+        , partyMsg
+        , statsMsg
+        , styleNum
+        , stylePercent
+        )
 
 
 type alias Model =

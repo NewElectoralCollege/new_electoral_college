@@ -1,8 +1,8 @@
-port module Map exposing (..)
+port module Map exposing (main)
 
 import Basics exposing (min, toFloat)
 import Browser exposing (element)
-import Data exposing (..)
+import Data exposing (StateOutline, colors, getNominee, realResults, states)
 import Debug exposing (toString, todo)
 import Dict exposing (Dict, empty, fromList, keys)
 import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, text, th, thead, tr)
@@ -17,7 +17,26 @@ import String exposing (fromFloat, fromInt, replace)
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r)
 import Tuple exposing (first, second)
-import Util exposing (..)
+import Util
+    exposing
+        ( Election
+        , Party
+        , Stats
+        , areEqual
+        , colorCircles
+        , dropMaybe
+        , firstYear
+        , fix_change
+        , getColor
+        , getPartyProgressBar
+        , ifQualifyingParty
+        , lastYear
+        , newParty
+        , setStats
+        , styleNum
+        , stylePercent
+        , summateRecords
+        )
 
 
 type Direction
@@ -29,29 +48,6 @@ type Pattern
     = Square Int
     | Rectangle Direction Int Int
     | Triumvirate Direction
-
-
-stringDirection : Direction -> String
-stringDirection direction =
-    case direction of
-        Vertical ->
-            "Vertical"
-
-        Horizontal ->
-            "Horizontal"
-
-
-stringType : Pattern -> String
-stringType pattern =
-    case pattern of
-        Square a ->
-            "Square " ++ fromInt a
-
-        Rectangle a b c ->
-            "Rectangle " ++ stringDirection a ++ " " ++ fromInt b ++ " " ++ fromInt c
-
-        Triumvirate a ->
-            "Triumvirate " ++ stringDirection a
 
 
 getX : Pattern -> Float

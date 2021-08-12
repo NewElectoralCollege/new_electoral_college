@@ -1,4 +1,4 @@
-port module Header exposing (..)
+port module Header exposing (main)
 
 {-
 
@@ -40,10 +40,6 @@ needsMathJax =
 -- Type definitions
 
 
-type Msg
-    = CreateHtml
-
-
 type alias Model =
     String
 
@@ -52,12 +48,12 @@ type alias Model =
 -- Required functions
 
 
-init : String -> ( Model, Cmd Msg )
+init : String -> ( Model, Cmd msg )
 init page =
     ( page, title <| "The New Electoral College - " ++ page )
 
 
-view : Model -> Html Msg
+view : Model -> Html msg
 view model =
     node
         "head"
@@ -124,12 +120,12 @@ view model =
         ]
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : msg -> Model -> ( Model, Cmd msg )
 update _ model =
     ( model, Cmd.none )
 
 
-main : Program String Model Msg
+main : Program String Model msg
 main =
     element
         { init = init

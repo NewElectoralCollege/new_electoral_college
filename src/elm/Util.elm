@@ -1,4 +1,29 @@
-module Util exposing (..)
+module Util exposing
+    ( Election
+    , Msg(..)
+    , Party
+    , Stats
+    , areEqual
+    , boolToInt
+    , colorCircles
+    , divide
+    , dropMaybe
+    , firstYear
+    , fix_change
+    , getColor
+    , getFile
+    , getPartyProgressBar
+    , ifQualifyingParty
+    , lambdaCompare
+    , lastYear
+    , newParty
+    , partyMsg
+    , setStats
+    , statsMsg
+    , styleNum
+    , stylePercent
+    , summateRecords
+    )
 
 import Basics exposing (round, toFloat)
 import Debug exposing (todo)

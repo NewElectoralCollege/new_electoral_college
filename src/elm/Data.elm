@@ -1,8 +1,8 @@
-module Data exposing (..)
+module Data exposing (StateOutline, colors, getNominee, nominees, realResults, states)
 
 import Dict exposing (Dict, fromList, get)
 import Maybe exposing (withDefault)
-import Util exposing (..)
+import Util exposing (dropMaybe)
 
 
 

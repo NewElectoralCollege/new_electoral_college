@@ -1,4 +1,4 @@
-module Home exposing (..)
+module Home exposing (main)
 
 import Browser exposing (element)
 import Html exposing (Html, a, b, blockquote, br, div, footer, h1, h2, hr, img, p, text)
@@ -10,7 +10,7 @@ import String exposing (fromChar)
 -- Image Sources
 
 
-license : String -> String -> String -> String -> Html Msg
+license : String -> String -> String -> String -> Html msg
 license image img_href photographer phg_href =
     p
         [ class "license" ]
@@ -36,10 +36,6 @@ license image img_href photographer phg_href =
 -- Type definitions
 
 
-type Msg
-    = CreateHtml
-
-
 type alias Model =
     String
 
@@ -48,12 +44,12 @@ type alias Model =
 -- Required functions
 
 
-init : () -> ( Model, Cmd Msg )
+init : () -> ( Model, Cmd msg )
 init _ =
     ( "", Cmd.none )
 
 
-view : Model -> Html Msg
+view : Model -> Html msg
 view _ =
     div
         []
@@ -160,12 +156,12 @@ view _ =
         ]
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : msg -> Model -> ( Model, Cmd msg )
 update _ model =
     ( model, Cmd.none )
 
 
-main : Program () Model Msg
+main : Program () Model msg
 main =
     element
         { init = init
