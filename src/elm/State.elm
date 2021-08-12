@@ -84,14 +84,7 @@ doPartyElectors list parties model =
         []
 
     else
-        let
-            party =
-                dropMaybe (head parties)
-
-            new =
-                newRow party model model.page_year
-        in
-        list ++ doPartyElectors new (drop 1 parties) model
+        list ++ doPartyElectors (newRow (dropMaybe (head parties)) model model.page_year) (drop 1 parties) model
 
 
 getCircles : Float -> Model -> Int -> List (Svg Msg)
@@ -100,15 +93,9 @@ getCircles angle model i =
         []
 
     else
-        let
-            coords =
-                ( 350 * cos angle + 450
-                , 350 * sin angle + 375
-                )
-        in
         circle
-            [ cx (fromFloat (first coords))
-            , cy (fromFloat (second coords))
+            [ cx (fromFloat (350 * cos angle + 450))
+            , cy (fromFloat (350 * sin angle + 375))
             , r "10"
             , Sa.style "stroke-width:1;stroke:#969696"
             ]
@@ -177,27 +164,23 @@ summaryHeader model =
 
 summaryFooter : Model -> List (Html Msg)
 summaryFooter model =
-    let
-        string =
-            "Total Votes: "
-                ++ styleNum model.stats.total_votes
-                ++ "\n"
-                ++ "Total Electors: "
-                ++ fromInt model.stats.total_seats
-                ++ "\n"
-                ++ "Quota: "
-                ++ styleNum (getQuota model.stats.total_votes model.stats.total_seats)
-                ++ "\n"
-                ++ "Gallagher Index: "
-                ++ fromFloat model.stats.gallagher_index
-                ++ " "
-                ++ "\n"
-                ++ "\n"
-    in
     [ tfoot [ Ha.style "background-color" "#eaecf0" ]
         [ tr []
             [ td [ colspan 9 ]
-                (string
+                ("Total Votes: "
+                    ++ styleNum model.stats.total_votes
+                    ++ "\n"
+                    ++ "Total Electors: "
+                    ++ fromInt model.stats.total_seats
+                    ++ "\n"
+                    ++ "Quota: "
+                    ++ styleNum (getQuota model.stats.total_votes model.stats.total_seats)
+                    ++ "\n"
+                    ++ "Gallagher Index: "
+                    ++ fromFloat model.stats.gallagher_index
+                    ++ " "
+                    ++ "\n"
+                    ++ "\n"
                     |> lines
                     |> map text
                     |> intersperse (br [] [])
@@ -221,14 +204,14 @@ doYearRow year model party_name =
         Nothing ->
             []
 
-        _ ->
+        Just a ->
             let
                 election =
                     if year == lastYear && model.page_year == lastYear then
                         Election model.list model.stats
 
                     else
-                        dropMaybe (get year model.elections)
+                        a
 
                 previous_election =
                     get (year - 4) model.elections
@@ -238,28 +221,30 @@ doYearRow year model party_name =
 
                 previous_party =
                     withDefault party <| find (areEqual party_name .name) (dropMaybe previous_election).list
+
+                change_vote =
+                    case previous_election of
+                        Nothing ->
+                            [ text "n/a" ]
+
+                        Just b ->
+                            fix_change ("+" ++ stylePercent ((toFloat party.votes / toFloat election.stats.total_votes) - (toFloat previous_party.votes / toFloat b.stats.total_votes)))
+
+                change_seat =
+                    case previous_election of
+                        Nothing ->
+                            [ text "n/a" ]
+
+                        Just _ ->
+                            fix_change ("+" ++ fromInt (party.seats - previous_party.seats))
             in
             tr []
                 [ td [] [ text (fromInt year) ]
                 , td [] [ text (styleNum party.votes) ]
                 , td [] [ text (stylePercent (toFloat party.votes / toFloat election.stats.total_votes)) ]
-                , td []
-                    (case previous_election of
-                        Nothing ->
-                            [ text "n/a" ]
-
-                        _ ->
-                            fix_change ("+" ++ stylePercent ((toFloat party.votes / toFloat election.stats.total_votes) - (toFloat previous_party.votes / toFloat (dropMaybe previous_election).stats.total_votes)))
-                    )
+                , td [] change_vote
                 , td [] (getPartyProgressBar party election party.color)
-                , td []
-                    (case previous_election of
-                        Nothing ->
-                            [ text "n/a" ]
-
-                        _ ->
-                            fix_change ("+" ++ fromInt (party.seats - previous_party.seats))
-                    )
+                , td [] change_seat
                 ]
                 :: doYearRow (year + 4) model party_name
 
@@ -430,12 +415,7 @@ view model =
                 [ marker [ Sa.class "arrowhead", id "bars", markerWidth "10", markerHeight "7", refX "6", refY "2", orient "0" ] [ polygon [ Sa.style "display:inline-block", points "4 2, 6 0, 8 2" ] [] ] ]
             , g
                 [ id "circles" ]
-                (let
-                    circles =
-                        getCircles (getAngle model.stats 0) model 0
-                 in
-                 colorCircles model.list circles
-                )
+                (colorCircles model.list <| getCircles (getAngle model.stats 0) model 0)
             , g
                 [ id "bar" ]
                 (doPartyBars [] model.list 100.0 model)

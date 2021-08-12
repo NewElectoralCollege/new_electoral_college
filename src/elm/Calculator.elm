@@ -311,14 +311,10 @@ targetToList { tx, ty, ta, ts } =
 
 toNearestAngle : Float -> Float -> Float
 toNearestAngle current target =
-    let
-        distance =
-            target - current
-    in
-    if distance < -180 then
+    if (target - current) < -180 then
         target + 360
 
-    else if distance > 180 then
+    else if (target - current) > 180 then
         target - 360
 
     else
@@ -368,14 +364,7 @@ totalSeats parties =
 
 quota : Model -> Int
 quota model =
-    let
-        tvp =
-            toFloat <| totalVotes model.parties
-
-        seats =
-            toFloat model.seats
-    in
-    floor (tvp / seats)
+    floor ((toFloat <| totalVotes model.parties) / toFloat model.seats)
 
 
 setInitialSeats : Float -> Party -> Party
@@ -465,9 +454,6 @@ getTransformedAngle model showing party =
                 Seat ->
                     toFloat <| totalSeats model.parties
 
-        three_quarters =
-            total * 0.75
-
         move_from =
             splitWhen (areEqual party.name .name) model.parties
                 |> dropMaybe
@@ -482,7 +468,7 @@ getTransformedAngle model showing party =
                             0
                     )
     in
-    (toFloat move_from - three_quarters) / total * 360 |> negate
+    (toFloat move_from - (total * 0.75)) / total * 360 |> negate
 
 
 initialSliceStatus : SliceStatus

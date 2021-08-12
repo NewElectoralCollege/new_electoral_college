@@ -211,6 +211,11 @@ makeState election state =
             ( outline.x + (outline.width / 2)
             , outline.y + (outline.height / 2)
             )
+
+        begin =
+            ( first center - first offset
+            , second center - second offset
+            )
     in
     colorCircles election.list
         (map
@@ -220,7 +225,7 @@ makeState election state =
                     []
             )
             (makeCircles
-                ( first center - first offset, second center - second offset )
+                begin
                 pattern
                 election.stats.total_seats
                 0
