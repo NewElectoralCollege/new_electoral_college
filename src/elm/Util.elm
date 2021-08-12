@@ -3,7 +3,7 @@ module Util exposing (..)
 import Basics exposing (round, toFloat)
 import Debug exposing (todo)
 import Dict exposing (Dict)
-import Html exposing (Html, div, i, text)
+import Html exposing (Html, b, div, i, text)
 import Html.Attributes exposing (class, style)
 import Http exposing (Error, Expect, expectJson)
 import Json.Decode exposing (Decoder, at, bool, field, float, int, list, map4, map6, string)
@@ -71,6 +71,25 @@ dropMaybe x =
 
         Nothing ->
             todo "A Nothing variable sent through dropMaybe function"
+
+
+areEqual : a -> (b -> a) -> b -> Bool
+areEqual value function record =
+    function record == value
+
+
+summateRecords : (a -> number) -> a -> number -> number
+summateRecords function record value =
+    function record + value
+
+
+boolToInt : Bool -> Int
+boolToInt bool =
+    if bool then
+        1
+
+    else
+        0
 
 
 ifQualifyingParty : Party -> Float -> Bool
@@ -180,7 +199,7 @@ colorCircles parties circles =
                     (parties
                         |> splitAt n
                         |> first
-                        |> map (\p -> p.seats)
+                        |> map .seats
                         |> sum
                     )
                     circles
@@ -264,6 +283,6 @@ statsMsg =
 getFile : Expect Msg -> Int -> String -> Cmd Msg
 getFile msg year state =
     Http.get
-        { url = "http://localhost/new_electoral_college/data/" ++ fromInt year ++ "/" ++ state ++ ".json"
+        { url = "data/" ++ fromInt year ++ "/" ++ state ++ ".json"
         , expect = msg
         }

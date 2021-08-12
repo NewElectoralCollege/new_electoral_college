@@ -12,7 +12,7 @@ import String exposing (fromFloat, fromInt)
 import Svg exposing (Svg, path, svg)
 import Svg.Attributes exposing (d, fill, stroke, transform)
 import Tuple exposing (first)
-import Util exposing (Party, dropMaybe, styleNum)
+import Util exposing (Party, areEqual, dropMaybe, styleNum)
 
 
 
@@ -131,7 +131,7 @@ pie model showing =
         , style "height" "300"
         , onMouseLeave ResetHighlight
         ]
-        (map (slice model) <| filter (\n -> n.showing == showing) model.slices)
+        (map (slice model) <| filter (areEqual showing .showing) model.slices)
 
 
 angle : Model -> Showing -> Party -> Float

@@ -10,8 +10,8 @@ import Html.Attributes exposing (class, colspan, href, id, rowspan, style)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (at, decodeString, dict, list, string)
-import List exposing (append, concat, concatMap, filter, foldl, head, indexedMap, length, map, range, reverse, sortBy, take)
-import List.Extra exposing (find, getAt, init, last, takeWhile, uniqueBy)
+import List exposing (append, concat, concatMap, filter, foldl, head, indexedMap, map, member, range, reverse, sortBy)
+import List.Extra exposing (find, getAt, init, takeWhile, uniqueBy)
 import String exposing (fromFloat, fromInt, replace)
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r)
@@ -19,82 +19,177 @@ import Tuple exposing (first, second)
 import Util exposing (..)
 
 
-getPattern : StateOutline -> Int -> ( ( Int, Int ), String )
+type Direction
+    = Vertical
+    | Horizontal
+
+
+type Pattern
+    = Square Int
+    | Rectangle Direction Int Int
+    | Triumvirate Direction
+
+
+stringDirection : Direction -> String
+stringDirection direction =
+    case direction of
+        Vertical ->
+            "Vertical"
+
+        Horizontal ->
+            "Horizontal"
+
+
+stringType : Pattern -> String
+stringType pattern =
+    case pattern of
+        Square a ->
+            "Square " ++ fromInt a
+
+        Rectangle a b c ->
+            "Rectangle " ++ stringDirection a ++ " " ++ fromInt b ++ " " ++ fromInt c
+
+        Triumvirate a ->
+            "Triumvirate " ++ stringDirection a
+
+
+getX : Pattern -> Float
+getX pattern =
+    case pattern of
+        Square a ->
+            toFloat a
+
+        Rectangle _ x _ ->
+            toFloat x
+
+        Triumvirate Vertical ->
+            1
+
+        Triumvirate Horizontal ->
+            3
+
+
+getY : Pattern -> Float
+getY pattern =
+    case pattern of
+        Square a ->
+            toFloat a
+
+        Rectangle _ _ y ->
+            toFloat y
+
+        Triumvirate Vertical ->
+            3
+
+        Triumvirate Horizontal ->
+            1
+
+
+getPattern : StateOutline -> Int -> Pattern
 getPattern so total_seats =
     if total_seats > 3 then
         let
             sq =
                 sqrt <| toFloat total_seats
 
-            bottom =
+            a =
                 floor <| min so.width so.height / (2 * 5.5)
 
-            leftover =
-                if bottom == 0 then
+            b =
+                if a == 0 then
                     total_seats
 
                 else
-                    round <| toFloat total_seats / toFloat bottom
+                    round <| toFloat total_seats / toFloat a
         in
-        if 2 * 5.5 * sq > min so.width so.height then
+        if member total_seats [ 4, 9 ] then
+            Square (floor sq)
+
+        else if 2 * 5.5 * sq > min so.width so.height then
             if so.width < so.height then
-                ( ( bottom, leftover ), "1" )
+                Rectangle Vertical a b
 
             else
-                ( ( leftover, bottom ), "2" )
+                Rectangle Horizontal b a
+
+        else if so.width < so.height then
+            Rectangle Vertical (round sq) (floor sq + 1)
 
         else
-            ( ( round sq, floor sq + 1 ), "3" )
+            Rectangle Horizontal (floor sq + 1) (round sq)
 
     else if so.width < so.height then
-        ( ( 3, 1 ), "4" )
+        Triumvirate Vertical
 
     else
-        ( ( 3, 1 ), "5" )
+        Triumvirate Horizontal
 
 
-makeCircles : List ( Float, Float ) -> ( ( Int, Int ), String ) -> Int -> List ( Float, Float )
-makeCircles list pattern total_seats =
-    let
-        coords =
-            map
-                (\n ->
-                    ( (first <| dropMaybe <| head list) + (5.5 * 2 * toFloat n)
-                    , (second <| dropMaybe <| last list) + (5.5 * 2)
-                    )
-                )
-                (dropMaybe <| List.Extra.init <| range 0 <| first <| first pattern)
-    in
-    if total_seats == 3 then
-        if second pattern == "4" then
-            map
-                (\n ->
-                    ( (first <| dropMaybe <| head list) + (5.5 * 2)
-                    , (second <| dropMaybe <| last list) + (5.5 * 2 * toFloat n)
-                    )
-                )
-            <|
-                range 0 3
+row : Float -> Float -> Int -> List ( Float, Float )
+row x y columns =
+    map (\n -> ( x + (5.5 * 2 * toFloat n), y + (5.5 * 2) )) <| range 0 (columns - 1)
 
-        else
-            coords
+
+column : Float -> Float -> Int -> List ( Float, Float )
+column x y rows =
+    map (\n -> ( x + (5.5 * 2), y + (5.5 * 2 * toFloat n) )) <| range 0 (rows - 1)
+
+
+type CoordType
+    = X
+    | Y
+
+
+makeOffset : Pattern -> CoordType -> Float -> Float
+makeOffset pattern xoy coord =
+    (5.5 * 2 * (coord / 2 - 0.5))
+        + (case ( pattern, xoy ) of
+            ( Square _, Y ) ->
+                5.5 * 2
+
+            ( Rectangle Vertical _ _, Y ) ->
+                5.5 * 2
+
+            ( Rectangle Horizontal _ _, Y ) ->
+                5.5 * 2
+
+            ( Triumvirate Vertical, X ) ->
+                5.5 * 2
+
+            ( Triumvirate Horizontal, Y ) ->
+                5.5 * 2
+
+            ( _, _ ) ->
+                0
+          )
+
+
+makeCircles : ( Float, Float ) -> Pattern -> Int -> Int -> List ( Float, Float )
+makeCircles ( x, y ) pattern total_seats progress =
+    if progress >= total_seats then
+        []
 
     else
-        case compare (length list + (first <| first pattern)) total_seats of
-            GT ->
-                map
-                    (\n -> ( first n + (5.5 * toFloat (length coords - (total_seats - length list))), second n ))
-                    (take (total_seats - length list) coords)
+        case pattern of
+            Square b ->
+                append (row x y b) (makeCircles ( x, y + (5.5 * 2) ) pattern total_seats (progress + b))
 
-            EQ ->
-                coords
+            Rectangle _ c _ ->
+                let
+                    offset =
+                        if (total_seats - (progress + c)) < c then
+                            5.5 * toFloat (c - (total_seats - (progress + c)))
 
-            LT ->
-                if length list == 1 && first (first pattern) /= 1 then
-                    coords ++ makeCircles coords pattern total_seats
+                        else
+                            0
+                in
+                concat [ row x y c, makeCircles ( x + offset, y + (5.5 * 2) ) pattern total_seats (progress + c) ]
 
-                else
-                    coords ++ makeCircles (list ++ coords) pattern total_seats
+            Triumvirate Vertical ->
+                column x y 3
+
+            Triumvirate Horizontal ->
+                row x y 3
 
 
 makeState : Election -> String -> List (Svg Msg)
@@ -107,8 +202,8 @@ makeState election state =
             getPattern outline election.stats.total_seats
 
         offset =
-            ( 5.5 * 2 * ((toFloat <| first <| first pattern) / 2 - 0.5)
-            , 5.5 * 2 * ((toFloat <| second <| first pattern) / 2 - 0.5)
+            ( makeOffset pattern X (getX pattern)
+            , makeOffset pattern Y (getY pattern)
             )
 
         center =
@@ -120,13 +215,14 @@ makeState election state =
         (map
             (\n ->
                 circle
-                    [ r "5.5", cx (fromFloat <| first n), cy (fromFloat <| second n), Sa.style "stroke-width:0.8534;stroke:#000000", id <| second pattern ]
+                    [ r "5.5", cx (fromFloat <| first n), cy (fromFloat <| second n), Sa.style "stroke-width:0.8534;stroke:#000000" ]
                     []
             )
             (makeCircles
-                [ ( first center - first offset, second center - second offset - (5.5 * 2) ) ]
+                ( first center - first offset, second center - second offset )
                 pattern
                 election.stats.total_seats
+                0
             )
         )
 
@@ -136,11 +232,11 @@ makePartyRow party model =
     let
         real_results =
             case Dict.get party.name <| dropMaybe <| Dict.get model.year realResults of
-                Nothing ->
-                    0
-
                 Just a ->
                     a
+
+                Nothing ->
+                    0
     in
     tr
         []
@@ -159,7 +255,7 @@ rewriteInstance : Instance -> List (List Party) -> List Stats -> Instance
 rewriteInstance before parties stats =
     { before
         | states = fromList <| indexedMap (\i state -> ( state, Election (dropMaybe <| getAt i parties) (dropMaybe <| getAt i stats) )) (keys states)
-        , total_votes = foldl (\n s -> s + n.total_votes) 0 stats
+        , total_votes = foldl (summateRecords .total_votes) 0 stats
         , list =
             reverse <|
                 sortBy .seats <|
@@ -167,8 +263,8 @@ rewriteInstance before parties stats =
                         (\n list ->
                             append list
                                 [ { n
-                                    | votes = foldl (\p s -> s + p.votes) 0 <| filter (\p -> p.name == n.name) <| concat parties
-                                    , seats = foldl (\p s -> s + p.seats) 0 <| filter (\p -> p.name == n.name) <| concat parties
+                                    | votes = foldl (summateRecords .votes) 0 <| filter (areEqual n.name .name) <| concat parties
+                                    , seats = foldl (summateRecords .seats) 0 <| filter (areEqual n.name .name) <| concat parties
                                   }
                                 ]
                         )
@@ -181,7 +277,7 @@ doYearRow : String -> String -> Election -> Election -> Int -> Html Msg
 doYearRow state partyname current previous year =
     let
         party =
-            ( dropMaybe <| find (\n -> n.name == partyname) current.list
+            ( dropMaybe <| find (areEqual partyname .name) current.list
             , find (\n -> n.name == replace "Reform" "Ross Perot" partyname) previous.list
             )
 
@@ -325,12 +421,14 @@ getFile year =
         }
 
 
+emptyInstance : Instance
+emptyInstance =
+    Instance empty [] 0
+
+
 init : Int -> ( Model, Cmd Msg )
 init year =
     let
-        emptyInstance =
-            Instance empty [] 0
-
         r =
             update (ChangeYear year False) <| Model year year False emptyInstance emptyInstance
     in

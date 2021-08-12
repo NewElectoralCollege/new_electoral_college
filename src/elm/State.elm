@@ -45,11 +45,7 @@ getWidth votes model =
 
 getInitialSeats : Party -> Int
 getInitialSeats party =
-    if party.extra_seat then
-        party.seats - 1
-
-    else
-        party.seats
+    party.seats - boolToInt party.extra_seat
 
 
 getCheckIcon : Party -> List (Html msg)
@@ -311,12 +307,11 @@ partyContainer party model =
 
 judgePopupShow : String -> Model -> String
 judgePopupShow name model =
-    case compare name model.revealed of
-        EQ ->
-            "inline-block"
+    if name == model.revealed then
+        "inline-block"
 
-        _ ->
-            "none"
+    else
+        "none"
 
 
 makeStateList : String -> String -> Html Msg
@@ -480,7 +475,7 @@ view model =
                 [ class "btn-group", attribute "role" "group" ]
                 [ button
                     [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                    [ a [ Ha.style "color" "#fff", attribute "download" model.state, href ("/new_electoral_college/data/" ++ fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ text "Download" ] ]
+                    [ a [ Ha.style "color" "#fff", attribute "download" model.state, href ("data/" ++ fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ text "Download" ] ]
                 , button
                     [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
                     [ a [ Ha.style "color" "#fff", href "results.html" ] [ text "Back" ] ]

@@ -1,8 +1,9 @@
 module Data exposing (..)
 
 import Dict exposing (Dict, fromList, get)
-
 import Util exposing (..)
+
+
 
 --This may not be the cleanest way of storing data, but it is better than having to make a bunch of GET calls.
 
@@ -257,16 +258,14 @@ realResults =
 
 getNominee : Int -> String -> String
 getNominee year party =
-    let
-        nominee =
-            nominees
-                |> get year
-                |> dropMaybe
-                |> get party
-    in
-    case nominee of
-        Nothing ->
-            "n/a"
-
+    case
+        nominees
+            |> get year
+            |> dropMaybe
+            |> get party
+    of
         Just a ->
             a
+
+        Nothing ->
+            "n/a"

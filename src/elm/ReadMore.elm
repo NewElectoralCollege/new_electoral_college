@@ -63,6 +63,16 @@ languageLogos =
         ]
 
 
+active : Model -> ( String, String ) -> String
+active model n =
+    case compare (replace " " "-" <| first n) model of
+        EQ ->
+            " show active"
+
+        _ ->
+            ""
+
+
 
 -- Type Definitions
 
@@ -104,17 +114,8 @@ view model =
             ]
             (indexedMap
                 (\_ n ->
-                    let
-                        active =
-                            case compare (replace " " "-" <| first n) model of
-                                EQ ->
-                                    " show active"
-
-                                _ ->
-                                    ""
-                    in
                     a
-                        [ class <| "list-group-item list-group-item-action" ++ active
+                        [ class <| "list-group-item list-group-item-action" ++ active model n
                         , property "data-toggle" <| string "list"
                         , href <| "#" ++ (replace " " "-" <| replace "'" "" <| first n)
                         , property "role" <| string "tab"
@@ -130,17 +131,8 @@ view model =
             [ class "tab-content" ]
             (indexedMap
                 (\_ n ->
-                    let
-                        active =
-                            case compare (replace " " "-" <| first n) model of
-                                EQ ->
-                                    " show active"
-
-                                _ ->
-                                    ""
-                    in
                     div
-                        [ class <| "tab-pane fade" ++ active
+                        [ class <| "tab-pane fade" ++ active model n
                         , id <| replace " " "-" <| replace "'" "" <| first n
                         , property "role" <| string "tabpanel"
                         ]

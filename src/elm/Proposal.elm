@@ -18,15 +18,12 @@ import Util exposing (dropMaybe)
 
 picture : String -> Int -> Content
 picture url wdth =
-    let
-        pic =
-            img
-                [ src url
-                , width wdth
-                ]
-                []
-    in
-    Right pic
+    img
+        [ src url
+        , width wdth
+        ]
+        []
+        |> Right
 
 
 hareQuota : Content
@@ -93,12 +90,20 @@ missHistory =
 -- Section Types
 
 
+type Side
+    = Rt
+    | Lt
+
+
+type Length
+    = Short
+    | Long
+
+
 type Section
     = Full
     | Quote
-    | TextLeft Content
-    | TextRight Content
-    | TextRightLong Content
+    | Text Side Length Content
     | SectionHeader
     | FullImage (Html Msg)
 
@@ -108,7 +113,7 @@ sectionTypeList =
     [ Full
     , Full
     , Quote
-    , TextLeft hareQuota
+    , Text Lt Short hareQuota
     , Full
     , Full
     , Full
@@ -119,42 +124,42 @@ sectionTypeList =
     , Quote
     , Full
     , Full
-    , TextLeft hareQuota
-    , TextLeft hareQuotaBars
+    , Text Lt Short hareQuota
+    , Text Lt Short hareQuotaBars
     , Full
     , Full
-    , TextRight simpleExample
-    , TextLeft percentLineup
+    , Text Rt Short simpleExample
+    , Text Lt Short percentLineup
     , SectionHeader
     , Full
     , FullImage caveat
     , Full
-    , TextRight alliances
+    , Text Rt Short alliances
     , Full
     , SectionHeader
     , Full
-    , TextLeft e1992
+    , Text Lt Short e1992
     , Full
     , Full
-    , TextRightLong e2000
+    , Text Rt Long e2000
     , Full
     , Full
-    , Full
-    , Full
-    , Full
-    , SectionHeader
-    , Full
-    , Full
-    , Full
-    , TextLeft knesset
-    , TextRightLong partyList
     , Full
     , Full
     , Full
     , SectionHeader
-    , TextLeft statesByRace
     , Full
-    , TextRightLong missHistory
+    , Full
+    , Full
+    , Text Lt Short knesset
+    , Text Rt Long partyList
+    , Full
+    , Full
+    , Full
+    , SectionHeader
+    , Text Lt Short statesByRace
+    , Full
+    , Text Rt Long missHistory
     ]
 
 
@@ -188,48 +193,35 @@ getText =
 
 leftDiv : Content -> Html Msg
 leftDiv =
-    leftDivSpecific "col-7 col-lg-8"
+    divSpecific "col-7 col-lg-8"
 
 
 leftDivShort : Content -> Html Msg
 leftDivShort =
-    leftDivSpecific "col-sm-3 col-md-6 col-lg-4"
+    divSpecific "col-sm-3 col-md-6 col-lg-4"
 
 
-leftDivSpecific : String -> Content -> Html Msg
-leftDivSpecific cls content =
+divSpecific : String -> Content -> Html Msg
+divSpecific cls content =
     p
         [ class cls, class "centered-text" ]
-    <|
-        case content of
+        [ case content of
             Left str ->
-                [ text str ]
+                text str
 
             Right img ->
-                [ img ]
+                img
+        ]
 
 
 rightDiv : Content -> Html Msg
 rightDiv =
-    rightDivSpecific "col-5 col-lg-4"
+    divSpecific "col-5 col-lg-4"
 
 
 rightDivLong : Content -> Html Msg
 rightDivLong =
-    rightDivSpecific "col-sm-9 col-md-6 col-lg-8"
-
-
-rightDivSpecific : String -> Content -> Html Msg
-rightDivSpecific cls content =
-    p
-        [ class cls, class "centered-text" ]
-    <|
-        case content of
-            Left str ->
-                [ text str ]
-
-            Right img ->
-                [ img ]
+    divSpecific "col-sm-9 col-md-6 col-lg-8"
 
 
 textAndImage : Section -> String -> List (Html Msg)
@@ -257,17 +249,17 @@ textAndImage sectiontype par =
                 ]
             ]
 
-        TextLeft img ->
+        Text Lt _ img ->
             [ leftDiv (Left par)
             , rightDiv img
             ]
 
-        TextRight img ->
+        Text Rt Short img ->
             [ leftDiv img
             , rightDiv (Left par)
             ]
 
-        TextRightLong img ->
+        Text Rt Long img ->
             [ leftDivShort img
             , rightDivLong (Left par)
             ]

@@ -81,7 +81,7 @@ view _ =
                         , href "./proposal.html"
                         , attribute "role" "button"
                         ]
-                        [ text <| "Learn more " ++ fromChar '\u{00BB}' ]
+                        [ text <| "Learn more " ++ fromChar '»' ]
                     ]
                 ]
             ]
@@ -147,7 +147,7 @@ view _ =
             [ class "container" ]
             [ blockquote
                 [ class "blockquote text-right" ]
-                [ text <| "Two roads diverged in a wood, and I" ++ fromChar '\u{2014}'
+                [ text <| "Two roads diverged in a wood, and I" ++ fromChar '—'
                 , br [] []
                 , text "I took the one less traveled by,"
                 , br [] []
