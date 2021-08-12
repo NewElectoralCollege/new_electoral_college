@@ -336,18 +336,16 @@ init _ =
 
 view : Model -> Html Msg
 view model =
-    let
-        sections =
-            model
-                |> lines
-                |> join ""
-                |> replace beginRegex eater
-                |> replace blockRegex eater
-                |> replace percentRegex insertPercent
-                |> replace commentRegex eater
-                |> split "\\\\"
-    in
-    div [ class "container" ] <| map2 section sectionTypeList sections
+    model
+        |> lines
+        |> join ""
+        |> replace beginRegex eater
+        |> replace blockRegex eater
+        |> replace percentRegex insertPercent
+        |> replace commentRegex eater
+        |> split "\\\\"
+        |> map2 section sectionTypeList
+        |> div [ class "container" ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

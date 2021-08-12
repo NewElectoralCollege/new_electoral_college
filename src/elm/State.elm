@@ -318,12 +318,11 @@ makeStateList state year =
             (\n ->
                 let
                     active =
-                        case compare state n of
-                            EQ ->
-                                " active"
+                        if state == n then
+                            " active"
 
-                            _ ->
-                                ""
+                        else
+                            ""
                 in
                 a
                     [ class <| "list-group-item list-group-item-action" ++ active

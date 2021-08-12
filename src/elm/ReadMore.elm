@@ -112,16 +112,16 @@ view model =
             , id "reading-list"
             , property "role" <| string "tablist"
             ]
-            (indexedMap
-                (\_ n ->
+            (map
+                (\( f, s ) ->
                     a
-                        [ class <| "list-group-item list-group-item-action" ++ active model n
+                        [ class <| "list-group-item list-group-item-action" ++ active model ( f, s )
                         , property "data-toggle" <| string "list"
-                        , href <| "#" ++ (replace " " "-" <| replace "'" "" <| first n)
+                        , href <| "#" ++ (replace " " "-" <| replace "'" "" f)
                         , property "role" <| string "tab"
                         ]
-                        [ h2 [] [ text <| first n ]
-                        , p [] [ text <| second n ]
+                        [ h2 [] [ text f ]
+                        , p [] [ text s ]
                         ]
                 )
                 modules
@@ -129,19 +129,19 @@ view model =
         , br [] []
         , div
             [ class "tab-content" ]
-            (indexedMap
-                (\_ n ->
+            (map
+                (\( f, s ) ->
                     div
-                        [ class <| "tab-pane fade" ++ active model n
-                        , id <| replace " " "-" <| replace "'" "" <| first n
+                        [ class <| "tab-pane fade" ++ active model ( f, s )
+                        , id <| replace " " "-" <| replace "'" "" f
                         , property "role" <| string "tabpanel"
                         ]
                         [ button
                             [ type_ "button", class "btn btn-secondary" ]
                             [ a
                                 [ style "color" "#fff"
-                                , attribute "download" <| (toLower <| replace " " "_" <| first n) ++ ".tex"
-                                , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| replace "'" "" <| first n) ++ ".tex"
+                                , attribute "download" <| (toLower <| replace " " "_" f) ++ ".tex"
+                                , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| replace "'" "" f) ++ ".tex"
                                 ]
                                 [ span
                                     [ id "LaTeX" ]
@@ -152,12 +152,12 @@ view model =
                             [ type_ "button", class "btn btn-secondary", id "pdf" ]
                             [ a
                                 [ style "color" "#ff0000"
-                                , attribute "download" <| (toLower <| replace " " "_" <| first n) ++ ".pdf"
-                                , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| first n) ++ ".pdf"
+                                , attribute "download" <| (toLower <| replace " " "_" f) ++ ".pdf"
+                                , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" f) ++ ".pdf"
                                 ]
                                 [ text "pdf" ]
                             ]
-                        , case compare (replace " " "-" <| first n) "Programmer's-Guide-to-Proportional-Representation" of
+                        , case compare (replace " " "-" f) "Programmer's-Guide-to-Proportional-Representation" of
                             EQ ->
                                 div
                                     [ id "languages" ]

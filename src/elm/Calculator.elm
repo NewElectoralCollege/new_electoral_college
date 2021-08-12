@@ -153,7 +153,7 @@ angle model showing party =
 
 startingAngle : Model -> Showing -> Party -> Float
 startingAngle model showing party =
-    splitWhen (\n -> n.name == party.name) model.parties
+    splitWhen (areEqual party.name .name) model.parties
         |> dropMaybe
         |> first
         |> foldl (summateRecords (angle model showing)) 0.0
@@ -402,7 +402,7 @@ extraSeats model list =
         threshold =
             dropMaybe <| getAt (model.seats - totalSeats list) <| sort <| map .extra_votes list
     in
-    updateIf (\n -> n.extra_votes >= threshold) setExtraSeat list
+    updateIf (lambdaCompare (>=) threshold .extra_votes) setExtraSeat list
 
 
 hare : Model -> Model
