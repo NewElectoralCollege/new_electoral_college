@@ -1,6 +1,7 @@
 module Data exposing (..)
 
 import Dict exposing (Dict, fromList, get)
+import Maybe exposing (withDefault)
 import Util exposing (..)
 
 
@@ -258,14 +259,8 @@ realResults =
 
 getNominee : Int -> String -> String
 getNominee year party =
-    case
-        nominees
-            |> get year
-            |> dropMaybe
-            |> get party
-    of
-        Just a ->
-            a
-
-        Nothing ->
-            "n/a"
+    nominees
+        |> get year
+        |> dropMaybe
+        |> get party
+        |> withDefault "n/a"

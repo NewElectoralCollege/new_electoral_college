@@ -12,6 +12,7 @@ import Http exposing (Error, expectJson)
 import Json.Decode exposing (at, decodeString, dict, list, string)
 import List exposing (append, concat, concatMap, filter, foldl, head, indexedMap, map, member, range, reverse, sortBy)
 import List.Extra exposing (find, getAt, init, takeWhile, uniqueBy)
+import Maybe exposing (withDefault)
 import String exposing (fromFloat, fromInt, replace)
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r)
@@ -231,12 +232,7 @@ makePartyRow : Party -> Model -> Html Msg
 makePartyRow party model =
     let
         real_results =
-            case Dict.get party.name <| dropMaybe <| Dict.get model.year realResults of
-                Just a ->
-                    a
-
-                Nothing ->
-                    0
+            withDefault 0 <| Dict.get party.name <| dropMaybe <| Dict.get model.year realResults
     in
     tr
         []
@@ -377,12 +373,11 @@ getArrow : String -> Model -> List (Attribute Msg)
 getArrow side model =
     let
         change =
-            case side of
-                "left" ->
-                    -4
+            if side == "left" then
+                -4
 
-                _ ->
-                    4
+            else
+                4
     in
     if (side == "left" && model.year == firstYear) || (side == "right" && model.year == lastYear) then
         []

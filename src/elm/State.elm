@@ -8,6 +8,7 @@ import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, rows
 import Html.Events exposing (onClick)
 import List exposing (concatMap, drop, head, intersperse, length, map, reverse, sortBy)
 import List.Extra exposing (find, setAt)
+import Maybe exposing (withDefault)
 import String exposing (fromChar, fromFloat, fromInt, lines)
 import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
 import Svg.Attributes as Sa exposing (cx, cy, fill, height, markerHeight, markerWidth, orient, points, r, refX, refY, width, x, y)
@@ -233,15 +234,10 @@ doYearRow year model party_name =
                     get (year - 4) model.elections
 
                 party =
-                    dropMaybe (find (\n -> n.name == party_name) election.list)
+                    dropMaybe (find (areEqual party_name .name) election.list)
 
                 previous_party =
-                    case previous_election of
-                        Nothing ->
-                            party
-
-                        _ ->
-                            dropMaybe (find (\n -> n.name == party_name) (dropMaybe previous_election).list)
+                    withDefault party <| find (areEqual party_name .name) (dropMaybe previous_election).list
             in
             tr []
                 [ td [] [ text (fromInt year) ]
