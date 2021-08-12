@@ -12,7 +12,7 @@ import String exposing (fromFloat, fromInt)
 import Svg exposing (Svg, path, svg)
 import Svg.Attributes exposing (d, fill, stroke, transform)
 import Tuple exposing (first)
-import Util exposing (Party, areEqual, dropMaybe, styleNum)
+import Util exposing (Party, areEqual, dropMaybe, lambdaCompare, styleNum, summateRecords)
 
 
 
@@ -156,8 +156,7 @@ startingAngle model showing party =
     splitWhen (\n -> n.name == party.name) model.parties
         |> dropMaybe
         |> first
-        |> map (angle model showing)
-        |> foldl (+) 0.0
+        |> foldl (summateRecords (angle model showing)) 0.0
 
 
 pointSpecificR : Float -> Float -> Point
@@ -170,6 +169,11 @@ pointSpecificR r ang =
 point : Float -> Point
 point =
     pointSpecificR 100
+
+
+partyNameFromSlice : Slice -> String
+partyNameFromSlice slc =
+    slc.party.name
 
 
 stringifyPoint : Point -> String
@@ -205,8 +209,8 @@ moveSlice getTarget slc =
 moveSlices : List Slice -> String -> List Slice
 moveSlices list name =
     list
-        |> updateIf (\n -> n.party.name == name) (moveSlice .highlighted_target)
-        |> updateIf (\n -> not <| n.party.name == name) (moveSlice shrink)
+        |> updateIf (areEqual name partyNameFromSlice) (moveSlice .highlighted_target)
+        |> updateIf (lambdaCompare (/=) name partyNameFromSlice) (moveSlice shrink)
 
 
 resetSlices : List Slice -> List Slice
@@ -246,11 +250,7 @@ isMoving slices =
 
 step : Float -> List Slice -> List Slice
 step timeDelta list =
-    let
-        time =
-            timeDelta / 1000
-    in
-    map (stepSlice time) list
+    map (stepSlice (timeDelta / 1000)) list
 
 
 stepSlice : Float -> Slice -> Slice
@@ -353,7 +353,7 @@ getCurrentShowing showing party =
 
 summateParties : (Party -> Int) -> List Party -> Int
 summateParties function parties =
-    foldl (+) 0 <| map function parties
+    foldl (summateRecords function) 0 parties
 
 
 totalVotes : List Party -> Int
@@ -469,11 +469,10 @@ getTransformedAngle model showing party =
             total * 0.75
 
         move_from =
-            splitWhen (\n -> n.name == party.name) model.parties
+            splitWhen (areEqual party.name .name) model.parties
                 |> dropMaybe
                 |> first
-                |> map (getCurrentShowing showing)
-                |> foldl (+) 0
+                |> foldl (summateRecords (getCurrentShowing showing)) 0
                 |> (+)
                     (case showing of
                         Vote ->

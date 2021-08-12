@@ -213,9 +213,9 @@ makeState election state =
     in
     colorCircles election.list
         (map
-            (\n ->
+            (\( f, s ) ->
                 circle
-                    [ r "5.5", cx (fromFloat <| first n), cy (fromFloat <| second n), Sa.style "stroke-width:0.8534;stroke:#000000" ]
+                    [ r "5.5", cx (fromFloat f), cy (fromFloat s), Sa.style "stroke-width:0.8534;stroke:#000000" ]
                     []
             )
             (makeCircles

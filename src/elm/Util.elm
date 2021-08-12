@@ -9,7 +9,7 @@ import Http exposing (Error, Expect, expectJson)
 import Json.Decode exposing (Decoder, at, bool, field, float, int, list, map4, map6, string)
 import List exposing (filter, indexedMap, intersperse, map, range, sum)
 import List.Extra exposing (splitAt)
-import Maybe exposing (Maybe)
+import Maybe exposing (Maybe, withDefault)
 import Regex exposing (fromString)
 import String exposing (concat, dropLeft, fromFloat, fromInt, left, length, replace, reverse, slice)
 import Svg exposing (Svg, g)
@@ -73,9 +73,14 @@ dropMaybe x =
             todo "A Nothing variable sent through dropMaybe function"
 
 
+lambdaCompare : (a -> a -> Bool) -> a -> (b -> a) -> b -> Bool
+lambdaCompare comp value function record =
+    comp (function record) value
+
+
 areEqual : a -> (b -> a) -> b -> Bool
-areEqual value function record =
-    function record == value
+areEqual =
+    lambdaCompare (==)
 
 
 summateRecords : (a -> number) -> a -> number -> number
@@ -103,16 +108,7 @@ ifQualifyingParty party total_votes =
 
 getColor : Party -> Dict String String -> String
 getColor party colors =
-    let
-        result =
-            Dict.get party.name colors
-    in
-    case result of
-        Nothing ->
-            "#dddddd"
-
-        _ ->
-            dropMaybe result
+    withDefault "#dddddd" (Dict.get party.name colors)
 
 
 
@@ -137,11 +133,11 @@ styleNum num =
         s =
             reverse <| fromInt num
 
-        l =
-            map (\n -> slice (n * 3) ((n * 3) + 3) s) <| range 0 <| length s // 3
-
         o =
-            reverse <| concat <| intersperse "," l
+            (map (\n -> slice (n * 3) ((n * 3) + 3) s) <| range 0 <| length s // 3)
+                |> intersperse ","
+                |> concat
+                |> reverse
     in
     case left 1 o of
         "," ->
@@ -168,7 +164,9 @@ stylePercent percent =
 
 fix_string : String -> String
 fix_string string =
-    replace "-" "" <| replace "+" "" string
+    string
+        |> replace "+" ""
+        |> replace "-" ""
 
 
 fix_change : String -> List (Html msg)
@@ -209,7 +207,7 @@ colorCircles parties circles =
                 )
         )
     <|
-        filter (\n -> n.seats > 0) parties
+        filter (lambdaCompare (>) 0 .seats) parties
 
 
 
