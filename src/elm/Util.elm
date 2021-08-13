@@ -6,7 +6,6 @@ module Util exposing
     , areEqual
     , boolToInt
     , colorCircles
-    , divide
     , dropMaybe
     , firstYear
     , fix_change
@@ -23,20 +22,21 @@ module Util exposing
     , styleNum
     , stylePercent
     , summateRecords
+    , text
     )
 
 import Basics exposing (round, toFloat)
-import Debug exposing (todo)
+import Debug exposing (toString, todo)
 import Dict exposing (Dict)
 import Html exposing (Html, b, div, i, text)
 import Html.Attributes exposing (class, style)
 import Http exposing (Error, Expect, expectJson)
-import Json.Decode exposing (Decoder, at, bool, field, float, int, list, map4, map6, string)
+import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, string)
 import List exposing (filter, indexedMap, intersperse, map, range, sum)
 import List.Extra exposing (splitAt)
 import Maybe exposing (Maybe, withDefault)
 import Regex exposing (fromString)
-import String exposing (concat, dropLeft, fromFloat, fromInt, left, length, replace, reverse, slice)
+import String exposing (concat, dropLeft, dropRight, fromFloat, fromInt, left, length, replace, reverse, slice)
 import Svg exposing (Svg, g)
 import Svg.Attributes exposing (fill)
 import Tuple exposing (first, second)
@@ -314,3 +314,12 @@ getFile msg year state =
         { url = "data/" ++ fromInt year ++ "/" ++ state ++ ".json"
         , expect = msg
         }
+
+
+
+-- Texting
+
+
+text : a -> Html msg
+text =
+    Html.text << dropLeft 1 << dropRight 1 << toString

@@ -2,12 +2,12 @@ module Calculator.Form exposing (makePartiesForm, partiesHeader)
 
 import Calculator.Hare exposing (quota)
 import Calculator.Model exposing (Model, Msg(..))
-import Html exposing (Attribute, Html, div, input, text)
+import Html exposing (Attribute, Html, div, input)
 import Html.Attributes exposing (class, placeholder, style, type_, value)
 import Html.Events exposing (onInput)
 import List exposing (map)
-import String exposing (fromFloat, fromInt, left)
-import Util exposing (Party, boolToInt)
+import String exposing (fromFloat, left)
+import Util as U exposing (Party, boolToInt)
 
 
 border : Attribute Msg
@@ -50,16 +50,16 @@ makePartyForm model party =
             []
         , div
             stepStyle
-            [ text <| left 4 <| fromFloat <| party.votes / quota model ]
+            [ U.text <| left 4 <| fromFloat <| party.votes / quota model ]
         , div
             stepStyle
-            [ text <| fromFloat <| party.seats - boolToInt party.extra_seat ]
+            [ U.text <| party.seats - boolToInt party.extra_seat ]
         , div
             stepStyle
-            [ text <| fromInt <| boolToInt party.extra_seat ]
+            [ U.text <| boolToInt party.extra_seat ]
         , div
             stepStyle
-            [ text <| fromFloat party.seats ]
+            [ U.text party.seats ]
         ]
 
 
@@ -67,7 +67,7 @@ partiesHeader : Html Msg
 partiesHeader =
     div [ class "form-row" ] <|
         map
-            (\( h, s ) -> div s [ text h ])
+            (\( h, s ) -> div s [ U.text h ])
             [ ( "Party", [ border, style "width" "192px" ] )
             , ( "Votes", [ border, style "width" "100px" ] )
             , ( "Divis", stepStyle )

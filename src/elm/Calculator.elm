@@ -7,16 +7,16 @@ import Calculator.Form exposing (makePartiesForm, partiesHeader)
 import Calculator.Hare exposing (hare, quota)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
 import Calculator.Pie exposing (pie)
-import Html exposing (Html, div, h1, h2, p, table, td, text, tr)
+import Html exposing (Html, div, h1, h2, p, table, td, tr)
 import Html.Attributes exposing (class, id, rowspan, style)
-import Util exposing (Party, styleNum)
+import Util as U exposing (Party, styleNum)
 
 
 quotaBlock : Model -> Html Msg
 quotaBlock model =
     td
         [ rowspan 2, style "width" "140px" ]
-        [ text <| "=   " ++ (styleNum <| floor <| quota model)
+        [ U.text <| "=   " ++ (styleNum <| floor <| quota model)
         ]
 
 
@@ -51,10 +51,10 @@ view model =
             [ class "jumbotron" ]
             [ div
                 [ class "container" ]
-                [ h1 [ class "display-4" ] [ text "Proportional Representation Results Calculator" ]
+                [ h1 [ class "display-4" ] [ U.text "Proportional Representation Results Calculator" ]
                 , p
                     []
-                    [ text <|
+                    [ U.text <|
                         "Below, you can run Proportional Representation elections by yourself, using the exact same calculation process proposed "
                             ++ "for The New Electoral College."
                     ]
@@ -64,16 +64,16 @@ view model =
             [ class "container" ]
             [ div [ class "row" ]
                 [ div [ class "col" ]
-                    [ h2 [] [ text "Parties" ]
+                    [ h2 [] [ U.text "Parties" ]
                     , div
                         []
                         (partiesHeader :: makePartiesForm model)
                     ]
                 , div [ class "col" ]
-                    [ h2 [] [ text "Quota" ]
+                    [ h2 [] [ U.text "Quota" ]
                     , table [ class "quota" ]
-                        [ tr [] [ td [ id "votes" ] [ text <| styleNum <| floor <| totalVotes model.parties ], quotaBlock model ]
-                        , tr [] [ td [ id "seats" ] [ text <| styleNum <| floor <| model.seats ] ]
+                        [ tr [] [ td [ id "votes" ] [ U.text <| styleNum <| floor <| totalVotes model.parties ], quotaBlock model ]
+                        , tr [] [ td [ id "seats" ] [ U.text <| styleNum <| floor <| model.seats ] ]
                         ]
                     ]
                 ]

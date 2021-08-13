@@ -1,3 +1,3 @@
 - Create version of styleNum for Floats
-- Create text versions of Int, Float
 - Allow rounding and flooring while keeping a Float
+- Make Gallagher Index popup work

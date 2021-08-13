@@ -5,7 +5,7 @@ import Browser exposing (element)
 import Data exposing (StateOutline, colors, getNominee, realResults, states)
 import Debug exposing (toString, todo)
 import Dict exposing (Dict, empty, fromList, keys)
-import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, text, th, thead, tr)
+import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, th, thead, tr)
 import Html.Attributes exposing (class, colspan, href, id, rowspan, style)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
@@ -17,7 +17,7 @@ import String exposing (fromFloat, fromInt, replace)
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r)
 import Tuple exposing (first, second)
-import Util
+import Util as U
     exposing
         ( Election
         , Party
@@ -227,8 +227,8 @@ makeState election state =
         )
 
 
-makePartyRow : Party -> Model -> Html Msg
-makePartyRow party model =
+makePartyRow : Model -> Party -> Html Msg
+makePartyRow model party =
     let
         real_results =
             withDefault 0 <| Dict.get party.name <| dropMaybe <| Dict.get model.year realResults
@@ -236,12 +236,12 @@ makePartyRow party model =
     tr
         []
         [ td [ class "color", id <| replace " " "-" party.name, style "background-color" party.color ] []
-        , td [] [ text party.name ]
-        , td [] [ text <| getNominee model.year party.name ]
-        , td [] [ text <| styleNum <| floor party.votes ]
-        , td [] [ text <| stylePercent <| party.votes / model.current.total_votes ]
-        , td [] [ text <| fromFloat party.seats ]
-        , td [] [ text <| fromFloat real_results ]
+        , td [] [ U.text party.name ]
+        , td [] [ U.text <| getNominee model.year party.name ]
+        , td [] [ U.text <| styleNum <| floor party.votes ]
+        , td [] [ U.text <| stylePercent <| party.votes / model.current.total_votes ]
+        , td [] [ U.text party.seats ]
+        , td [] [ U.text real_results ]
         , td [] <| fix_change <| "+" ++ (fromFloat <| party.seats - real_results)
         ]
 
@@ -297,14 +297,14 @@ doYearRow state partyname current previous year =
             [ style "font-weight" bold ]
             [ a
                 [ href <| "state.html?year=" ++ fromInt year ++ "&state=" ++ state ]
-                [ text state ]
+                [ U.text state ]
             ]
-        , td [] [ text <| styleNum <| (floor <| .votes <| first party) ]
-        , td [] [ text <| stylePercent <| popularVotePercent ]
+        , td [] [ U.text <| styleNum <| (floor <| .votes <| first party) ]
+        , td [] [ U.text <| stylePercent <| popularVotePercent ]
         , td []
             (case second party of
                 Nothing ->
-                    [ text "n/a" ]
+                    [ U.text "n/a" ]
 
                 _ ->
                     fix_change <| "+" ++ (stylePercent <| popularVotePercent - ((dropMaybe <| second party).votes / previous.stats.total_votes))
@@ -313,7 +313,7 @@ doYearRow state partyname current previous year =
         , td []
             (case second party of
                 Nothing ->
-                    [ text "n/a" ]
+                    [ U.text "n/a" ]
 
                 _ ->
                     fix_change <| "+" ++ (fromFloat <| (.seats <| first party) - (.seats <| dropMaybe <| second party))
@@ -325,24 +325,24 @@ partyContainer : String -> Model -> Html Msg
 partyContainer party model =
     td
         [ class "detailed-results-cell" ]
-        [ p [] [ text (party ++ " Party") ]
+        [ p [] [ U.text (party ++ " Party") ]
         , table
             [ class "detailed-results" ]
             (thead
                 [ style "background-color" "#eaecf0" ]
                 [ tr
                     []
-                    [ th [ rowspan 2 ] [ text "State" ]
+                    [ th [ rowspan 2 ] [ U.text "State" ]
                     , th [ colspan 3 ] []
                     , th [ colspan 2 ] []
                     ]
                 , tr
                     []
-                    [ th [] [ text "Votes" ]
-                    , th [] [ text "%" ]
-                    , th [] [ text "+/-" ]
-                    , th [] [ text "Electors" ]
-                    , th [] [ text "+/-" ]
+                    [ th [] [ U.text "Votes" ]
+                    , th [] [ U.text "%" ]
+                    , th [] [ U.text "+/-" ]
+                    , th [] [ U.text "Electors" ]
+                    , th [] [ U.text "+/-" ]
                     ]
                 ]
                 :: map
@@ -358,7 +358,7 @@ partyContainer party model =
                             -- For an unknown reason, this sometimes produces Nothing.
                             -- This handles it. This is never visibly called.
                             Nothing ->
-                                tr [] [ td [] [ text state ] ]
+                                tr [] [ td [] [ U.text state ] ]
 
                             _ ->
                                 doYearRow state party current (dropMaybe previous) model.year
@@ -436,9 +436,9 @@ view model =
     div [ class "container", id "main" ]
         [ div
             [ class "container" ]
-            [ h1 [ id "election" ] [ text <| fromInt model.real_year ]
+            [ h1 [ id "election" ] [ U.text model.real_year ]
             , p []
-                [ text
+                [ U.text
                     ("These are the projected results of the "
                         ++ fromInt model.real_year
                         ++ " Election using our proposal. It takes the final "
@@ -475,23 +475,19 @@ view model =
                         [ id "single-results" ]
                         ([ tr
                             []
-                            [ th [ colspan 2, rowspan 2 ] [ text "Party" ]
-                            , th [ rowspan 2 ] [ text "Nominee" ]
-                            , th [ colspan 2, rowspan 2 ] [ text "Votes" ]
-                            , th [ colspan 2 ] [ text "Electors" ]
-                            , th [ rowspan 2 ] [ text "+/-" ]
+                            [ th [ colspan 2, rowspan 2 ] [ U.text "Party" ]
+                            , th [ rowspan 2 ] [ U.text "Nominee" ]
+                            , th [ colspan 2, rowspan 2 ] [ U.text "Votes" ]
+                            , th [ colspan 2 ] [ U.text "Electors" ]
+                            , th [ rowspan 2 ] [ U.text "+/-" ]
                             ]
                          , tr
                             []
-                            [ th [] [ text "New" ]
-                            , th [] [ text "Old" ]
+                            [ th [] [ U.text "New" ]
+                            , th [] [ U.text "Old" ]
                             ]
                          ]
-                            ++ (map
-                                    (\n -> makePartyRow n model)
-                                <|
-                                    takeWhile (ifQualifyingParty model.current.total_votes) model.current.list
-                               )
+                            ++ (map (makePartyRow model) <| takeWhile (ifQualifyingParty model.current.total_votes) model.current.list)
                         )
                     ]
                 ]

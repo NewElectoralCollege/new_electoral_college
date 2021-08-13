@@ -3,7 +3,7 @@ module State exposing (main)
 import Browser exposing (element)
 import Data exposing (colors, getNominee, states)
 import Dict exposing (Dict, empty, get, insert, keys, size)
-import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr, var)
+import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, rowspan, type_)
 import Html.Events exposing (onClick)
 import List exposing (concatMap, drop, filter, head, intersperse, length, map, reverse, sortBy)
@@ -13,7 +13,7 @@ import String exposing (fromChar, fromFloat, fromInt, lines)
 import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
 import Svg.Attributes as Sa exposing (cx, cy, fill, height, markerHeight, markerWidth, orient, points, r, refX, refY, width, x, y)
 import Tuple exposing (first, second)
-import Util
+import Util as U
     exposing
         ( Election
         , Msg(..)
@@ -22,7 +22,6 @@ import Util
         , areEqual
         , boolToInt
         , colorCircles
-        , divide
         , dropMaybe
         , firstYear
         , fix_change
@@ -74,10 +73,10 @@ getInitialSeats party =
 getCheckIcon : Party -> List (Html msg)
 getCheckIcon party =
     if party.extra_seat then
-        [ text " ", i [ class "fa", Ha.style "color" "green" ] [ text (fromChar '\u{F058}') ] ]
+        [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (fromChar '\u{F058}') ] ]
 
     else
-        [ text "" ]
+        [ U.text "" ]
 
 
 newRow : Party -> Model -> Int -> List (Html msg)
@@ -85,14 +84,14 @@ newRow party model year =
     if ifQualifyingParty model.stats.total_votes party then
         [ tr []
             [ td [ class "color", Ha.style "backgroundColor" party.color ] []
-            , td [] [ text <| party.name ]
-            , td [] [ text <| getNominee year party.name ]
-            , td [] [ text <| styleNum <| floor party.votes ]
-            , td [] [ text <| stylePercent (party.votes / model.stats.total_votes) ]
-            , td [] [ text <| fromFloat (getInitialSeats party) ]
-            , td [] ((text <| styleNum <| floor party.extra_votes) :: getCheckIcon party)
-            , td [] [ text <| fromFloat party.seats ]
-            , td [] [ text <| stylePercent (party.seats / model.stats.total_seats) ]
+            , td [] [ U.text party.name ]
+            , td [] [ U.text <| getNominee year party.name ]
+            , td [] [ U.text <| styleNum <| floor party.votes ]
+            , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
+            , td [] [ U.text <| getInitialSeats party ]
+            , td [] ((U.text <| styleNum <| floor party.extra_votes) :: getCheckIcon party)
+            , td [] [ U.text party.seats ]
+            , td [] [ U.text <| stylePercent (party.seats / model.stats.total_seats) ]
             ]
         ]
 
@@ -171,14 +170,14 @@ doPartyBars list parties nx model =
 summaryHeader : Model -> List (Html msg)
 summaryHeader model =
     [ thead [ Ha.style "background-color" "#eaecf0" ]
-        [ tr [] [ th [ colspan 9 ] [ text (model.state ++ " - " ++ fromInt model.page_year) ] ]
+        [ tr [] [ th [ colspan 9 ] [ U.text (model.state ++ " - " ++ fromInt model.page_year) ] ]
         , tr []
-            [ th [ colspan 2 ] [ text "Party" ]
-            , th [] [ text "Nominee" ]
-            , th [ colspan 2 ] [ text "Votes" ]
-            , th [] [ text "Initial" ]
-            , th [] [ text "Leftover Votes" ]
-            , th [ colspan 2 ] [ text "Total" ]
+            [ th [ colspan 2 ] [ U.text "Party" ]
+            , th [] [ U.text "Nominee" ]
+            , th [ colspan 2 ] [ U.text "Votes" ]
+            , th [] [ U.text "Initial" ]
+            , th [] [ U.text "Leftover Votes" ]
+            , th [ colspan 2 ] [ U.text "Total" ]
             ]
         ]
     ]
@@ -204,9 +203,9 @@ summaryFooter model =
                     ++ "\n"
                     ++ "\n"
                     |> lines
-                    |> map text
+                    |> map U.text
                     |> intersperse (br [] [])
-                    |> setAt 7 (i [ class "fa", Ha.style "color" "blue", onClick <| RevealPopup "gallagher" ] [ text (fromChar '\u{F059}') ])
+                    |> setAt 7 (i [ class "fa", Ha.style "color" "blue", onClick <| RevealPopup "gallagher" ] [ U.text (fromChar '\u{F059}') ])
                 )
             ]
         ]
@@ -248,7 +247,7 @@ doYearRow year model party_name =
                 change_vote =
                     case previous_election of
                         Nothing ->
-                            [ text "n/a" ]
+                            [ U.text "n/a" ]
 
                         Just b ->
                             fix_change ("+" ++ stylePercent ((party.votes / election.stats.total_votes) - (previous_party.votes / b.stats.total_votes)))
@@ -256,15 +255,15 @@ doYearRow year model party_name =
                 change_seat =
                     case previous_election of
                         Nothing ->
-                            [ text "n/a" ]
+                            [ U.text "n/a" ]
 
                         Just _ ->
                             fix_change ("+" ++ fromFloat (party.seats - previous_party.seats))
             in
             tr []
-                [ td [] [ text (fromInt year) ]
-                , td [] [ text (styleNum <| floor party.votes) ]
-                , td [] [ text (stylePercent <| party.votes / election.stats.total_votes) ]
+                [ td [] [ U.text year ]
+                , td [] [ U.text (styleNum <| floor party.votes) ]
+                , td [] [ U.text (stylePercent <| party.votes / election.stats.total_votes) ]
                 , td [] change_vote
                 , td [] (getPartyProgressBar party election party.color)
                 , td [] change_seat
@@ -276,24 +275,24 @@ partyContainer : String -> Model -> Html Msg
 partyContainer party model =
     td
         [ class "detailed-results-cell" ]
-        [ p [] [ text (party ++ " Party") ]
+        [ p [] [ U.text (party ++ " Party") ]
         , table
             [ id "state-results" ]
             (thead
                 [ Ha.style "background-color" "#eaecf0" ]
                 [ tr
                     []
-                    [ th [ rowspan 2 ] [ text "Year" ]
+                    [ th [ rowspan 2 ] [ U.text "Year" ]
                     , th [ colspan 3 ] []
                     , th [ colspan 2 ] []
                     ]
                 , tr
                     []
-                    [ th [] [ text "Votes" ]
-                    , th [] [ text "%" ]
-                    , th [] [ text "+/-" ]
-                    , th [] [ text "Electors" ]
-                    , th [] [ text "+/-" ]
+                    [ th [] [ U.text "Votes" ]
+                    , th [] [ U.text "%" ]
+                    , th [] [ U.text "+/-" ]
+                    , th [] [ U.text "Electors" ]
+                    , th [] [ U.text "+/-" ]
                     ]
                 ]
                 :: (concatMap (doYearRow firstYear model << .name) <|
@@ -330,7 +329,7 @@ makeStateList state year =
                     [ class <| "list-group-item list-group-item-action" ++ active
                     , href ("state.html?state=" ++ n ++ "&year=" ++ year)
                     ]
-                    [ text n ]
+                    [ U.text n ]
             )
             (keys states)
         )
@@ -447,7 +446,7 @@ view model =
                                 []
                             , text_
                                 [ x <| fromFloat <| 90.0 + (n * 700.0), y "460" ]
-                                [ text <| stylePercent n ]
+                                [ U.text <| stylePercent n ]
                             ]
                     )
                     [ 0.5, 0.25, 0.75, 0, 1 ]
@@ -467,10 +466,10 @@ view model =
                 [ class "btn-group", attribute "role" "group" ]
                 [ button
                     [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                    [ a [ Ha.style "color" "#fff", attribute "download" model.state, href ("data/" ++ fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ text "Download" ] ]
+                    [ a [ Ha.style "color" "#fff", attribute "download" model.state, href ("data/" ++ fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ U.text "Download" ] ]
                 , button
                     [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                    [ a [ Ha.style "color" "#fff", href "results.html" ] [ text "Back" ] ]
+                    [ a [ Ha.style "color" "#fff", href "results.html" ] [ U.text "Back" ] ]
                 ]
             , br [] []
             , br [] []
@@ -479,7 +478,7 @@ view model =
             ]
         , br [] []
         , div [ class "container" ]
-            [ h2 [] [ text "State History" ]
+            [ h2 [] [ U.text "State History" ]
             , table [ class "container" ]
                 [ tr
                     []
@@ -492,9 +491,9 @@ view model =
             [ id "gallagher-formula"
             , Ha.style "display" <| judgePopupShow "gallagher" model
             ]
-            [ p [] [ text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
-            , p [] [ text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
-            , p [] [ text "Where ", var [] [ text "V" ], text " is the percentage of votes cast for the party, and ", var [] [ text "S" ], text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
+            [ p [] [ U.text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
+            , p [] [ U.text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
+            , p [] [ U.text "Where ", var [] [ U.text "V" ], U.text " is the percentage of votes cast for the party, and ", var [] [ U.text "S" ], U.text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
             ]
         ]
 
