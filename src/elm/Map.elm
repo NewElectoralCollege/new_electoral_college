@@ -144,10 +144,7 @@ makeOffset pattern xoy coord =
             ( Square _, Y ) ->
                 5.5 * 2
 
-            ( Rectangle Vertical _ _, Y ) ->
-                5.5 * 2
-
-            ( Rectangle Horizontal _ _, Y ) ->
+            ( Rectangle _ _ _, Y ) ->
                 5.5 * 2
 
             ( Triumvirate Vertical, X ) ->
