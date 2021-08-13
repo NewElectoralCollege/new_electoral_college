@@ -295,7 +295,7 @@ partyContainer party model =
                     , th [] [ text "+/-" ]
                     ]
                 ]
-                :: (concatMap (\n -> doYearRow firstYear model n.name) <|
+                :: (concatMap (doYearRow firstYear model << .name) <|
                         filter (areEqual party .name) model.list
                    )
             )
