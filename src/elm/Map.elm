@@ -34,6 +34,7 @@ import Util as U
         , newParty
         , setStats
         , styleNum
+        , styleNumFloat
         , stylePercent
         , summateRecords
         )
@@ -238,7 +239,7 @@ makePartyRow model party =
         [ td [ class "color", id <| replace " " "-" party.name, style "background-color" party.color ] []
         , td [] [ U.text party.name ]
         , td [] [ U.text <| getNominee model.year party.name ]
-        , td [] [ U.text <| styleNum <| floor party.votes ]
+        , td [] [ U.text <| styleNumFloat party.votes ]
         , td [] [ U.text <| stylePercent <| party.votes / model.current.total_votes ]
         , td [] [ U.text party.seats ]
         , td [] [ U.text real_results ]
@@ -299,7 +300,7 @@ doYearRow state partyname current previous year =
                 [ href <| "state.html?year=" ++ fromInt year ++ "&state=" ++ state ]
                 [ U.text state ]
             ]
-        , td [] [ U.text <| styleNum <| (floor <| .votes <| first party) ]
+        , td [] [ U.text <| styleNumFloat <| .votes <| first party ]
         , td [] [ U.text <| stylePercent <| popularVotePercent ]
         , td []
             (case second party of

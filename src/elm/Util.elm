@@ -20,6 +20,7 @@ module Util exposing
     , setStats
     , statsMsg
     , styleNum
+    , styleNumFloat
     , stylePercent
     , summateRecords
     , text
@@ -175,6 +176,11 @@ styleNum num =
 
         _ ->
             o
+
+
+styleNumFloat : Float -> String
+styleNumFloat =
+    styleNum << floor
 
 
 stylePercent : Float -> String

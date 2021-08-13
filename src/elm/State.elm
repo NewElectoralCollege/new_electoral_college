@@ -32,7 +32,7 @@ import Util as U
         , lastYear
         , partyMsg
         , statsMsg
-        , styleNum
+        , styleNumFloat
         , stylePercent
         )
 
@@ -86,10 +86,10 @@ newRow party model year =
             [ td [ class "color", Ha.style "backgroundColor" party.color ] []
             , td [] [ U.text party.name ]
             , td [] [ U.text <| getNominee year party.name ]
-            , td [] [ U.text <| styleNum <| floor party.votes ]
+            , td [] [ U.text <| styleNumFloat party.votes ]
             , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
             , td [] [ U.text <| getInitialSeats party ]
-            , td [] ((U.text <| styleNum <| floor party.extra_votes) :: getCheckIcon party)
+            , td [] ((U.text <| styleNumFloat party.extra_votes) :: getCheckIcon party)
             , td [] [ U.text party.seats ]
             , td [] [ U.text <| stylePercent (party.seats / model.stats.total_seats) ]
             ]
@@ -189,13 +189,13 @@ summaryFooter model =
         [ tr []
             [ td [ colspan 9 ]
                 ("Total Votes: "
-                    ++ styleNum (floor model.stats.total_votes)
+                    ++ styleNumFloat model.stats.total_votes
                     ++ "\n"
                     ++ "Total Electors: "
                     ++ fromFloat model.stats.total_seats
                     ++ "\n"
                     ++ "Quota: "
-                    ++ styleNum (floor <| getQuota model.stats.total_votes model.stats.total_seats)
+                    ++ styleNumFloat (getQuota model.stats.total_votes model.stats.total_seats)
                     ++ "\n"
                     ++ "Gallagher Index: "
                     ++ fromFloat model.stats.gallagher_index
@@ -262,7 +262,7 @@ doYearRow year model party_name =
             in
             tr []
                 [ td [] [ U.text year ]
-                , td [] [ U.text (styleNum <| floor party.votes) ]
+                , td [] [ U.text (styleNumFloat party.votes) ]
                 , td [] [ U.text (stylePercent <| party.votes / election.stats.total_votes) ]
                 , td [] change_vote
                 , td [] (getPartyProgressBar party election party.color)

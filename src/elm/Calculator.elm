@@ -9,14 +9,14 @@ import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
 import Calculator.Pie exposing (pie)
 import Html exposing (Html, div, h1, h2, p, table, td, tr)
 import Html.Attributes exposing (class, id, rowspan, style)
-import Util as U exposing (Party, styleNum)
+import Util as U exposing (Party, styleNum, styleNumFloat)
 
 
 quotaBlock : Model -> Html Msg
 quotaBlock model =
     td
         [ rowspan 2, style "width" "140px" ]
-        [ U.text <| "=   " ++ (styleNum <| floor <| quota model)
+        [ U.text <| "=   " ++ (styleNumFloat <| quota model)
         ]
 
 
@@ -72,8 +72,8 @@ view model =
                 , div [ class "col" ]
                     [ h2 [] [ U.text "Quota" ]
                     , table [ class "quota" ]
-                        [ tr [] [ td [ id "votes" ] [ U.text <| styleNum <| floor <| totalVotes model.parties ], quotaBlock model ]
-                        , tr [] [ td [ id "seats" ] [ U.text <| styleNum <| floor <| model.seats ] ]
+                        [ tr [] [ td [ id "votes" ] [ U.text <| styleNumFloat <| totalVotes model.parties ], quotaBlock model ]
+                        , tr [] [ td [ id "seats" ] [ U.text <| styleNumFloat model.seats ] ]
                         ]
                     ]
                 ]
