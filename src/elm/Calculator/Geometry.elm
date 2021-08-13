@@ -25,7 +25,7 @@ angle model showing party =
         current =
             getCurrentShowing showing party
     in
-    2 * pi / toFloat total * toFloat current
+    2 * pi / total * current
 
 
 startingAngle : Model -> Showing -> Party -> Float

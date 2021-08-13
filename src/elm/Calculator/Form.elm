@@ -43,23 +43,23 @@ makePartyForm model party =
         , input
             [ type_ "number"
             , placeholder "Votes"
-            , value <| fromInt party.votes
+            , value <| fromFloat party.votes
             , onInput Votes
             , style "width" "100px"
             ]
             []
         , div
             stepStyle
-            [ text <| left 4 <| fromFloat <| toFloat party.votes / quota model ]
+            [ text <| left 4 <| fromFloat <| party.votes / quota model ]
         , div
             stepStyle
-            [ text <| fromInt <| party.seats - boolToInt party.extra_seat ]
+            [ text <| fromFloat <| party.seats - boolToInt party.extra_seat ]
         , div
             stepStyle
             [ text <| fromInt <| boolToInt party.extra_seat ]
         , div
             stepStyle
-            [ text <| fromInt <| party.seats ]
+            [ text <| fromFloat party.seats ]
         ]
 
 

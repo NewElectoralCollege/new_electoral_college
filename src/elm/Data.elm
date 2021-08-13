@@ -179,7 +179,7 @@ states =
         ]
 
 
-realResults : Dict Int (Dict String Int)
+realResults : Dict Int (Dict String Float)
 realResults =
     fromList
         [ ( 2020

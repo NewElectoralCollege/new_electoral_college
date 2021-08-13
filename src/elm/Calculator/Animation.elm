@@ -145,10 +145,10 @@ getTransformedAngle model showing party =
         total =
             case showing of
                 Vote ->
-                    toFloat <| totalVotes model.parties
+                    totalVotes model.parties
 
                 Seat ->
-                    toFloat <| totalSeats model.parties
+                    totalSeats model.parties
 
         move_from =
             splitWhen (areEqual party.name .name) model.parties
@@ -164,7 +164,7 @@ getTransformedAngle model showing party =
                             0
                     )
     in
-    (toFloat move_from - (total * 0.75)) / total * 360 |> negate
+    (move_from - (total * 0.75)) / total * 360 |> negate
 
 
 initialSliceStatus : SliceStatus

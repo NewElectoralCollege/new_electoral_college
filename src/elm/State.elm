@@ -58,15 +58,15 @@ changeStats stats election =
 
 getAngle : Stats -> Int -> Float
 getAngle stats assigned =
-    pi / toFloat stats.total_seats * (toFloat assigned + toFloat stats.total_seats + 0.5)
+    pi / stats.total_seats * (toFloat assigned + stats.total_seats + 0.5)
 
 
 getWidth : Float -> Model -> Float
 getWidth votes model =
-    (votes / toFloat model.stats.total_votes) * 700
+    (votes / model.stats.total_votes) * 700
 
 
-getInitialSeats : Party -> Int
+getInitialSeats : Party -> Float
 getInitialSeats party =
     party.seats - boolToInt party.extra_seat
 
@@ -82,17 +82,17 @@ getCheckIcon party =
 
 newRow : Party -> Model -> Int -> List (Html msg)
 newRow party model year =
-    if ifQualifyingParty party <| toFloat model.stats.total_votes then
+    if ifQualifyingParty model.stats.total_votes party then
         [ tr []
             [ td [ class "color", Ha.style "backgroundColor" party.color ] []
             , td [] [ text <| party.name ]
             , td [] [ text <| getNominee year party.name ]
-            , td [] [ text <| styleNum party.votes ]
-            , td [] [ text <| stylePercent (toFloat party.votes / toFloat model.stats.total_votes) ]
-            , td [] [ text <| fromInt (getInitialSeats party) ]
-            , td [] ((text <| styleNum party.extra_votes) :: getCheckIcon party)
-            , td [] [ text <| fromInt party.seats ]
-            , td [] [ text <| stylePercent (toFloat party.seats / toFloat model.stats.total_seats) ]
+            , td [] [ text <| styleNum <| floor party.votes ]
+            , td [] [ text <| stylePercent (party.votes / model.stats.total_votes) ]
+            , td [] [ text <| fromFloat (getInitialSeats party) ]
+            , td [] ((text <| styleNum <| floor party.extra_votes) :: getCheckIcon party)
+            , td [] [ text <| fromFloat party.seats ]
+            , td [] [ text <| stylePercent (party.seats / model.stats.total_seats) ]
             ]
         ]
 
@@ -111,7 +111,7 @@ doPartyElectors list parties model =
 
 getCircles : Float -> Model -> Int -> List (Svg Msg)
 getCircles angle model i =
-    if i == model.stats.total_seats then
+    if i == (floor <| model.stats.total_seats) then
         []
 
     else
@@ -136,9 +136,9 @@ doPartyBars list parties nx model =
                 dropMaybe (head parties)
 
             nwidth =
-                getWidth (toFloat party.votes) model
+                getWidth party.votes model
         in
-        if ifQualifyingParty party <| toFloat model.stats.total_votes then
+        if ifQualifyingParty model.stats.total_votes party then
             list
                 ++ doPartyBars
                     [ rect
@@ -190,13 +190,13 @@ summaryFooter model =
         [ tr []
             [ td [ colspan 9 ]
                 ("Total Votes: "
-                    ++ styleNum model.stats.total_votes
+                    ++ styleNum (floor model.stats.total_votes)
                     ++ "\n"
                     ++ "Total Electors: "
-                    ++ fromInt model.stats.total_seats
+                    ++ fromFloat model.stats.total_seats
                     ++ "\n"
                     ++ "Quota: "
-                    ++ styleNum (getQuota model.stats.total_votes model.stats.total_seats)
+                    ++ styleNum (floor <| getQuota model.stats.total_votes model.stats.total_seats)
                     ++ "\n"
                     ++ "Gallagher Index: "
                     ++ fromFloat model.stats.gallagher_index
@@ -213,11 +213,12 @@ summaryFooter model =
     ]
 
 
-getQuota : Int -> Int -> Int
+getQuota : Float -> Float -> Float
 getQuota total_votes total_seats =
     total_votes
-        |> divide total_seats
+        / total_seats
         |> floor
+        |> toFloat
 
 
 doYearRow : Int -> Model -> String -> List (Html Msg)
@@ -250,7 +251,7 @@ doYearRow year model party_name =
                             [ text "n/a" ]
 
                         Just b ->
-                            fix_change ("+" ++ stylePercent ((toFloat party.votes / toFloat election.stats.total_votes) - (toFloat previous_party.votes / toFloat b.stats.total_votes)))
+                            fix_change ("+" ++ stylePercent ((party.votes / election.stats.total_votes) - (previous_party.votes / b.stats.total_votes)))
 
                 change_seat =
                     case previous_election of
@@ -258,12 +259,12 @@ doYearRow year model party_name =
                             [ text "n/a" ]
 
                         Just _ ->
-                            fix_change ("+" ++ fromInt (party.seats - previous_party.seats))
+                            fix_change ("+" ++ fromFloat (party.seats - previous_party.seats))
             in
             tr []
                 [ td [] [ text (fromInt year) ]
-                , td [] [ text (styleNum party.votes) ]
-                , td [] [ text (stylePercent (toFloat party.votes / toFloat election.stats.total_votes)) ]
+                , td [] [ text (styleNum <| floor party.votes) ]
+                , td [] [ text (stylePercent <| party.votes / election.stats.total_votes) ]
                 , td [] change_vote
                 , td [] (getPartyProgressBar party election party.color)
                 , td [] change_seat

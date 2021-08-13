@@ -44,27 +44,27 @@ type Msg
 type alias Model =
     { parties : List Party
     , calculated : Bool
-    , seats : Int
+    , seats : Float
     , slices : List Slice
     }
 
 
-summateParties : (Party -> Int) -> List Party -> Int
+summateParties : (Party -> Float) -> List Party -> Float
 summateParties function parties =
     List.foldl (summateRecords function) 0 parties
 
 
-totalVotes : List Party -> Int
+totalVotes : List Party -> Float
 totalVotes parties =
     summateParties .votes parties
 
 
-totalSeats : List Party -> Int
+totalSeats : List Party -> Float
 totalSeats parties =
     summateParties .seats parties
 
 
-getCurrentShowing : Showing -> Party -> Int
+getCurrentShowing : Showing -> Party -> Float
 getCurrentShowing showing party =
     case showing of
         Vote ->

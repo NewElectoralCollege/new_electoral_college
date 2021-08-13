@@ -62,17 +62,17 @@ lastYear =
 
 type alias Stats =
     { name : String
-    , total_seats : Int
-    , total_votes : Int
+    , total_seats : Float
+    , total_votes : Float
     , gallagher_index : Float
     }
 
 
 type alias Party =
     { name : String
-    , seats : Int
-    , votes : Int
-    , extra_votes : Int
+    , seats : Float
+    , votes : Float
+    , extra_votes : Float
     , extra_seat : Bool
     , color : String
     }
@@ -113,7 +113,7 @@ summateRecords function record value =
     function record + value
 
 
-boolToInt : Bool -> Int
+boolToInt : Bool -> number
 boolToInt bool =
     if bool then
         1
@@ -122,9 +122,9 @@ boolToInt bool =
         0
 
 
-ifQualifyingParty : Party -> Float -> Bool
-ifQualifyingParty party total_votes =
-    (toFloat party.votes / total_votes >= 0.01 || party.seats > 0) && party.name /= "Other"
+ifQualifyingParty : Float -> Party -> Bool
+ifQualifyingParty total_votes party =
+    (party.votes / total_votes >= 0.01 || party.seats > 0) && party.name /= "Other"
 
 
 
@@ -132,8 +132,8 @@ ifQualifyingParty party total_votes =
 
 
 getColor : Party -> Dict String String -> String
-getColor party colors =
-    withDefault "#dddddd" (Dict.get party.name colors)
+getColor party =
+    withDefault "#dddddd" << Dict.get party.name
 
 
 
@@ -146,6 +146,11 @@ divide :
     -> Float -- Takes the divisor as the first argument. This is used while pipeing (|>).
 divide a b =
     toFloat b / toFloat a
+
+
+splitAtFloat : Float -> List a -> ( List a, List a )
+splitAtFloat i l =
+    splitAt (floor i) l
 
 
 
@@ -218,7 +223,7 @@ colorCircles parties circles =
     indexedMap
         (\n party ->
             g [ fill party.color ]
-                (splitAt
+                (splitAtFloat
                     (parties
                         |> splitAt n
                         |> first
@@ -227,7 +232,7 @@ colorCircles parties circles =
                     )
                     circles
                     |> second
-                    |> splitAt party.seats
+                    |> splitAtFloat party.seats
                     |> first
                 )
         )
@@ -241,11 +246,11 @@ colorCircles parties circles =
 
 getPartyProgressBar : Party -> Election -> String -> List (Html msg)
 getPartyProgressBar party election color =
-    [ text <| fromInt party.seats ++ " / " ++ fromInt election.stats.total_seats
+    [ text <| fromFloat party.seats ++ " / " ++ fromFloat election.stats.total_seats
     , div [ class "progress-bar-party" ]
         [ div
             [ style "backgroundColor" color
-            , style "width" <| (fromFloat <| toFloat party.seats / toFloat election.stats.total_seats * 100) ++ "%"
+            , style "width" <| (fromFloat <| party.seats / election.stats.total_seats * 100) ++ "%"
             , style "height" "100%"
             ]
             []
@@ -273,9 +278,9 @@ newParty : Decoder Party
 newParty =
     map6 Party
         (field "name" string)
-        (field "seats" int)
-        (field "votes" int)
-        (field "extra_votes" int)
+        (field "seats" float)
+        (field "votes" float)
+        (field "extra_votes" float)
         (field "extra_seat" bool)
         (field "name" string)
 
@@ -284,8 +289,8 @@ setStats : Decoder Stats
 setStats =
     map4 Stats
         (field "name" string)
-        (field "total_seats" int)
-        (field "total_votes" int)
+        (field "total_seats" float)
+        (field "total_votes" float)
         (field "gallagher_index" float)
 
 

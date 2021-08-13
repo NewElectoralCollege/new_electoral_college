@@ -82,22 +82,23 @@ getY pattern =
             1
 
 
-getPattern : StateOutline -> Int -> Pattern
+getPattern : StateOutline -> Float -> Pattern
 getPattern so total_seats =
     if total_seats > 3 then
         let
             sq =
-                sqrt <| toFloat total_seats
+                sqrt total_seats
 
             a =
                 floor <| min so.width so.height / (2 * 5.5)
 
             b =
-                if a == 0 then
-                    total_seats
+                round <|
+                    if a == 0 then
+                        total_seats
 
-                else
-                    round <| toFloat total_seats / toFloat a
+                    else
+                        total_seats / toFloat a
         in
         if member total_seats [ 4, 9 ] then
             Square (floor sq)
@@ -220,7 +221,7 @@ makeState election state =
             (makeCircles
                 begin
                 pattern
-                election.stats.total_seats
+                (floor <| election.stats.total_seats)
                 0
             )
         )
@@ -237,11 +238,11 @@ makePartyRow party model =
         [ td [ class "color", id <| replace " " "-" party.name, style "background-color" party.color ] []
         , td [] [ text party.name ]
         , td [] [ text <| getNominee model.year party.name ]
-        , td [] [ text <| styleNum party.votes ]
-        , td [] [ text <| stylePercent <| toFloat party.votes / toFloat model.current.total_votes ]
-        , td [] [ text <| fromInt party.seats ]
-        , td [] [ text <| fromInt <| real_results ]
-        , td [] <| fix_change <| "+" ++ (fromInt <| party.seats - real_results)
+        , td [] [ text <| styleNum <| floor party.votes ]
+        , td [] [ text <| stylePercent <| party.votes / model.current.total_votes ]
+        , td [] [ text <| fromFloat party.seats ]
+        , td [] [ text <| fromFloat real_results ]
+        , td [] <| fix_change <| "+" ++ (fromFloat <| party.seats - real_results)
         ]
 
 
@@ -276,7 +277,7 @@ doYearRow state partyname current previous year =
             )
 
         popularVotePercent =
-            toFloat (first party).votes / toFloat current.stats.total_votes
+            (.votes <| first party) / current.stats.total_votes
 
         bold =
             if
@@ -298,7 +299,7 @@ doYearRow state partyname current previous year =
                 [ href <| "state.html?year=" ++ fromInt year ++ "&state=" ++ state ]
                 [ text state ]
             ]
-        , td [] [ text <| styleNum <| (first party).votes ]
+        , td [] [ text <| styleNum <| (floor <| .votes <| first party) ]
         , td [] [ text <| stylePercent <| popularVotePercent ]
         , td []
             (case second party of
@@ -306,7 +307,7 @@ doYearRow state partyname current previous year =
                     [ text "n/a" ]
 
                 _ ->
-                    fix_change <| "+" ++ (stylePercent <| popularVotePercent - (toFloat (dropMaybe <| second party).votes / toFloat previous.stats.total_votes))
+                    fix_change <| "+" ++ (stylePercent <| popularVotePercent - ((dropMaybe <| second party).votes / previous.stats.total_votes))
             )
         , td [] <| getPartyProgressBar (first party) current (first party).color
         , td []
@@ -315,7 +316,7 @@ doYearRow state partyname current previous year =
                     [ text "n/a" ]
 
                 _ ->
-                    fix_change <| "+" ++ (fromInt <| (first party).seats - (dropMaybe <| second party).seats)
+                    fix_change <| "+" ++ (fromFloat <| (.seats <| first party) - (.seats <| dropMaybe <| second party))
             )
         ]
 
@@ -393,7 +394,7 @@ type Msg
 type alias Instance =
     { states : Dict String Election
     , list : List Party
-    , total_votes : Int
+    , total_votes : Float
     }
 
 
@@ -489,7 +490,7 @@ view model =
                             ++ (map
                                     (\n -> makePartyRow n model)
                                 <|
-                                    takeWhile (\n -> ifQualifyingParty n <| toFloat model.current.total_votes) model.current.list
+                                    takeWhile (ifQualifyingParty model.current.total_votes) model.current.list
                                )
                         )
                     ]
