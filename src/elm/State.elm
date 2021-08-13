@@ -6,7 +6,7 @@ import Dict exposing (Dict, empty, get, insert, keys, size)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr, var)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, rowspan, type_)
 import Html.Events exposing (onClick)
-import List exposing (concatMap, drop, head, intersperse, length, map, reverse, sortBy)
+import List exposing (concatMap, drop, filter, head, intersperse, length, map, reverse, sortBy)
 import List.Extra exposing (find, setAt)
 import Maybe exposing (withDefault)
 import String exposing (fromChar, fromFloat, fromInt, lines)
@@ -295,15 +295,9 @@ partyContainer party model =
                     , th [] [ text "+/-" ]
                     ]
                 ]
-                :: concatMap
-                    (\n ->
-                        if n.name == party then
-                            doYearRow firstYear model n.name
-
-                        else
-                            []
-                    )
-                    model.list
+                :: (concatMap (\n -> doYearRow firstYear model n.name) <|
+                        filter (areEqual party .name) model.list
+                   )
             )
         ]
 
