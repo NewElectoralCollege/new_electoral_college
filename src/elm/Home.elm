@@ -24,7 +24,7 @@ license image img_href photographer phg_href =
         , text " by "
         , a
             [ href phg_href ]
-            [ text <| photographer ]
+            [ text photographer ]
         , text " is liscensed under "
         , a
             [ href "https://creativecommons.org/licenses/by-sa/2.0/?ref=ccsearch&atype=html" ]
