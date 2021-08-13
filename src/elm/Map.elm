@@ -275,7 +275,7 @@ doYearRow state partyname current previous year =
     let
         party =
             ( dropMaybe <| find (areEqual partyname .name) current.list
-            , find (\n -> n.name == replace "Reform" "Ross Perot" partyname) previous.list
+            , find (areEqual (replace "Reform" "Ross Perot" partyname) .name) previous.list
             )
 
         popularVotePercent =
@@ -389,7 +389,7 @@ getArrow side model =
 
 type Msg
     = Reset Int
-    | ChangeYear Int Bool
+    | ChangeYear Bool Int
     | Response (Result Error (Dict String String))
 
 
@@ -426,7 +426,7 @@ init : Int -> ( Model, Cmd Msg )
 init year =
     let
         r =
-            update (ChangeYear year False) <| Model year year False emptyInstance emptyInstance
+            update (ChangeYear False year) <| Model year year False emptyInstance emptyInstance
     in
     ( first r
     , second r
@@ -516,7 +516,7 @@ update msg model =
         Reset year ->
             ( model, wipeContent year )
 
-        ChangeYear year previous ->
+        ChangeYear previous year ->
             ( { model | writingToPrevious = previous, year = year }, getFile year )
 
         Response (Ok response) ->
@@ -554,7 +554,7 @@ update msg model =
                         { model | current = rewriteInstance model.current parties stats, real_year = model.year }
 
                     r =
-                        update (ChangeYear (tempmodel.year - 4) True) tempmodel
+                        update (ChangeYear True (tempmodel.year - 4)) tempmodel
                 in
                 ( first r, second r )
 
@@ -564,7 +564,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    sendMsg (\n -> ChangeYear n False)
+    sendMsg (ChangeYear False)
 
 
 main : Program Int Model Msg
