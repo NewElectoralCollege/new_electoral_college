@@ -214,10 +214,7 @@ summaryFooter model =
 
 getQuota : Float -> Float -> Float
 getQuota total_votes total_seats =
-    total_votes
-        / total_seats
-        |> floor
-        |> toFloat
+    total_votes / total_seats |> U.floor
 
 
 doYearRow : Int -> Model -> String -> List (Html Msg)

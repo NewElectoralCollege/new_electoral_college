@@ -9,6 +9,7 @@ module Util exposing
     , dropMaybe
     , firstYear
     , fix_change
+    , floor
     , getColor
     , getFile
     , getPartyProgressBar
@@ -17,6 +18,7 @@ module Util exposing
     , lastYear
     , newParty
     , partyMsg
+    , round
     , setStats
     , statsMsg
     , styleNum
@@ -26,7 +28,7 @@ module Util exposing
     , text
     )
 
-import Basics exposing (round, toFloat)
+import Basics as B exposing (toFloat)
 import Debug exposing (toString, todo)
 import Dict exposing (Dict)
 import Html exposing (Html, b, div, i, text)
@@ -151,7 +153,7 @@ divide a b =
 
 splitAtFloat : Float -> List a -> ( List a, List a )
 splitAtFloat i l =
-    splitAt (floor i) l
+    splitAt (B.floor i) l
 
 
 
@@ -180,14 +182,14 @@ styleNum num =
 
 styleNumFloat : Float -> String
 styleNumFloat =
-    styleNum << floor
+    styleNum << B.floor
 
 
 stylePercent : Float -> String
 stylePercent percent =
     (percent
         * 10000
-        |> round
+        |> B.round
         |> divide 100
         |> fromFloat
     )
@@ -329,3 +331,13 @@ getFile msg year state =
 text : a -> Html msg
 text =
     Html.text << dropLeft 1 << dropRight 1 << toString
+
+
+round : Float -> Float
+round =
+    toFloat << Basics.round
+
+
+floor : Float -> Float
+floor =
+    toFloat << Basics.floor

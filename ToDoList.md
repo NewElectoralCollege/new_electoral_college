@@ -1,2 +1,1 @@
-- Allow rounding and flooring while keeping a Float
 - Make Gallagher Index popup work

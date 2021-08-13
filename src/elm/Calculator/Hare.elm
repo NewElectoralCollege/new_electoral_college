@@ -4,17 +4,17 @@ import Calculator.Animation exposing (resetTransformations)
 import Calculator.Model exposing (Model, totalSeats, totalVotes)
 import List exposing (map, reverse, sort)
 import List.Extra exposing (getAt, updateIf)
-import Util exposing (Party, dropMaybe, lambdaCompare)
+import Util as U exposing (Party, dropMaybe, lambdaCompare)
 
 
 quota : Model -> Float
 quota model =
-    toFloat <| floor (totalVotes model.parties / model.seats)
+    U.floor (totalVotes model.parties / model.seats)
 
 
 setInitialSeats : Float -> Party -> Party
 setInitialSeats qta party =
-    { party | seats = toFloat <| floor <| party.votes / qta }
+    { party | seats = U.floor <| party.votes / qta }
 
 
 setExtraVotes : Float -> Party -> Party
