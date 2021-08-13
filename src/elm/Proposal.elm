@@ -312,12 +312,12 @@ commentRegex =
 
 eater : Match -> String
 eater =
-    \_ -> ""
+    always ""
 
 
 insertPercent : Match -> String
 insertPercent =
-    \_ -> "%"
+    always "%"
 
 
 
