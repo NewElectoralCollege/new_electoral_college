@@ -50,7 +50,17 @@ pie model showing =
         , style "height" "300"
         , onMouseLeave ResetHighlight
         ]
-        (map (slice model) <| filter (areEqual showing .showing) model.slices)
+        (map (slice model) <| filter (areEqual showing .showing) <| filter showSlice model.slices)
+
+
+showSlice : Slice -> Bool
+showSlice slc =
+    case slc.showing of
+        Vote ->
+            True
+
+        Seat ->
+            slc.party.seats /= 0
 
 
 partyNameFromSlice : Slice -> String

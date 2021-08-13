@@ -1,4 +1,4 @@
-module Calculator.Animation exposing (isMoving, moveSlices, presetTransformations, resetSlices, step)
+module Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTransformations, step)
 
 import Calculator.Model exposing (Model, Showing(..), Slice, SliceStatus(..), Target, getCurrentShowing, totalSeats, totalVotes)
 import Calculator.Pie exposing (partyNameFromSlice)
@@ -173,8 +173,8 @@ initialSliceStatus =
     Static 150 150 0 1
 
 
-presetTransformations : Model -> List Slice
-presetTransformations model =
+resetTransformations : Model -> List Slice
+resetTransformations model =
     concatMap
         (\n ->
             [ Slice n initialSliceStatus Seat (Target 0 150 (getTransformedAngle model Seat n) 1)

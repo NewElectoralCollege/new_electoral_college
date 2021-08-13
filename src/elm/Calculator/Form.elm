@@ -1,13 +1,26 @@
-module Calculator.Form exposing (makePartiesForm)
+module Calculator.Form exposing (makePartiesForm, partiesHeader)
 
 import Calculator.Hare exposing (quota)
 import Calculator.Model exposing (Model, Msg(..))
-import Html exposing (Html, div, input, text)
+import Html exposing (Attribute, Html, div, input, text)
 import Html.Attributes exposing (class, placeholder, style, type_, value)
 import Html.Events exposing (onInput)
 import List exposing (map)
-import String exposing (fromFloat, fromInt)
-import Util exposing (Party)
+import String exposing (fromFloat, fromInt, left)
+import Util exposing (Party, boolToInt)
+
+
+border : Attribute Msg
+border =
+    style "border" "1px solid black"
+
+
+stepStyle : List (Attribute Msg)
+stepStyle =
+    [ border
+    , style "width" "50px"
+    , style "text-align" "center"
+    ]
 
 
 makePartyForm : Model -> Party -> Html Msg
@@ -15,12 +28,13 @@ makePartyForm model party =
     div [ class "form-row" ]
         [ div
             [ style "background-color" party.color
-            , style "border" "1px solid black"
+            , border
             , style "width" "10px"
             ]
             []
         , input
             [ type_ "text"
+            , style "width" "50x"
             , placeholder "Name"
             , value party.name
             , onInput Name
@@ -35,9 +49,32 @@ makePartyForm model party =
             ]
             []
         , div
-            [ style "border" "1px solid black" ]
-            [ text <| fromFloat <| toFloat party.votes / (toFloat <| quota model) ]
+            stepStyle
+            [ text <| left 4 <| fromFloat <| toFloat party.votes / quota model ]
+        , div
+            stepStyle
+            [ text <| fromInt <| party.seats - boolToInt party.extra_seat ]
+        , div
+            stepStyle
+            [ text <| fromInt <| boolToInt party.extra_seat ]
+        , div
+            stepStyle
+            [ text <| fromInt <| party.seats ]
         ]
+
+
+partiesHeader : Html Msg
+partiesHeader =
+    div [ class "form-row" ] <|
+        map
+            (\( h, s ) -> div s [ text h ])
+            [ ( "Party", [ border, style "width" "192px" ] )
+            , ( "Votes", [ border, style "width" "100px" ] )
+            , ( "Divis", stepStyle )
+            , ( "Floor", stepStyle )
+            , ( "Extra", stepStyle )
+            , ( "Total", stepStyle )
+            ]
 
 
 makePartiesForm : Model -> List (Html Msg)

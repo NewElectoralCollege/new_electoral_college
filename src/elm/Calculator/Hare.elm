@@ -1,15 +1,15 @@
-module Calculator.Hare exposing (quota)
+module Calculator.Hare exposing (hare, quota)
 
-import Calculator.Animation exposing (presetTransformations)
+import Calculator.Animation exposing (resetTransformations)
 import Calculator.Model exposing (Model, totalSeats, totalVotes)
-import List exposing (map, sort)
+import List exposing (map, reverse, sort)
 import List.Extra exposing (getAt, updateIf)
 import Util exposing (Party, dropMaybe, lambdaCompare)
 
 
-quota : Model -> Int
+quota : Model -> Float
 quota model =
-    floor ((toFloat <| totalVotes model.parties) / toFloat model.seats)
+    toFloat <| floor ((toFloat <| totalVotes model.parties) / toFloat model.seats)
 
 
 setInitialSeats : Float -> Party -> Party
@@ -34,22 +34,25 @@ extraSeats : Model -> List Party -> List Party
 extraSeats model list =
     let
         threshold =
-            dropMaybe <| getAt (model.seats - totalSeats list) <| sort <| map .extra_votes list
+            dropMaybe <| getAt (model.seats - totalSeats list - 1) <| reverse <| sort <| map .extra_votes list
     in
     updateIf (lambdaCompare (>=) threshold .extra_votes) setExtraSeat list
 
 
 hare : Model -> Model
 hare model =
-    let
-        qta =
-            toFloat <| quota model
-    in
     { model
         | parties =
             model.parties
-                |> map (setInitialSeats qta)
-                |> map (setExtraVotes qta)
+                |> map (setInitialSeats (quota model))
+                |> map (setExtraVotes (quota model))
                 |> extraSeats model
-        , slices = presetTransformations model
+    }
+        |> setTransformations
+
+
+setTransformations : Model -> Model
+setTransformations model =
+    { model
+        | slices = resetTransformations model
     }

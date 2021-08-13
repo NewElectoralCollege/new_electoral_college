@@ -2,9 +2,9 @@ module Calculator exposing (main)
 
 import Browser exposing (element)
 import Browser.Events exposing (onAnimationFrameDelta)
-import Calculator.Animation exposing (isMoving, moveSlices, presetTransformations, resetSlices, step)
-import Calculator.Form exposing (makePartiesForm)
-import Calculator.Hare exposing (quota)
+import Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTransformations, step)
+import Calculator.Form exposing (makePartiesForm, partiesHeader)
+import Calculator.Hare exposing (hare, quota)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
 import Calculator.Pie exposing (pie)
 import Html exposing (Html, div, h1, h2, p, table, td, text, tr)
@@ -16,22 +16,22 @@ quotaBlock : Model -> Html Msg
 quotaBlock model =
     td
         [ rowspan 2, style "width" "140px" ]
-        [ text <| "=   " ++ (styleNum <| quota model)
+        [ text <| "=   " ++ (styleNum <| floor <| quota model)
         ]
 
 
 defaultList : List Party
 defaultList =
-    [ Party "Democratic" 5 201636415 0 False "#3333ff"
-    , Party "Libertarian" 1 52221423 0 False "#FED105"
-    , Party "Republican" 4 200400839 0 False "#ff3333"
+    [ Party "Democratic" 0 201636415 0 False "#3333ff"
+    , Party "Republican" 0 200400839 0 False "#ff3333"
+    , Party "Libertarian" 0 52221423 0 False "#FED105"
     , Party "Green" 0 10324131 0 False "#17aa5c"
     ]
 
 
 defaultModel : Model
 defaultModel =
-    Model defaultList False 10 []
+    hare <| Model defaultList False 10 []
 
 
 
@@ -40,7 +40,7 @@ defaultModel =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { defaultModel | slices = presetTransformations defaultModel }, Cmd.none )
+    ( { defaultModel | slices = resetTransformations defaultModel }, Cmd.none )
 
 
 view : Model -> Html Msg
@@ -67,7 +67,7 @@ view model =
                     [ h2 [] [ text "Parties" ]
                     , div
                         []
-                        (makePartiesForm model)
+                        (partiesHeader :: makePartiesForm model)
                     ]
                 , div [ class "col" ]
                     [ h2 [] [ text "Quota" ]
@@ -92,8 +92,7 @@ update msg model =
             ( model, Cmd.none )
 
         Votes _ ->
-            --( hare model, Cmd.none )
-            ( model, Cmd.none )
+            ( hare model, Cmd.none )
 
         Highlight name ->
             ( { model | slices = moveSlices model.slices name }, Cmd.none )
