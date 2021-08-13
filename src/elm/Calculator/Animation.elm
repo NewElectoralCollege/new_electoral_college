@@ -1,7 +1,6 @@
 module Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTransformations, step)
 
 import Calculator.Model exposing (Model, Showing(..), Slice, SliceStatus(..), Target, getCurrentShowing, totalSeats, totalVotes)
-import Calculator.Pie exposing (partyNameFromSlice)
 import List exposing (all, any, concatMap, foldl, map)
 import List.Extra exposing (splitWhen, updateIf)
 import Tuple exposing (first)
@@ -21,8 +20,8 @@ moveSlice getTarget slc =
 moveSlices : List Slice -> String -> List Slice
 moveSlices list name =
     list
-        |> updateIf (areEqual name partyNameFromSlice) (moveSlice .highlighted_target)
-        |> updateIf (lambdaCompare (/=) name partyNameFromSlice) (moveSlice shrink)
+        |> updateIf (areEqual name <| .name << .party) (moveSlice .highlighted_target)
+        |> updateIf (lambdaCompare (/=) name <| .name << .party) (moveSlice shrink)
 
 
 resetSlices : List Slice -> List Slice

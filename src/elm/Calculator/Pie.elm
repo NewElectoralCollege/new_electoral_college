@@ -1,4 +1,4 @@
-module Calculator.Pie exposing (partyNameFromSlice, pie, slice)
+module Calculator.Pie exposing (pie, slice)
 
 import Calculator.Geometry exposing (Point, angle, point, startingAngle)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, SliceStatus(..), Target)
@@ -61,11 +61,6 @@ showSlice slc =
 
         Seat ->
             slc.party.seats /= 0
-
-
-partyNameFromSlice : Slice -> String
-partyNameFromSlice slc =
-    slc.party.name
 
 
 stringifyPoint : Point -> String
