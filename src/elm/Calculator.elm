@@ -9,7 +9,7 @@ import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
 import Calculator.Pie exposing (pie)
 import Html exposing (Html, div, h1, h2, p, table, td, tr)
 import Html.Attributes exposing (class, id, rowspan, style)
-import Util as U exposing (Party, styleNum, styleNumFloat)
+import Util as U exposing (Party, styleNumFloat)
 
 
 quotaBlock : Model -> Html Msg

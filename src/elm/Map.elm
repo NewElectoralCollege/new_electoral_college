@@ -33,7 +33,6 @@ import Util as U
         , lastYear
         , newParty
         , setStats
-        , styleNum
         , styleNumFloat
         , stylePercent
         , summateRecords
