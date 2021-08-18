@@ -330,7 +330,7 @@ getFile msg year state =
 
 text : a -> Html msg
 text =
-    Html.text << dropLeft 1 << dropRight 1 << toString
+    Html.text << replace "\"" "" << toString
 
 
 round : Float -> Float

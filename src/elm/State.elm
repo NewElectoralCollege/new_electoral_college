@@ -239,7 +239,7 @@ doYearRow year model party_name =
                     dropMaybe (find (areEqual party_name .name) election.list)
 
                 previous_party =
-                    withDefault party <| find (areEqual party_name .name) (dropMaybe previous_election).list
+                    dropMaybe <| find (areEqual party_name .name) (withDefault election previous_election).list
 
                 change_vote =
                     case previous_election of
@@ -258,7 +258,7 @@ doYearRow year model party_name =
                             fix_change ("+" ++ fromFloat (party.seats - previous_party.seats))
             in
             tr []
-                [ td [] [ U.text year ]
+                [ td [] [ Html.text <| fromInt year ]
                 , td [] [ U.text (styleNumFloat party.votes) ]
                 , td [] [ U.text (stylePercent <| party.votes / election.stats.total_votes) ]
                 , td [] change_vote
