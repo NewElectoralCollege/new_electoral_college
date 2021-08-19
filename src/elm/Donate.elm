@@ -41,6 +41,11 @@ fecLink =
     "https://www.fec.gov/help-candidates-and-committees/taking-receipts-pac/who-can-and-cant-contribute-nonconnected-pac/"
 
 
+contLink : String
+contLink =
+    "https://www.fec.gov/data/receipts/individual-contributions/"
+
+
 
 -- Cities
 
@@ -107,8 +112,9 @@ view { pl_city, o200 } =
             , text "."
             ]
         , p []
-            [ text "We are required by federal law to disclose publicly every contribution we recieve, who made it, and the amount that was given."
-            , text "Your donation, and most information on this page will be public."
+            [ text "We are required by federal law to disclose publicly every contribution we recieve, who made it, and the amount that was given. "
+            , text "Your donation, your name, city, state, zip code, occupation, and employer will be published on the "
+            , a [ href contLink ] [ text "FEC's website." ]
             ]
         , form []
             [ div
