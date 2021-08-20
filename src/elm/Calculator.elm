@@ -7,9 +7,11 @@ import Calculator.Form exposing (makePartiesForm, partiesHeader)
 import Calculator.Hare exposing (hare, quota)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
 import Calculator.Pie exposing (pie)
+import Data exposing (Party(..), decodeParty)
 import Html exposing (Html, div, h1, h2, p, table, td, tr)
 import Html.Attributes exposing (class, id, rowspan, style)
-import Util as U exposing (Party, styleNumFloat)
+import Json.Decode exposing (decodeString)
+import Util as U exposing (Party, dropMaybe, styleNumFloat)
 
 
 quotaBlock : Model -> Html Msg
@@ -22,16 +24,28 @@ quotaBlock model =
 
 defaultList : List Party
 defaultList =
-    [ Party "Democratic" 0 201636415 0 False "#3333ff"
-    , Party "Republican" 0 200400839 0 False "#ff3333"
-    , Party "Libertarian" 0 52221423 0 False "#FED105"
-    , Party "Green" 0 10324131 0 False "#17aa5c"
+    [ Party Democratic 0 201636415 0 False "#3333ff"
+    , Party Republican 0 200400839 0 False "#ff3333"
+    , Party Libertarian 0 52221423 0 False "#FED105"
+    , Party Green 0 10324131 0 False "#17aa5c"
     ]
 
 
 defaultModel : Model
 defaultModel =
     hare <| Model defaultList False 10 []
+
+
+
+-- Get party
+
+
+getPartyFromString : String -> Data.Party
+getPartyFromString name =
+    name
+        |> decodeString decodeParty
+        |> Result.toMaybe
+        |> dropMaybe
 
 
 
@@ -95,7 +109,7 @@ update msg model =
             ( hare model, Cmd.none )
 
         Highlight name ->
-            ( { model | slices = moveSlices model.slices name }, Cmd.none )
+            ( { model | slices = moveSlices model.slices (getPartyFromString name) }, Cmd.none )
 
         ResetHighlight ->
             ( { model | slices = resetSlices model.slices }, Cmd.none )

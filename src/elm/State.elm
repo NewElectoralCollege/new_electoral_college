@@ -1,7 +1,7 @@
 module State exposing (main)
 
 import Browser exposing (element)
-import Data exposing (colors, getNominee, states)
+import Data exposing (Party(..), State(..), color, getName, states, ticket)
 import Dict as D exposing (Dict)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, rowspan, type_)
@@ -22,7 +22,6 @@ import Util as U
         , dropMaybe
         , firstYear
         , fix_change
-        , getColor
         , getFile
         , getPartyProgressBar
         , ifQualifyingParty
@@ -41,7 +40,7 @@ type alias Model =
     , assigned : Int
     , year : Int
     , page_year : Int
-    , state : String
+    , state : State
     , revealed : String
     , errorMessage : String
     }
@@ -82,7 +81,7 @@ newRow party model year =
         [ tr []
             [ td [ class "color", Ha.style "backgroundColor" party.color ] []
             , td [] [ U.text party.name ]
-            , td [] [ U.text <| getNominee year party.name ]
+            , td [] [ U.text <| (dropMaybe <| ticket year party.name).nominee ]
             , td [] [ U.text <| styleNumFloat party.votes ]
             , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
             , td [] [ U.text <| getInitialSeats party ]
@@ -167,7 +166,7 @@ doPartyBars list parties nx model =
 summaryHeader : Model -> List (Html msg)
 summaryHeader model =
     [ thead [ Ha.style "background-color" "#eaecf0" ]
-        [ tr [] [ th [ colspan 9 ] [ U.text (model.state ++ " - " ++ String.fromInt model.page_year) ] ]
+        [ tr [] [ th [ colspan 9 ] [ U.text (getName model.state ++ " - " ++ String.fromInt model.page_year) ] ]
         , tr []
             [ th [ colspan 2 ] [ U.text "Party" ]
             , th [] [ U.text "Nominee" ]
@@ -214,7 +213,7 @@ getQuota total_votes total_seats =
     total_votes / total_seats |> U.floor
 
 
-doYearRow : Int -> Model -> String -> List (Html Msg)
+doYearRow : Int -> Model -> Data.Party -> List (Html Msg)
 doYearRow year model party_name =
     case D.get year model.elections of
         Nothing ->
@@ -224,7 +223,7 @@ doYearRow year model party_name =
             let
                 election =
                     if year == lastYear && model.page_year == lastYear then
-                        Election model.list model.stats
+                        Election model.list model.stats model.state
 
                     else
                         a
@@ -265,11 +264,11 @@ doYearRow year model party_name =
                 :: doYearRow (year + 4) model party_name
 
 
-partyContainer : String -> Model -> Html Msg
+partyContainer : Data.Party -> Model -> Html Msg
 partyContainer party model =
     td
         [ class "detailed-results-cell" ]
-        [ p [] [ U.text (party ++ " Party") ]
+        [ p [] [ U.text (getName party ++ " Party") ]
         , table
             [ id "state-results" ]
             (thead
@@ -305,28 +304,27 @@ judgePopupShow name model =
         "none"
 
 
-makeStateList : String -> String -> Html Msg
+makeStateList : State -> String -> Html Msg
 makeStateList state year =
+    let
+        active n =
+            if state == n then
+                " active"
+
+            else
+                ""
+
+        makeLink : State -> Html Msg
+        makeLink n =
+            a
+                [ class <| "list-group-item list-group-item-action" ++ active n
+                , href ("state.html?state=" ++ getName n ++ "&year=" ++ year)
+                ]
+                [ U.text <| getName n ]
+    in
     div
         [ class "list-group", id "state-list" ]
-        (List.map
-            (\n ->
-                let
-                    active =
-                        if state == n then
-                            " active"
-
-                        else
-                            ""
-                in
-                a
-                    [ class <| "list-group-item list-group-item-action" ++ active
-                    , href ("state.html?state=" ++ n ++ "&year=" ++ year)
-                    ]
-                    [ U.text n ]
-            )
-            (D.keys states)
-        )
+        (List.map makeLink states)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -347,7 +345,7 @@ update msg model =
                     let
                         tempmodel =
                             { model
-                                | elections = D.insert model.year (Election (List.map (\p -> { p | color = getColor p colors }) parties) (Stats "none" 0 0 0.0)) model.elections
+                                | elections = D.insert model.year (Election (List.map (\p -> { p | color = color p.name }) parties) (Stats "none" 0 0 0.0) model.state) model.elections
                                 , errorMessage = "none"
                             }
                     in
@@ -359,7 +357,7 @@ update msg model =
                     let
                         tempmodel =
                             { model
-                                | list = List.reverse <| List.sortBy .votes <| List.map (\p -> { p | color = getColor p colors }) parties
+                                | list = List.reverse <| List.sortBy .votes <| List.map (\p -> { p | color = color p.name }) parties
                                 , errorMessage = "none"
                             }
                     in
@@ -404,8 +402,11 @@ update msg model =
 init : ( String, Int ) -> ( Model, Cmd Msg )
 init flags =
     let
+        state =
+            dropMaybe <| find (areEqual (T.first flags) getName) states
+
         r =
-            update SendRequestParty (Model [] D.empty (Stats "none" 0 0 0.0) 0 (T.second flags) (T.second flags) (T.first flags) "" "none")
+            update SendRequestParty (Model [] D.empty (Stats "none" 0 0 0.0) 0 (T.second flags) (T.second flags) state "" "none")
     in
     ( T.first r
     , T.second r
@@ -460,7 +461,7 @@ view model =
                 [ class "btn-group", attribute "role" "group" ]
                 [ button
                     [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                    [ a [ Ha.style "color" "#fff", attribute "download" model.state, href ("data/" ++ String.fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ U.text "Download" ] ]
+                    [ a [ Ha.style "color" "#fff", attribute "download" (getName model.state), href ("data/" ++ String.fromInt model.year ++ "/" ++ getName model.state ++ ".json") ] [ U.text "Download" ] ]
                 , button
                     [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
                     [ a [ Ha.style "color" "#fff", href "results.html" ] [ U.text "Back" ] ]
@@ -476,8 +477,8 @@ view model =
             , table [ class "container" ]
                 [ tr
                     []
-                    [ partyContainer "Democratic" model
-                    , partyContainer "Republican" model
+                    [ partyContainer Democratic model
+                    , partyContainer Republican model
                     ]
                 ]
             ]

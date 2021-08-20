@@ -6,11 +6,12 @@ module Util exposing
     , areEqual
     , boolToInt
     , colorCircles
+    , concatMapDict
     , dropMaybe
+    , exists
     , firstYear
     , fix_change
     , floor
-    , getColor
     , getFile
     , getPartyProgressBar
     , ifQualifyingParty
@@ -29,6 +30,7 @@ module Util exposing
     )
 
 import Basics as B
+import Data exposing (State, decodeParty, getName)
 import Dict as D exposing (Dict)
 import Html exposing (Html, b, div, i, text)
 import Html.Attributes exposing (class, style)
@@ -68,7 +70,7 @@ type alias Stats =
 
 
 type alias Party =
-    { name : String
+    { name : Data.Party
     , seats : Float
     , votes : Float
     , extra_votes : Float
@@ -80,6 +82,7 @@ type alias Party =
 type alias Election =
     { list : List Party
     , stats : Stats
+    , state : State
     }
 
 
@@ -95,6 +98,16 @@ dropMaybe x =
 
         Nothing ->
             Debug.todo "A Nothing variable sent through dropMaybe function"
+
+
+exists : Maybe a -> Bool
+exists a =
+    case a of
+        Just _ ->
+            True
+
+        Nothing ->
+            False
 
 
 lambdaCompare : (a -> a -> Bool) -> a -> (b -> a) -> b -> Bool
@@ -123,16 +136,7 @@ boolToInt bool =
 
 ifQualifyingParty : Float -> Party -> Bool
 ifQualifyingParty total_votes party =
-    (party.votes / total_votes >= 0.01 || party.seats > 0) && party.name /= "Other"
-
-
-
--- Used to get Party or State colors from Data.elm
-
-
-getColor : Party -> Dict String String -> String
-getColor party =
-    Maybe.withDefault "#dddddd" << D.get party.name
+    (party.votes / total_votes >= 0.01 || party.seats > 0) && party.name /= Data.Other
 
 
 
@@ -150,6 +154,11 @@ divide a b =
 splitAtFloat : Float -> List a -> ( List a, List a )
 splitAtFloat i l =
     splitAt (B.floor i) l
+
+
+concatMapDict : (k -> a -> List b) -> Dict k a -> List b
+concatMapDict f d =
+    List.concatMap (\( a, b ) -> f a b) (D.toList d)
 
 
 
@@ -281,7 +290,7 @@ type Msg
 newParty : Decoder Party
 newParty =
     map6 Party
-        (field "name" string)
+        (field "name" decodeParty)
         (field "seats" float)
         (field "votes" float)
         (field "extra_votes" float)
@@ -312,10 +321,10 @@ statsMsg =
 -- Contacts a single file
 
 
-getFile : Expect Msg -> Int -> String -> Cmd Msg
+getFile : Expect Msg -> Int -> State -> Cmd Msg
 getFile msg year state =
     Http.get
-        { url = "data/" ++ String.fromInt year ++ "/" ++ state ++ ".json"
+        { url = "data/" ++ String.fromInt year ++ "/" ++ getName state ++ ".json"
         , expect = msg
         }
 

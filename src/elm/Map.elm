@@ -1,14 +1,14 @@
 port module Map exposing (main)
 
 import Browser exposing (element)
-import Data exposing (StateOutline, colors, getNominee, realResults, states)
+import Data exposing (Party(..), State(..), StateOutline, color, getName, outline, states, ticket)
 import Dict as D
 import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, th, thead, tr)
 import Html.Attributes exposing (class, colspan, href, id, rowspan, style)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (at, decodeString, dict, list, string)
-import List.Extra exposing (find, getAt, init, takeWhile, uniqueBy)
+import List.Extra exposing (find, init, uniqueBy)
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r)
 import Tuple as T
@@ -22,7 +22,6 @@ import Util as U
         , dropMaybe
         , firstYear
         , fix_change
-        , getColor
         , getPartyProgressBar
         , ifQualifyingParty
         , lastYear
@@ -182,14 +181,14 @@ makeCircles ( x, y ) pattern total_seats progress =
                 row x y 3
 
 
-makeState : Election -> String -> List (Svg Msg)
-makeState election state =
+makeState : Election -> List (Svg Msg)
+makeState { list, stats, state } =
     let
-        outline =
-            dropMaybe <| D.get state states
+        ol =
+            outline state
 
         pattern =
-            getPattern outline election.stats.total_seats
+            getPattern ol stats.total_seats
 
         offset =
             ( makeOffset pattern X (getX pattern)
@@ -197,8 +196,8 @@ makeState election state =
             )
 
         center =
-            ( outline.x + (outline.width / 2)
-            , outline.y + (outline.height / 2)
+            ( ol.x + (ol.width / 2)
+            , ol.y + (ol.height / 2)
             )
 
         begin =
@@ -206,7 +205,7 @@ makeState election state =
             , T.second center - T.second offset
             )
     in
-    colorCircles election.list
+    colorCircles list
         (List.map
             (\( f, s ) ->
                 circle
@@ -216,7 +215,7 @@ makeState election state =
             (makeCircles
                 begin
                 pattern
-                (floor <| election.stats.total_seats)
+                (floor <| stats.total_seats)
                 0
             )
         )
@@ -225,50 +224,33 @@ makeState election state =
 makePartyRow : Model -> Party -> Html Msg
 makePartyRow model party =
     let
-        real_results =
-            Maybe.withDefault 0 <| D.get party.name <| dropMaybe <| D.get model.year realResults
+        t =
+            dropMaybe <| ticket model.year party.name
     in
     tr
         []
-        [ td [ class "color", id <| String.replace " " "-" party.name, style "background-color" party.color ] []
+        [ td [ class "color", id <| String.replace " " "-" (getName t.party), style "background-color" party.color ] []
         , td [] [ U.text party.name ]
-        , td [] [ U.text <| getNominee model.year party.name ]
+        , td [] [ U.text <| t.nominee ]
         , td [] [ U.text <| styleNumFloat party.votes ]
-        , td [] [ U.text <| stylePercent <| party.votes / model.current.total_votes ]
+        , td [] [ U.text <| stylePercent <| party.votes / totalVotesInInstance model.current ]
         , td [] [ U.text party.seats ]
-        , td [] [ U.text real_results ]
-        , td [] <| fix_change <| "+" ++ (String.fromFloat <| party.seats - real_results)
+        , td [] [ U.text t.real_electors ]
+        , td [] <| fix_change <| "+" ++ (String.fromFloat <| party.seats - toFloat t.real_electors)
         ]
 
 
-rewriteInstance : Instance -> List (List Party) -> List Stats -> Instance
-rewriteInstance before parties stats =
-    { before
-        | states = D.fromList <| List.indexedMap (\i state -> ( state, Election (dropMaybe <| getAt i parties) (dropMaybe <| getAt i stats) )) (D.keys states)
-        , total_votes = List.foldl (summateRecords .total_votes) 0 stats
-        , list =
-            List.reverse <|
-                List.sortBy .seats <|
-                    List.foldl
-                        (\n list ->
-                            List.append list
-                                [ { n
-                                    | votes = List.foldl (summateRecords .votes) 0 <| List.filter (areEqual n.name .name) <| List.concat parties
-                                    , seats = List.foldl (summateRecords .seats) 0 <| List.filter (areEqual n.name .name) <| List.concat parties
-                                  }
-                                ]
-                        )
-                        []
-                        (uniqueBy .name <| List.concat parties)
-    }
+rewriteInstance : List (List Party) -> List Stats -> Instance
+rewriteInstance parties stats =
+    List.map3 Election parties stats states
 
 
-doYearRow : String -> String -> Election -> Election -> Int -> Html Msg
+doYearRow : State -> Data.Party -> Election -> Election -> Int -> Html Msg
 doYearRow state partyname current previous year =
     let
         party =
             ( dropMaybe <| find (areEqual partyname .name) current.list
-            , find (areEqual (String.replace "Reform" "Ross Perot" partyname) .name) previous.list
+            , find (areEqual partyname .name) previous.list
             )
 
         popularVotePercent =
@@ -291,8 +273,8 @@ doYearRow state partyname current previous year =
         [ td
             [ style "font-weight" bold ]
             [ a
-                [ href <| "state.html?year=" ++ String.fromInt year ++ "&state=" ++ state ]
-                [ U.text state ]
+                [ href <| "state.html?year=" ++ String.fromInt year ++ "&state=" ++ getName state ]
+                [ U.text <| getName state ]
             ]
         , td [] [ U.text <| styleNumFloat <| .votes <| T.first party ]
         , td [] [ U.text <| stylePercent <| popularVotePercent ]
@@ -316,11 +298,16 @@ doYearRow state partyname current previous year =
         ]
 
 
-partyContainer : String -> Model -> Html Msg
+makeStateRow : Int -> Data.Party -> Election -> Election -> Html Msg
+makeStateRow year party current previous =
+    doYearRow current.state party current previous year
+
+
+partyContainer : Data.Party -> Model -> Html Msg
 partyContainer party model =
     td
         [ class "detailed-results-cell" ]
-        [ p [] [ U.text (party ++ " Party") ]
+        [ p [] [ U.text (getName party ++ " Party") ]
         , table
             [ class "detailed-results" ]
             (thead
@@ -340,25 +327,7 @@ partyContainer party model =
                     , th [] [ U.text "+/-" ]
                     ]
                 ]
-                :: List.map
-                    (\state ->
-                        let
-                            current =
-                                dropMaybe <| D.get state model.current.states
-
-                            previous =
-                                D.get state model.previous.states
-                        in
-                        case previous of
-                            -- For an unknown reason, this sometimes produces Nothing.
-                            -- This handles it. This is never visibly called.
-                            Nothing ->
-                                tr [] [ td [] [ U.text state ] ]
-
-                            _ ->
-                                doYearRow state party current (dropMaybe previous) model.year
-                    )
-                    (D.keys model.current.states)
+                :: List.map2 (makeStateRow model.year party) model.current model.previous
             )
         ]
 
@@ -386,13 +355,6 @@ type Msg
     | Response (Result Error (D.Dict String String))
 
 
-type alias Instance =
-    { states : D.Dict String Election
-    , list : List Party
-    , total_votes : Float
-    }
-
-
 type alias Model =
     { year : Int
     , real_year : Int
@@ -400,6 +362,48 @@ type alias Model =
     , current : Instance
     , previous : Instance
     }
+
+
+
+-- Instance
+
+
+type alias Instance =
+    List Election
+
+
+totalVotesInInstance : Instance -> Float
+totalVotesInInstance =
+    List.foldl (summateRecords (.total_votes << .stats)) 0
+
+
+partiesInInstance : Instance -> List Party
+partiesInInstance es =
+    let
+        parties =
+            es
+                |> List.concatMap .list
+                |> uniqueBy (getName << .name)
+
+        getInstancesOf : Party -> List Party
+        getInstancesOf p =
+            List.filterMap (find (areEqual p.name .name) << .list) es
+    in
+    List.map
+        (\p ->
+            Party
+                p.name
+                (List.sum <| List.map .seats <| getInstancesOf p)
+                (List.sum <| List.map .votes <| getInstancesOf p)
+                0
+                False
+                p.color
+        )
+        parties
+
+
+
+-- Files
 
 
 getFile : Int -> Cmd Msg
@@ -410,16 +414,11 @@ getFile year =
         }
 
 
-emptyInstance : Instance
-emptyInstance =
-    Instance D.empty [] 0
-
-
 init : Int -> ( Model, Cmd Msg )
 init year =
     let
         r =
-            update (ChangeYear False year) <| Model year year False emptyInstance emptyInstance
+            update (ChangeYear False year) <| Model year year False [] []
     in
     ( T.first r
     , T.second r
@@ -456,7 +455,7 @@ view model =
                     [ svg
                         [ Sa.width "975px", Sa.height "520px", Sa.viewBox "0 0 800 193", id "map-svg" ]
                         (g [ Sa.class "include", Sa.id "paths" ] []
-                            :: List.concatMap (\n -> makeState (dropMaybe <| D.get n model.current.states) n) (D.keys model.current.states)
+                            :: List.concatMap makeState model.current
                         )
                     ]
                 , span (getArrow "right" model) []
@@ -482,7 +481,7 @@ view model =
                             , th [] [ U.text "Old" ]
                             ]
                          ]
-                            ++ (List.map (makePartyRow model) <| takeWhile (ifQualifyingParty model.current.total_votes) model.current.list)
+                            ++ (List.map (makePartyRow model) <| List.filter (ifQualifyingParty (totalVotesInInstance model.current)) (partiesInInstance model.current))
                         )
                     ]
                 ]
@@ -491,8 +490,8 @@ view model =
                 [ class "container" ]
                 [ tr
                     [ id "row-for-detailed-results" ]
-                    [ partyContainer "Democratic" model
-                    , partyContainer "Republican" model
+                    [ partyContainer Democratic model
+                    , partyContainer Republican model
                     ]
                 ]
             ]
@@ -513,34 +512,34 @@ update msg model =
                 parties =
                     List.map
                         (\n ->
-                            case decodeString (at [ "parties" ] <| list newParty) <| dropMaybe <| D.get n response of
+                            case decodeString (at [ "parties" ] <| list newParty) n of
                                 Ok list ->
-                                    List.reverse <| List.sortBy .votes <| List.map (\p -> { p | color = getColor p colors }) list
+                                    List.reverse <| List.sortBy .votes <| List.map (\p -> { p | color = color p.name }) list
 
                                 _ ->
                                     []
                         )
-                        (D.keys states)
+                        (List.filterMap (\n -> D.get (getName n) response) states)
 
                 stats =
                     List.map
                         (\n ->
-                            case decodeString (at [ "stats" ] <| setStats) <| dropMaybe <| D.get n response of
+                            case decodeString (at [ "stats" ] <| setStats) n of
                                 Ok stat ->
                                     stat
 
                                 _ ->
                                     Stats "" 0 0 0.0
                         )
-                        (D.keys states)
+                        (List.filterMap (\n -> D.get (getName n) response) states)
             in
             if model.writingToPrevious then
-                ( { model | previous = rewriteInstance model.previous parties stats, writingToPrevious = False, year = model.year + 4 }, updateImages model.current.list )
+                ( { model | previous = rewriteInstance parties stats, writingToPrevious = False, year = model.year + 4 }, updateImages (portParties (partiesInInstance model.current)) )
 
             else
                 let
                     tempmodel =
-                        { model | current = rewriteInstance model.current parties stats, real_year = model.year }
+                        { model | current = rewriteInstance parties stats, real_year = model.year }
 
                     r =
                         update (ChangeYear True (tempmodel.year - 4)) tempmodel
@@ -566,7 +565,23 @@ main =
         }
 
 
-port updateImages : List Party -> Cmd msg
+type alias PortParty =
+    { color : String
+    , seats : Float
+    }
+
+
+portParties : List Party -> List PortParty
+portParties ps =
+    case ps of
+        [] ->
+            []
+
+        x :: xs ->
+            PortParty x.color x.seats :: portParties xs
+
+
+port updateImages : List PortParty -> Cmd msg
 
 
 port wipeContent : Int -> Cmd msg

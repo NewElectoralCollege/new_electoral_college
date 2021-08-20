@@ -1,7 +1,7 @@
 module Endorsements exposing (main)
 
 import Browser exposing (element)
-import Data exposing (State(..), getName)
+import Data exposing (Party(..), State(..), getName)
 import Html exposing (Html, a, br, div, h1, h2, li, ol, p, text)
 import Html.Attributes exposing (class, href)
 import List.Extra exposing (count, groupsOfVarying, unique)
@@ -10,12 +10,6 @@ import Util exposing (dropMaybe)
 
 
 -- Offices
-
-
-type Party
-    = Democratic
-    | Independent
-    | Republican
 
 
 type Year
@@ -182,19 +176,6 @@ writeChamber state chamber =
 
         ( _, Upper ) ->
             "Senate"
-
-
-inParinthesis : Party -> String
-inParinthesis party =
-    case party of
-        Democratic ->
-            " (D)"
-
-        Independent ->
-            " (Ind)"
-
-        Republican ->
-            " (R)"
 
 
 
