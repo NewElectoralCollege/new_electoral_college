@@ -89,7 +89,7 @@ view model =
             "script"
             [ src "https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ]
             []
-        , if member model needsMathJax then
+        , if List.member model needsMathJax then
             node
                 "script"
                 [ id "MathJax-script"

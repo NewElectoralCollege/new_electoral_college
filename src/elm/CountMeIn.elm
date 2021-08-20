@@ -1,7 +1,7 @@
 module CountMeIn exposing (main)
 
 import Browser exposing (element)
-import Data exposing (states)
+import Data exposing (getName, states)
 import Html exposing (Html, b, button, div, form, h2, input, label, option, p, select, small, text)
 import Html.Attributes exposing (action, class, for, id, method, name, novalidate, placeholder, required, type_)
 
@@ -92,12 +92,12 @@ view _ =
                     , name "state"
                     , required True
                     ]
-                    (map
+                    (List.map
                         (\n -> option [] [ text n ])
                      <|
-                        sort <|
-                            append [ "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands" ] <|
-                                keys states
+                        List.sort <|
+                            List.append [ "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands" ] <|
+                                List.map getName states
                     )
                 ]
             , div
