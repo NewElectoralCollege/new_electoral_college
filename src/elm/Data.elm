@@ -1,4 +1,4 @@
-module Data exposing (StateOutline, colors, getNominee, nominees, realResults, states)
+module Data exposing (State(..), StateOutline, colors, getName, getNominee, nominees, realResults, states)
 
 import Dict exposing (Dict, fromList, get)
 import Maybe exposing (withDefault)
@@ -120,6 +120,217 @@ type alias StateOutline =
     , width : Float
     , height : Float
     }
+
+
+type State
+    = Alabama
+    | Alaska
+    | Arizona
+    | Arkansas
+    | California
+    | Colorado
+    | Connecticut
+    | Delaware
+    | DistrictOfColumbia
+    | Florida
+    | Georgia
+    | Hawaii
+    | Idaho
+    | Illinois
+    | Indiana
+    | Iowa
+    | Kansas
+    | Kentucky
+    | Louisiana
+    | Maine
+    | Maryland
+    | Massachusetts
+    | Michigan
+    | Minnesota
+    | Mississippi
+    | Missouri
+    | Montana
+    | Nebraska
+    | Nevada
+    | NewHampshire
+    | NewJersey
+    | NewMexico
+    | NewYork
+    | NorthCarolina
+    | NorthDakota
+    | Ohio
+    | Oklahoma
+    | Oregon
+    | Pennsylvania
+    | RhodeIsland
+    | SouthCarolina
+    | SouthDakota
+    | Tennessee
+    | Texas
+    | Utah
+    | Vermont
+    | Virginia
+    | Washington
+    | WestVirginia
+    | Wisconsin
+    | Wyoming
+
+
+getName : State -> String
+getName state =
+    case state of
+        Alabama ->
+            "Alabama"
+
+        Alaska ->
+            "Alaska"
+
+        Arizona ->
+            "Arizona"
+
+        Arkansas ->
+            "Arkansas"
+
+        California ->
+            "California"
+
+        Colorado ->
+            "Colorado"
+
+        Connecticut ->
+            "Connecticut"
+
+        Delaware ->
+            "Delaware"
+
+        DistrictOfColumbia ->
+            "District Of Columbia"
+
+        Florida ->
+            "Florida"
+
+        Georgia ->
+            "Georgia"
+
+        Hawaii ->
+            "Hawaii"
+
+        Idaho ->
+            "Idaho"
+
+        Illinois ->
+            "Illinois"
+
+        Indiana ->
+            "Indiana"
+
+        Iowa ->
+            "Iowa"
+
+        Kansas ->
+            "Kansas"
+
+        Kentucky ->
+            "Kentucky"
+
+        Louisiana ->
+            "Louisiana"
+
+        Maine ->
+            "Maine"
+
+        Maryland ->
+            "Maryland"
+
+        Massachusetts ->
+            "Massachusetts"
+
+        Michigan ->
+            "Michigan"
+
+        Minnesota ->
+            "Minnesota"
+
+        Mississippi ->
+            "Mississippi"
+
+        Missouri ->
+            "Missouri"
+
+        Montana ->
+            "Montana"
+
+        Nebraska ->
+            "Nebraska"
+
+        Nevada ->
+            "Nevada"
+
+        NewHampshire ->
+            "New Hampshire"
+
+        NewJersey ->
+            "New Jersey"
+
+        NewMexico ->
+            "New Mexico"
+
+        NewYork ->
+            "New York"
+
+        NorthCarolina ->
+            "North Carolina"
+
+        NorthDakota ->
+            "North Dakota"
+
+        Ohio ->
+            "Ohio"
+
+        Oklahoma ->
+            "Oklahoma"
+
+        Oregon ->
+            "Oregon"
+
+        Pennsylvania ->
+            "Pennsylvania"
+
+        RhodeIsland ->
+            "Rhode Island"
+
+        SouthCarolina ->
+            "South Carolina"
+
+        SouthDakota ->
+            "South Dakota"
+
+        Tennessee ->
+            "Tennessee"
+
+        Texas ->
+            "Texas"
+
+        Utah ->
+            "Utah"
+
+        Vermont ->
+            "Vermont"
+
+        Virginia ->
+            "Virginia"
+
+        Washington ->
+            "Washington"
+
+        WestVirginia ->
+            "West Virginia"
+
+        Wisconsin ->
+            "Wisconsin"
+
+        Wyoming ->
+            "Wyoming"
 
 
 states : Dict String StateOutline

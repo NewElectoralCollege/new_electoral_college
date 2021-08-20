@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> </head>
+    <body>
+        <div class="include" w3-include-html="header.html"></div>
+        <br /><br /><br /><br />
+
+        <main role="main" class="container" id="main"></main>
+
+        <footer class="container include text-center text-lg-start bg-light text-muted" w3-include-html="footer.html">
+            
+        </footer>
+
+        <script src="src/js/Header_compiled.js"></script>
+        <script src="src/js/util.js"></script>
+        <script src="src/js/Endorsements_compiled.js"></script>
+        <script>
+            makeHeader('Endorsements')
+
+            window.onload = function () {
+                let app = Elm.Endorsements.init({
+                    node: document.getElementById('main'),
+                })
+
+                includeHTML()
+            }
+        </script>
+    </body>
+</html>
