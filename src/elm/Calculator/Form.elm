@@ -34,7 +34,7 @@ makePartyForm model party =
             []
         , input
             [ type_ "text"
-            , style "width" "50x"
+            , style "width" "100px"
             , placeholder "Name"
             , value party.name
             , onInput Name
@@ -68,7 +68,7 @@ partiesHeader =
     div [ class "form-row" ] <|
         map
             (\( h, s ) -> div s [ U.text h ])
-            [ ( "Party", [ border, style "width" "192px" ] )
+            [ ( "Party", [ border, style "width" "110px" ] )
             , ( "Votes", [ border, style "width" "100px" ] )
             , ( "Divis", stepStyle )
             , ( "Floor", stepStyle )
