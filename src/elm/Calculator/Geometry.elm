@@ -1,4 +1,4 @@
-module Calculator.Geometry exposing (Point, angle, point, startingAngle)
+module Calculator.Geometry exposing (Point, angle, halfHeight, halfWidth, height, point, startingAngle, width)
 
 import Calculator.Model exposing (Model, Showing(..), getCurrentShowing, totalVotes)
 import List exposing (foldl)
@@ -9,6 +9,26 @@ import Util exposing (Party, areEqual, dropMaybe, summateRecords)
 
 type alias Point =
     ( Float, Float )
+
+
+width : number
+width =
+    500
+
+
+height : number
+height =
+    500
+
+
+halfWidth : Float
+halfWidth =
+    width / 2
+
+
+halfHeight : Float
+halfHeight =
+    height / 2
 
 
 angle : Model -> Showing -> Party -> Float

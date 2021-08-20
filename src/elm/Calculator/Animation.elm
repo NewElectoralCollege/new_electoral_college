@@ -1,5 +1,6 @@
 module Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTransformations, step)
 
+import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Model, Showing(..), Slice, SliceStatus(..), Target, getCurrentShowing, totalSeats, totalVotes)
 import List exposing (all, any, concatMap, foldl, map)
 import List.Extra exposing (splitWhen, updateIf)
@@ -31,12 +32,12 @@ resetSlices list =
 
 getTargetReset : Slice -> Target
 getTargetReset _ =
-    Target 150 150 0 1
+    Target halfWidth halfHeight 0 1
 
 
 shrink : Slice -> Target
 shrink _ =
-    Target 150 150 0 0.25
+    Target halfWidth halfHeight 0 0.25
 
 
 isSliceMoving : Slice -> Bool
@@ -169,15 +170,15 @@ getTransformedAngle model showing party =
 
 initialSliceStatus : SliceStatus
 initialSliceStatus =
-    Static 150 150 0 1
+    Static halfWidth halfHeight 0 1
 
 
 resetTransformations : Model -> List Slice
 resetTransformations model =
     concatMap
         (\n ->
-            [ Slice n initialSliceStatus Seat (Target 0 150 (getTransformedAngle model Seat n) 1)
-            , Slice n initialSliceStatus Vote (Target 300 150 (getTransformedAngle model Vote n) 1)
+            [ Slice n initialSliceStatus Seat (Target 0 halfHeight (getTransformedAngle model Seat n) 1)
+            , Slice n initialSliceStatus Vote (Target width halfHeight (getTransformedAngle model Vote n) 1)
             ]
         )
         model.parties

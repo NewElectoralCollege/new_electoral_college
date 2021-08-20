@@ -1,12 +1,12 @@
 module Calculator.Pie exposing (pie, slice)
 
-import Calculator.Geometry exposing (Point, angle, point, startingAngle)
+import Calculator.Geometry exposing (Point, angle, height, point, startingAngle, width)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, SliceStatus(..), Target)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
 import List exposing (filter, map)
-import String exposing (fromFloat)
+import String exposing (fromFloat, fromInt)
 import Svg exposing (Svg, path, svg)
 import Svg.Attributes exposing (d, fill, stroke, transform)
 import Util exposing (areEqual)
@@ -46,8 +46,8 @@ slice model { party, status, showing } =
 pie : Model -> Showing -> Html Msg
 pie model showing =
     svg
-        [ style "width" "300"
-        , style "height" "300"
+        [ style "width" <| fromInt width
+        , style "height" <| fromInt height
         , onMouseLeave ResetHighlight
         ]
         (map (slice model) <| filter (areEqual showing .showing) <| filter showSlice model.slices)
