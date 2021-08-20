@@ -5,11 +5,8 @@ import Html exposing (Html, a, br, div, form, h2, input, label, p, text)
 import Html.Attributes exposing (class, for, href, id, name, pattern, placeholder, required, type_)
 import Html.Events exposing (onInput)
 import List.Extra exposing (getAt)
-import Maybe exposing (withDefault)
-import String as S exposing (String)
-import Task exposing (perform)
+import String as S
 import Time exposing (Posix, Zone, every, here, toHour, utc)
-import Tuple exposing (first, second)
 import Util exposing (dropMaybe)
 
 

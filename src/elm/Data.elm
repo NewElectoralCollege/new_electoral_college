@@ -1,7 +1,6 @@
 module Data exposing (State(..), StateOutline, colors, getName, getNominee, nominees, realResults, states)
 
-import Dict exposing (Dict, fromList, get)
-import Maybe exposing (withDefault)
+import Dict as D exposing (Dict)
 import Util exposing (dropMaybe)
 
 
@@ -11,16 +10,16 @@ import Util exposing (dropMaybe)
 
 nominees : Dict Int (Dict String String)
 nominees =
-    fromList
+    D.fromList
         [ ( 2020
-          , fromList
+          , D.fromList
                 [ ( "Democratic", "Joe Biden" )
                 , ( "Republican", "Donald Trump" )
                 , ( "Libertarian", "Jo Jorgensen" )
                 ]
           )
         , ( 2016
-          , fromList
+          , D.fromList
                 [ ( "Republican", "Donald Trump" )
                 , ( "Democratic", "Hillary Clinton" )
                 , ( "Libertarian", "Gary Johnson" )
@@ -29,33 +28,33 @@ nominees =
                 ]
           )
         , ( 2012
-          , fromList
+          , D.fromList
                 [ ( "Democratic", "Barack Obama" )
                 , ( "Republican", "Mitt Romney" )
                 , ( "Libertarian", "Gary Johnson" )
                 ]
           )
         , ( 2008
-          , fromList
+          , D.fromList
                 [ ( "Democratic", "Barack Obama" )
                 , ( "Republican", "John McCain" )
                 ]
           )
         , ( 2004
-          , fromList
+          , D.fromList
                 [ ( "Republican", "George W. Bush" )
                 , ( "Democratic", "John Kerry" )
                 ]
           )
         , ( 2000
-          , fromList
+          , D.fromList
                 [ ( "Republican", "George W. Bush" )
                 , ( "Democratic", "Al Gore" )
                 , ( "Green", "Ralph Nader" )
                 ]
           )
         , ( 1996
-          , fromList
+          , D.fromList
                 [ ( "Democratic", "Bill Clinton" )
                 , ( "Republican", "Bob Dole" )
                 , ( "Reform", "Ross Perot" )
@@ -63,7 +62,7 @@ nominees =
                 ]
           )
         , ( 1992
-          , fromList
+          , D.fromList
                 [ ( "Democratic", "Bill Clinton" )
                 , ( "Republican", "George H. W. Bush" )
                 , ( "Ross Perot", "Ross Perot" )
@@ -72,19 +71,19 @@ nominees =
                 ]
           )
         , ( 1988
-          , fromList
+          , D.fromList
                 [ ( "Republican", "George H. W. Bush" )
                 , ( "Democratic", "Michael Dukakis" )
                 ]
           )
         , ( 1984
-          , fromList
+          , D.fromList
                 [ ( "Republican", "Ronald Reagan" )
                 , ( "Democratic", "Walter Mondale" )
                 ]
           )
         , ( 1980
-          , fromList
+          , D.fromList
                 [ ( "Republican", "Ronald Reagan" )
                 , ( "Democratic", "Jimmy Carter" )
                 , ( "Independent", "John B. Anderson" )
@@ -92,7 +91,7 @@ nominees =
                 ]
           )
         , ( 1976
-          , fromList
+          , D.fromList
                 [ ( "Democratic", "Jimmy Carter" )
                 , ( "Republican", "Gerald Ford" )
                 ]
@@ -102,7 +101,7 @@ nominees =
 
 colors : Dict String String
 colors =
-    fromList
+    D.fromList
         [ ( "Democratic", "#1a80c4" )
         , ( "Republican", "#cf222c" )
         , ( "Libertarian", "#FED105" )
@@ -335,7 +334,7 @@ getName state =
 
 states : Dict String StateOutline
 states =
-    fromList
+    D.fromList
         [ ( "Alabama", StateOutline 492.4187 129.51944 37.238781 82.202576 )
         , ( "Alaska", StateOutline 36.09499 198.73701 106.64176 69.758583 )
         , ( "Arizona", StateOutline 177.47163 98.563324 68.972443 87.950653 )
@@ -392,75 +391,75 @@ states =
 
 realResults : Dict Int (Dict String Float)
 realResults =
-    fromList
+    D.fromList
         [ ( 2020
-          , fromList
+          , D.fromList
                 [ ( "Democratic", 306 )
                 , ( "Republican", 232 )
                 ]
           )
         , ( 2016
-          , fromList
+          , D.fromList
                 [ ( "Republican", 306 )
                 , ( "Democratic", 232 )
                 ]
           )
         , ( 2012
-          , fromList
+          , D.fromList
                 [ ( "Democratic", 332 )
                 , ( "Republican", 206 )
                 ]
           )
         , ( 2008
-          , fromList
+          , D.fromList
                 [ ( "Democratic", 365 )
                 , ( "Republican", 173 )
                 ]
           )
         , ( 2004
-          , fromList
+          , D.fromList
                 [ ( "Republican", 286 )
                 , ( "Democratic", 252 )
                 ]
           )
         , ( 2000
-          , fromList
+          , D.fromList
                 [ ( "Republican", 271 )
                 , ( "Democratic", 267 )
                 ]
           )
         , ( 1996
-          , fromList
+          , D.fromList
                 [ ( "Democratic", 379 )
                 , ( "Republican", 159 )
                 ]
           )
         , ( 1992
-          , fromList
+          , D.fromList
                 [ ( "Democratic", 370 )
                 , ( "Republican", 168 )
                 ]
           )
         , ( 1988
-          , fromList
+          , D.fromList
                 [ ( "Republican", 426 )
                 , ( "Democratic", 112 )
                 ]
           )
         , ( 1984
-          , fromList
+          , D.fromList
                 [ ( "Republican", 525 )
                 , ( "Democratic", 13 )
                 ]
           )
         , ( 1980
-          , fromList
+          , D.fromList
                 [ ( "Republican", 489 )
                 , ( "Democratic", 49 )
                 ]
           )
         , ( 1976
-          , fromList
+          , D.fromList
                 [ ( "Democratic", 297 )
                 , ( "Republican", 241 )
                 ]
@@ -471,7 +470,7 @@ realResults =
 getNominee : Int -> String -> String
 getNominee year party =
     nominees
-        |> get year
+        |> D.get year
         |> dropMaybe
-        |> get party
-        |> withDefault "n/a"
+        |> D.get party
+        |> Maybe.withDefault "n/a"

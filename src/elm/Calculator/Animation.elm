@@ -2,9 +2,7 @@ module Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTr
 
 import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Model, Showing(..), Slice, SliceStatus(..), Target, getCurrentShowing, totalSeats, totalVotes)
-import List exposing (all, any, concatMap, foldl, map)
 import List.Extra exposing (splitWhen, updateIf)
-import Tuple exposing (first)
 import Util exposing (Party, areEqual, dropMaybe, lambdaCompare, summateRecords)
 
 

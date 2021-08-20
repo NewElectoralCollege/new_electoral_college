@@ -5,8 +5,7 @@ import Calculator.Model exposing (Model, Msg(..))
 import Html exposing (Attribute, Html, div, input)
 import Html.Attributes exposing (class, placeholder, style, type_, value)
 import Html.Events exposing (onInput)
-import List exposing (map)
-import String exposing (fromFloat, left)
+import String
 import Util as U exposing (Party, boolToInt)
 
 
@@ -43,14 +42,14 @@ makePartyForm model party =
         , input
             [ type_ "number"
             , placeholder "Votes"
-            , value <| fromFloat party.votes
+            , value <| String.fromFloat party.votes
             , onInput Votes
             , style "width" "100px"
             ]
             []
         , div
             stepStyle
-            [ U.text <| left 4 <| fromFloat <| party.votes / quota model ]
+            [ U.text <| String.left 4 <| String.fromFloat <| party.votes / quota model ]
         , div
             stepStyle
             [ U.text <| party.seats - boolToInt party.extra_seat ]
@@ -66,7 +65,7 @@ makePartyForm model party =
 partiesHeader : Html Msg
 partiesHeader =
     div [ class "form-row" ] <|
-        map
+        List.map
             (\( h, s ) -> div s [ U.text h ])
             [ ( "Party", [ border, style "width" "110px" ] )
             , ( "Votes", [ border, style "width" "100px" ] )
@@ -79,4 +78,4 @@ partiesHeader =
 
 makePartiesForm : Model -> List (Html Msg)
 makePartiesForm model =
-    map (makePartyForm model) model.parties
+    List.map (makePartyForm model) model.parties

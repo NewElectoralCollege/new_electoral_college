@@ -5,10 +5,8 @@ import Either exposing (Either(..))
 import Html exposing (Html, div, footer, h2, img, node, p, text)
 import Html.Attributes exposing (class, src, style, width)
 import Http exposing (Error, expectString, get)
-import List exposing (head, map2)
 import List.Extra exposing (last)
 import Regex exposing (Match, Regex, fromString, replace)
-import String exposing (dropLeft, dropRight, join, lines, split, trim)
 import Util exposing (dropMaybe)
 
 

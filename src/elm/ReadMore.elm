@@ -4,9 +4,6 @@ import Browser exposing (element)
 import Html exposing (Html, a, br, button, div, h2, img, p, span, text)
 import Html.Attributes exposing (attribute, class, href, id, property, src, style, target, title, type_)
 import Json.Encode exposing (string)
-import List exposing (head, map)
-import String exposing (replace, split, toLower)
-import Tuple exposing (first)
 import Util exposing (dropMaybe)
 
 

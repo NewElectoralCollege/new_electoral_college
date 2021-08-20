@@ -4,9 +4,7 @@ import Browser exposing (element)
 import Data exposing (State(..), getName)
 import Html exposing (Html, a, br, div, h1, h2, li, ol, p, text)
 import Html.Attributes exposing (class, href)
-import List exposing (head, map)
 import List.Extra exposing (count, groupsOfVarying, unique)
-import String exposing (fromInt, right)
 import Util exposing (dropMaybe)
 
 
@@ -86,10 +84,10 @@ writeTerm : Term -> Html msg
 writeTerm term =
     case term of
         ( Definitive start, Incumbent ) ->
-            text <| fromInt start ++ "-incumbent"
+            text <| String.fromInt start ++ "-incumbent"
 
         ( Definitive start, Definitive end ) ->
-            text <| fromInt start ++ "-" ++ fromInt end
+            text <| String.fromInt start ++ "-" ++ String.fromInt end
 
         ( Incumbent, _ ) ->
             text "Unknown Term"
@@ -130,8 +128,8 @@ writeDistrict : District -> String
 writeDistrict district =
     case district of
         Numbered a ->
-            fromInt a
-                ++ (case right 1 <| fromInt a of
+            String.fromInt a
+                ++ (case String.right 1 <| String.fromInt a of
                         "1" ->
                             "st"
 
@@ -255,8 +253,8 @@ endorsements =
 makeDivision : List Endorsement -> Html msg
 makeDivision es =
     div []
-        [ h2 [] [ text <| getHeader <| (dropMaybe <| head es).office ]
-        , ol [] (map makeEndorser es)
+        [ h2 [] [ text <| getHeader <| (dropMaybe <| List.head es).office ]
+        , ol [] (List.map makeEndorser es)
         ]
 
 
@@ -290,11 +288,11 @@ view : Model -> Html msg
 view _ =
     let
         counts =
-            map (\n -> count ((==) n << getHeader << .office) endorsements) (unique <| map (getHeader << .office) endorsements)
+            List.map (\n -> count ((==) n << getHeader << .office) endorsements) (unique <| List.map (getHeader << .office) endorsements)
     in
     div
         [ class "container" ]
-        (h1 [] [ text "Endorsements" ] :: (map makeDivision <| groupsOfVarying counts endorsements))
+        (h1 [] [ text "Endorsements" ] :: (List.map makeDivision <| groupsOfVarying counts endorsements))
 
 
 update : msg -> Model -> ( Model, Cmd msg )

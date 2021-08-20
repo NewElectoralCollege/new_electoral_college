@@ -5,8 +5,7 @@ import Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, SliceStatu
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
-import List exposing (filter, map)
-import String exposing (fromFloat, fromInt)
+import String
 import Svg exposing (Svg, path, svg)
 import Svg.Attributes exposing (d, fill, stroke, transform)
 import Util exposing (areEqual)
@@ -46,11 +45,11 @@ slice model { party, status, showing } =
 pie : Model -> Showing -> Html Msg
 pie model showing =
     svg
-        [ style "width" <| fromInt width
-        , style "height" <| fromInt height
+        [ style "width" <| String.fromInt width
+        , style "height" <| String.fromInt height
         , onMouseLeave ResetHighlight
         ]
-        (map (slice model) <| filter (areEqual showing .showing) <| filter showSlice model.slices)
+        (List.map (slice model) <| List.filter (areEqual showing .showing) <| List.filter showSlice model.slices)
 
 
 showSlice : Slice -> Bool
@@ -65,7 +64,7 @@ showSlice slc =
 
 stringifyPoint : Point -> String
 stringifyPoint ( a, b ) =
-    fromFloat a ++ "," ++ fromFloat b
+    String.fromFloat a ++ "," ++ String.fromFloat b
 
 
 difference : Point -> Point -> Point
@@ -75,7 +74,16 @@ difference ( a1, b1 ) ( a2, b2 ) =
 
 transformHelp : Target -> String
 transformHelp { tx, ty, ta, ts } =
-    "translate(" ++ fromFloat tx ++ " " ++ fromFloat ty ++ ") rotate(" ++ fromFloat ta ++ ")" ++ " scale(" ++ fromFloat ts ++ ")"
+    "translate("
+        ++ String.fromFloat tx
+        ++ " "
+        ++ String.fromFloat ty
+        ++ ") rotate("
+        ++ String.fromFloat ta
+        ++ ")"
+        ++ " scale("
+        ++ String.fromFloat ts
+        ++ ")"
 
 
 transformString : SliceStatus -> String

@@ -2,17 +2,14 @@ module State exposing (main)
 
 import Browser exposing (element)
 import Data exposing (colors, getNominee, states)
-import Dict exposing (Dict, empty, get, insert, keys, size)
+import Dict as D exposing (Dict)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, rowspan, type_)
 import Html.Events exposing (onClick)
-import List exposing (concatMap, drop, filter, head, intersperse, length, map, reverse, sortBy)
 import List.Extra exposing (find, setAt)
-import Maybe exposing (withDefault)
-import String exposing (fromChar, fromFloat, fromInt, lines)
 import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
 import Svg.Attributes as Sa exposing (cx, cy, fill, height, markerHeight, markerWidth, orient, points, r, refX, refY, width, x, y)
-import Tuple exposing (first, second)
+import Tuple as T
 import Util as U
     exposing
         ( Election
@@ -73,7 +70,7 @@ getInitialSeats party =
 getCheckIcon : Party -> List (Html msg)
 getCheckIcon party =
     if party.extra_seat then
-        [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (fromChar '\u{F058}') ] ]
+        [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (String.fromChar '\u{F058}') ] ]
 
     else
         [ U.text "" ]
@@ -101,11 +98,11 @@ newRow party model year =
 
 doPartyElectors : List (Html msg) -> List Party -> Model -> List (Html msg)
 doPartyElectors list parties model =
-    if length parties == 0 then
+    if List.length parties == 0 then
         []
 
     else
-        list ++ doPartyElectors (newRow (dropMaybe (head parties)) model model.page_year) (drop 1 parties) model
+        list ++ doPartyElectors (newRow (dropMaybe (List.head parties)) model model.page_year) (List.drop 1 parties) model
 
 
 getCircles : Float -> Model -> Int -> List (Svg Msg)
@@ -115,8 +112,8 @@ getCircles angle model i =
 
     else
         circle
-            [ cx (fromFloat (350 * cos angle + 450))
-            , cy (fromFloat (350 * sin angle + 375))
+            [ cx (String.fromFloat (350 * cos angle + 450))
+            , cy (String.fromFloat (350 * sin angle + 375))
             , r "10"
             , Sa.style "stroke-width:1;stroke:#969696"
             ]
@@ -126,13 +123,13 @@ getCircles angle model i =
 
 doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
 doPartyBars list parties nx model =
-    if length parties == 0 then
+    if List.length parties == 0 then
         []
 
     else
         let
             party =
-                dropMaybe (head parties)
+                dropMaybe (List.head parties)
 
             nwidth =
                 getWidth party.votes model
@@ -141,23 +138,23 @@ doPartyBars list parties nx model =
             list
                 ++ doPartyBars
                     [ rect
-                        [ x (fromFloat nx)
+                        [ x (String.fromFloat nx)
                         , y "370"
-                        , width (fromFloat nwidth)
+                        , width (String.fromFloat nwidth)
                         , height "50"
                         , fill party.color
                         , Sa.style "stroke-width:2;stroke:#fff;"
                         ]
                         []
                     ]
-                    (drop 1 parties)
+                    (List.drop 1 parties)
                     (nx + nwidth)
                     model
 
         else
             list
                 ++ [ rect
-                        [ x (fromFloat nx)
+                        [ x (String.fromFloat nx)
                         , y "370"
                         , width "0"
                         , height "50"
@@ -170,7 +167,7 @@ doPartyBars list parties nx model =
 summaryHeader : Model -> List (Html msg)
 summaryHeader model =
     [ thead [ Ha.style "background-color" "#eaecf0" ]
-        [ tr [] [ th [ colspan 9 ] [ U.text (model.state ++ " - " ++ fromInt model.page_year) ] ]
+        [ tr [] [ th [ colspan 9 ] [ U.text (model.state ++ " - " ++ String.fromInt model.page_year) ] ]
         , tr []
             [ th [ colspan 2 ] [ U.text "Party" ]
             , th [] [ U.text "Nominee" ]
@@ -192,20 +189,20 @@ summaryFooter model =
                     ++ styleNumFloat model.stats.total_votes
                     ++ "\n"
                     ++ "Total Electors: "
-                    ++ fromFloat model.stats.total_seats
+                    ++ String.fromFloat model.stats.total_seats
                     ++ "\n"
                     ++ "Quota: "
                     ++ styleNumFloat (getQuota model.stats.total_votes model.stats.total_seats)
                     ++ "\n"
                     ++ "Gallagher Index: "
-                    ++ fromFloat model.stats.gallagher_index
+                    ++ String.fromFloat model.stats.gallagher_index
                     ++ " "
                     ++ "\n"
                     ++ "\n"
-                    |> lines
-                    |> map U.text
-                    |> intersperse (br [] [])
-                    |> setAt 7 (i [ class "fa", Ha.style "color" "blue", onClick <| RevealPopup "gallagher" ] [ U.text (fromChar '\u{F059}') ])
+                    |> String.lines
+                    |> List.map U.text
+                    |> List.intersperse (br [] [])
+                    |> setAt 7 (i [ class "fa", Ha.style "color" "blue", onClick <| RevealPopup "gallagher" ] [ U.text (String.fromChar '\u{F059}') ])
                 )
             ]
         ]
@@ -219,7 +216,7 @@ getQuota total_votes total_seats =
 
 doYearRow : Int -> Model -> String -> List (Html Msg)
 doYearRow year model party_name =
-    case get year model.elections of
+    case D.get year model.elections of
         Nothing ->
             []
 
@@ -233,13 +230,13 @@ doYearRow year model party_name =
                         a
 
                 previous_election =
-                    get (year - 4) model.elections
+                    D.get (year - 4) model.elections
 
                 party =
                     dropMaybe (find (areEqual party_name .name) election.list)
 
                 previous_party =
-                    dropMaybe <| find (areEqual party_name .name) (withDefault election previous_election).list
+                    dropMaybe <| find (areEqual party_name .name) (Maybe.withDefault election previous_election).list
 
                 change_vote =
                     case previous_election of
@@ -255,10 +252,10 @@ doYearRow year model party_name =
                             [ U.text "n/a" ]
 
                         Just _ ->
-                            fix_change ("+" ++ fromFloat (party.seats - previous_party.seats))
+                            fix_change ("+" ++ String.fromFloat (party.seats - previous_party.seats))
             in
             tr []
-                [ td [] [ Html.text <| fromInt year ]
+                [ td [] [ Html.text <| String.fromInt year ]
                 , td [] [ U.text (styleNumFloat party.votes) ]
                 , td [] [ U.text (stylePercent <| party.votes / election.stats.total_votes) ]
                 , td [] change_vote
@@ -292,8 +289,8 @@ partyContainer party model =
                     , th [] [ U.text "+/-" ]
                     ]
                 ]
-                :: (concatMap (doYearRow firstYear model << .name) <|
-                        filter (areEqual party .name) model.list
+                :: (List.concatMap (doYearRow firstYear model << .name) <|
+                        List.filter (areEqual party .name) model.list
                    )
             )
         ]
@@ -312,7 +309,7 @@ makeStateList : String -> String -> Html Msg
 makeStateList state year =
     div
         [ class "list-group", id "state-list" ]
-        (map
+        (List.map
             (\n ->
                 let
                     active =
@@ -328,7 +325,7 @@ makeStateList state year =
                     ]
                     [ U.text n ]
             )
-            (keys states)
+            (D.keys states)
         )
 
 
@@ -346,42 +343,42 @@ update msg model =
                 ( model, getFile statsMsg model.year model.state )
 
             PartySuccess (Ok parties) ->
-                if length model.list > 0 then
+                if List.length model.list > 0 then
                     let
                         tempmodel =
                             { model
-                                | elections = insert model.year (Election (map (\p -> { p | color = getColor p colors }) parties) (Stats "none" 0 0 0.0)) model.elections
+                                | elections = D.insert model.year (Election (List.map (\p -> { p | color = getColor p colors }) parties) (Stats "none" 0 0 0.0)) model.elections
                                 , errorMessage = "none"
                             }
                     in
                     ( tempmodel
-                    , second (update SendRequestStats tempmodel)
+                    , T.second (update SendRequestStats tempmodel)
                     )
 
                 else
                     let
                         tempmodel =
                             { model
-                                | list = reverse <| sortBy .votes <| map (\p -> { p | color = getColor p colors }) parties
+                                | list = List.reverse <| List.sortBy .votes <| List.map (\p -> { p | color = getColor p colors }) parties
                                 , errorMessage = "none"
                             }
                     in
                     ( tempmodel
-                    , second (update SendRequestStats tempmodel)
+                    , T.second (update SendRequestStats tempmodel)
                     )
 
             StatSuccess (Ok stats) ->
-                if size model.elections > 0 then
+                if D.size model.elections > 0 then
                     let
                         tempmodel =
                             { model
-                                | elections = Dict.update model.year (Maybe.map (changeStats stats)) model.elections
+                                | elections = D.update model.year (Maybe.map (changeStats stats)) model.elections
                                 , year = model.year + 4
                                 , errorMessage = "none"
                             }
                     in
                     ( tempmodel
-                    , second (update SendRequestParty tempmodel)
+                    , T.second (update SendRequestParty tempmodel)
                     )
 
                 else
@@ -394,7 +391,7 @@ update msg model =
                             }
                     in
                     ( tempmodel
-                    , second (update SendRequestParty tempmodel)
+                    , T.second (update SendRequestParty tempmodel)
                     )
 
             RevealPopup popup ->
@@ -408,17 +405,17 @@ init : ( String, Int ) -> ( Model, Cmd Msg )
 init flags =
     let
         r =
-            update SendRequestParty (Model [] empty (Stats "none" 0 0 0.0) 0 (second flags) (second flags) (first flags) "" "none")
+            update SendRequestParty (Model [] D.empty (Stats "none" 0 0 0.0) 0 (T.second flags) (T.second flags) (T.first flags) "" "none")
     in
-    ( first r
-    , second r
+    ( T.first r
+    , T.second r
     )
 
 
 view : Model -> Html Msg
 view model =
     div [ class "container", id "state-container" ]
-        [ makeStateList model.state <| fromInt model.page_year
+        [ makeStateList model.state <| String.fromInt model.page_year
         , svg
             [ width "975"
             , height "520"
@@ -434,15 +431,15 @@ view model =
                 (doPartyBars [] model.list 100.0 model)
             , g
                 [ id "labels" ]
-                (map
+                (List.map
                     (\n ->
                         g
                             []
                             [ rect
-                                [ x <| fromFloat <| 100.0 + (n * 700.0), y "370" ]
+                                [ x <| String.fromFloat <| 100.0 + (n * 700.0), y "370" ]
                                 []
                             , text_
-                                [ x <| fromFloat <| 90.0 + (n * 700.0), y "460" ]
+                                [ x <| String.fromFloat <| 90.0 + (n * 700.0), y "460" ]
                                 [ U.text <| stylePercent n ]
                             ]
                     )
@@ -463,7 +460,7 @@ view model =
                 [ class "btn-group", attribute "role" "group" ]
                 [ button
                     [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                    [ a [ Ha.style "color" "#fff", attribute "download" model.state, href ("data/" ++ fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ U.text "Download" ] ]
+                    [ a [ Ha.style "color" "#fff", attribute "download" model.state, href ("data/" ++ String.fromInt model.year ++ "/" ++ model.state ++ ".json") ] [ U.text "Download" ] ]
                 , button
                     [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
                     [ a [ Ha.style "color" "#fff", href "results.html" ] [ U.text "Back" ] ]

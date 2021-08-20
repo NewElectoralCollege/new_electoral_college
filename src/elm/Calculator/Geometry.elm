@@ -1,9 +1,7 @@
 module Calculator.Geometry exposing (Point, angle, halfHeight, halfWidth, height, point, startingAngle, width)
 
 import Calculator.Model exposing (Model, Showing(..), getCurrentShowing, totalVotes)
-import List exposing (foldl)
 import List.Extra exposing (splitWhen)
-import Tuple exposing (first)
 import Util exposing (Party, areEqual, dropMaybe, summateRecords)
 
 

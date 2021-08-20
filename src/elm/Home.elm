@@ -3,7 +3,6 @@ module Home exposing (main)
 import Browser exposing (element)
 import Html exposing (Html, a, b, blockquote, br, div, footer, h1, h2, hr, img, p, text)
 import Html.Attributes exposing (alt, attribute, class, href, src, style)
-import String exposing (fromChar)
 
 
 

@@ -24,7 +24,6 @@ port module Header exposing (main)
 import Browser exposing (element)
 import Html exposing (Html, node, text)
 import Html.Attributes exposing (attribute, href, id, name, rel, src, title, type_)
-import List exposing (member)
 
 
 
