@@ -2,6 +2,7 @@ module Calculator.Geometry exposing (Point, angle, halfHeight, halfWidth, height
 
 import Calculator.Model exposing (Model, Showing(..), getCurrentShowing, totalVotes)
 import List.Extra exposing (splitWhen)
+import Tuple as T
 import Util exposing (Party, areEqual, dropMaybe, summateRecords)
 
 
@@ -50,8 +51,8 @@ startingAngle : Model -> Showing -> Party -> Float
 startingAngle model showing party =
     splitWhen (areEqual party.name .name) model.parties
         |> dropMaybe
-        |> first
-        |> foldl (summateRecords (angle model showing)) 0.0
+        |> T.first
+        |> List.foldl (summateRecords (angle model showing)) 0.0
 
 
 pointSpecificR : Float -> Float -> Point

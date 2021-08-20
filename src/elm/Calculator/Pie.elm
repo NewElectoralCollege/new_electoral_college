@@ -2,6 +2,7 @@ module Calculator.Pie exposing (pie, slice)
 
 import Calculator.Geometry exposing (Point, angle, height, point, startingAngle, width)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, SliceStatus(..), Target)
+import Data exposing (getName)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
@@ -37,7 +38,7 @@ slice model { party, status, showing } =
         , fill party.color
         , stroke "black"
         , transform <| transformString status
-        , onMouseEnter (Highlight party.name)
+        , onMouseEnter (Highlight <| getName party.name)
         ]
         []
 

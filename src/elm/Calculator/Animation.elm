@@ -2,7 +2,9 @@ module Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTr
 
 import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Model, Showing(..), Slice, SliceStatus(..), Target, getCurrentShowing, totalSeats, totalVotes)
+import Data
 import List.Extra exposing (splitWhen, updateIf)
+import Tuple as T
 import Util exposing (Party, areEqual, dropMaybe, lambdaCompare, summateRecords)
 
 
@@ -16,7 +18,7 @@ moveSlice getTarget slc =
             { slc | status = Moving vx vy va vs cx cy ca cs (getTarget slc) }
 
 
-moveSlices : List Slice -> String -> List Slice
+moveSlices : List Slice -> Data.Party -> List Slice
 moveSlices list name =
     list
         |> updateIf (areEqual name <| .name << .party) (moveSlice .highlighted_target)
@@ -25,7 +27,7 @@ moveSlices list name =
 
 resetSlices : List Slice -> List Slice
 resetSlices list =
-    map (moveSlice getTargetReset) list
+    List.map (moveSlice getTargetReset) list
 
 
 getTargetReset : Slice -> Target
@@ -50,12 +52,12 @@ isSliceMoving slc =
 
 isMoving : List Slice -> Bool
 isMoving slices =
-    any isSliceMoving slices
+    List.any isSliceMoving slices
 
 
 step : Float -> List Slice -> List Slice
 step timeDelta list =
-    map (stepSlice (timeDelta / 1000)) list
+    List.map (stepSlice (timeDelta / 1000)) list
 
 
 stepSlice : Float -> Slice -> Slice
@@ -97,7 +99,7 @@ stepSlice dt slc =
                         (abs (tt - n.ta))
                         (abs (ts - n.ts))
             in
-            if checkList (targetToList d) 1 && checkList (map abs <| targetToList nv) 0.6 then
+            if checkList (targetToList d) 1 && checkList (List.map abs <| targetToList nv) 0.6 then
                 { slc | status = Static tx ty (normalize ta) 1 }
 
             else
@@ -106,7 +108,7 @@ stepSlice dt slc =
 
 checkList : List Float -> Float -> Bool
 checkList list x =
-    all ((<) x) list
+    List.all ((<) x) list
 
 
 targetToList : Target -> List Float
@@ -152,8 +154,8 @@ getTransformedAngle model showing party =
         move_from =
             splitWhen (areEqual party.name .name) model.parties
                 |> dropMaybe
-                |> first
-                |> foldl (summateRecords (getCurrentShowing showing)) 0
+                |> T.first
+                |> List.foldl (summateRecords (getCurrentShowing showing)) 0
                 |> (+)
                     (case showing of
                         Vote ->
@@ -173,7 +175,7 @@ initialSliceStatus =
 
 resetTransformations : Model -> List Slice
 resetTransformations model =
-    concatMap
+    List.concatMap
         (\n ->
             [ Slice n initialSliceStatus Seat (Target 0 halfHeight (getTransformedAngle model Seat n) 1)
             , Slice n initialSliceStatus Vote (Target width halfHeight (getTransformedAngle model Vote n) 1)

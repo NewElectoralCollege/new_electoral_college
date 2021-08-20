@@ -2,6 +2,7 @@ module Calculator.Form exposing (makePartiesForm, partiesHeader)
 
 import Calculator.Hare exposing (quota)
 import Calculator.Model exposing (Model, Msg(..))
+import Data exposing (getName)
 import Html exposing (Attribute, Html, div, input)
 import Html.Attributes exposing (class, placeholder, style, type_, value)
 import Html.Events exposing (onInput)
@@ -35,7 +36,7 @@ makePartyForm model party =
             [ type_ "text"
             , style "width" "100px"
             , placeholder "Name"
-            , value party.name
+            , value <| getName party.name
             , onInput Name
             ]
             []
