@@ -1,7 +1,7 @@
 port module Map exposing (main)
 
 import Browser exposing (element)
-import Data exposing (Party(..), State(..), StateOutline, color, getName, outline, states, ticket)
+import Data exposing (Party(..), State(..), StateOutline, color, getName, nominee, outline, realElectors, states)
 import Dict as D
 import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, th, thead, tr)
 import Html.Attributes exposing (class, colspan, href, id, rowspan, style)
@@ -31,6 +31,10 @@ import Util as U
         , stylePercent
         , summateRecords
         )
+
+
+
+-- Dot patterns
 
 
 type Direction
@@ -221,52 +225,78 @@ makeState { list, stats, state } =
         )
 
 
+
+-- Results box
+
+
 makePartyRow : Model -> Party -> Html Msg
 makePartyRow model party =
     let
-        t =
-            dropMaybe <| ticket model.year party.name
+        name =
+            getName <| party.name
+
+        nmn =
+            Maybe.withDefault "n/a" <| nominee model.year party.name
+
+        real_electors =
+            Maybe.withDefault 0 <| realElectors model.year party.name
     in
     tr
         []
-        [ td [ class "color", id <| String.replace " " "-" (getName t.party), style "background-color" party.color ] []
-        , td [] [ U.text party.name ]
-        , td [] [ U.text <| t.nominee ]
+        [ td [ class "color", id <| String.replace " " "-" name, style "background-color" (color party.name) ] []
+        , td [] [ U.text name ]
+        , td [] [ U.text nmn ]
         , td [] [ U.text <| styleNumFloat party.votes ]
         , td [] [ U.text <| stylePercent <| party.votes / totalVotesInInstance model.current ]
         , td [] [ U.text party.seats ]
-        , td [] [ U.text t.real_electors ]
-        , td [] <| fix_change <| "+" ++ (String.fromFloat <| party.seats - toFloat t.real_electors)
+        , td [] [ U.text real_electors ]
+        , td [] <| fix_change <| "+" ++ (String.fromFloat <| party.seats - toFloat real_electors)
         ]
 
 
-rewriteInstance : List (List Party) -> List Stats -> Instance
-rewriteInstance parties stats =
-    List.map3 Election parties stats states
+
+-- Party box
 
 
-doYearRow : State -> Data.Party -> Election -> Election -> Int -> Html Msg
-doYearRow state partyname current previous year =
+doStateRow : Data.Party -> Int -> Election -> Election -> Html Msg
+doStateRow partyname year ({ list, stats, state } as current) previous =
     let
         party =
-            ( dropMaybe <| find (areEqual partyname .name) current.list
+            ( dropMaybe <| find (areEqual partyname .name) list
             , find (areEqual partyname .name) previous.list
             )
 
-        popularVotePercent =
-            (.votes <| T.first party) / current.stats.total_votes
+        popularVotePercent v =
+            (.votes <| v party) / stats.total_votes
+
+        seats v =
+            .seats <| v party
+
+        won lst =
+            (dropMaybe <| List.head <| List.reverse <| List.sortBy .votes lst).name
 
         bold =
-            if
-                (dropMaybe <| List.head <| List.reverse <| List.sortBy .votes current.list).name
-                    == partyname
-                    && (dropMaybe <| List.head <| List.reverse <| List.sortBy .votes previous.list).name
-                    /= partyname
-            then
+            if won list == partyname && won previous.list /= partyname then
                 "bold"
 
             else
                 "normal"
+
+        voteChange =
+            case T.second party of
+                Just _ ->
+                    fix_change <| "+" ++ stylePercent (popularVotePercent T.first - popularVotePercent (dropMaybe << T.second))
+
+                Nothing ->
+                    [ U.text "n/a" ]
+
+        seatChange =
+            case T.second party of
+                Just _ ->
+                    fix_change <| "+" ++ String.fromFloat (seats T.first - seats (dropMaybe << T.second))
+
+                Nothing ->
+                    [ U.text "n/a" ]
     in
     tr
         []
@@ -277,30 +307,11 @@ doYearRow state partyname current previous year =
                 [ U.text <| getName state ]
             ]
         , td [] [ U.text <| styleNumFloat <| .votes <| T.first party ]
-        , td [] [ U.text <| stylePercent <| popularVotePercent ]
-        , td []
-            (case T.second party of
-                Nothing ->
-                    [ U.text "n/a" ]
-
-                _ ->
-                    fix_change <| "+" ++ (stylePercent <| popularVotePercent - ((dropMaybe <| T.second party).votes / previous.stats.total_votes))
-            )
+        , td [] [ U.text <| stylePercent <| popularVotePercent T.first ]
+        , td [] voteChange
         , td [] <| getPartyProgressBar (T.first party) current (T.first party).color
-        , td []
-            (case T.second party of
-                Nothing ->
-                    [ U.text "n/a" ]
-
-                _ ->
-                    fix_change <| "+" ++ (String.fromFloat <| (.seats <| T.first party) - (.seats <| dropMaybe <| T.second party))
-            )
+        , td [] seatChange
         ]
-
-
-makeStateRow : Int -> Data.Party -> Election -> Election -> Html Msg
-makeStateRow year party current previous =
-    doYearRow current.state party current previous year
 
 
 partyContainer : Data.Party -> Model -> Html Msg
@@ -327,13 +338,17 @@ partyContainer party model =
                     , th [] [ U.text "+/-" ]
                     ]
                 ]
-                :: List.map2 (makeStateRow model.year party) model.current model.previous
+                :: List.map2 (doStateRow party model.year) model.current model.previous
             )
         ]
 
 
-getArrow : String -> Model -> List (Attribute Msg)
-getArrow side model =
+
+-- Map
+
+
+getArrow : Model -> String -> List (Attribute Msg)
+getArrow model side =
     let
         change =
             if side == "left" then
@@ -347,21 +362,6 @@ getArrow side model =
 
     else
         [ id (side ++ "Arrow"), onClick <| Reset (model.year + change) ]
-
-
-type Msg
-    = Reset Int
-    | ChangeYear Bool Int
-    | Response (Result Error (D.Dict String String))
-
-
-type alias Model =
-    { year : Int
-    , real_year : Int
-    , writingToPrevious : Bool
-    , current : Instance
-    , previous : Instance
-    }
 
 
 
@@ -402,6 +402,11 @@ partiesInInstance es =
         parties
 
 
+rewriteInstance : List (List Party) -> List Stats -> Instance
+rewriteInstance parties stats =
+    List.map3 Election parties stats states
+
+
 
 -- Files
 
@@ -412,6 +417,29 @@ getFile year =
         { url = "/new_electoral_college/src/js/getJson.py?year=" ++ String.fromInt year
         , expect = expectJson Response (dict string)
         }
+
+
+
+-- Model
+
+
+type Msg
+    = Reset Int
+    | ChangeYear Bool Int
+    | Response (Result Error (D.Dict String String))
+
+
+type alias Model =
+    { year : Int
+    , real_year : Int
+    , writingToPrevious : Bool
+    , current : Instance
+    , previous : Instance
+    }
+
+
+
+-- Required Functions
 
 
 init : Int -> ( Model, Cmd Msg )
@@ -446,7 +474,7 @@ view model =
             [ class "container" ]
             [ div
                 [ class "container" ]
-                [ Html.span (getArrow "left" model) []
+                [ Html.span (getArrow model "left") []
                 , div
                     [ class "container col-sm-4"
                     , id "map"
@@ -458,13 +486,18 @@ view model =
                             :: List.concatMap makeState model.current
                         )
                     ]
-                , span (getArrow "right" model) []
+                , span (getArrow model "right") []
                 ]
             , div
                 [ class "container", style "width" "fit-content" ]
                 [ div [ class "container col-sm-2", id "hemicircle", style "display" "inline-block" ] []
                 , div
-                    [ class "container col-sm-2", style "display" "inline-block", style "vertical-align" "middle", style "left" "260px", style "min-width" "fit-content" ]
+                    [ class "container col-sm-2"
+                    , style "display" "inline-block"
+                    , style "vertical-align" "middle"
+                    , style "left" "260px"
+                    , style "min-width" "fit-content"
+                    ]
                     [ table
                         [ id "single-results" ]
                         ([ tr
@@ -481,7 +514,13 @@ view model =
                             , th [] [ U.text "Old" ]
                             ]
                          ]
-                            ++ (List.map (makePartyRow model) <| List.filter (ifQualifyingParty (totalVotesInInstance model.current)) (partiesInInstance model.current))
+                            ++ (List.map (makePartyRow model) <|
+                                    List.reverse <|
+                                        List.sortBy .votes <|
+                                            List.filter
+                                                (ifQualifyingParty (totalVotesInInstance model.current))
+                                                (partiesInInstance model.current)
+                               )
                         )
                     ]
                 ]
