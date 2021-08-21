@@ -144,7 +144,7 @@ boolToInt bool =
 
 ifQualifyingParty : Float -> Party -> Bool
 ifQualifyingParty total_votes party =
-    (party.votes / total_votes >= 0.01 || party.seats > 0) && party.name /= Data.Other
+    party.votes / total_votes >= 0.01 || party.seats > 0
 
 
 
