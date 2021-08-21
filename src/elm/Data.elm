@@ -1,4 +1,4 @@
-module Data exposing (Party(..), State(..), StateOutline, color, decodeParty, getName, outline, states, ticket)
+module Data exposing (Party(..), State(..), StateOutline, Ticket, color, decodeParty, getName, nominee, outline, realElectors, states, ticket)
 
 import Json.Decode exposing (Decoder, andThen, string, succeed)
 import List.Extra exposing (find)
@@ -135,6 +135,16 @@ correctTicket year party t =
 ticket : Int -> Party -> Maybe Ticket
 ticket year party =
     find (correctTicket year party) tickets
+
+
+nominee : Int -> Party -> Maybe String
+nominee year party =
+    Maybe.map .nominee <| ticket year party
+
+
+realElectors : Int -> Party -> Maybe Int
+realElectors year party =
+    Maybe.map .real_electors <| ticket year party
 
 
 
