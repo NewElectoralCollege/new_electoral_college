@@ -1,7 +1,8 @@
 - Make Gallagher Index popup work
-- Rework Data page
 - Rework Map and State pages
 - Try using filter Maybes to reduce dropMaybe (filterMap)
 - extra_vote and extra_seat may need to be Maybe
 - Fix District of Columbia page
 - Organize imports
+- Fix Real elector results
+- Format Library
