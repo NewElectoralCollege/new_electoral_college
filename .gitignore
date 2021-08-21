@@ -18,3 +18,5 @@ the_proposal/*.fls
 the_proposal/*.log
 the_proposal/*.gz
 the_proposal/dirtytalk.sty
+
+database.csv
