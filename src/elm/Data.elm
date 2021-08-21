@@ -16,7 +16,7 @@ type Party
     | Green
     | PeaceAndFreedom
     | Reform
-    | Other
+    | Other String
 
 
 decodeParty : Decoder Party
@@ -37,14 +37,14 @@ decodeParty =
                     "Green" ->
                         succeed Green
 
-                    "Reform" ->
+                    "Reform Party" ->
                         succeed Reform
 
                     "Peace and Freedom Party" ->
                         succeed PeaceAndFreedom
 
-                    _ ->
-                        succeed Other
+                    a ->
+                        succeed (Other a)
             )
 
 
@@ -72,7 +72,7 @@ color party =
         Reform ->
             "#6A287E"
 
-        Other ->
+        Other _ ->
             "#dddddd"
 
 
