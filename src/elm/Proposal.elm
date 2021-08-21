@@ -231,10 +231,10 @@ textAndImage sectiontype par =
         Quote ->
             let
                 splt =
-                    split " \\begin{flushright}\\textit{---" par
+                    String.split " \\begin{flushright}\\textit{---" par
 
                 quote =
-                    dropMaybe <| head <| splt
+                    dropMaybe <| List.head <| splt
 
                 author =
                     dropMaybe <| last <| splt
@@ -242,8 +242,8 @@ textAndImage sectiontype par =
             [ node
                 "blockquote"
                 [ class "blockquote mb-0" ]
-                [ p [] [ quote |> dropRight 4 |> dropLeft 9 |> text ]
-                , footer [ class "blockquote-footer" ] [ author |> dropRight 17 |> text ]
+                [ p [] [ quote |> String.dropRight 4 |> String.dropLeft 9 |> text ]
+                , footer [ class "blockquote-footer" ] [ author |> String.dropRight 17 |> text ]
                 ]
             ]
 
@@ -263,7 +263,7 @@ textAndImage sectiontype par =
             ]
 
         SectionHeader ->
-            [ h2 [] [ par |> trim |> dropRight 1 |> dropLeft 9 |> text ] ]
+            [ h2 [] [ par |> String.trim |> String.dropRight 1 |> String.dropLeft 9 |> text ] ]
 
         FullImage img ->
             [ img ]
@@ -330,14 +330,14 @@ init _ =
 view : Model -> Html Msg
 view model =
     model
-        |> lines
-        |> join ""
+        |> String.lines
+        |> String.join ""
         |> replace beginRegex eater
         |> replace blockRegex eater
         |> replace percentRegex insertPercent
         |> replace commentRegex eater
-        |> split "\\\\"
-        |> map2 section sectionTypeList
+        |> String.split "\\\\"
+        |> List.map2 section sectionTypeList
         |> div [ class "container" ]
 
 
