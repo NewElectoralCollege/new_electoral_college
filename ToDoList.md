@@ -5,4 +5,6 @@
 - Fix District of Columbia page
 - Organize imports
 - Fix Real elector results
+- Add parenthises on endorsements page
+- Database combines candidates
 - Format Library
