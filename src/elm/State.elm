@@ -31,6 +31,7 @@ import Util as U
         , statsMsg
         , styleNumFloat
         , stylePercent
+        , updateColors
         , voteChange
         )
 
@@ -48,6 +49,12 @@ getQuota total_votes total_seats =
 -- Model
 
 
+type Status
+    = Initializing
+    | History
+    | Complete
+
+
 type alias Model =
     { list : List Party
     , elections : Dict Int Election
@@ -57,7 +64,7 @@ type alias Model =
     , page_year : Int
     , state : State
     , revealed : String
-    , errorMessage : String
+    , status : Status
     }
 
 
@@ -181,14 +188,14 @@ newRow party model year =
         []
 
 
-doPartyElectors : List (Html msg) -> List Party -> Model -> List (Html msg)
-doPartyElectors list parties model =
+doPartyElectors : List Party -> Model -> List (Html msg)
+doPartyElectors parties model =
     case parties of
         [] ->
             []
 
         x :: xs ->
-            list ++ doPartyElectors (newRow x model model.page_year) xs model
+            newRow x model model.page_year ++ doPartyElectors xs model
 
 
 summaryHeader : Model -> List (Html msg)
@@ -314,7 +321,7 @@ makeStateList state year =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     if model.year == lastYear + 4 then
-        ( model, Cmd.none )
+        ( { model | status = Complete, year = 2016 }, Cmd.none )
 
     else
         case msg of
@@ -325,56 +332,45 @@ update msg model =
                 ( model, getFile statsMsg model.year model.state )
 
             PartySuccess (Ok parties) ->
-                if List.length model.list > 0 then
-                    let
-                        tempmodel =
+                case model.status of
+                    Initializing ->
+                        update SendRequestStats
                             { model
-                                | elections = D.insert model.year (Election (List.map (\p -> { p | color = color p.name }) parties) (Stats "none" 0 0 0.0) model.state model.year) model.elections
-                                , errorMessage = "none"
+                                | list =
+                                    parties
+                                        |> updateColors
+                                        |> List.sortBy .votes
+                                        |> List.reverse
                             }
-                    in
-                    ( tempmodel
-                    , T.second (update SendRequestStats tempmodel)
-                    )
 
-                else
-                    let
-                        tempmodel =
-                            { model
-                                | list = List.reverse <| List.sortBy .votes <| List.map (\p -> { p | color = color p.name }) parties
-                                , errorMessage = "none"
-                            }
-                    in
-                    ( tempmodel
-                    , T.second (update SendRequestStats tempmodel)
-                    )
+                    _ ->
+                        let
+                            election =
+                                Election (updateColors parties) model.stats model.state model.year
+                        in
+                        update SendRequestStats
+                            { model | elections = D.insert model.year election model.elections }
 
             StatSuccess (Ok stats) ->
-                if D.size model.elections > 0 then
-                    let
-                        tempmodel =
-                            { model
-                                | elections = D.update model.year (Maybe.map (changeStats stats)) model.elections
-                                , year = model.year + 4
-                                , errorMessage = "none"
-                            }
-                    in
-                    ( tempmodel
-                    , T.second (update SendRequestParty tempmodel)
-                    )
+                update SendRequestParty
+                    { model
+                        | year =
+                            case model.status of
+                                History ->
+                                    model.year + 4
 
-                else
-                    let
-                        tempmodel =
-                            { model
-                                | stats = stats
-                                , year = firstYear
-                                , errorMessage = "none"
-                            }
-                    in
-                    ( tempmodel
-                    , T.second (update SendRequestParty tempmodel)
-                    )
+                                _ ->
+                                    firstYear
+                        , stats =
+                            case model.status of
+                                Initializing ->
+                                    stats
+
+                                _ ->
+                                    model.stats
+                        , status = History
+                        , elections = D.update model.year (Maybe.map (changeStats stats)) model.elections
+                    }
 
             RevealPopup popup ->
                 ( { model | revealed = popup }, Cmd.none )
@@ -385,96 +381,104 @@ update msg model =
 
 init : ( String, Int ) -> ( Model, Cmd Msg )
 init flags =
-    let
-        state =
-            dropMaybe <| find (areEqual (T.first flags) getName) states
-
-        r =
-            update SendRequestParty (Model [] D.empty (Stats "none" 0 0 0.0) 0 (T.second flags) (T.second flags) state "" "none")
-    in
-    ( T.first r
-    , T.second r
-    )
+    update
+        SendRequestParty
+        (Model
+            []
+            D.empty
+            (Stats "none" 0 0 0.0)
+            0
+            (T.second flags)
+            (T.second flags)
+            (dropMaybe <| find (areEqual (T.first flags) getName) states)
+            ""
+            Initializing
+        )
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "container", id "state-container" ]
-        [ makeStateList model.state <| String.fromInt model.page_year
-        , svg
-            [ width "975"
-            , height "520"
-            ]
-            [ defs
-                []
-                [ marker [ Sa.class "arrowhead", id "bars", markerWidth "10", markerHeight "7", refX "6", refY "2", orient "0" ] [ polygon [ Sa.style "display:inline-block", points "4 2, 6 0, 8 2" ] [] ] ]
-            , g
-                [ id "circles" ]
-                (colorCircles model.list <| getCircles (getAngle model.stats 0) model 0)
-            , g
-                [ id "bar" ]
-                (doPartyBars [] model.list 100.0 model)
-            , g
-                [ id "labels" ]
-                (List.map
-                    (\n ->
-                        g
+    case model.status of
+        Complete ->
+            div [ class "container", id "state-container" ]
+                [ makeStateList model.state <| String.fromInt model.page_year
+                , svg
+                    [ width "975"
+                    , height "520"
+                    ]
+                    [ defs
+                        []
+                        [ marker [ Sa.class "arrowhead", id "bars", markerWidth "10", markerHeight "7", refX "6", refY "2", orient "0" ] [ polygon [ Sa.style "display:inline-block", points "4 2, 6 0, 8 2" ] [] ] ]
+                    , g
+                        [ id "circles" ]
+                        (colorCircles model.list <| getCircles (getAngle model.stats 0) model 0)
+                    , g
+                        [ id "bar" ]
+                        (doPartyBars [] model.list 100.0 model)
+                    , g
+                        [ id "labels" ]
+                        (List.map
+                            (\n ->
+                                g
+                                    []
+                                    [ rect
+                                        [ x <| String.fromFloat <| 100.0 + (n * 700.0), y "370" ]
+                                        []
+                                    , text_
+                                        [ x <| String.fromFloat <| 90.0 + (n * 700.0), y "460" ]
+                                        [ U.text <| stylePercent n ]
+                                    ]
+                            )
+                            [ 0.5, 0.25, 0.75, 0, 1 ]
+                        )
+                    , rect
+                        [ x "100"
+                        , y "370"
+                        , width "700"
+                        , height "50"
+                        , Sa.style "fill-opacity:0"
+                        ]
+                        []
+                    ]
+                , div
+                    [ class "container" ]
+                    [ span
+                        [ class "btn-group", attribute "role" "group" ]
+                        [ button
+                            [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
+                            [ a [ Ha.style "color" "#fff", attribute "download" (getName model.state), href ("data/" ++ String.fromInt model.year ++ "/" ++ getName model.state ++ ".json") ] [ U.text "Download" ] ]
+                        , button
+                            [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
+                            [ a [ Ha.style "color" "#fff", href "results.html" ] [ U.text "Back" ] ]
+                        ]
+                    , br [] []
+                    , br [] []
+                    , table [ id "single-results", class "table-bordered" ]
+                        (summaryHeader model ++ doPartyElectors model.list model ++ summaryFooter model)
+                    ]
+                , br [] []
+                , div [ class "container" ]
+                    [ h2 [] [ U.text "State History" ]
+                    , table [ class "container" ]
+                        [ tr
                             []
-                            [ rect
-                                [ x <| String.fromFloat <| 100.0 + (n * 700.0), y "370" ]
-                                []
-                            , text_
-                                [ x <| String.fromFloat <| 90.0 + (n * 700.0), y "460" ]
-                                [ U.text <| stylePercent n ]
+                            [ partyContainer (D.values model.elections) (previousElections model) doYearRow Democratic
+                            , partyContainer (D.values model.elections) (previousElections model) doYearRow Republican
                             ]
-                    )
-                    [ 0.5, 0.25, 0.75, 0, 1 ]
-                )
-            , rect
-                [ x "100"
-                , y "370"
-                , width "700"
-                , height "50"
-                , Sa.style "fill-opacity:0"
-                ]
-                []
-            ]
-        , div
-            [ class "container" ]
-            [ span
-                [ class "btn-group", attribute "role" "group" ]
-                [ button
-                    [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                    [ a [ Ha.style "color" "#fff", attribute "download" (getName model.state), href ("data/" ++ String.fromInt model.year ++ "/" ++ getName model.state ++ ".json") ] [ U.text "Download" ] ]
-                , button
-                    [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                    [ a [ Ha.style "color" "#fff", href "results.html" ] [ U.text "Back" ] ]
-                ]
-            , br [] []
-            , br [] []
-            , table [ id "single-results", class "table-bordered" ]
-                (summaryHeader model ++ doPartyElectors [] model.list model ++ summaryFooter model)
-            ]
-        , br [] []
-        , div [ class "container" ]
-            [ h2 [] [ U.text "State History" ]
-            , table [ class "container" ]
-                [ tr
-                    []
-                    [ partyContainer (D.values model.elections) (previousElections model) doYearRow Democratic
-                    , partyContainer (D.values model.elections) (previousElections model) doYearRow Republican
+                        ]
+                    ]
+                , div
+                    [ id "gallagher-formula"
+                    , Ha.style "display" <| judgePopupShow "gallagher" model
+                    ]
+                    [ p [] [ U.text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
+                    , p [] [ U.text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
+                    , p [] [ U.text "Where ", var [] [ U.text "V" ], U.text " is the percentage of votes cast for the party, and ", var [] [ U.text "S" ], U.text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
                     ]
                 ]
-            ]
-        , div
-            [ id "gallagher-formula"
-            , Ha.style "display" <| judgePopupShow "gallagher" model
-            ]
-            [ p [] [ U.text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
-            , p [] [ U.text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
-            , p [] [ U.text "Where ", var [] [ U.text "V" ], U.text " is the percentage of votes cast for the party, and ", var [] [ U.text "S" ], U.text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
-            ]
-        ]
+
+        _ ->
+            U.text ""
 
 
 main : Program ( String, Int ) Model Msg

@@ -31,12 +31,13 @@ module Util exposing
     , stylePercent
     , summateRecords
     , text
+    , updateColors
     , voteChange
     , won
     )
 
 import Basics as B
-import Data exposing (State, decodeParty, getName)
+import Data exposing (State, color, decodeParty, getName)
 import Dict as D exposing (Dict)
 import Html exposing (Html, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, rowspan, style)
@@ -276,6 +277,11 @@ getPartyProgressBar party election color =
             []
         ]
     ]
+
+
+updateColors : List Party -> List Party
+updateColors list =
+    List.map (\p -> { p | color = color p.name }) list
 
 
 
