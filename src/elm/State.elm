@@ -1,7 +1,7 @@
 module State exposing (main)
 
 import Browser exposing (element)
-import Data exposing (Party(..), State(..), color, getName, nominee, states)
+import Data exposing (Party(..), State(..), getName, nominee, states)
 import Dict as D exposing (Dict)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, type_)
