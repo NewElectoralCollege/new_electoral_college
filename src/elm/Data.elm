@@ -34,6 +34,15 @@ decodeParty =
                     "Libertarian" ->
                         succeed Libertarian
 
+                    "Green" ->
+                        succeed Green
+
+                    "Reform" ->
+                        succeed Reform
+
+                    "Peace and Freedom Party" ->
+                        succeed PeaceAndFreedom
+
                     _ ->
                         succeed Other
             )
@@ -102,28 +111,41 @@ type alias Ticket =
 tickets : List Ticket
 tickets =
     [ Ticket 2020 Democratic "Joe Biden" 306
-    , Ticket 2020 Republican "Donald Trump" 306
-    , Ticket 2020 Libertarian "Jo Jorgensen" 306
-    , Ticket 2016 Democratic "Hillary Clinton" 306
+    , Ticket 2020 Republican "Donald Trump" 232
+    , Ticket 2020 Libertarian "Jo Jorgensen" 0
+    , Ticket 2016 Democratic "Hillary Clinton" 232
     , Ticket 2016 Republican "Donald Trump" 306
-    , Ticket 2012 Democratic "Barack Obama" 306
-    , Ticket 2012 Republican "Mitt Romney" 306
-    , Ticket 2008 Democratic "Barack Obama" 306
-    , Ticket 2008 Republican "John McCain" 306
-    , Ticket 2004 Democratic "" 306
-    , Ticket 2004 Republican "" 306
-    , Ticket 2000 Democratic "" 306
-    , Ticket 2000 Republican "" 306
-    , Ticket 1996 Democratic "" 306
-    , Ticket 1996 Republican "" 306
-    , Ticket 1992 Democratic "" 306
-    , Ticket 1992 Republican "" 306
-    , Ticket 1988 Democratic "" 306
-    , Ticket 1988 Republican "" 306
-    , Ticket 1984 Democratic "" 306
-    , Ticket 1984 Republican "" 306
-    , Ticket 1980 Democratic "" 306
-    , Ticket 1980 Republican "" 306
+    , Ticket 2012 Democratic "Barack Obama" 332
+    , Ticket 2012 Republican "Mitt Romney" 206
+    , Ticket 2008 Democratic "Barack Obama" 365
+    , Ticket 2008 Republican "John McCain" 173
+    , Ticket 2004 Democratic "John Kerry" 252
+    , Ticket 2004 Republican "George W. Bush" 286
+    , Ticket 2000 Democratic "Al Gore" 267
+    , Ticket 2000 Republican "George W. Bush" 271
+    , Ticket 1996 Democratic "Bill Clinton" 379
+    , Ticket 1996 Republican "Bob Dole" 159
+    , Ticket 1992 Democratic "Bill Clinton" 370
+    , Ticket 1992 Republican "George H. W. Bush" 168
+    , Ticket 1988 Democratic "Michael Dukakis" 112
+    , Ticket 1988 Republican "George H. W. Bush" 426
+    , Ticket 1984 Democratic "Walter Mondale" 13
+    , Ticket 1984 Republican "Ronald Reagan" 525
+    , Ticket 1980 Democratic "Jimmy Carter" 49
+    , Ticket 1980 Republican "Ronald Reagan" 489
+    , Ticket 1976 Democratic "Jimmy Carter" 297
+    , Ticket 1976 Republican "Gerald Ford" 241
+    , Ticket 2016 Libertarian "Gary Johnson" 0
+    , Ticket 2016 Green "Jill Stein" 0
+    , Ticket 2016 Independent "Evan McMullin" 0
+    , Ticket 2012 Libertarian "Gary Johnson" 0
+    , Ticket 2008 PeaceAndFreedom "Ralph Nader" 0
+    , Ticket 2000 Green "Ralph Nader" 0
+    , Ticket 1996 Green "Ralph Nader" 0
+    , Ticket 1996 Reform "Ross Perot" 0
+    , Ticket 1992 Independent "Ross Perot" 0
+    , Ticket 1980 Independent "John B. Anderson" 0
+    , Ticket 1980 Libertarian "Ed Clark" 0
     ]
 
 
