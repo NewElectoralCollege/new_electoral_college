@@ -18,8 +18,12 @@ module Util exposing
     , lambdaCompare
     , lastYear
     , newParty
+    , partyContainer
     , partyMsg
+    , popularVotePercent
     , round
+    , seatChange
+    , seats
     , setStats
     , statsMsg
     , styleNum
@@ -27,13 +31,15 @@ module Util exposing
     , stylePercent
     , summateRecords
     , text
+    , voteChange
+    , won
     )
 
 import Basics as B
 import Data exposing (State, decodeParty, getName)
 import Dict as D exposing (Dict)
-import Html exposing (Html, b, div, i, text)
-import Html.Attributes exposing (class, style)
+import Html exposing (Html, b, div, i, p, table, td, text, th, thead, tr)
+import Html.Attributes exposing (class, colspan, rowspan, style)
 import Http exposing (Error, Expect, expectJson)
 import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, string)
 import List.Extra exposing (splitAt)
@@ -83,6 +89,7 @@ type alias Election =
     { list : List Party
     , stats : Stats
     , state : State
+    , year : Int
     }
 
 
@@ -269,6 +276,87 @@ getPartyProgressBar party election color =
             []
         ]
     ]
+
+
+
+-- Party Boxes
+
+
+partyContainer :
+    List Election
+    -> List (Maybe Election)
+    -> (Data.Party -> Election -> Maybe Election -> Html msg)
+    -> Data.Party
+    -> Html msg
+partyContainer current previous doStateRow party =
+    td
+        [ class "detailed-results-cell" ]
+        [ p [] [ text (getName party ++ " Party") ]
+        , table
+            [ class "detailed-results" ]
+            (thead
+                [ style "background-color" "#eaecf0" ]
+                [ tr
+                    []
+                    [ th [ rowspan 2 ] [ text "State" ]
+                    , th [ colspan 3 ] []
+                    , th [ colspan 2 ] []
+                    ]
+                , tr
+                    []
+                    [ th [] [ text "Votes" ]
+                    , th [] [ text "%" ]
+                    , th [] [ text "+/-" ]
+                    , th [] [ text "Electors" ]
+                    , th [] [ text "+/-" ]
+                    ]
+                ]
+                :: List.map2 (doStateRow party) current previous
+            )
+        ]
+
+
+popularVotePercent : ( Party, Maybe Party ) -> Stats -> (( Party, Maybe Party ) -> Party) -> Float
+popularVotePercent party stats v =
+    (.votes <| v party) / stats.total_votes
+
+
+seats : ( Party, Maybe Party ) -> (( Party, Maybe Party ) -> Party) -> Float
+seats party v =
+    .seats <| v party
+
+
+won : List Party -> Data.Party
+won lst =
+    (dropMaybe <| List.head <| List.reverse <| List.sortBy .votes lst).name
+
+
+voteChange : ( Party, Maybe Party ) -> Stats -> Maybe Stats -> List (Html msg)
+voteChange party new_s old_s =
+    let
+        pvp =
+            popularVotePercent party
+    in
+    case T.second party of
+        Just _ ->
+            fix_change <| "+" ++ stylePercent (pvp new_s T.first - pvp (dropMaybe old_s) (dropMaybe << T.second))
+
+        Nothing ->
+            [ text "n/a" ]
+
+
+seatChange : ( Party, Maybe Party ) -> List (Html msg)
+seatChange party =
+    let
+        sts =
+            seats party
+    in
+    case T.second party of
+        Just _ ->
+            fix_change <| "+" ++ String.fromFloat (sts T.first - sts (dropMaybe << T.second))
+
+        Nothing ->
+            [ text "n/a" ]
 
 
 

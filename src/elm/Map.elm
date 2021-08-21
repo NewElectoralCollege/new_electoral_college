@@ -3,7 +3,7 @@ port module Map exposing (main)
 import Browser exposing (element)
 import Data exposing (Party(..), State(..), StateOutline, color, getName, nominee, outline, realElectors, states)
 import Dict as D
-import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, th, thead, tr)
+import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, th, tr)
 import Html.Attributes exposing (class, colspan, href, id, rowspan, style)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
@@ -26,10 +26,15 @@ import Util as U
         , ifQualifyingParty
         , lastYear
         , newParty
+        , partyContainer
+        , popularVotePercent
+        , seatChange
         , setStats
         , styleNumFloat
         , stylePercent
         , summateRecords
+        , voteChange
+        , won
         )
 
 
@@ -258,22 +263,16 @@ makePartyRow model party =
 -- Party box
 
 
-doStateRow : Data.Party -> Int -> Election -> Election -> Html Msg
-doStateRow partyname year ({ list, stats, state } as current) previous =
+doStateRow : Data.Party -> Election -> Maybe Election -> Html Msg
+doStateRow partyname ({ list, stats, state } as current) p =
     let
+        previous =
+            dropMaybe p
+
         party =
             ( dropMaybe <| find (areEqual partyname .name) list
             , find (areEqual partyname .name) previous.list
             )
-
-        popularVotePercent v =
-            (.votes <| v party) / stats.total_votes
-
-        seats v =
-            .seats <| v party
-
-        won lst =
-            (dropMaybe <| List.head <| List.reverse <| List.sortBy .votes lst).name
 
         bold =
             if won list == partyname && won previous.list /= partyname then
@@ -281,65 +280,20 @@ doStateRow partyname year ({ list, stats, state } as current) previous =
 
             else
                 "normal"
-
-        voteChange =
-            case T.second party of
-                Just _ ->
-                    fix_change <| "+" ++ stylePercent (popularVotePercent T.first - popularVotePercent (dropMaybe << T.second))
-
-                Nothing ->
-                    [ U.text "n/a" ]
-
-        seatChange =
-            case T.second party of
-                Just _ ->
-                    fix_change <| "+" ++ String.fromFloat (seats T.first - seats (dropMaybe << T.second))
-
-                Nothing ->
-                    [ U.text "n/a" ]
     in
     tr
         []
         [ td
             [ style "font-weight" bold ]
             [ a
-                [ href <| "state.html?year=" ++ String.fromInt year ++ "&state=" ++ getName state ]
+                [ href <| "state.html?year=" ++ String.fromInt current.year ++ "&state=" ++ getName state ]
                 [ U.text <| getName state ]
             ]
         , td [] [ U.text <| styleNumFloat <| .votes <| T.first party ]
-        , td [] [ U.text <| stylePercent <| popularVotePercent T.first ]
-        , td [] voteChange
+        , td [] [ U.text <| stylePercent <| popularVotePercent party stats T.first ]
+        , td [] (voteChange party stats (Just previous.stats))
         , td [] <| getPartyProgressBar (T.first party) current (T.first party).color
-        , td [] seatChange
-        ]
-
-
-partyContainer : Data.Party -> Model -> Html Msg
-partyContainer party model =
-    td
-        [ class "detailed-results-cell" ]
-        [ p [] [ U.text (getName party ++ " Party") ]
-        , table
-            [ class "detailed-results" ]
-            (thead
-                [ style "background-color" "#eaecf0" ]
-                [ tr
-                    []
-                    [ th [ rowspan 2 ] [ U.text "State" ]
-                    , th [ colspan 3 ] []
-                    , th [ colspan 2 ] []
-                    ]
-                , tr
-                    []
-                    [ th [] [ U.text "Votes" ]
-                    , th [] [ U.text "%" ]
-                    , th [] [ U.text "+/-" ]
-                    , th [] [ U.text "Electors" ]
-                    , th [] [ U.text "+/-" ]
-                    ]
-                ]
-                :: List.map2 (doStateRow party model.year) model.current model.previous
-            )
+        , td [] (seatChange party)
         ]
 
 
@@ -402,9 +356,9 @@ partiesInInstance es =
         parties
 
 
-rewriteInstance : List (List Party) -> List Stats -> Instance
-rewriteInstance parties stats =
-    List.map3 Election parties stats states
+rewriteInstance : List (List Party) -> List Stats -> Int -> Instance
+rewriteInstance parties stats year =
+    List.map4 Election parties stats states (List.repeat (List.length parties) year)
 
 
 
@@ -529,8 +483,8 @@ view model =
                 [ class "container" ]
                 [ tr
                     [ id "row-for-detailed-results" ]
-                    [ partyContainer Democratic model
-                    , partyContainer Republican model
+                    [ partyContainer model.current (List.map Just model.previous) doStateRow Democratic
+                    , partyContainer model.current (List.map Just model.previous) doStateRow Republican
                     ]
                 ]
             ]
@@ -573,12 +527,21 @@ update msg model =
                         (List.filterMap (\n -> D.get (getName n) response) states)
             in
             if model.writingToPrevious then
-                ( { model | previous = rewriteInstance parties stats, writingToPrevious = False, year = model.year + 4 }, updateImages (portParties (partiesInInstance model.current)) )
+                ( { model
+                    | previous = rewriteInstance parties stats (model.year + 4)
+                    , writingToPrevious = False
+                    , year = model.year + 4
+                  }
+                , updateImages (portParties (partiesInInstance model.current))
+                )
 
             else
                 let
                     tempmodel =
-                        { model | current = rewriteInstance parties stats, real_year = model.year }
+                        { model
+                            | current = rewriteInstance parties stats model.year
+                            , real_year = model.year
+                        }
 
                     r =
                         update (ChangeYear True (tempmodel.year - 4)) tempmodel

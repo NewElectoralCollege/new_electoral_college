@@ -1,10 +1,10 @@
 module State exposing (main)
 
 import Browser exposing (element)
-import Data exposing (Party(..), State(..), color, getName, states, ticket)
+import Data exposing (Party(..), State(..), color, getName, nominee, states)
 import Dict as D exposing (Dict)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
-import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, rowspan, type_)
+import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, type_)
 import Html.Events exposing (onClick)
 import List.Extra exposing (find, setAt)
 import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
@@ -21,16 +21,31 @@ import Util as U
         , colorCircles
         , dropMaybe
         , firstYear
-        , fix_change
         , getFile
         , getPartyProgressBar
         , ifQualifyingParty
         , lastYear
+        , partyContainer
         , partyMsg
+        , seatChange
         , statsMsg
         , styleNumFloat
         , stylePercent
+        , voteChange
         )
+
+
+
+-- Misc
+
+
+getQuota : Float -> Float -> Float
+getQuota total_votes total_seats =
+    total_votes / total_seats |> U.floor
+
+
+
+-- Model
 
 
 type alias Model =
@@ -51,6 +66,19 @@ changeStats stats election =
     { election | stats = stats }
 
 
+
+-- Parties
+
+
+getInitialSeats : Party -> Float
+getInitialSeats party =
+    party.seats - boolToInt party.extra_seat
+
+
+
+-- Dots
+
+
 getAngle : Stats -> Int -> Float
 getAngle stats assigned =
     pi / stats.total_seats * (toFloat assigned + stats.total_seats + 0.5)
@@ -59,49 +87,6 @@ getAngle stats assigned =
 getWidth : Float -> Model -> Float
 getWidth votes model =
     (votes / model.stats.total_votes) * 700
-
-
-getInitialSeats : Party -> Float
-getInitialSeats party =
-    party.seats - boolToInt party.extra_seat
-
-
-getCheckIcon : Party -> List (Html msg)
-getCheckIcon party =
-    if party.extra_seat then
-        [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (String.fromChar '\u{F058}') ] ]
-
-    else
-        [ U.text "" ]
-
-
-newRow : Party -> Model -> Int -> List (Html msg)
-newRow party model year =
-    if ifQualifyingParty model.stats.total_votes party then
-        [ tr []
-            [ td [ class "color", Ha.style "backgroundColor" party.color ] []
-            , td [] [ U.text party.name ]
-            , td [] [ U.text <| (dropMaybe <| ticket year party.name).nominee ]
-            , td [] [ U.text <| styleNumFloat party.votes ]
-            , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
-            , td [] [ U.text <| getInitialSeats party ]
-            , td [] ((U.text <| styleNumFloat party.extra_votes) :: getCheckIcon party)
-            , td [] [ U.text party.seats ]
-            , td [] [ U.text <| stylePercent (party.seats / model.stats.total_seats) ]
-            ]
-        ]
-
-    else
-        []
-
-
-doPartyElectors : List (Html msg) -> List Party -> Model -> List (Html msg)
-doPartyElectors list parties model =
-    if List.length parties == 0 then
-        []
-
-    else
-        list ++ doPartyElectors (newRow (dropMaybe (List.head parties)) model model.page_year) (List.drop 1 parties) model
 
 
 getCircles : Float -> Model -> Int -> List (Svg Msg)
@@ -163,6 +148,49 @@ doPartyBars list parties nx model =
                    ]
 
 
+
+-- Results box
+
+
+getCheckIcon : Party -> List (Html msg)
+getCheckIcon party =
+    if party.extra_seat then
+        [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (String.fromChar '\u{F058}') ] ]
+
+    else
+        [ U.text "" ]
+
+
+newRow : Party -> Model -> Int -> List (Html msg)
+newRow party model year =
+    if ifQualifyingParty model.stats.total_votes party then
+        [ tr []
+            [ td [ class "color", Ha.style "backgroundColor" party.color ] []
+            , td [] [ U.text party.name ]
+            , td [] [ U.text <| Maybe.withDefault "n/a" <| nominee year party.name ]
+            , td [] [ U.text <| styleNumFloat party.votes ]
+            , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
+            , td [] [ U.text <| getInitialSeats party ]
+            , td [] ((U.text <| styleNumFloat party.extra_votes) :: getCheckIcon party)
+            , td [] [ U.text party.seats ]
+            , td [] [ U.text <| stylePercent (party.seats / model.stats.total_seats) ]
+            ]
+        ]
+
+    else
+        []
+
+
+doPartyElectors : List (Html msg) -> List Party -> Model -> List (Html msg)
+doPartyElectors list parties model =
+    case parties of
+        [] ->
+            []
+
+        x :: xs ->
+            list ++ doPartyElectors (newRow x model model.page_year) xs model
+
+
 summaryHeader : Model -> List (Html msg)
 summaryHeader model =
     [ thead [ Ha.style "background-color" "#eaecf0" ]
@@ -208,91 +236,39 @@ summaryFooter model =
     ]
 
 
-getQuota : Float -> Float -> Float
-getQuota total_votes total_seats =
-    total_votes / total_seats |> U.floor
+
+-- Party box
 
 
-doYearRow : Int -> Model -> Data.Party -> List (Html Msg)
-doYearRow year model party_name =
-    case D.get year model.elections of
-        Nothing ->
-            []
-
-        Just a ->
-            let
-                election =
-                    if year == lastYear && model.page_year == lastYear then
-                        Election model.list model.stats model.state
-
-                    else
-                        a
-
-                previous_election =
-                    D.get (year - 4) model.elections
-
-                party =
-                    dropMaybe (find (areEqual party_name .name) election.list)
-
-                previous_party =
-                    dropMaybe <| find (areEqual party_name .name) (Maybe.withDefault election previous_election).list
-
-                change_vote =
-                    case previous_election of
-                        Nothing ->
-                            [ U.text "n/a" ]
-
-                        Just b ->
-                            fix_change ("+" ++ stylePercent ((party.votes / election.stats.total_votes) - (previous_party.votes / b.stats.total_votes)))
-
-                change_seat =
-                    case previous_election of
-                        Nothing ->
-                            [ U.text "n/a" ]
-
-                        Just _ ->
-                            fix_change ("+" ++ String.fromFloat (party.seats - previous_party.seats))
-            in
-            tr []
-                [ td [] [ Html.text <| String.fromInt year ]
-                , td [] [ U.text (styleNumFloat party.votes) ]
-                , td [] [ U.text (stylePercent <| party.votes / election.stats.total_votes) ]
-                , td [] change_vote
-                , td [] (getPartyProgressBar party election party.color)
-                , td [] change_seat
-                ]
-                :: doYearRow (year + 4) model party_name
-
-
-partyContainer : Data.Party -> Model -> Html Msg
-partyContainer party model =
-    td
-        [ class "detailed-results-cell" ]
-        [ p [] [ U.text (getName party ++ " Party") ]
-        , table
-            [ id "state-results" ]
-            (thead
-                [ Ha.style "background-color" "#eaecf0" ]
-                [ tr
-                    []
-                    [ th [ rowspan 2 ] [ U.text "Year" ]
-                    , th [ colspan 3 ] []
-                    , th [ colspan 2 ] []
-                    ]
-                , tr
-                    []
-                    [ th [] [ U.text "Votes" ]
-                    , th [] [ U.text "%" ]
-                    , th [] [ U.text "+/-" ]
-                    , th [] [ U.text "Electors" ]
-                    , th [] [ U.text "+/-" ]
-                    ]
-                ]
-                :: (List.concatMap (doYearRow firstYear model << .name) <|
-                        List.filter (areEqual party .name) model.list
-                   )
+doYearRow : Data.Party -> Election -> Maybe Election -> Html Msg
+doYearRow partyname ({ list, stats, year } as current) previous =
+    let
+        party =
+            ( dropMaybe <| find (areEqual partyname .name) list
+            , find (areEqual partyname .name) <| Maybe.withDefault [] <| Maybe.map .list previous
             )
+    in
+    tr []
+        [ td [] [ U.text year ]
+        , td [] [ U.text <| styleNumFloat <| .votes <| T.first party ]
+        , td [] [ U.text <| stylePercent <| (T.first party).votes / stats.total_votes ]
+        , td [] (voteChange party stats (Maybe.map .stats previous))
+        , td [] <| getPartyProgressBar (T.first party) current (T.first party).color
+        , td [] (seatChange party)
         ]
+
+
+previousElections : Model -> List (Maybe Election)
+previousElections model =
+    model
+        |> .elections
+        |> D.values
+        |> List.map Just
+        |> (::) Nothing
+
+
+
+-- Popup
 
 
 judgePopupShow : String -> Model -> String
@@ -302,6 +278,10 @@ judgePopupShow name model =
 
     else
         "none"
+
+
+
+-- State List
 
 
 makeStateList : State -> String -> Html Msg
@@ -327,6 +307,10 @@ makeStateList state year =
         (List.map makeLink states)
 
 
+
+-- Required Functions
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     if model.year == lastYear + 4 then
@@ -345,7 +329,7 @@ update msg model =
                     let
                         tempmodel =
                             { model
-                                | elections = D.insert model.year (Election (List.map (\p -> { p | color = color p.name }) parties) (Stats "none" 0 0 0.0) model.state) model.elections
+                                | elections = D.insert model.year (Election (List.map (\p -> { p | color = color p.name }) parties) (Stats "none" 0 0 0.0) model.state model.year) model.elections
                                 , errorMessage = "none"
                             }
                     in
@@ -477,8 +461,8 @@ view model =
             , table [ class "container" ]
                 [ tr
                     []
-                    [ partyContainer Democratic model
-                    , partyContainer Republican model
+                    [ partyContainer (D.values model.elections) (previousElections model) doYearRow Democratic
+                    , partyContainer (D.values model.elections) (previousElections model) doYearRow Republican
                     ]
                 ]
             ]
