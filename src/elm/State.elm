@@ -17,7 +17,6 @@ import Util as U
         , Party
         , Stats
         , areEqual
-        , boolToInt
         , colorCircles
         , dropMaybe
         , firstYear
