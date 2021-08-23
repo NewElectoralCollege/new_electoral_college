@@ -1,6 +1,6 @@
 - Make Gallagher Index popup work
-- Try using filter Maybes to reduce dropMaybe (filterMap)
 - Organize imports
 - Add parenthises on endorsements page
 - Database combines candidates
 - Format Library
+- Programmer's Guide still contains all implementations
