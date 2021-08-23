@@ -152,7 +152,7 @@ doPartyBars list parties nx model =
                 ++ [ rect
                         [ x (String.fromFloat nx)
                         , y "370"
-                        , width "0"
+                        , width (String.fromFloat nwidth)
                         , height "50"
                         , fill "#dddddd"
                         ]

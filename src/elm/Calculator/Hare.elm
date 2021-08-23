@@ -40,11 +40,11 @@ extraSeats model list =
     let
         threshold =
             list
-                |> List.map (dropMaybe << .extra_votes)
+                |> List.map (Maybe.withDefault 0 << .extra_votes)
                 |> List.sort
                 |> List.reverse
                 |> getAt (floor <| model.seats - totalSeats list - 1)
-                |> dropMaybe
+                |> Maybe.withDefault (totalVotes list)
     in
     span (lambdaCompare (>=) threshold (dropMaybe << .extra_votes)) list
         |> T.mapBoth (List.map setExtraSeat) (List.map setNoExtraSeat)
