@@ -57,6 +57,4 @@ hare model =
 
 setTransformations : Model -> Model
 setTransformations model =
-    { model
-        | slices = resetTransformations model
-    }
+    { model | slices = resetTransformations model }
