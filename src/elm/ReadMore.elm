@@ -4,6 +4,8 @@ import Browser exposing (element)
 import Html exposing (Html, a, br, button, div, h2, img, p, span, text)
 import Html.Attributes exposing (attribute, class, href, id, property, src, style, target, title, type_)
 import Json.Encode exposing (string)
+import String as S
+import Tuple as T
 import Util exposing (dropMaybe)
 
 
@@ -27,22 +29,22 @@ modules =
 
 languageLogos : List (Html msg)
 languageLogos =
-    map
+    List.map
         (\f ->
             a
-                [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ (dropMaybe <| head <| split "." f) ++ ".txt"
+                [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ (dropMaybe <| List.head <| S.split "." f) ++ ".txt"
                 , attribute "download" f
                 , target "_blank"
                 , title <|
                     (f
-                        |> split "."
-                        |> head
+                        |> S.split "."
+                        |> List.head
                         |> dropMaybe
-                        |> replace "cs" "C#"
+                        |> S.replace "cs" "C#"
                     )
                 ]
                 [ img
-                    [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| head <| split "." f) ++ ".svg"
+                    [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| List.head <| S.split "." f) ++ ".svg"
                     , style "max-width" "100px"
                     , style "max-height" "75px"
                     , class "language-icon"
@@ -62,7 +64,7 @@ languageLogos =
 
 active : Model -> ( String, String ) -> String
 active model n =
-    case compare (replace " " "-" <| first n) model of
+    case compare (S.replace " " "-" <| T.first n) model of
         EQ ->
             " show active"
 
@@ -105,12 +107,12 @@ view model =
             , id "reading-list"
             , property "role" <| string "tablist"
             ]
-            (map
+            (List.map
                 (\( f, s ) ->
                     a
                         [ class <| "list-group-item list-group-item-action" ++ active model ( f, s )
                         , property "data-toggle" <| string "list"
-                        , href <| "#" ++ (replace " " "-" <| replace "'" "" f)
+                        , href <| "#" ++ (S.replace " " "-" <| S.replace "'" "" f)
                         , property "role" <| string "tab"
                         ]
                         [ h2 [] [ text f ]
@@ -122,19 +124,19 @@ view model =
         , br [] []
         , div
             [ class "tab-content" ]
-            (map
+            (List.map
                 (\( f, s ) ->
                     div
                         [ class <| "tab-pane fade" ++ active model ( f, s )
-                        , id <| replace " " "-" <| replace "'" "" f
+                        , id <| S.replace " " "-" <| S.replace "'" "" f
                         , property "role" <| string "tabpanel"
                         ]
                         [ button
                             [ type_ "button", class "btn btn-secondary" ]
                             [ a
                                 [ style "color" "#fff"
-                                , attribute "download" <| (toLower <| replace " " "_" f) ++ ".tex"
-                                , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| replace "'" "" f) ++ ".tex"
+                                , attribute "download" <| (S.toLower <| S.replace " " "_" f) ++ ".tex"
+                                , href <| "/new_electoral_college/the_proposal/" ++ (S.toLower <| S.replace " " "_" <| S.replace "'" "" f) ++ ".tex"
                                 ]
                                 [ span
                                     [ id "LaTeX" ]
@@ -145,12 +147,12 @@ view model =
                             [ type_ "button", class "btn btn-secondary", id "pdf" ]
                             [ a
                                 [ style "color" "#ff0000"
-                                , attribute "download" <| (toLower <| replace " " "_" f) ++ ".pdf"
-                                , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" f) ++ ".pdf"
+                                , attribute "download" <| (S.toLower <| S.replace " " "_" f) ++ ".pdf"
+                                , href <| "/new_electoral_college/the_proposal/" ++ (S.toLower <| S.replace " " "_" f) ++ ".pdf"
                                 ]
                                 [ text "pdf" ]
                             ]
-                        , case compare (replace " " "-" f) "Programmer's-Guide-to-Proportional-Representation" of
+                        , case compare (S.replace " " "-" f) "Programmer's-Guide-to-Proportional-Representation" of
                             EQ ->
                                 div
                                     [ id "languages" ]

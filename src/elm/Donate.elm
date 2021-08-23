@@ -6,7 +6,9 @@ import Html.Attributes exposing (class, for, href, id, name, pattern, placeholde
 import Html.Events exposing (onInput)
 import List.Extra exposing (getAt)
 import String as S
+import Task
 import Time exposing (Posix, Zone, every, here, toHour, utc)
+import Tuple as T
 import Util exposing (dropMaybe)
 
 
@@ -30,7 +32,7 @@ type Msg
 
 require : String -> Bool
 require amount =
-    (withDefault 100 <| S.toFloat amount) > 200
+    (Maybe.withDefault 100 <| S.toFloat amount) > 200
 
 
 fecLink : String
@@ -91,7 +93,7 @@ getCity zone posix =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model ( "Atlanta", "GA" ) utc False, perform AdjustTimeZone here )
+    ( Model ( "Atlanta", "GA" ) utc False, Task.perform AdjustTimeZone here )
 
 
 view : Model -> Html Msg
@@ -190,7 +192,7 @@ view { pl_city, o200 } =
                         , class "form-control"
                         , id "city"
                         , name "city"
-                        , placeholder <| first pl_city
+                        , placeholder <| T.first pl_city
                         , required o200
                         ]
                         []
@@ -205,7 +207,7 @@ view { pl_city, o200 } =
                         , class "form-control"
                         , id "state"
                         , name "state"
-                        , placeholder <| second pl_city
+                        , placeholder <| T.second pl_city
                         , required o200
                         ]
                         []
