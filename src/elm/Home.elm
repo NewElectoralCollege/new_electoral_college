@@ -76,7 +76,7 @@ view _ =
                         , href "./proposal.html"
                         , attribute "role" "button"
                         ]
-                        [ text <| "Learn more " ++ fromChar '»' ]
+                        [ text <| "Learn more \u{00BB}" ]
                     ]
                 ]
             ]
@@ -86,7 +86,14 @@ view _ =
                 [ class "row" ]
                 [ div
                     [ class "col-md-4" ]
-                    [ h2
+                    [ img
+                        [ style "display" "block"
+                        , src "src/img/electors_example.svg"
+                        , alt "Electors example"
+                        , class "jumbo-image"
+                        ]
+                        []
+                    , h2
                         []
                         [ text "It's Fair" ]
                     , p
@@ -118,7 +125,7 @@ view _ =
                     [ img
                         [ style "display" "block"
                         , src "src/img/pr_map.svg"
-                        , alt "White House"
+                        , alt "PR Map"
                         , class "jumbo-image"
                         ]
                         []
@@ -136,13 +143,10 @@ view _ =
             ]
         , hr [] []
         , div
-            [ class "include container", attribute "w3-include-html" "src/img/electors_example.svg" ]
-            []
-        , div
             [ class "container" ]
             [ blockquote
                 [ class "blockquote text-right" ]
-                [ text <| "Two roads diverged in a wood, and I" ++ fromChar '—'
+                [ text <| "Two roads diverged in a wood, and I\u{2014}"
                 , br [] []
                 , text "I took the one less traveled by,"
                 , br [] []
