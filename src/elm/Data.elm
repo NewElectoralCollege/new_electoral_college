@@ -1,4 +1,18 @@
-module Data exposing (Party(..), State(..), StateOutline, Ticket, color, decodeParty, getName, nominee, outline, realElectors, states, ticket)
+module Data exposing
+    ( Party(..)
+    , State(..)
+    , StateOutline
+    , Ticket
+    , color
+    , decodeParty
+    , getName
+    , inParenthesis
+    , nominee
+    , outline
+    , realElectors
+    , states
+    , ticket
+    )
 
 import Json.Decode exposing (Decoder, andThen, string, succeed)
 import List.Extra exposing (find)
@@ -76,20 +90,35 @@ color party =
             "#dddddd"
 
 
-inParinthesis : Party -> String
-inParinthesis party =
+inParenthesis : Maybe Party -> String
+inParenthesis party =
     case party of
-        Independent ->
-            " (Ind)"
+        Just Democratic ->
+            "(D)"
 
-        Reform ->
+        Just Republican ->
+            "(R)"
+
+        Just Libertarian ->
+            "(L)"
+
+        Just Green ->
+            "(G)"
+
+        Just Independent ->
+            "(Ind)"
+
+        Just Reform ->
             "(Ref)"
 
-        PeaceAndFreedom ->
+        Just PeaceAndFreedom ->
             "(PaF)"
 
-        _ ->
-            "(" ++ (String.left 1 <| Debug.toString party) ++ ")"
+        Just (Other _) ->
+            "(Other)"
+
+        Nothing ->
+            ""
 
 
 

@@ -1,6 +1,6 @@
 - Make Gallagher Index popup work
 - Organize imports
-- Add parenthises on endorsements page
 - Database combines candidates
+- Finish donation page
 - Format Library
 - Programmer's Guide still contains all implementations
