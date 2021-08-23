@@ -1,66 +1,91 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <string>
 #include <math.h>
-
-using namespace std;
 
 static int total_votes;
 static int quota;
 
-class Party {
-    public:
-        int number, votes, seats;
+class Party
+{
+public:
+    // Note the use of pointers
+    static std::vector<Party *> list;
 
-        Party(int votes);
+    struct ScoreOperator
+    {
+        bool operator()(const Party *a, const Party *b) const
+        {
+            return a->votes - (a->seats * quota) <
+                   b->votes - (b->seats * quota);
+        }
+    };
 
-        static vector<Party> list;
+    inline Party(int votes);
 
-        struct ScoreOperator {
-            bool operator()(const Party &a, const Party &b) const {
-                return
-                    a.votes - (a.seats * quota) <
-                    b.votes - (b.seats * quota);
-            }
-        };
+    inline const int getVotes()
+    {
+        return this->votes;
+    }
+
+    inline void addSeats(short seats)
+    {
+        this->seats += seats;
+    }
+
+    std::string results() const
+    {
+        return std::to_string(number) + ", " + std::to_string(seats) + " seats\n";
+    }
+
+private:
+    const int number, votes;
+    short seats;
 };
 
-vector<Party> Party::list;
+std::vector<Party *> Party::list;
 
-Party::Party(int votes) {
-    this->number = Party::list.size() + 1;
-    this->votes = votes;
-    this->seats = 0;
+inline Party::Party(int v) : votes(v), number(Party::list.size() + 1), seats(0)
+{
     total_votes += votes;
 }
 
-int main() {
-    Party::list.push_back(Party(400000));
-    Party::list.push_back(Party(250000));
-    Party::list.push_back(Party(100000));
-    Party::list.push_back(Party(73000));
-    Party::list.push_back(Party(5000));
+int main()
+{
+    Party::list.push_back(new Party(400000));
+    Party::list.push_back(new Party(250000));
+    Party::list.push_back(new Party(100000));
+    Party::list.push_back(new Party(73000));
+    Party::list.push_back(new Party(5000));
 
     int seats, awarded, awarding, i;
+    Party *p;
+
     seats = 5;
     quota = floor(total_votes / seats);
 
-    for (Party &p : Party::list) {
-        awarding = floor(p.votes / quota);
+    for (Party *p : Party::list)
+    {
+        awarding = floor(p->getVotes() / quota);
         awarded += awarding;
-        p.seats += awarding;
+        p->addSeats(awarding);
     }
 
-    for (; awarded < seats; awarded++) {
-        int n = distance(Party::list.begin(), max_element(
-                                                Party::list.begin(), 
-                                                Party::list.end(), 
-                                                Party::ScoreOperator()));
-        Party &p = Party::list.at(n);
-        p.seats += 1;
+    int n;
+    for (; awarded < seats; awarded++)
+    {
+        n = distance(Party::list.begin(), max_element(
+                                              Party::list.begin(),
+                                              Party::list.end(),
+                                              Party::ScoreOperator()));
+        p = Party::list[n];
+
+        p->addSeats(1);
     }
 
-    for (Party p : Party::list) {
-        cout << p.number << ", " << p.seats << " seats\n";
+    for (Party *p : Party::list)
+    {
+        std::cout << p->results();
     }
 }

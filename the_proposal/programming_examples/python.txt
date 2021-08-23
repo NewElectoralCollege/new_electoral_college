@@ -9,7 +9,15 @@ parties = {
 def sortRemainder(val):
     return val['remainder']
 
-total_votes = 828000
+def totalVotes(parties):
+    total = 0
+
+    for party in parties.values():
+        total += party['votes']
+
+    return total
+
+total_votes = totalVotes(parties)
 seats = 5
 quota = total_votes // seats
 awarded = 0

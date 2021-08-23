@@ -2,6 +2,8 @@ import csv
 import math
 import json
 
+# Remember that the essay Programmer's Guide to Proportional Representation needs to be updated with the correct lines if this file is edited.
+
 allocations = {
     'Alabama': [9, 9, 9, 9, 9],
     'Alaska': [3, 3, 3, 3, 3],

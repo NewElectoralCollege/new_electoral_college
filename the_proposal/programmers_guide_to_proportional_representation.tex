@@ -36,69 +36,47 @@
 
 \begin{document}
     \maketitle
-    This document contains some computer code that calculates Proportional Representation. It also contains explinations of the code, and some thoughs as to why that language is the best for different uses. 
     
-    \section{C/C++}
-    C is probably the best language to use for Proportional Representation if you are creating an application that needs to run PR calculations repeatedly. For instance, doing analysis on PR, or forcasting results requires processing a lot of elections. 
+    \section{Introduction}
 
-    \lstinputlisting[language=C]{programming_examples/c.txt}
-
-    The C++ implementation can be a little simpler. It is much easier to import data, and the arrays can be consolidated. In my expirence it is also faster.
-
-    \lstinputlisting[language=C++]{programming_examples/c++.txt}
+    Proportional Representation is best calculated on the computer. It is more efficient and more accurate than doing it by hand. This will contain three implementations of Proportional Representation.
 
     \section{Python}
 
-    Python will likley be the most effective way of running a PR election. It's simple syntax and huge library makes it easy for newer programmers to understand.
+    The results displayed on newelectoralcollege.com were computed using Python. Below are the basics of the implementation.
+
+    \lstinputlisting[language=Python, firstline=160, lastline=181]{../makeResults.py}
+
+    Python is very easy to read, meaning even people who aren't intimatly familiar with the language will be able to read it as Pseudocode. This makes Python the ideal langugage to write a calculator in, especialy if it needs to be released to the public.\\
+
+    That implementation is designed for the specific purpose of the New Electoral College's website. Below is another version created just for example.
 
     \lstinputlisting[language=Python]{programming_examples/python.txt}
 
-    Notice how the Python example has the smallest number of lines; 26. C needed 42, and C++ needed 66.
+    \section{C++}
 
-    \section{PHP}
+    \lstinputlisting[language=C++]{programming_examples/c++.txt}
 
-    It is very simple to connect a PHP program to another language. If you are creating a webapp, PHP may be the best option if you don't plan to use eRuby to create HTML. PHP is actually a server-scripting language, so it could be used on a server as well. 
+    \section{Purely Functional}
 
-    \lstinputlisting[language=PHP]{programming_examples/php.txt}
-
-    \section{Ruby}
-
-    If you are going to use eRuby, are on a Ruby on Rails server, or just prefer Ruby's syntax, the language will probably get the job done as well as PHP.
-
-    \lstinputlisting[language=Ruby]{programming_examples/ruby.txt}
-
-    \section{Haskell}
-
-    The fact that Haskell's values are immutable makes it difficult to handle certain variables in PR. Instead of using a single \texttt{seats} variable, a separate boolean called \verb|extra_seat| can be used.
-
-    \lstinputlisting[language=Haskell]{programming_examples/haskell_workaround.txt}
-    
-    Here is the complete Haskell implementation:
+    Haskell is amoung the most widley used Purely Functional languages.
 
     \lstinputlisting[language=Haskell]{programming_examples/haskell.txt}
 
-    \section{Object Oriented Programming}
+    Here is a slight modification of the Haskell implementation with other quotas.
 
-    Object Oriented languages have an advantage over functional ones when it comes to calculating PR. Classes can easily hold large numbers of parties, each with many extra variables. This is helpfull when it comes to party lists. See the following C++ example:
+    \lstinputlisting[language=Haskell]{programming_examples/haskell_quotas.txt}
 
-    \lstinputlisting[language=C++]{programming_examples/object_oriented.txt}
+    The implementation used for the Result Calculator on newelectoralcollege.com is written in Elm. This is not the same as the Python implementation above. That is used to calculate results in specific Presidential elections under The New Electoral College. This is used for the example calculator.
 
-    Haskell's types can help with this two:
+    \lstinputlisting[language=Haskell]{../src/elm/Calculator/Hare.elm}
 
-    \lstinputlisting[language=Haskell]{programming_examples/haskell_records.txt}
+    The lambdaCompare function is defined as this:
 
-    although the fact that Haskell records can't contain functions like C++ or Ruby can makes this much more complex. 
-
-    \section{Lists}
-
-    Be carefull with Party Lists. Storing a list of 5 candidates for 5 parties is 25 names, but if you have 50 seats, and 20-30 parties, you are going to have a ton of candidates. This takes up a lot of memory, and in some languages that can get to be highly impractical. The following example only takes the names from the \verb|list.txt| file that it needs.
-
-    This Party won 4 seats. 
-
-    \lstinputlisting[language=C++]{programming_examples/getClosedList.txt}
-
-    However, it isn't always this simple. Open Lists, for example, require the analysis of all candidates. Under the example below, if a candidate gets 10\% of the party's votes, they are elected. 
-
-    \lstinputlisting[language=C++]{programming_examples/getOpenList.txt}
+    \begin{lstlisting}
+    lambdaCompare : (a -> a -> Bool) -> a -> (b -> a) -> b -> Bool
+    lambdaCompare comp value function record =
+        comp (function record) value
+    \end{lstlisting}
 
 \end{document}
