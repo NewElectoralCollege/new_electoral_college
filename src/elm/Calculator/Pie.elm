@@ -38,7 +38,7 @@ slice model { party, status, showing } =
         , fill party.color
         , stroke "black"
         , transform <| transformString status
-        , onMouseEnter (Highlight <| getName party.name)
+        , onMouseEnter (Highlight party.name)
         ]
         []
 

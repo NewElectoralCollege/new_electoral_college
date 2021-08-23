@@ -1,5 +1,6 @@
 module Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, SliceStatus(..), Target, getCurrentShowing, totalSeats, totalVotes)
 
+import Data
 import Util exposing (Party, summateRecords)
 
 
@@ -36,7 +37,7 @@ type alias Slice =
 type Msg
     = Name String
     | Votes String
-    | Highlight String
+    | Highlight Data.Party
     | ResetHighlight
     | TimeDelta Float
 

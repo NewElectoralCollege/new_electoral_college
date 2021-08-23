@@ -349,8 +349,8 @@ partiesInInstance es =
                 p.name
                 (List.sum <| List.map .seats <| getInstancesOf p)
                 (List.sum <| List.map .votes <| getInstancesOf p)
-                0
-                False
+                Nothing
+                Nothing
                 p.color
         )
         parties

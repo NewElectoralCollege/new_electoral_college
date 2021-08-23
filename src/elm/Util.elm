@@ -7,6 +7,7 @@ module Util exposing
     , boolToInt
     , colorCircles
     , concatMapDict
+    , concatTuple
     , dropMaybe
     , exists
     , firstYear
@@ -39,10 +40,10 @@ module Util exposing
 import Basics as B
 import Data exposing (State, color, decodeParty, getName)
 import Dict as D exposing (Dict)
-import Html exposing (Html, b, div, i, p, table, td, text, th, thead, tr)
+import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, rowspan, style)
 import Http exposing (Error, Expect, expectJson)
-import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, string)
+import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, nullable, string)
 import List.Extra exposing (splitAt)
 import Regex exposing (fromString)
 import Svg exposing (Svg, g)
@@ -80,8 +81,8 @@ type alias Party =
     { name : Data.Party
     , seats : Float
     , votes : Float
-    , extra_votes : Float
-    , extra_seat : Bool
+    , extra_votes : Maybe Float
+    , extra_seat : Maybe Bool
     , color : String
     }
 
@@ -167,6 +168,11 @@ splitAtFloat i l =
 concatMapDict : (k -> a -> List b) -> Dict k a -> List b
 concatMapDict f d =
     List.concatMap (\( a, b ) -> f a b) (D.toList d)
+
+
+concatTuple : ( List a, List a ) -> List a
+concatTuple ( a, b ) =
+    a ++ b
 
 
 
@@ -387,8 +393,8 @@ newParty =
         (field "name" decodeParty)
         (field "seats" float)
         (field "votes" float)
-        (field "extra_votes" float)
-        (field "extra_seat" bool)
+        (field "extra_votes" (nullable float))
+        (field "extra_seat" (nullable bool))
         (field "name" string)
 
 

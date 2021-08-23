@@ -79,7 +79,12 @@ changeStats stats election =
 
 getInitialSeats : Party -> Float
 getInitialSeats party =
-    party.seats - boolToInt party.extra_seat
+    case party.extra_seat of
+        Just True ->
+            party.seats - 1
+
+        _ ->
+            party.seats
 
 
 
@@ -161,11 +166,12 @@ doPartyBars list parties nx model =
 
 getCheckIcon : Party -> List (Html msg)
 getCheckIcon party =
-    if party.extra_seat then
-        [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (String.fromChar '\u{F058}') ] ]
+    case party.extra_seat of
+        Just True ->
+            [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (String.fromChar '\u{F058}') ] ]
 
-    else
-        [ U.text "" ]
+        _ ->
+            [ U.text "" ]
 
 
 newRow : Party -> Model -> Int -> List (Html msg)
@@ -178,7 +184,7 @@ newRow party model year =
             , td [] [ U.text <| styleNumFloat party.votes ]
             , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
             , td [] [ U.text <| getInitialSeats party ]
-            , td [] ((U.text <| styleNumFloat party.extra_votes) :: getCheckIcon party)
+            , td [] ((U.text <| styleNumFloat <| dropMaybe party.extra_votes) :: getCheckIcon party)
             , td [] [ U.text party.seats ]
             , td [] [ U.text <| stylePercent (party.seats / model.stats.total_seats) ]
             ]

@@ -1,6 +1,5 @@
 - Make Gallagher Index popup work
 - Try using filter Maybes to reduce dropMaybe (filterMap)
-- extra_vote and extra_seat may need to be Maybe
 - Organize imports
 - Add parenthises on endorsements page
 - Database combines candidates

@@ -7,7 +7,7 @@ import Html exposing (Attribute, Html, div, input)
 import Html.Attributes exposing (class, placeholder, style, type_, value)
 import Html.Events exposing (onInput)
 import String
-import Util as U exposing (Party, boolToInt)
+import Util as U exposing (Party, boolToInt, dropMaybe)
 
 
 border : Attribute Msg
@@ -53,10 +53,10 @@ makePartyForm model party =
             [ U.text <| String.left 4 <| String.fromFloat <| party.votes / quota model ]
         , div
             stepStyle
-            [ U.text <| party.seats - boolToInt party.extra_seat ]
+            [ U.text <| party.seats - (boolToInt <| dropMaybe party.extra_seat) ]
         , div
             stepStyle
-            [ U.text <| boolToInt party.extra_seat ]
+            [ U.text <| boolToInt <| dropMaybe party.extra_seat ]
         , div
             stepStyle
             [ U.text party.seats ]
