@@ -24,7 +24,7 @@ import List.Extra exposing (find)
 
 type Party
     = Democratic
-    | Independent
+    | Independent String
     | Republican
     | Libertarian
     | Green
@@ -58,7 +58,11 @@ decodeParty =
                         succeed PeaceAndFreedom
 
                     a ->
-                        succeed (Other a)
+                        if String.contains "Independent" a then
+                            succeed (Independent a)
+
+                        else
+                            succeed (Other a)
             )
 
 
@@ -68,7 +72,7 @@ color party =
         Democratic ->
             "#1a80c4"
 
-        Independent ->
+        Independent _ ->
             "#969696"
 
         Republican ->
@@ -105,7 +109,7 @@ inParenthesis party =
         Just Green ->
             "(G)"
 
-        Just Independent ->
+        Just (Independent _) ->
             "(Ind)"
 
         Just Reform ->
@@ -166,14 +170,14 @@ tickets =
     , Ticket 1976 Republican "Gerald Ford" 241
     , Ticket 2016 Libertarian "Gary Johnson" 0
     , Ticket 2016 Green "Jill Stein" 0
-    , Ticket 2016 Independent "Evan McMullin" 0
+    , Ticket 2016 (Independent "Evan McMullin") "Evan McMullin" 0
     , Ticket 2012 Libertarian "Gary Johnson" 0
     , Ticket 2008 PeaceAndFreedom "Ralph Nader" 0
     , Ticket 2000 Green "Ralph Nader" 0
     , Ticket 1996 Green "Ralph Nader" 0
     , Ticket 1996 Reform "Ross Perot" 0
-    , Ticket 1992 Independent "Ross Perot" 0
-    , Ticket 1980 Independent "John B. Anderson" 0
+    , Ticket 1992 (Independent "Ross Perot") "Ross Perot" 0
+    , Ticket 1980 (Independent "John B. Anderson") "John B. Anderson" 0
     , Ticket 1980 Libertarian "Ed Clark" 0
     ]
 
