@@ -1,11 +1,12 @@
 module Endorsements exposing (main)
 
 import Browser exposing (element)
-import Data exposing (Party(..), State(..), getName, inParenthesis)
 import Html exposing (Html, a, br, div, h1, h2, li, ol, p, text)
 import Html.Attributes exposing (class, href)
 import List.Extra exposing (count, groupsOfVarying, unique)
-import Util exposing (dropMaybe)
+import Party exposing (Party(..), inParenthesis)
+import State exposing (State(..))
+import Util exposing (dropMaybe, getName)
 
 
 
@@ -244,7 +245,7 @@ endorsements =
     [ Endorsement "Jane Doe" (Executive "56th President of the United States" ( Definitive 2000, Definitive 2004 )) "https://elm-lang.org/"
     , Endorsement "Joe Smith" (Senate Georgia Democratic ( Definitive 1996, Incumbent )) "https://elm-lang.org/"
     , Endorsement "John Citizen" (Senate Illinois Republican ( Definitive 2002, Definitive 2008 )) "https://elm-lang.org/"
-    , Endorsement "Fred Rubble" (Senate Georgia Independent ( Definitive 1968, Incumbent )) "https://elm-lang.org/"
+    , Endorsement "Fred Rubble" (Senate Georgia (Independent Nothing) ( Definitive 1968, Incumbent )) "https://elm-lang.org/"
     , Endorsement "Mary Hill" (Representative Vermont AtLarge Republican ( Definitive 2001, Definitive 2015 )) "https://elm-lang.org/"
     , Endorsement "Philip Henry Muntz" (Representative California (Numbered 4) Democratic ( Definitive 1968, Definitive 2019 )) "https://elm-lang.org/"
     , Endorsement "John Bright" (Representative California (Numbered 52) Republican ( Definitive 2015, Incumbent )) "https://elm-lang.org/"

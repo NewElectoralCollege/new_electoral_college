@@ -1,496 +1,276 @@
-module State exposing (main)
-
-import Browser exposing (element)
-import Data exposing (Party(..), State(..), getName, nominee, states)
-import Dict as D exposing (Dict)
-import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
-import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, type_)
-import Html.Events exposing (onClick)
-import List.Extra exposing (find, setAt)
-import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
-import Svg.Attributes as Sa exposing (cx, cy, fill, height, markerHeight, markerWidth, orient, points, r, refX, refY, width, x, y)
-import Tuple as T
-import Util as U
-    exposing
-        ( Election
-        , Msg(..)
-        , Party
-        , Stats
-        , areEqual
-        , colorCircles
-        , dropMaybe
-        , firstYear
-        , getFile
-        , getPartyProgressBar
-        , ifQualifyingParty
-        , lastYear
-        , partyContainer
-        , partyMsg
-        , seatChange
-        , statsMsg
-        , styleNumFloat
-        , stylePercent
-        , updateColors
-        , voteChange
-        )
+module State exposing (State(..), StateOutline, outline, states)
 
 
+type State
+    = Alabama
+    | Alaska
+    | Arizona
+    | Arkansas
+    | California
+    | Colorado
+    | Connecticut
+    | Delaware
+    | DistrictOfColumbia
+    | Florida
+    | Georgia
+    | Hawaii
+    | Idaho
+    | Illinois
+    | Indiana
+    | Iowa
+    | Kansas
+    | Kentucky
+    | Louisiana
+    | Maine
+    | Maryland
+    | Massachusetts
+    | Michigan
+    | Minnesota
+    | Mississippi
+    | Missouri
+    | Montana
+    | Nebraska
+    | Nevada
+    | NewHampshire
+    | NewJersey
+    | NewMexico
+    | NewYork
+    | NorthCarolina
+    | NorthDakota
+    | Ohio
+    | Oklahoma
+    | Oregon
+    | Pennsylvania
+    | RhodeIsland
+    | SouthCarolina
+    | SouthDakota
+    | Tennessee
+    | Texas
+    | Utah
+    | Vermont
+    | Virginia
+    | Washington
+    | WestVirginia
+    | Wisconsin
+    | Wyoming
 
--- Misc
+
+states : List State
+states =
+    [ Alabama
+    , Alaska
+    , Arizona
+    , Arkansas
+    , California
+    , Colorado
+    , Connecticut
+    , Delaware
+    , DistrictOfColumbia
+    , Florida
+    , Georgia
+    , Hawaii
+    , Idaho
+    , Illinois
+    , Indiana
+    , Iowa
+    , Kansas
+    , Kentucky
+    , Louisiana
+    , Maine
+    , Maryland
+    , Massachusetts
+    , Michigan
+    , Minnesota
+    , Mississippi
+    , Missouri
+    , Montana
+    , Nebraska
+    , Nevada
+    , NewHampshire
+    , NewJersey
+    , NewMexico
+    , NewYork
+    , NorthCarolina
+    , NorthDakota
+    , Ohio
+    , Oklahoma
+    , Oregon
+    , Pennsylvania
+    , RhodeIsland
+    , SouthCarolina
+    , SouthDakota
+    , Tennessee
+    , Texas
+    , Utah
+    , Vermont
+    , Virginia
+    , Washington
+    , WestVirginia
+    , Wisconsin
+    , Wyoming
+    ]
 
 
-getQuota : Float -> Float -> Float
-getQuota total_votes total_seats =
-    total_votes / total_seats |> U.floor
-
-
-
--- Model
-
-
-type Status
-    = Initializing
-    | History
-    | Complete
-
-
-type alias Model =
-    { list : List Party
-    , elections : Dict Int Election
-    , stats : Stats
-    , assigned : Int
-    , year : Int
-    , page_year : Int
-    , state : State
-    , revealed : String
-    , status : Status
+type alias StateOutline =
+    { x : Float
+    , y : Float
+    , width : Float
+    , height : Float
     }
 
 
-changeStats : Stats -> Election -> Election
-changeStats stats election =
-    { election | stats = stats }
+outline : State -> StateOutline
+outline state =
+    case state of
+        Alabama ->
+            StateOutline 492.4187 129.51944 37.238781 82.202576
 
+        Alaska ->
+            StateOutline 36.09499 198.73701 106.64176 69.758583
 
+        Arizona ->
+            StateOutline 177.47163 98.563324 68.972443 87.950653
 
--- Parties
+        Arkansas ->
+            StateOutline 418.9455 106.394 44.921261 54.199783
 
+        California ->
+            StateOutline 62.723625 35.508301 67.517708 132.37302
 
-getInitialSeats : Party -> Float
-getInitialSeats party =
-    case party.extra_seat of
-        Just True ->
-            party.seats - 1
+        Colorado ->
+            StateOutline 246.25554 36.569534 83.914627 62.180717
 
-        _ ->
-            party.seats
-
-
-
--- Dots
-
-
-getAngle : Stats -> Int -> Float
-getAngle stats assigned =
-    pi / stats.total_seats * (toFloat assigned + stats.total_seats + 0.5)
+        Connecticut ->
+            StateOutline 691.57336 94.687637 44.673531 22.36248
 
+        Delaware ->
+            StateOutline 721.02448 201.64488 18.868713 45.751633
 
-getWidth : Float -> Model -> Float
-getWidth votes model =
-    (votes / model.stats.total_votes) * 700
-
+        DistrictOfColumbia ->
+            StateOutline 646.30328 269.89484 9.2927532 6.7461395
 
-getCircles : Float -> Model -> Int -> List (Svg Msg)
-getCircles angle model i =
-    if i == (floor <| model.stats.total_seats) then
-        []
+        Florida ->
+            StateOutline 502.44095 191.65808 90.914276 99.892456
 
-    else
-        circle
-            [ cx (String.fromFloat (350 * cos angle + 450))
-            , cy (String.fromFloat (350 * sin angle + 375))
-            , r "10"
-            , Sa.style "stroke-width:1;stroke:#969696"
-            ]
-            []
-            :: getCircles (getAngle model.stats (i + 1)) model (i + 1)
-
-
-doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
-doPartyBars list parties nx model =
-    if List.length parties == 0 then
-        []
-
-    else
-        let
-            party =
-                dropMaybe (List.head parties)
-
-            nwidth =
-                getWidth party.votes model
-        in
-        if ifQualifyingParty model.stats.total_votes party then
-            list
-                ++ doPartyBars
-                    [ rect
-                        [ x (String.fromFloat nx)
-                        , y "370"
-                        , width (String.fromFloat nwidth)
-                        , height "50"
-                        , fill party.color
-                        , Sa.style "stroke-width:2;stroke:#fff;"
-                        ]
-                        []
-                    ]
-                    (List.drop 1 parties)
-                    (nx + nwidth)
-                    model
-
-        else
-            list
-                ++ [ rect
-                        [ x (String.fromFloat nx)
-                        , y "370"
-                        , width (String.fromFloat nwidth)
-                        , height "50"
-                        , fill "#dddddd"
-                        ]
-                        []
-                   ]
-
-
-
--- Results box
-
-
-getCheckIcon : Party -> List (Html msg)
-getCheckIcon party =
-    case party.extra_seat of
-        Just True ->
-            [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (String.fromChar '\u{F058}') ] ]
-
-        _ ->
-            [ U.text "" ]
-
-
-newRow : Party -> Model -> Int -> List (Html msg)
-newRow party model year =
-    if ifQualifyingParty model.stats.total_votes party then
-        [ tr []
-            [ td [ class "color", Ha.style "backgroundColor" party.color ] []
-            , td [] [ U.text party.name ]
-            , td [] [ U.text <| Maybe.withDefault "n/a" <| nominee year party.name ]
-            , td [] [ U.text <| styleNumFloat party.votes ]
-            , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
-            , td [] [ U.text <| getInitialSeats party ]
-            , td [] ((U.text <| styleNumFloat <| dropMaybe party.extra_votes) :: getCheckIcon party)
-            , td [] [ U.text party.seats ]
-            , td [] [ U.text <| stylePercent (party.seats / model.stats.total_seats) ]
-            ]
-        ]
-
-    else
-        []
-
-
-doPartyElectors : List Party -> Model -> List (Html msg)
-doPartyElectors parties model =
-    case parties of
-        [] ->
-            []
-
-        x :: xs ->
-            newRow x model model.page_year ++ doPartyElectors xs model
-
-
-summaryHeader : Model -> List (Html msg)
-summaryHeader model =
-    [ thead [ Ha.style "background-color" "#eaecf0" ]
-        [ tr [] [ th [ colspan 9 ] [ U.text (getName model.state ++ " - " ++ String.fromInt model.page_year) ] ]
-        , tr []
-            [ th [ colspan 2 ] [ U.text "Party" ]
-            , th [] [ U.text "Nominee" ]
-            , th [ colspan 2 ] [ U.text "Votes" ]
-            , th [] [ U.text "Initial" ]
-            , th [] [ U.text "Leftover Votes" ]
-            , th [ colspan 2 ] [ U.text "Total" ]
-            ]
-        ]
-    ]
-
-
-summaryFooter : Model -> List (Html Msg)
-summaryFooter model =
-    [ tfoot [ Ha.style "background-color" "#eaecf0" ]
-        [ tr []
-            [ td [ colspan 9 ]
-                ("Total Votes: "
-                    ++ styleNumFloat model.stats.total_votes
-                    ++ "\n"
-                    ++ "Total Electors: "
-                    ++ String.fromFloat model.stats.total_seats
-                    ++ "\n"
-                    ++ "Quota: "
-                    ++ styleNumFloat (getQuota model.stats.total_votes model.stats.total_seats)
-                    ++ "\n"
-                    ++ "Gallagher Index: "
-                    ++ String.fromFloat model.stats.gallagher_index
-                    ++ " "
-                    ++ "\n"
-                    ++ "\n"
-                    |> String.lines
-                    |> List.map U.text
-                    |> List.intersperse (br [] [])
-                    |> setAt 7 (i [ class "fa", Ha.style "color" "blue", onClick <| RevealPopup "gallagher" ] [ U.text (String.fromChar '\u{F059}') ])
-                )
-            ]
-        ]
-    ]
-
-
-
--- Party box
-
-
-doYearRow : Data.Party -> Election -> Maybe Election -> Html Msg
-doYearRow partyname ({ list, stats, year } as current) previous =
-    let
-        party =
-            ( dropMaybe <| find (areEqual partyname .name) list
-            , find (areEqual partyname .name) <| Maybe.withDefault [] <| Maybe.map .list previous
-            )
-    in
-    tr []
-        [ td [] [ U.text year ]
-        , td [] [ U.text <| styleNumFloat <| .votes <| T.first party ]
-        , td [] [ U.text <| stylePercent <| (T.first party).votes / stats.total_votes ]
-        , td [] (voteChange party stats (Maybe.map .stats previous))
-        , td [] <| getPartyProgressBar (T.first party) current (T.first party).color
-        , td [] (seatChange party)
-        ]
-
-
-previousElections : Model -> List (Maybe Election)
-previousElections model =
-    model
-        |> .elections
-        |> D.values
-        |> List.map Just
-        |> (::) Nothing
-
-
-
--- Popup
-
-
-judgePopupShow : String -> Model -> String
-judgePopupShow name model =
-    if name == model.revealed then
-        "inline-block"
-
-    else
-        "none"
-
-
-
--- State List
-
-
-makeStateList : State -> String -> Html Msg
-makeStateList state year =
-    let
-        active n =
-            if state == n then
-                " active"
-
-            else
-                ""
-
-        makeLink : State -> Html Msg
-        makeLink n =
-            a
-                [ class <| "list-group-item list-group-item-action" ++ active n
-                , href ("state.html?state=" ++ getName n ++ "&year=" ++ year)
-                ]
-                [ U.text <| getName n ]
-    in
-    div
-        [ class "list-group", id "state-list" ]
-        (List.map makeLink states)
-
-
-
--- Required Functions
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    if model.year == lastYear + 4 then
-        ( { model | status = Complete, year = 2016 }, Cmd.none )
-
-    else
-        case msg of
-            SendRequestParty ->
-                ( model, getFile partyMsg model.year model.state )
-
-            SendRequestStats ->
-                ( model, getFile statsMsg model.year model.state )
-
-            PartySuccess (Ok parties) ->
-                case model.status of
-                    Initializing ->
-                        update SendRequestStats
-                            { model
-                                | list =
-                                    parties
-                                        |> updateColors
-                                        |> List.sortBy .votes
-                                        |> List.reverse
-                            }
-
-                    _ ->
-                        let
-                            election =
-                                Election (updateColors parties) model.stats model.state model.year
-                        in
-                        update SendRequestStats
-                            { model | elections = D.insert model.year election model.elections }
-
-            StatSuccess (Ok stats) ->
-                update SendRequestParty
-                    { model
-                        | year =
-                            case model.status of
-                                History ->
-                                    model.year + 4
-
-                                _ ->
-                                    firstYear
-                        , stats =
-                            case model.status of
-                                Initializing ->
-                                    stats
-
-                                _ ->
-                                    model.stats
-                        , status = History
-                        , elections = D.update model.year (Maybe.map (changeStats stats)) model.elections
-                    }
-
-            RevealPopup popup ->
-                ( { model | revealed = popup }, Cmd.none )
-
-            _ ->
-                Debug.todo (Debug.toString msg)
-
-
-init : ( String, Int ) -> ( Model, Cmd Msg )
-init flags =
-    update
-        SendRequestParty
-        (Model
-            []
-            D.empty
-            (Stats "none" 0 0 0.0)
-            0
-            (T.second flags)
-            (T.second flags)
-            (dropMaybe <| find (areEqual (T.first flags) getName) states)
-            ""
-            Initializing
-        )
-
-
-view : Model -> Html Msg
-view model =
-    case model.status of
-        Complete ->
-            div [ class "container", id "state-container" ]
-                [ makeStateList model.state <| String.fromInt model.page_year
-                , svg
-                    [ width "975"
-                    , height "520"
-                    ]
-                    [ defs
-                        []
-                        [ marker [ Sa.class "arrowhead", id "bars", markerWidth "10", markerHeight "7", refX "6", refY "2", orient "0" ] [ polygon [ Sa.style "display:inline-block", points "4 2, 6 0, 8 2" ] [] ] ]
-                    , g
-                        [ id "circles" ]
-                        (colorCircles model.list <| getCircles (getAngle model.stats 0) model 0)
-                    , g
-                        [ id "bar" ]
-                        (doPartyBars [] model.list 100.0 model)
-                    , g
-                        [ id "labels" ]
-                        (List.map
-                            (\n ->
-                                g
-                                    []
-                                    [ rect
-                                        [ x <| String.fromFloat <| 100.0 + (n * 700.0), y "370" ]
-                                        []
-                                    , text_
-                                        [ x <| String.fromFloat <| 90.0 + (n * 700.0), y "460" ]
-                                        [ U.text <| stylePercent n ]
-                                    ]
-                            )
-                            [ 0.5, 0.25, 0.75, 0, 1 ]
-                        )
-                    , rect
-                        [ x "100"
-                        , y "370"
-                        , width "700"
-                        , height "50"
-                        , Sa.style "fill-opacity:0"
-                        ]
-                        []
-                    ]
-                , div
-                    [ class "container" ]
-                    [ span
-                        [ class "btn-group", attribute "role" "group" ]
-                        [ button
-                            [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                            [ a [ Ha.style "color" "#fff", attribute "download" (getName model.state), href ("data/" ++ String.fromInt model.year ++ "/" ++ getName model.state ++ ".json") ] [ U.text "Download" ] ]
-                        , button
-                            [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                            [ a [ Ha.style "color" "#fff", href "results.html" ] [ U.text "Back" ] ]
-                        ]
-                    , br [] []
-                    , br [] []
-                    , table [ id "single-results", class "table-bordered" ]
-                        (summaryHeader model ++ doPartyElectors model.list model ++ summaryFooter model)
-                    ]
-                , br [] []
-                , div [ class "container" ]
-                    [ h2 [] [ U.text "State History" ]
-                    , table [ class "container" ]
-                        [ tr
-                            []
-                            [ partyContainer (D.values model.elections) (previousElections model) doYearRow Democratic
-                            , partyContainer (D.values model.elections) (previousElections model) doYearRow Republican
-                            ]
-                        ]
-                    ]
-                , div
-                    [ id "gallagher-formula"
-                    , Ha.style "display" <| judgePopupShow "gallagher" model
-                    ]
-                    [ p [] [ U.text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
-                    , p [] [ U.text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
-                    , p [] [ U.text "Where ", var [] [ U.text "V" ], U.text " is the percentage of votes cast for the party, and ", var [] [ U.text "S" ], U.text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
-                    ]
-                ]
-
-        _ ->
-            U.text ""
-
-
-main : Program ( String, Int ) Model Msg
-main =
-    element
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = \_ -> Sub.none
-        }
+        Georgia ->
+            StateOutline 531.38696 128.69734 37.325054 68.420944
+
+        Hawaii ->
+            StateOutline 207.24611 218.67052 55.956772 34.094986
+
+        Idaho ->
+            StateOutline 148.42528 -32.424271 62.744469 53.70792
+
+        Illinois ->
+            StateOutline 468.48819 13.216415 35.599812 85.692909
+
+        Indiana ->
+            StateOutline 588.14087 -103.25637 38.845997 74.5168
+
+        Iowa ->
+            StateOutline 394.76978 -2.1643698 77.717377 48.415207
+
+        Kansas ->
+            StateOutline 330.06042 52.065708 89.015045 46.67168
+
+        Kentucky ->
+            StateOutline 489.35892 70.209358 74.287804 36.217716
+
+        Louisiana ->
+            StateOutline 425.8204 170.15668 50.14761 52.653034
+
+        Maine ->
+            StateOutline 741.87134 -56.074318 49.049866 68.224724
+
+        Maryland ->
+            StateOutline 644.68329 205.34126 77.436104 58.629501
+
+        Massachusetts ->
+            StateOutline 655.47339 78.998398 146.04584 16.370806
+
+        Missouri ->
+            StateOutline 405.21436 42.597088 79.69281 71.603775
+
+        Montana ->
+            StateOutline 162.69676 -87.455528 143.59465 61.846279
+
+        Michigan ->
+            StateOutline 511.63086 -74.648277 53.247669 100.45961
+
+        Minnesota ->
+            StateOutline 387.72873 -87.055099 62.360752 84.903046
+
+        Mississippi ->
+            StateOutline 461.12634 129.71049 33.533707 62.691135
+
+        Ohio ->
+            StateOutline 628.38147 -102.13499 61.607937 67.74073
+
+        Nebraska ->
+            StateOutline 306.13052 5.583293 104.56277 46.533787
+
+        Oklahoma ->
+            StateOutline 355.07327 98.630424 66.104538 52.133888
+
+        Nevada ->
+            StateOutline 121.20766 21.101032 65.493599 77.029831
+
+        NewHampshire ->
+            StateOutline 728.50018 43.753941 25.301216 37.333866
+
+        Oregon ->
+            StateOutline 61.023174 -44.941399 96.718002 66.168266
+
+        NewJersey ->
+            StateOutline 732.31976 151.25398 36.797558 72.852074
+
+        NewMexico ->
+            StateOutline 246.38519 98.629982 72.310974 78.528084
+
+        NewYork ->
+            StateOutline 583.03168 -29.966894 129.14343 54.99575
+
+        NorthCarolina ->
+            StateOutline 566.56183 105.01874 106.32806 28.595343
+
+        NorthDakota ->
+            StateOutline 306.1832 -87.449394 89.606354 47.531338
+
+        Pennsylvania ->
+            StateOutline 576.2406 22.070066 101.0198 35.881847
+
+        RhodeIsland ->
+            StateOutline 750.56775 121.27811 25 25
+
+        SouthCarolina ->
+            StateOutline 568.53125 133.27658 51.624866 47.587463
+
+        SouthDakota ->
+            StateOutline 306.07565 -40.075359 91.091095 45.277149
+
+        Tennessee ->
+            StateOutline 473.63629 104.30125 84.314865 25.581249
+
+        Texas ->
+            StateOutline 307.58276 106.37769 124.52712 165.30261
+
+        Utah ->
+            StateOutline 186.59776 21.076538 59.886551 77.590057
+
+        Vermont ->
+            StateOutline 709.50104 32.357742 17.475252 48.10199
+
+        Virginia ->
+            StateOutline 586.92297 75.394981 63.691685 30.35725
+
+        Washington ->
+            StateOutline 59.211422 -85.982491 93.121674 52.07362
+
+        WestVirginia ->
+            StateOutline 536.88135 29.634378 38.408298 35.710678
+
+        Wisconsin ->
+            StateOutline 439.6813 -55.769642 69.961426 69.2435
+
+        Wyoming ->
+            StateOutline 222.40602 -25.508213 83.726303 62.197315

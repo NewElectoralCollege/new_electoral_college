@@ -1,7 +1,6 @@
 port module Map exposing (main)
 
 import Browser exposing (element)
-import Data exposing (Party(..), State(..), StateOutline, color, getName, nominee, outline, realElectors, states)
 import Dict as D
 import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, th, tr)
 import Html.Attributes exposing (class, colspan, href, id, rowspan, style)
@@ -9,8 +8,11 @@ import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (at, decodeString, dict, list, string)
 import List.Extra exposing (find, init, uniqueBy)
+import Party exposing (Party(..), color)
+import State exposing (State(..), StateOutline, outline, states)
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r)
+import Ticket exposing (nominee, realElectors)
 import Tuple as T
 import Util as U
     exposing
@@ -22,6 +24,7 @@ import Util as U
         , dropMaybe
         , firstYear
         , fix_change
+        , getName
         , getPartyProgressBar
         , ifQualifyingParty
         , lastYear
@@ -263,7 +266,7 @@ makePartyRow model party =
 -- Party box
 
 
-doStateRow : Data.Party -> Election -> Maybe Election -> Html Msg
+doStateRow : Party.Party -> Election -> Maybe Election -> Html Msg
 doStateRow partyname ({ list, stats, state } as current) p =
     let
         previous =

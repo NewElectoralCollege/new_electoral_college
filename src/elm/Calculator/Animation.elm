@@ -2,8 +2,8 @@ module Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTr
 
 import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Model, Showing(..), Slice, SliceStatus(..), Target, getCurrentShowing, totalSeats, totalVotes)
-import Data
 import List.Extra exposing (splitWhen, updateIf)
+import Party
 import Tuple as T
 import Util exposing (Party, areEqual, dropMaybe, lambdaCompare, summateRecords)
 
@@ -18,7 +18,7 @@ moveSlice getTarget slc =
             { slc | status = Moving vx vy va vs cx cy ca cs (getTarget slc) }
 
 
-moveSlices : List Slice -> Data.Party -> List Slice
+moveSlices : List Slice -> Party.Party -> List Slice
 moveSlices list name =
     list
         |> updateIf (areEqual name <| .name << .party) (moveSlice .highlighted_target)

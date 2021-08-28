@@ -79,7 +79,7 @@ view model =
             []
         , node
             "script"
-            [ src "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" ]
+            [ src "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" ]
             []
         , node
             "script"

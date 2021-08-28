@@ -7,9 +7,9 @@ import Calculator.Form exposing (makePartiesForm, partiesHeader)
 import Calculator.Hare exposing (hare, quota)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
 import Calculator.Pie exposing (pie)
-import Data exposing (Party(..))
 import Html exposing (Html, div, h1, h2, p, table, td, tr)
 import Html.Attributes exposing (class, id, rowspan, style)
+import Party exposing (Party(..))
 import Util as U exposing (Party, styleNumFloat)
 
 

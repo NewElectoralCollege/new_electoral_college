@@ -4,12 +4,12 @@
     <body>
         <script src="src/js/Header_compiled.js"></script>
         <script src="src/js/util.js"></script>
-        <script src="src/js/state_compiled.js"></script>
+        <script src="src/js/stateresults_compiled.js"></script>
         <script>
             window.onload = function () {
                 makeHeader('Viewing State')
                 includeHTML()
-                var app = Elm.State.init({
+                var app = Elm.StateResults.init({
                     node: document.getElementById('main'),
                     flags: new RegExp(
                         '[?&]' + encodeURIComponent('state') + '=([^&]*)'

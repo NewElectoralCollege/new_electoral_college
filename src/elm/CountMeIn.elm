@@ -1,9 +1,10 @@
 module CountMeIn exposing (main)
 
 import Browser exposing (element)
-import Data exposing (getName, states)
 import Html exposing (Html, b, button, div, form, h2, input, label, option, p, select, small, text)
 import Html.Attributes exposing (action, class, for, id, method, name, novalidate, placeholder, required, type_)
+import State exposing (states)
+import Util exposing (getName)
 
 
 

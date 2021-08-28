@@ -14,6 +14,8 @@ module Util exposing
     , fix_change
     , floor
     , getFile
+    , getName
+    , getNameHelper
     , getPartyProgressBar
     , ifQualifyingParty
     , lambdaCompare
@@ -38,14 +40,15 @@ module Util exposing
     )
 
 import Basics as B
-import Data exposing (State, color, decodeParty, getName)
 import Dict as D exposing (Dict)
 import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, rowspan, style)
 import Http exposing (Error, Expect, expectJson)
 import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, nullable, string)
 import List.Extra exposing (splitAt)
+import Party exposing (color, decodeParty)
 import Regex exposing (fromString)
+import State exposing (State(..))
 import Svg exposing (Svg, g)
 import Svg.Attributes exposing (fill)
 import Tuple as T
@@ -78,7 +81,7 @@ type alias Stats =
 
 
 type alias Party =
-    { name : Data.Party
+    { name : Party.Party
     , seats : Float
     , votes : Float
     , extra_votes : Maybe Float
@@ -145,7 +148,8 @@ boolToInt bool =
 
 ifQualifyingParty : Float -> Party -> Bool
 ifQualifyingParty total_votes party =
-    party.votes / total_votes >= 0.01 || party.seats > 0
+    --party.votes / total_votes >= 0.01 || party.seats > 0
+    True
 
 
 
@@ -297,8 +301,8 @@ updateColors list =
 partyContainer :
     List Election
     -> List (Maybe Election)
-    -> (Data.Party -> Election -> Maybe Election -> Html msg)
-    -> Data.Party
+    -> (Party.Party -> Election -> Maybe Election -> Html msg)
+    -> Party.Party
     -> Html msg
 partyContainer current previous doStateRow party =
     td
@@ -338,7 +342,7 @@ seats party v =
     .seats <| v party
 
 
-won : List Party -> Data.Party
+won : List Party -> Party.Party
 won lst =
     (dropMaybe <| List.head <| List.reverse <| List.sortBy .votes lst).name
 
@@ -369,6 +373,30 @@ seatChange party =
 
         Nothing ->
             [ text "n/a" ]
+
+
+
+-- Party names
+
+
+getNameHelper : Char -> String
+getNameHelper c =
+    if Char.isUpper c then
+        " " ++ String.fromChar c
+
+    else
+        String.fromChar c
+
+
+getName : a -> String
+getName a =
+    a
+        |> Debug.toString
+        |> String.toList
+        |> List.map getNameHelper
+        |> String.concat
+        |> String.dropLeft 1
+        |> String.replace " Of " " of "
 
 
 

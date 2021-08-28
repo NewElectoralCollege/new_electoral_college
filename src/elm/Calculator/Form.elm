@@ -2,12 +2,11 @@ module Calculator.Form exposing (makePartiesForm, partiesHeader)
 
 import Calculator.Hare exposing (quota)
 import Calculator.Model exposing (Model, Msg(..))
-import Data exposing (getName)
 import Html exposing (Attribute, Html, div, input)
 import Html.Attributes exposing (class, placeholder, style, type_, value)
 import Html.Events exposing (onInput)
 import String
-import Util as U exposing (Party, boolToInt, dropMaybe)
+import Util as U exposing (Party, boolToInt, dropMaybe, getName)
 
 
 border : Attribute Msg
