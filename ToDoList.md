@@ -1,12 +1,9 @@
 -   Make Gallagher Index popup work
--   Organize imports
--   Database combines candidates
 -   Finish donation page
 -   Format Library
 -   Programmer's Guide still contains all implementations
 -   Ensure that all elector numbers are accurate in official proposal
 -   Update elector allocations graph in official proposal
--   Fix formatter for case statements
 
 Flags in database
 
