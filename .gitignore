@@ -4,7 +4,6 @@ emails/emails.csv
 emails/key.txt
 emails/welcome_key.txt
 
-src/js/*_compiled.js
 emails/unsubscribe.html
 
 src/sass/.sass-cache/
@@ -21,3 +20,13 @@ the_proposal/dirtytalk.sty
 
 database.csv
 data.txt
+
+calculator.html
+donate.html
+endorsements.html
+countmein.html
+index.html
+map.html
+proposal.html
+readmore.html
+stateresults.html
