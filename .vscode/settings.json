@@ -1,5 +1,5 @@
 {
     "code-runner.executorMapByFileExtension": {
-      ".elm": "cd $dir && elm make $fileName --output ../js/$fileNameWithoutExt_compiled.js"
+        ".elm": "cd $dir && python -u compile.py $fileName"
     }
-  }
+}
