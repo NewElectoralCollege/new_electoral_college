@@ -78,8 +78,7 @@ class List:
         self.votes = int(votes)
         self.candidate = candidate
         self.writein = writein
-        self.real = not(candidate in ["BLANK VOTE", "BLACK VOTE/SCATTERING", "BLANK VOTE/VOID VOTE/SCATTERING",
-                        "BLANK VOTES", "NONE OF THE ABOVE", "NONE OF THESE CANDIDATES", "SCATTERING", "UNDERVOTES", "VOID", "VOID VOTE"])
+        self.real = not(candidate in ["Write-In", "Invalid"])
 
 
 class Nominee:
