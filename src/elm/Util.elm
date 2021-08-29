@@ -148,8 +148,7 @@ boolToInt bool =
 
 ifQualifyingParty : Float -> Party -> Bool
 ifQualifyingParty total_votes party =
-    --party.votes / total_votes >= 0.01 || party.seats > 0
-    True
+    party.votes / total_votes >= 0.01 || party.seats > 0
 
 
 
