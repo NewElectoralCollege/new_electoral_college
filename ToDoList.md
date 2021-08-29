@@ -6,6 +6,7 @@
 -   Update elector allocations graph in official proposal
 -   Add back Hemicircle
 -   Fix 404.html
+-   Work on emails
 
 Flags in database
 
