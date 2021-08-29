@@ -1,7 +1,9 @@
 module StateResults exposing (main)
 
-import Browser exposing (element)
+import Browser exposing (document, element)
 import Dict as D exposing (Dict)
+import Footer exposing (footer)
+import Header exposing (header)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, type_)
 import Html.Events exposing (onClick)
@@ -404,8 +406,8 @@ init flags =
         )
 
 
-view : Model -> Html Msg
-view model =
+body : Model -> Html Msg
+body model =
     case model.status of
         Complete ->
             div [ class "container", id "state-container" ]
@@ -491,9 +493,13 @@ view model =
 
 main : Program ( String, Int ) Model Msg
 main =
-    element
+    document
         { init = init
-        , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = always Sub.none
+        , view =
+            \model ->
+                { title = "The New Electoral College - Viewing State"
+                , body = [ header Nothing, br [] [], br [] [], br [] [], br [] [], body model, footer ]
+                }
         }

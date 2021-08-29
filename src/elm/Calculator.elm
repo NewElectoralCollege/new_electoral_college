@@ -1,13 +1,15 @@
 module Calculator exposing (main)
 
-import Browser exposing (element)
+import Browser exposing (document, element)
 import Browser.Events exposing (onAnimationFrameDelta)
 import Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTransformations, step)
 import Calculator.Form exposing (makePartiesForm, partiesHeader)
 import Calculator.Hare exposing (hare, quota)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
 import Calculator.Pie exposing (pie)
-import Html exposing (Html, div, h1, h2, p, table, td, tr)
+import Footer exposing (footer)
+import Header exposing (Page(..), header)
+import Html exposing (Html, br, div, h1, h2, p, table, td, tr)
 import Html.Attributes exposing (class, id, rowspan, style)
 import Party exposing (Party(..))
 import Util as U exposing (Party, styleNumFloat)
@@ -44,8 +46,8 @@ init _ =
     ( { defaultModel | slices = resetTransformations defaultModel }, Cmd.none )
 
 
-view : Model -> Html Msg
-view model =
+body : Model -> Html Msg
+body model =
     div
         []
         [ div
@@ -125,9 +127,13 @@ subscriptions model =
 
 main : Program () Model Msg
 main =
-    element
+    document
         { init = init
-        , view = view
         , update = update
         , subscriptions = subscriptions
+        , view =
+            \model ->
+                { title = "The New Electoral College - Calculator"
+                , body = [ header Nothing, br [] [], br [] [], body model, footer ]
+                }
         }

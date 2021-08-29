@@ -1,8 +1,10 @@
 module Proposal exposing (main)
 
-import Browser exposing (element)
+import Browser exposing (document)
 import Either exposing (Either(..))
-import Html exposing (Html, div, footer, h2, img, node, p, text)
+import Footer exposing (footer)
+import Header exposing (Page(..), header)
+import Html as H exposing (Html, br, div, h2, img, node, p, text)
 import Html.Attributes exposing (class, src, style, width)
 import Http exposing (Error, expectString, get)
 import List.Extra exposing (last)
@@ -243,7 +245,7 @@ textAndImage sectiontype par =
                 "blockquote"
                 [ class "blockquote mb-0" ]
                 [ p [] [ quote |> String.dropRight 4 |> String.dropLeft 9 |> text ]
-                , footer [ class "blockquote-footer" ] [ author |> String.dropRight 17 |> text ]
+                , H.footer [ class "blockquote-footer" ] [ author |> String.dropRight 17 |> text ]
                 ]
             ]
 
@@ -327,8 +329,8 @@ init _ =
     ( "", getText )
 
 
-view : Model -> Html Msg
-view model =
+body : Model -> Html Msg
+body model =
     model
         |> String.lines
         |> String.join ""
@@ -353,9 +355,13 @@ update msg model =
 
 main : Program () Model Msg
 main =
-    element
+    document
         { init = init
-        , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = always Sub.none
+        , view =
+            \model ->
+                { title = "The New Electoral College - Proposal"
+                , body = [ header (Just Proposal), br [] [], br [] [], br [] [], br [] [], body model, footer ]
+                }
         }

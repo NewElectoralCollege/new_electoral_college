@@ -1,7 +1,9 @@
-module Home exposing (main)
+module Index exposing (main)
 
-import Browser exposing (element)
-import Html exposing (Html, a, b, blockquote, br, div, footer, h1, h2, hr, img, p, text)
+import Browser exposing (document)
+import Footer exposing (footer)
+import Header exposing (Page(..), header)
+import Html as H exposing (Html, a, b, blockquote, br, div, h1, h2, hr, img, p, text)
 import Html.Attributes exposing (alt, attribute, class, href, src, style)
 
 
@@ -32,24 +34,11 @@ license image img_href photographer phg_href =
 
 
 
--- Type definitions
-
-
-type alias Model =
-    String
-
-
-
 -- Required functions
 
 
-init : () -> ( Model, Cmd msg )
-init _ =
-    ( "", Cmd.none )
-
-
-view : Model -> Html msg
-view _ =
+body : Html msg
+body =
     div
         []
         [ div
@@ -76,7 +65,7 @@ view _ =
                         , href "./proposal.html"
                         , attribute "role" "button"
                         ]
-                        [ text <| "Learn more \u{00BB}" ]
+                        [ text <| "Learn more »" ]
                     ]
                 ]
             ]
@@ -146,12 +135,12 @@ view _ =
             [ class "container" ]
             [ blockquote
                 [ class "blockquote text-right" ]
-                [ text <| "Two roads diverged in a wood, and I\u{2014}"
+                [ text <| "Two roads diverged in a wood, and I—"
                 , br [] []
                 , text "I took the one less traveled by,"
                 , br [] []
                 , text "And that has made all the difference."
-                , footer
+                , H.footer
                     [ class "blockquote-footer" ]
                     [ text "Robert Frost" ]
                 ]
@@ -159,16 +148,15 @@ view _ =
         ]
 
 
-update : msg -> Model -> ( Model, Cmd msg )
-update _ model =
-    ( model, Cmd.none )
-
-
-main : Program () Model msg
+main : Program () () msg
 main =
-    element
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = \_ -> Sub.none
+    document
+        { init = always ( (), Cmd.none )
+        , update = \_ _ -> ( (), Cmd.none )
+        , subscriptions = always Sub.none
+        , view =
+            always
+                { title = "The New Electoral College - Main"
+                , body = [ header (Just Home), br [] [], br [] [], body, footer ]
+                }
         }

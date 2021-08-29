@@ -1,6 +1,8 @@
 module Endorsements exposing (main)
 
-import Browser exposing (element)
+import Browser exposing (document)
+import Footer exposing (footer)
+import Header exposing (header)
 import Html exposing (Html, a, br, div, h1, h2, li, ol, p, text)
 import Html.Attributes exposing (class, href)
 import List.Extra exposing (count, groupsOfVarying, unique)
@@ -307,36 +309,28 @@ makeEndorser { endorser, office, link } =
 -- Main functions
 
 
-type alias Model =
-    String
-
-
-init : () -> ( Model, Cmd msg )
-init _ =
-    ( "", Cmd.none )
-
-
-view : Model -> Html msg
-view _ =
+body : Html msg
+body =
     let
         counts =
-            List.map (\n -> count ((==) n << getHeader << .office) endorsements) (unique <| List.map (getHeader << .office) endorsements)
+            List.map
+                (\n -> count ((==) n << getHeader << .office) endorsements)
+                (unique <| List.map (getHeader << .office) endorsements)
     in
     div
         [ class "container" ]
         (h1 [] [ text "Endorsements" ] :: (List.map makeDivision <| groupsOfVarying counts endorsements))
 
 
-update : msg -> Model -> ( Model, Cmd msg )
-update _ model =
-    ( model, Cmd.none )
-
-
-main : Program () Model msg
+main : Program () () msg
 main =
-    element
-        { init = init
-        , view = view
-        , update = update
+    document
+        { init = always ( (), Cmd.none )
+        , update = \_ _ -> ( (), Cmd.none )
         , subscriptions = always Sub.none
+        , view =
+            always
+                { title = "The New Electoral College - Endorsements"
+                , body = [ header Nothing, br [] [], br [] [], br [] [], br [] [], body, footer ]
+                }
         }

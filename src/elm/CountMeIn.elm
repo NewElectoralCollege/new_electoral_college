@@ -1,31 +1,20 @@
 module CountMeIn exposing (main)
 
-import Browser exposing (element)
-import Html exposing (Html, b, button, div, form, h2, input, label, option, p, select, small, text)
+import Browser exposing (document)
+import Footer exposing (footer)
+import Header exposing (Page(..), header)
+import Html exposing (Html, b, br, button, div, form, h2, input, label, option, p, select, small, text)
 import Html.Attributes exposing (action, class, for, id, method, name, novalidate, placeholder, required, type_)
 import State exposing (states)
 import Util exposing (getName)
 
 
 
--- Type Definitions
-
-
-type alias Model =
-    String
-
-
-
 -- Setup Functions
 
 
-init : () -> ( Model, Cmd msg )
-init _ =
-    ( "", Cmd.none )
-
-
-view : Model -> Html msg
-view _ =
+body : Html msg
+body =
     div
         [ class "container" ]
         [ h2
@@ -129,16 +118,15 @@ view _ =
         ]
 
 
-update : msg -> Model -> ( Model, Cmd msg )
-update _ model =
-    ( model, Cmd.none )
-
-
-main : Program () Model msg
+main : Program () () msg
 main =
-    element
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = \_ -> Sub.none
+    document
+        { init = always ( (), Cmd.none )
+        , update = \_ _ -> ( (), Cmd.none )
+        , subscriptions = always Sub.none
+        , view =
+            always
+                { title = "The New Electoral College - Count Me In"
+                , body = [ header (Just CountMeIn), br [] [], br [] [], br [] [], br [] [], body, footer ]
+                }
         }

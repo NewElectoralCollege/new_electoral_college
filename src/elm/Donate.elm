@@ -1,6 +1,8 @@
 module Donate exposing (main)
 
-import Browser exposing (element)
+import Browser exposing (document)
+import Footer exposing (footer)
+import Header exposing (header)
 import Html exposing (Html, a, br, div, form, h2, input, label, p, text)
 import Html.Attributes exposing (class, for, href, id, name, pattern, placeholder, required, type_)
 import Html.Events exposing (onInput)
@@ -96,8 +98,8 @@ init _ =
     ( Model ( "Atlanta", "GA" ) utc False, Task.perform AdjustTimeZone here )
 
 
-view : Model -> Html Msg
-view { pl_city, o200 } =
+body : Model -> Html Msg
+body { pl_city, o200 } =
     div
         [ class "container" ]
         [ h2 [] [ text "Donate" ]
@@ -378,9 +380,13 @@ subscriptions _ =
 
 main : Program () Model Msg
 main =
-    element
+    document
         { init = init
-        , view = view
         , update = update
         , subscriptions = subscriptions
+        , view =
+            \model ->
+                { title = "The New Electoral College - Donate"
+                , body = [ header Nothing, br [] [], br [] [], br [] [], br [] [], body model, footer ]
+                }
         }

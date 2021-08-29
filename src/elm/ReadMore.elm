@@ -1,6 +1,8 @@
 module ReadMore exposing (main)
 
-import Browser exposing (element)
+import Browser exposing (document)
+import Footer exposing (footer)
+import Header exposing (Page(..), header)
 import Html exposing (Html, a, br, button, div, h2, img, p, span, text)
 import Html.Attributes exposing (attribute, class, href, id, property, src, style, target, title, type_)
 import Json.Encode exposing (string)
@@ -84,13 +86,8 @@ type alias Model =
 -- Setup Functions
 
 
-init : () -> ( Model, Cmd msg )
-init _ =
-    ( "The-Proposal", Cmd.none )
-
-
-view : Model -> Html msg
-view model =
+body : Model -> Html msg
+body model =
     div
         [ class "container" ]
         [ h2
@@ -168,16 +165,15 @@ view model =
         ]
 
 
-update : msg -> Model -> ( Model, Cmd msg )
-update _ model =
-    ( model, Cmd.none )
-
-
 main : Program () Model msg
 main =
-    element
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = \_ -> Sub.none
+    document
+        { init = always ( "The-Proposal", Cmd.none )
+        , update = \_ model -> ( model, Cmd.none )
+        , subscriptions = always Sub.none
+        , view =
+            \model ->
+                { title = "The New Electoral College - More Reading"
+                , body = [ header (Just ReadMore), br [] [], br [] [], br [] [], br [] [], body model, footer ]
+                }
         }

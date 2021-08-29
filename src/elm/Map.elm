@@ -1,7 +1,9 @@
 port module Map exposing (main)
 
-import Browser exposing (element)
+import Browser exposing (document)
 import Dict as D
+import Footer exposing (footer)
+import Header exposing (Page(..), header)
 import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, th, tr)
 import Html.Attributes exposing (class, colspan, href, id, rowspan, style)
 import Html.Events exposing (onClick)
@@ -289,7 +291,7 @@ doStateRow partyname ({ list, stats, state } as current) p =
         [ td
             [ style "font-weight" bold ]
             [ a
-                [ href <| "state.html?year=" ++ String.fromInt current.year ++ "&state=" ++ getName state ]
+                [ href <| "stateresults.html?year=" ++ String.fromInt current.year ++ "&state=" ++ getName state ]
                 [ U.text <| getName state ]
             ]
         , td [] [ U.text <| styleNumFloat <| .votes <| T.first party ]
@@ -410,8 +412,8 @@ init year =
     )
 
 
-view : Model -> Html Msg
-view model =
+body : Model -> Html Msg
+body model =
     div [ class "container", id "main" ]
         [ div
             [ class "container" ]
@@ -562,11 +564,15 @@ subscriptions _ =
 
 main : Program Int Model Msg
 main =
-    element
+    document
         { init = init
-        , view = view
         , update = update
         , subscriptions = subscriptions
+        , view =
+            \model ->
+                { title = "The New Electoral College - See the Results"
+                , body = [ header (Just Results), br [] [], br [] [], br [] [], br [] [], body model, footer ]
+                }
         }
 
 
