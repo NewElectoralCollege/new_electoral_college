@@ -1,7 +1,8 @@
 module Calculator.Pie exposing (pie, slice)
 
+import Animation exposing (Animatable, Status(..), transformString)
 import Calculator.Geometry exposing (Point, angle, height, point, startingAngle, width)
-import Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, SliceStatus(..), Target)
+import Calculator.Model exposing (Model, Msg(..), Showing(..), Slice)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
@@ -11,7 +12,7 @@ import Svg.Attributes exposing (d, fill, stroke, transform)
 import Util exposing (areEqual)
 
 
-slice : Model -> Slice -> Svg Msg
+slice : Model -> Animatable Slice -> Svg Msg
 slice model { party, status, showing } =
     let
         starting_angle =
@@ -52,7 +53,7 @@ pie model showing =
         (List.map (slice model) <| List.filter (areEqual showing .showing) <| List.filter showSlice model.slices)
 
 
-showSlice : Slice -> Bool
+showSlice : Animatable Slice -> Bool
 showSlice slc =
     case slc.showing of
         Vote ->
@@ -70,27 +71,3 @@ stringifyPoint ( a, b ) =
 difference : Point -> Point -> Point
 difference ( a1, b1 ) ( a2, b2 ) =
     ( a1 - a2, b1 - b2 )
-
-
-transformHelp : Target -> String
-transformHelp { tx, ty, ta, ts } =
-    "translate("
-        ++ String.fromFloat tx
-        ++ " "
-        ++ String.fromFloat ty
-        ++ ") rotate("
-        ++ String.fromFloat ta
-        ++ ")"
-        ++ " scale("
-        ++ String.fromFloat ts
-        ++ ")"
-
-
-transformString : SliceStatus -> String
-transformString status =
-    case status of
-        Static x y a s ->
-            transformHelp (Target x y a s)
-
-        Moving _ _ _ _ x y a s _ ->
-            transformHelp (Target x y a s)

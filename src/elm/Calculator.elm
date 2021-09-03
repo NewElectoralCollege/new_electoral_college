@@ -1,8 +1,9 @@
 module Calculator exposing (main)
 
-import Browser exposing (document, element)
+import Animation exposing (isAnyMoving, stepAll)
+import Browser exposing (document)
 import Browser.Events exposing (onAnimationFrameDelta)
-import Calculator.Animation exposing (isMoving, moveSlices, resetSlices, resetTransformations, step)
+import Calculator.Animation exposing (moveSlices, resetSlices, resetTransformations)
 import Calculator.Form exposing (makePartiesForm, partiesHeader)
 import Calculator.Hare exposing (hare, quota)
 import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
@@ -106,8 +107,8 @@ update msg model =
         TimeDelta timeDelta ->
             ( { model
                 | slices =
-                    if isMoving model.slices then
-                        step timeDelta model.slices
+                    if isAnyMoving model.slices then
+                        stepAll timeDelta model.slices
 
                     else
                         model.slices
@@ -118,7 +119,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    if isMoving model.slices then
+    if isAnyMoving model.slices then
         onAnimationFrameDelta TimeDelta
 
     else

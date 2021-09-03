@@ -1,20 +1,8 @@
-module Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, SliceStatus(..), Target, getCurrentShowing, totalSeats, totalVotes)
+module Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
 
+import Animation exposing (Animatable, Target)
 import Party
 import Util exposing (Party, summateRecords)
-
-
-type alias Target =
-    { tx : Float
-    , ty : Float
-    , ta : Float
-    , ts : Float
-    }
-
-
-type SliceStatus
-    = Static Float Float Float Float
-    | Moving Float Float Float Float Float Float Float Float Target
 
 
 type Showing
@@ -23,11 +11,11 @@ type Showing
 
 
 type alias Slice =
-    { party : Party
-    , status : SliceStatus
-    , showing : Showing
-    , highlighted_target : Target
-    }
+    Animatable
+        { party : Party
+        , showing : Showing
+        , highlighted_target : Target
+        }
 
 
 
@@ -46,7 +34,7 @@ type alias Model =
     { parties : List Party
     , calculated : Bool
     , seats : Float
-    , slices : List Slice
+    , slices : List (Animatable Slice)
     }
 
 

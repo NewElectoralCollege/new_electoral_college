@@ -356,7 +356,7 @@ update msg model =
                     _ ->
                         let
                             election =
-                                Election (updateColors parties) model.stats model.state model.year
+                                Election (updateColors parties) model.stats Nothing model.state model.year
                         in
                         update SendRequestStats
                             { model | elections = D.insert model.year election model.elections }
@@ -421,7 +421,7 @@ body model =
                         [ marker [ Sa.class "arrowhead", id "bars", markerWidth "10", markerHeight "7", refX "6", refY "2", orient "0" ] [ polygon [ Sa.style "display:inline-block", points "4 2, 6 0, 8 2" ] [] ] ]
                     , g
                         [ id "circles" ]
-                        (colorCircles model.list <| getCircles (getAngle model.stats 0) model 0)
+                        (colorCircles model.state model.list <| getCircles (getAngle model.stats 0) model 0)
                     , g
                         [ id "bar" ]
                         (doPartyBars [] model.list 100.0 model)
@@ -459,7 +459,7 @@ body model =
                             [ a [ Ha.style "color" "#fff", attribute "download" (getName model.state), href ("data/" ++ String.fromInt model.year ++ "/" ++ getName model.state ++ ".json") ] [ U.text "Download" ] ]
                         , button
                             [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                            [ a [ Ha.style "color" "#fff", href "results.html" ] [ U.text "Back" ] ]
+                            [ a [ Ha.style "color" "#fff", href "map.html" ] [ U.text "Back" ] ]
                         ]
                     , br [] []
                     , br [] []
