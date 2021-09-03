@@ -1,5 +1,6 @@
 module Util exposing
-    ( Election
+    ( Dot
+    , Election
     , Msg(..)
     , Party
     , Stats
@@ -10,6 +11,7 @@ module Util exposing
     , concatTuple
     , dropMaybe
     , exists
+    , first3
     , firstYear
     , fix_change
     , floor
@@ -34,15 +36,17 @@ module Util exposing
     , stylePercent
     , summateRecords
     , text
+    , tupleTail
     , updateColors
     , voteChange
     , won
     )
 
+import Animation exposing (Animatable)
 import Basics as B
 import Dict as D exposing (Dict)
 import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
-import Html.Attributes exposing (class, colspan, rowspan, style)
+import Html.Attributes exposing (class, colspan, id, rowspan, style)
 import Http exposing (Error, Expect, expectJson)
 import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, nullable, string)
 import List.Extra exposing (splitAt)
@@ -93,9 +97,17 @@ type alias Party =
 type alias Election =
     { list : List Party
     , stats : Stats
+    , dots : Maybe (List (Animatable Dot))
     , state : State
     , year : Int
     }
+
+
+type alias Dot =
+    Animatable
+        { hemicircle : ( Float, Float )
+        , map : ( Float, Float )
+        }
 
 
 
@@ -144,6 +156,16 @@ boolToInt bool =
 
     else
         0
+
+
+first3 : ( a, b, c ) -> a
+first3 ( a, _, _ ) =
+    a
+
+
+tupleTail : ( a, b, c ) -> ( b, c )
+tupleTail ( _, b, c ) =
+    ( b, c )
 
 
 ifQualifyingParty : Float -> Party -> Bool
@@ -248,11 +270,11 @@ fix_change string =
 -- This colors a list of circles according to Party seat results.
 
 
-colorCircles : List Party -> List (Svg a) -> List (Svg a)
-colorCircles parties circles =
+colorCircles : State -> List Party -> List (Svg a) -> List (Svg a)
+colorCircles state parties circles =
     List.indexedMap
         (\n party ->
-            g [ fill party.color ]
+            g [ fill party.color, id <| Debug.toString state ]
                 (splitAtFloat
                     (parties
                         |> splitAt n
