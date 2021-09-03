@@ -1,34 +1,39 @@
 port module Map exposing (main)
 
+import Animation exposing (Animatable, Status(..), Target, isAnyMoving, move, stepAll, transformString)
 import Browser exposing (document)
+import Browser.Events exposing (onAnimationFrameDelta)
 import Dict as D
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
-import Html exposing (Attribute, Html, a, br, div, h1, p, span, table, td, th, tr)
-import Html.Attributes exposing (class, colspan, href, id, rowspan, style)
+import Html exposing (Attribute, Html, a, br, button, div, h1, p, span, table, td, th, tr)
+import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, style, type_)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (at, decodeString, dict, list, string)
-import List.Extra exposing (find, init, uniqueBy)
+import List.Extra exposing (find, getAt, init, uniqueBy)
 import Party exposing (Party(..), color)
 import State exposing (State(..), StateOutline, outline, states)
 import Svg exposing (Svg, circle, g, svg)
-import Svg.Attributes as Sa exposing (cx, cy, r)
+import Svg.Attributes as Sa exposing (cx, cy, r, transform)
 import Ticket exposing (nominee, realElectors)
 import Tuple as T
 import Util as U
     exposing
-        ( Election
+        ( Dot
+        , Election
         , Party
         , Stats
         , areEqual
         , colorCircles
         , dropMaybe
+        , first3
         , firstYear
         , fix_change
         , getName
         , getPartyProgressBar
         , ifQualifyingParty
+        , lambdaCompare
         , lastYear
         , newParty
         , partyContainer
@@ -38,6 +43,7 @@ import Util as U
         , styleNumFloat
         , stylePercent
         , summateRecords
+        , tupleTail
         , voteChange
         , won
         )
@@ -56,6 +62,11 @@ type Pattern
     = Square Int
     | Rectangle Direction Int Int
     | Triumvirate Direction
+
+
+spotRadius : Float
+spotRadius =
+    5.5
 
 
 getX : Pattern -> Float
@@ -98,7 +109,7 @@ getPattern so total_seats =
                 sqrt total_seats
 
             a =
-                floor <| min so.width so.height / (2 * 5.5)
+                floor <| min so.width so.height / (2 * spotRadius)
 
             b =
                 round <|
@@ -111,7 +122,7 @@ getPattern so total_seats =
         if List.member total_seats [ 4, 9 ] then
             Square (floor sq)
 
-        else if 2 * 5.5 * sq > min so.width so.height then
+        else if 2 * spotRadius * sq > min so.width so.height then
             if so.width < so.height then
                 Rectangle Vertical a b
 
@@ -133,12 +144,12 @@ getPattern so total_seats =
 
 row : Float -> Float -> Int -> List ( Float, Float )
 row x y columns =
-    List.map (\n -> ( x + (5.5 * 2 * toFloat n), y + (5.5 * 2) )) <| List.range 0 (columns - 1)
+    List.map (\n -> ( x + (spotRadius * 2 * toFloat n), y + (spotRadius * 2) )) <| List.range 0 (columns - 1)
 
 
 column : Float -> Float -> Int -> List ( Float, Float )
 column x y rows =
-    List.map (\n -> ( x + (5.5 * 2), y + (5.5 * 2 * toFloat n) )) <| List.range 0 (rows - 1)
+    List.map (\n -> ( x + (spotRadius * 2), y + (spotRadius * 2 * toFloat n) )) <| List.range 0 (rows - 1)
 
 
 type CoordType
@@ -148,19 +159,19 @@ type CoordType
 
 makeOffset : Pattern -> CoordType -> Float -> Float
 makeOffset pattern xoy coord =
-    (5.5 * 2 * (coord / 2 - 0.5))
+    (spotRadius * 2 * (coord / 2 - 0.5))
         + (case ( pattern, xoy ) of
             ( Square _, Y ) ->
-                5.5 * 2
+                spotRadius * 2
 
             ( Rectangle _ _ _, Y ) ->
-                5.5 * 2
+                spotRadius * 2
 
             ( Triumvirate Vertical, X ) ->
-                5.5 * 2
+                spotRadius * 2
 
             ( Triumvirate Horizontal, Y ) ->
-                5.5 * 2
+                spotRadius * 2
 
             ( _, _ ) ->
                 0
@@ -175,18 +186,18 @@ makeCircles ( x, y ) pattern total_seats progress =
     else
         case pattern of
             Square b ->
-                List.append (row x y b) (makeCircles ( x, y + (5.5 * 2) ) pattern total_seats (progress + b))
+                List.append (row x y b) (makeCircles ( x, y + (spotRadius * 2) ) pattern total_seats (progress + b))
 
             Rectangle _ c _ ->
                 let
                     offset =
                         if (total_seats - (progress + c)) < c then
-                            5.5 * toFloat (c - (total_seats - (progress + c)))
+                            spotRadius * toFloat (c - (total_seats - (progress + c)))
 
                         else
                             0
                 in
-                List.concat [ row x y c, makeCircles ( x + offset, y + (5.5 * 2) ) pattern total_seats (progress + c) ]
+                List.concat [ row x y c, makeCircles ( x + offset, y + (spotRadius * 2) ) pattern total_seats (progress + c) ]
 
             Triumvirate Vertical ->
                 column x y 3
@@ -195,8 +206,44 @@ makeCircles ( x, y ) pattern total_seats progress =
                 row x y 3
 
 
-makeState : Election -> List (Svg Msg)
-makeState { list, stats, state } =
+makeState : List Party -> Model -> Election -> List (Svg Msg)
+makeState national_parties model { list, dots, state } =
+    case dots of
+        Just a ->
+            let
+                result party =
+                    floor <| Maybe.withDefault 0 <| Maybe.map .seats <| find (areEqual party.name .name) national_parties
+
+                sl =
+                    case model.dotpos of
+                        Map ->
+                            list
+
+                        Hemicircle ->
+                            List.reverse <| List.sortBy result list
+            in
+            colorCircles state
+                sl
+                (List.map
+                    (\dot ->
+                        circle
+                            [ r <| String.fromFloat spotRadius
+                            , cx "0"
+                            , cy "0"
+                            , transform <| transformString dot.status
+                            , Sa.style "stroke-width:0.8534;stroke:#000000"
+                            ]
+                            []
+                    )
+                    a
+                )
+
+        Nothing ->
+            []
+
+
+makeMapDots : Election -> List ( Float, Float )
+makeMapDots { stats, state } =
     let
         ol =
             outline state
@@ -219,20 +266,129 @@ makeState { list, stats, state } =
             , T.second center - T.second offset
             )
     in
-    colorCircles list
-        (List.map
-            (\( f, s ) ->
-                circle
-                    [ r "5.5", cx (String.fromFloat f), cy (String.fromFloat s), Sa.style "stroke-width:0.8534;stroke:#000000" ]
-                    []
-            )
-            (makeCircles
-                begin
-                pattern
-                (floor <| stats.total_seats)
-                0
-            )
-        )
+    makeCircles
+        begin
+        pattern
+        (floor <| stats.total_seats)
+        0
+
+
+makeHemicircleDots : State -> Instance -> List Election -> List Party.Party -> List ( Float, Float ) -> List ( Float, Float )
+makeHemicircleDots state instance elections parties dots =
+    case ( parties, elections ) of
+        ( [], _ ) ->
+            []
+
+        ( _ :: ps, [] ) ->
+            makeHemicircleDots state instance instance ps dots
+
+        ( (p :: _) as pss, s :: ss ) ->
+            let
+                result =
+                    floor <| Maybe.withDefault 0 <| Maybe.map .seats <| find (areEqual p .name) s.list
+            in
+            if s.state == state then
+                List.take result dots ++ makeHemicircleDots state instance ss pss (List.drop result dots)
+
+            else
+                makeHemicircleDots state instance ss pss (List.drop result dots)
+
+
+hemicircleDots : List ( Float, Float )
+hemicircleDots =
+    let
+        rows =
+            12
+
+        numbers =
+            List.range 1 (floor rows)
+
+        makeRow : Float -> List ( Float, Float, Float )
+        makeRow i =
+            let
+                magic_number =
+                    3 * rows + 4 * i - 2
+
+                dots =
+                    Maybe.withDefault 0 <| getAt (floor i - 1) [ 28, 30, 32, 34, 40, 44, 46, 50, 52, 56, 56, 58 ]
+
+                rowRadius =
+                    magic_number / (3 * rows)
+
+                s =
+                    sin (degrees (5.5 / rowRadius))
+
+                angle : Int -> Float
+                angle n =
+                    toFloat n * ((pi - 2 * s) / dots) + s
+
+                coords : Int -> ( Float, Float, Float )
+                coords n =
+                    ( angle n
+                    , 100 * (rowRadius * cos (angle n) + 4)
+                    , 100 * (1 - (rowRadius * sin (angle n)) + 1)
+                    )
+            in
+            List.map coords (List.range 0 <| floor dots)
+    in
+    List.concatMap (makeRow << toFloat) numbers |> List.sortBy first3 |> List.reverse |> List.map tupleTail
+
+
+makeDots : Instance -> Election -> List (Animatable Dot)
+makeDots instance ({ state } as election) =
+    let
+        parties =
+            instance
+                |> partiesInInstance
+                |> List.sortBy .seats
+                |> List.reverse
+                |> List.filter (lambdaCompare (>) 0 .seats)
+                |> List.map .name
+
+        makeDot a (( x, y ) as b) =
+            { hemicircle = a
+            , map = b
+            , status = Static x y 0 1
+            }
+    in
+    List.map2 makeDot
+        (makeHemicircleDots state instance instance parties hemicircleDots)
+        (makeMapDots election)
+
+
+moveDots : DotPosition -> Election -> Election
+moveDots dotpos e =
+    case e.dots of
+        Just dots ->
+            { e | dots = Just <| List.map (move (getDotTarget dotpos)) dots }
+
+        Nothing ->
+            e
+
+
+stepDots : Float -> Election -> Election
+stepDots timeDelta e =
+    case e.dots of
+        Just dots ->
+            { e | dots = Just <| stepAll timeDelta dots }
+
+        Nothing ->
+            e
+
+
+getDotTarget : DotPosition -> Animatable Dot -> Target
+getDotTarget dotpos dot =
+    case dotpos of
+        Hemicircle ->
+            Target (T.first dot.hemicircle) (T.second dot.hemicircle) 0 1
+
+        Map ->
+            Target (T.first dot.map) (T.second dot.map) 0 1
+
+
+getAllDots : Model -> List (Animatable Dot)
+getAllDots model =
+    List.concat <| List.filterMap .dots model.current
 
 
 
@@ -363,7 +519,17 @@ partiesInInstance es =
 
 rewriteInstance : List (List Party) -> List Stats -> Int -> Instance
 rewriteInstance parties stats year =
-    List.map4 Election parties stats states (List.repeat (List.length parties) year)
+    let
+        a =
+            List.map5
+                Election
+                parties
+                stats
+                (List.map (always Nothing) parties)
+                states
+                (List.repeat (List.length parties) year)
+    in
+    List.map (\n -> { n | dots = Just <| makeDots a n }) a
 
 
 
@@ -386,6 +552,13 @@ type Msg
     = Reset Int
     | ChangeYear Bool Int
     | Response (Result Error (D.Dict String String))
+    | MoveDots DotPosition
+    | TimeDelta Float
+
+
+type DotPosition
+    = Hemicircle
+    | Map
 
 
 type alias Model =
@@ -394,6 +567,7 @@ type alias Model =
     , writingToPrevious : Bool
     , current : Instance
     , previous : Instance
+    , dotpos : DotPosition
     }
 
 
@@ -405,7 +579,7 @@ init : Int -> ( Model, Cmd Msg )
 init year =
     let
         r =
-            update (ChangeYear False year) <| Model year year False [] []
+            update (ChangeYear False year) <| Model year year False [] [] Map
     in
     ( T.first r
     , T.second r
@@ -442,14 +616,34 @@ body model =
                     [ svg
                         [ Sa.width "975px", Sa.height "520px", Sa.viewBox "0 0 800 193", id "map-svg" ]
                         (g [ Sa.class "include", Sa.id "paths" ] []
-                            :: List.concatMap makeState model.current
+                            :: List.concatMap (makeState (partiesInInstance model.current) model) model.current
                         )
                     ]
                 , span (getArrow model "right") []
                 ]
             , div
                 [ class "container", style "width" "fit-content" ]
-                [ div [ class "container col-sm-2", id "hemicircle", style "display" "inline-block" ] []
+                [ div
+                    [ class "container col-sm-2"
+                    , id "switch"
+                    , style "display" "inline-block"
+                    ]
+                    [ span
+                        [ class "btn-group", attribute "role" "group" ]
+                        [ button
+                            [ type_ "button", class "btn btn-secondary", style "display" "inline-block", onClick (MoveDots Map) ]
+                            [ a
+                                [ style "color" "#fff" ]
+                                [ U.text "Map" ]
+                            ]
+                        , button
+                            [ type_ "button", class "btn btn-secondary", style "display" "inline-block", onClick (MoveDots Hemicircle) ]
+                            [ a
+                                [ style "color" "#fff" ]
+                                [ U.text "Hemicircle" ]
+                            ]
+                        ]
+                    ]
                 , div
                     [ class "container col-sm-2"
                     , style "display" "inline-block"
@@ -553,13 +747,30 @@ update msg model =
                 in
                 ( T.first r, T.second r )
 
-        _ ->
-            Debug.todo (Debug.toString msg)
+        MoveDots a ->
+            ( { model
+                | dotpos = a
+                , current = List.map (moveDots a) model.current
+              }
+            , Cmd.none
+            )
+
+        TimeDelta timeDelta ->
+            ( { model | current = List.map (stepDots timeDelta) model.current }
+            , Cmd.none
+            )
+
+        Response (Err _) ->
+            ( model, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
-    sendMsg (ChangeYear False)
+subscriptions model =
+    if isAnyMoving (getAllDots model) then
+        onAnimationFrameDelta TimeDelta
+
+    else
+        sendMsg (ChangeYear False)
 
 
 main : Program Int Model Msg
