@@ -107,6 +107,7 @@ type alias Dot =
     Animatable
         { hemicircle : ( Float, Float )
         , map : ( Float, Float )
+        , bar : ( Float, Float )
         }
 
 

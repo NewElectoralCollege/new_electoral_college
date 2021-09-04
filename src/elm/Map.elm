@@ -219,7 +219,7 @@ makeState national_parties model { list, dots, state } =
                         Map ->
                             list
 
-                        Hemicircle ->
+                        _ ->
                             List.reverse <| List.sortBy result list
             in
             colorCircles state
@@ -273,14 +273,14 @@ makeMapDots { stats, state } =
         0
 
 
-makeHemicircleDots : State -> Instance -> List Election -> List Party.Party -> List ( Float, Float ) -> List ( Float, Float )
-makeHemicircleDots state instance elections parties dots =
+makePartyDots : State -> Instance -> List Election -> List Party.Party -> List ( Float, Float ) -> List ( Float, Float )
+makePartyDots state instance elections parties dots =
     case ( parties, elections ) of
         ( [], _ ) ->
             []
 
         ( _ :: ps, [] ) ->
-            makeHemicircleDots state instance instance ps dots
+            makePartyDots state instance instance ps dots
 
         ( (p :: _) as pss, s :: ss ) ->
             let
@@ -288,10 +288,10 @@ makeHemicircleDots state instance elections parties dots =
                     floor <| Maybe.withDefault 0 <| Maybe.map .seats <| find (areEqual p .name) s.list
             in
             if s.state == state then
-                List.take result dots ++ makeHemicircleDots state instance ss pss (List.drop result dots)
+                List.take result dots ++ makePartyDots state instance ss pss (List.drop result dots)
 
             else
-                makeHemicircleDots state instance ss pss (List.drop result dots)
+                makePartyDots state instance ss pss (List.drop result dots)
 
 
 hemicircleDots : List ( Float, Float )
@@ -334,6 +334,24 @@ hemicircleDots =
     List.concatMap (makeRow << toFloat) numbers |> List.sortBy first3 |> List.reverse |> List.map tupleTail
 
 
+barDots : List ( Float, Float )
+barDots =
+    let
+        columns =
+            44
+
+        rows =
+            12
+
+        start_x =
+            800 / 2 - ((columns / 2) * (spotRadius * 2))
+
+        pattern =
+            Rectangle Horizontal columns rows
+    in
+    makeCircles ( start_x, 0 ) pattern 538 0
+
+
 makeDots : Instance -> Election -> List (Animatable Dot)
 makeDots instance ({ state } as election) =
     let
@@ -345,15 +363,17 @@ makeDots instance ({ state } as election) =
                 |> List.filter (lambdaCompare (>) 0 .seats)
                 |> List.map .name
 
-        makeDot a (( x, y ) as b) =
+        makeDot a (( x, y ) as b) c =
             { hemicircle = a
             , map = b
+            , bar = c
             , status = Static x y 0 1
             }
     in
-    List.map2 makeDot
-        (makeHemicircleDots state instance instance parties hemicircleDots)
+    List.map3 makeDot
+        (makePartyDots state instance instance parties hemicircleDots)
         (makeMapDots election)
+        (makePartyDots state instance instance parties barDots)
 
 
 moveDots : DotPosition -> Election -> Election
@@ -384,6 +404,9 @@ getDotTarget dotpos dot =
 
         Map ->
             Target (T.first dot.map) (T.second dot.map) 0 1
+
+        Bar ->
+            Target (T.first dot.bar) (T.second dot.bar) 0 1
 
 
 getAllDots : Model -> List (Animatable Dot)
@@ -559,6 +582,7 @@ type Msg
 type DotPosition
     = Hemicircle
     | Map
+    | Bar
 
 
 type alias Model =
@@ -641,6 +665,12 @@ body model =
                             [ a
                                 [ style "color" "#fff" ]
                                 [ U.text "Hemicircle" ]
+                            ]
+                        , button
+                            [ type_ "button", class "btn btn-secondary", style "display" "inline-block", onClick (MoveDots Bar) ]
+                            [ a
+                                [ style "color" "#fff" ]
+                                [ U.text "Bar" ]
                             ]
                         ]
                     ]
