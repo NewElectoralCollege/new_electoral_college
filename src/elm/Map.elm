@@ -6,8 +6,8 @@ import Browser.Events exposing (onAnimationFrameDelta)
 import Dict as D
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
-import Html exposing (Attribute, Html, a, br, button, div, h1, p, span, table, td, th, tr)
-import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, style, type_)
+import Html exposing (Attribute, Html, a, br, button, div, h1, p, span, table, td, text, th, tr)
+import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, style, target, type_)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (at, decodeString, dict, list, string)
@@ -686,6 +686,16 @@ body model =
                     , partyContainer model.current (List.map Just model.previous) doStateRow Republican
                     ]
                 ]
+            , p [ style "float" "right", style "text-align" "right" ]
+                [ text "Data Source: "
+                , a
+                    [ target "_blank"
+                    , href "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX"
+                    ]
+                    [ text "Massachusetts Institute of Technology (MIT) Election Lab" ]
+                ]
+            , br [] []
+            , br [] []
             ]
         ]
 

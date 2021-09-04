@@ -1,11 +1,11 @@
 module StateResults exposing (main)
 
-import Browser exposing (document, element)
+import Browser exposing (document)
 import Dict as D exposing (Dict)
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
-import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, type_)
+import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, target, type_)
 import Html.Events exposing (onClick)
 import List.Extra exposing (find, setAt)
 import Party exposing (Party(..))
@@ -315,7 +315,7 @@ makeStateList state year =
         makeLink n =
             a
                 [ class <| "list-group-item list-group-item-action" ++ active n
-                , href ("state.html?state=" ++ getName n ++ "&year=" ++ year)
+                , href ("stateresults.html?state=" ++ getName n ++ "&year=" ++ year)
                 ]
                 [ U.text <| getName n ]
     in
@@ -485,6 +485,16 @@ body model =
                     , p [] [ U.text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
                     , p [] [ U.text "Where ", var [] [ U.text "V" ], U.text " is the percentage of votes cast for the party, and ", var [] [ U.text "S" ], U.text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
                     ]
+                , p [ Ha.style "float" "right", Ha.style "text-align" "right" ]
+                    [ U.text "Data Source: "
+                    , a
+                        [ target "_blank"
+                        , href "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX"
+                        ]
+                        [ U.text "Massachusetts Institute of Technology (MIT) Election Lab" ]
+                    ]
+                , br [] []
+                , br [] []
                 ]
 
         _ ->
