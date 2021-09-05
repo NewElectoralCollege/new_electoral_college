@@ -7,7 +7,7 @@ import Html exposing (Attribute, Html, a, abbr, button, div, i, input, li, span,
 import Html.Attributes exposing (class, placeholder, style, title, type_, value)
 import Html.Events exposing (onClick, onInput, onMouseEnter, onMouseLeave)
 import Party exposing (Party(..), getName)
-import String
+import String exposing (fromFloat, fromInt, left)
 import Util as U exposing (Party, areEqual, boolToInt, dropMaybe)
 
 
@@ -60,7 +60,7 @@ makePartyForm model n party =
             [ input
                 [ type_ "number"
                 , placeholder "Votes"
-                , value <| String.fromFloat party.votes
+                , value <| fromFloat party.votes
                 , onInput <| Votes n
                 , style "width" "100px"
                 , style "border" "none"
@@ -69,7 +69,7 @@ makePartyForm model n party =
             ]
         , div
             stepStyle
-            [ U.text <| String.left 4 <| String.fromFloat <| party.votes / quota model ]
+            [ U.text <| left 4 <| fromFloat <| party.votes / quota model ]
         , div
             stepStyle
             [ U.text <| party.seats - (boolToInt <| dropMaybe party.extra_seat) ]
@@ -138,7 +138,7 @@ addPartyButton model =
                 "none"
 
         next_party =
-            String.fromInt <| List.length model.parties + 1
+            fromInt <| List.length model.parties + 1
     in
     span []
         [ button

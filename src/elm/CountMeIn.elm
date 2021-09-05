@@ -5,6 +5,7 @@ import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html exposing (Html, b, br, button, div, form, h2, input, label, option, p, select, small, text)
 import Html.Attributes exposing (action, class, for, id, method, name, novalidate, placeholder, required, type_)
+import List exposing (append, map, sort)
 import State exposing (states)
 import Util exposing (getName)
 
@@ -82,12 +83,12 @@ body =
                     , name "state"
                     , required True
                     ]
-                    (List.map
+                    (map
                         (\n -> option [] [ text n ])
                      <|
-                        List.sort <|
-                            List.append [ "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands" ] <|
-                                List.map getName states
+                        sort <|
+                            append [ "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands" ] <|
+                                map getName states
                     )
                 ]
             , div

@@ -1,5 +1,10 @@
 module Animation exposing (Animatable, Status(..), Target, isAnyMoving, isMoving, move, stepAll, transformString)
 
+import List exposing (any, map)
+import String exposing (fromFloat)
+
+
+
 -- Types
 
 
@@ -46,12 +51,12 @@ isMoving obj =
 
 isAnyMoving : List (Animatable a) -> Bool
 isAnyMoving slices =
-    List.any isMoving slices
+    any isMoving slices
 
 
 stepAll : Float -> List (Animatable a) -> List (Animatable a)
 stepAll timeDelta list =
-    List.map (step (timeDelta / 1000)) list
+    map (step (timeDelta / 1000)) list
 
 
 step : Float -> Animatable a -> Animatable a
@@ -123,13 +128,13 @@ normalize ang =
 transformHelp : Target -> Float -> String
 transformHelp { tx, ty, ta, ts } starting_angle =
     "translate("
-        ++ String.fromFloat tx
+        ++ fromFloat tx
         ++ " "
-        ++ String.fromFloat ty
+        ++ fromFloat ty
         ++ ") rotate("
-        ++ String.fromFloat (ta + starting_angle)
+        ++ fromFloat (ta + starting_angle)
         ++ ") scale("
-        ++ String.fromFloat ts
+        ++ fromFloat ts
         ++ ")"
 
 

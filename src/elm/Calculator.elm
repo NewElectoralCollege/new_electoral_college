@@ -1,6 +1,7 @@
 module Calculator exposing (main)
 
 import Animation exposing (isAnyMoving, stepAll)
+import Basics as B
 import Browser exposing (document)
 import Browser.Events exposing (onAnimationFrameDelta)
 import Calculator.Animation exposing (moveSlices, resetSlices, resetTransformations)
@@ -14,9 +15,13 @@ import Header exposing (Page(..), header)
 import Html exposing (Html, br, div, h1, h2, p, table, td, tr)
 import Html.Attributes exposing (class, id, rowspan)
 import Json.Decode exposing (decodeString)
+import List exposing (drop, indexedMap, map, sortBy, take)
 import List.Extra exposing (removeAt, uncons, updateAt, zip)
+import Maybe as M exposing (withDefault)
 import Party exposing (Party(..), color, decodeParty)
 import Random exposing (generate)
+import String as S exposing (fromInt, toFloat)
+import Tuple exposing (first, second)
 import Util as U exposing (Party, styleNumFloat)
 
 
@@ -41,18 +46,18 @@ initializeModel : List Int -> Model
 initializeModel ints =
     let
         base =
-            Maybe.withDefault 10 <| Maybe.map Tuple.first <| uncons ints
+            withDefault 10 <| M.map first <| uncons ints
 
         parties =
-            List.indexedMap
-                (\i n -> makeParty (List.drop i colors) (toFloat n) (Right <| "Party " ++ String.fromInt (i + 1)))
-                (List.take (Cm.clamp 10 base) ints)
+            indexedMap
+                (\i n -> makeParty (drop i colors) (B.toFloat n) (Right <| "Party " ++ fromInt (i + 1)))
+                (take (Cm.clamp 10 base) ints)
 
         seats =
-            toFloat <| Cm.clamp 30 base
+            B.toFloat <| Cm.clamp 30 base
 
         colors =
-            List.map Tuple.first <| List.sortBy Tuple.second <| zip palette ints
+            map first <| sortBy second <| zip palette ints
 
         data =
             hare <| Data parties Nothing False seats [] colors
@@ -146,7 +151,7 @@ update msg model =
                 | parties =
                     updateAt
                         n
-                        (\party -> { party | votes = Maybe.withDefault party.votes <| String.toFloat votes })
+                        (\party -> { party | votes = withDefault party.votes <| S.toFloat votes })
                         data.parties
             }
                 |> hare

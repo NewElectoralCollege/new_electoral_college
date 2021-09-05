@@ -3,9 +3,10 @@ module Calculator.Animation exposing (moveSlices, resetSlices, resetTransformati
 import Animation exposing (Animatable, Status(..), Target, move)
 import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Data, Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
+import List exposing (concatMap, foldl, map)
 import List.Extra exposing (splitWhen, updateIf)
 import Party
-import Tuple as T
+import Tuple exposing (first)
 import Util exposing (Party, areEqual, dropMaybe, lambdaCompare, summateRecords)
 
 
@@ -18,7 +19,7 @@ moveSlices list name =
 
 resetSlices : List (Animatable Slice) -> List (Animatable Slice)
 resetSlices list =
-    List.map (move <| always getTargetReset) list
+    map (move <| always getTargetReset) list
 
 
 getTargetReset : Target
@@ -56,8 +57,8 @@ getTransformedAngle model showing party =
         move_from =
             splitWhen (areEqual party.name .name) model.parties
                 |> dropMaybe
-                |> T.first
-                |> List.foldl (summateRecords (getCurrentShowing showing)) 0
+                |> first
+                |> foldl (summateRecords (getCurrentShowing showing)) 0
                 |> (+)
                     (if xor (majority == True) (showing == Vote) then
                         pshowing
@@ -92,7 +93,7 @@ resetTransformations model =
         ts =
             totalSeats model.parties
     in
-    List.concatMap
+    concatMap
         (\n ->
             let
                 ( shw, vhw ) =

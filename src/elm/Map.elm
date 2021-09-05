@@ -11,13 +11,16 @@ import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, s
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (at, decodeString, dict, list, string)
+import List exposing (append, concat, concatMap, drop, filter, filterMap, foldl, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take)
 import List.Extra exposing (find, getAt, init, uniqueBy)
+import Maybe as M exposing (withDefault)
 import Party exposing (Party(..), color)
 import State exposing (State(..), StateOutline, outline, states)
+import String as S
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r, transform)
 import Ticket exposing (nominee, realElectors)
-import Tuple as T
+import Tuple exposing (first, second)
 import Util as U
     exposing
         ( Dot
@@ -119,7 +122,7 @@ getPattern so total_seats =
                     else
                         total_seats / toFloat a
         in
-        if List.member total_seats [ 4, 9 ] then
+        if member total_seats [ 4, 9 ] then
             Square (floor sq)
 
         else if 2 * spotRadius * sq > min so.width so.height then
@@ -144,12 +147,12 @@ getPattern so total_seats =
 
 row : Float -> Float -> Int -> List ( Float, Float )
 row x y columns =
-    List.map (\n -> ( x + (spotRadius * 2 * toFloat n), y + (spotRadius * 2) )) <| List.range 0 (columns - 1)
+    map (\n -> ( x + (spotRadius * 2 * toFloat n), y + (spotRadius * 2) )) <| range 0 (columns - 1)
 
 
 column : Float -> Float -> Int -> List ( Float, Float )
 column x y rows =
-    List.map (\n -> ( x + (spotRadius * 2), y + (spotRadius * 2 * toFloat n) )) <| List.range 0 (rows - 1)
+    map (\n -> ( x + (spotRadius * 2), y + (spotRadius * 2 * toFloat n) )) <| range 0 (rows - 1)
 
 
 type CoordType
@@ -186,7 +189,7 @@ makeCircles ( x, y ) pattern total_seats progress =
     else
         case pattern of
             Square b ->
-                List.append (row x y b) (makeCircles ( x, y + (spotRadius * 2) ) pattern total_seats (progress + b))
+                append (row x y b) (makeCircles ( x, y + (spotRadius * 2) ) pattern total_seats (progress + b))
 
             Rectangle _ c _ ->
                 let
@@ -197,7 +200,7 @@ makeCircles ( x, y ) pattern total_seats progress =
                         else
                             0
                 in
-                List.concat [ row x y c, makeCircles ( x + offset, y + (spotRadius * 2) ) pattern total_seats (progress + c) ]
+                concat [ row x y c, makeCircles ( x + offset, y + (spotRadius * 2) ) pattern total_seats (progress + c) ]
 
             Triumvirate Vertical ->
                 column x y 3
@@ -212,7 +215,7 @@ makeState national_parties model { list, dots, state } =
         Just a ->
             let
                 result party =
-                    floor <| Maybe.withDefault 0 <| Maybe.map .seats <| find (areEqual party.name .name) national_parties
+                    floor <| withDefault 0 <| M.map .seats <| find (areEqual party.name .name) national_parties
 
                 sl =
                     case model.dotpos of
@@ -220,14 +223,14 @@ makeState national_parties model { list, dots, state } =
                             list
 
                         _ ->
-                            List.reverse <| List.sortBy result list
+                            reverse <| sortBy result list
             in
             colorCircles state
                 sl
-                (List.map
+                (map
                     (\dot ->
                         circle
-                            [ r <| String.fromFloat spotRadius
+                            [ r <| S.fromFloat spotRadius
                             , cx "0"
                             , cy "0"
                             , transform <| transformString dot.status 0
@@ -262,8 +265,8 @@ makeMapDots { stats, state } =
             )
 
         begin =
-            ( T.first center - T.first offset
-            , T.second center - T.second offset
+            ( first center - first offset
+            , second center - second offset
             )
     in
     makeCircles
@@ -285,13 +288,13 @@ makePartyDots state instance elections parties dots =
         ( (p :: _) as pss, s :: ss ) ->
             let
                 result =
-                    floor <| Maybe.withDefault 0 <| Maybe.map .seats <| find (areEqual p .name) s.list
+                    floor <| withDefault 0 <| M.map .seats <| find (areEqual p .name) s.list
             in
             if s.state == state then
-                List.take result dots ++ makePartyDots state instance ss pss (List.drop result dots)
+                take result dots ++ makePartyDots state instance ss pss (drop result dots)
 
             else
-                makePartyDots state instance ss pss (List.drop result dots)
+                makePartyDots state instance ss pss (drop result dots)
 
 
 hemicircleDots : List ( Float, Float )
@@ -301,7 +304,7 @@ hemicircleDots =
             12
 
         numbers =
-            List.range 1 (floor rows)
+            range 1 (floor rows)
 
         makeRow : Float -> List ( Float, Float, Float )
         makeRow i =
@@ -310,7 +313,7 @@ hemicircleDots =
                     3 * rows + 4 * i - 2
 
                 dots =
-                    Maybe.withDefault 0 <| getAt (floor i - 1) [ 28, 30, 32, 34, 40, 44, 46, 50, 52, 56, 56, 58 ]
+                    withDefault 0 <| getAt (floor i - 1) [ 28, 30, 32, 34, 40, 44, 46, 50, 52, 56, 56, 58 ]
 
                 rowRadius =
                     magic_number / (3 * rows)
@@ -329,9 +332,9 @@ hemicircleDots =
                     , 100 * (1 - (rowRadius * sin (angle n)) + 1)
                     )
             in
-            List.map coords (List.range 0 <| floor dots)
+            map coords (range 0 <| floor dots)
     in
-    List.concatMap (makeRow << toFloat) numbers |> List.sortBy first3 |> List.reverse |> List.map tupleTail
+    concatMap (makeRow << toFloat) numbers |> sortBy first3 |> reverse |> map tupleTail
 
 
 barDots : List ( Float, Float )
@@ -358,10 +361,10 @@ makeDots instance ({ state } as election) =
         parties =
             instance
                 |> partiesInInstance
-                |> List.sortBy .seats
-                |> List.reverse
-                |> List.filter (lambdaCompare (>) 0 .seats)
-                |> List.map .name
+                |> sortBy .seats
+                |> reverse
+                |> filter (lambdaCompare (>) 0 .seats)
+                |> map .name
 
         makeDot a (( x, y ) as b) c =
             { hemicircle = a
@@ -370,7 +373,7 @@ makeDots instance ({ state } as election) =
             , status = Static x y 0 1
             }
     in
-    List.map3 makeDot
+    map3 makeDot
         (makePartyDots state instance instance parties hemicircleDots)
         (makeMapDots election)
         (makePartyDots state instance instance parties barDots)
@@ -380,7 +383,7 @@ moveDots : DotPosition -> Election -> Election
 moveDots dotpos e =
     case e.dots of
         Just dots ->
-            { e | dots = Just <| List.map (move (getDotTarget dotpos)) dots }
+            { e | dots = Just <| map (move (getDotTarget dotpos)) dots }
 
         Nothing ->
             e
@@ -400,18 +403,18 @@ getDotTarget : DotPosition -> Animatable Dot -> Target
 getDotTarget dotpos dot =
     case dotpos of
         Hemicircle ->
-            Target (T.first dot.hemicircle) (T.second dot.hemicircle) 0 1
+            Target (first dot.hemicircle) (second dot.hemicircle) 0 1
 
         Map ->
-            Target (T.first dot.map) (T.second dot.map) 0 1
+            Target (first dot.map) (second dot.map) 0 1
 
         Bar ->
-            Target (T.first dot.bar) (T.second dot.bar) 0 1
+            Target (first dot.bar) (second dot.bar) 0 1
 
 
 getAllDots : Model -> List (Animatable Dot)
 getAllDots model =
-    List.concat <| List.filterMap .dots model.current
+    concat <| filterMap .dots model.current
 
 
 
@@ -422,24 +425,24 @@ makePartyRow : Model -> Party -> Html Msg
 makePartyRow model party =
     let
         name =
-            getName <| party.name
+            getName party.name
 
         nmn =
-            Maybe.withDefault "n/a" <| nominee model.year party.name
+            withDefault "n/a" <| nominee model.year party.name
 
         real_electors =
-            Maybe.withDefault 0 <| realElectors model.year party.name
+            withDefault 0 <| realElectors model.year party.name
     in
     tr
         []
-        [ td [ class "color", id <| String.replace " " "-" name, style "background-color" (color party.name) ] []
+        [ td [ class "color", id <| S.replace " " "-" name, style "background-color" (color party.name) ] []
         , td [] [ U.text name ]
         , td [] [ U.text nmn ]
         , td [] [ U.text <| styleNumFloat party.votes ]
         , td [] [ U.text <| stylePercent <| party.votes / totalVotesInInstance model.current ]
         , td [] [ U.text party.seats ]
         , td [] [ U.text real_electors ]
-        , td [] <| fix_change <| "+" ++ (String.fromFloat <| party.seats - toFloat real_electors)
+        , td [] <| fix_change <| "+" ++ (S.fromFloat <| party.seats - toFloat real_electors)
         ]
 
 
@@ -470,13 +473,13 @@ doStateRow partyname ({ list, stats, state } as current) p =
         [ td
             [ style "font-weight" bold ]
             [ a
-                [ href <| "stateresults.html?year=" ++ String.fromInt current.year ++ "&state=" ++ getName state ]
+                [ href <| "stateresults.html?year=" ++ S.fromInt current.year ++ "&state=" ++ getName state ]
                 [ U.text <| getName state ]
             ]
-        , td [] [ U.text <| styleNumFloat <| .votes <| T.first party ]
-        , td [] [ U.text <| stylePercent <| popularVotePercent party stats T.first ]
+        , td [] [ U.text <| styleNumFloat <| .votes <| first party ]
+        , td [] [ U.text <| stylePercent <| popularVotePercent party stats first ]
         , td [] (voteChange party stats (Just previous.stats))
-        , td [] <| getPartyProgressBar (T.first party) current (T.first party).color
+        , td [] <| getPartyProgressBar (first party) current (first party).color
         , td [] (seatChange party)
         ]
 
@@ -512,7 +515,7 @@ type alias Instance =
 
 totalVotesInInstance : Instance -> Float
 totalVotesInInstance =
-    List.foldl (summateRecords (.total_votes << .stats)) 0
+    foldl (summateRecords (.total_votes << .stats)) 0
 
 
 partiesInInstance : Instance -> List Party
@@ -520,19 +523,19 @@ partiesInInstance es =
     let
         parties =
             es
-                |> List.concatMap .list
+                |> concatMap .list
                 |> uniqueBy (getName << .name)
 
         getInstancesOf : Party -> List Party
         getInstancesOf p =
-            List.filterMap (find (areEqual p.name .name) << .list) es
+            filterMap (find (areEqual p.name .name) << .list) es
     in
-    List.map
+    map
         (\p ->
             Party
                 p.name
-                (List.sum <| List.map .seats <| getInstancesOf p)
-                (List.sum <| List.map .votes <| getInstancesOf p)
+                (sum <| map .seats <| getInstancesOf p)
+                (sum <| map .votes <| getInstancesOf p)
                 Nothing
                 Nothing
                 p.color
@@ -544,15 +547,15 @@ rewriteInstance : List (List Party) -> List Stats -> Int -> Instance
 rewriteInstance parties stats year =
     let
         a =
-            List.map5
+            map5
                 Election
                 parties
                 stats
-                (List.map (always Nothing) parties)
+                (map (always Nothing) parties)
                 states
-                (List.repeat (List.length parties) year)
+                (repeat (length parties) year)
     in
-    List.map (\n -> { n | dots = Just <| makeDots a n }) a
+    map (\n -> { n | dots = Just <| makeDots a n }) a
 
 
 
@@ -562,7 +565,7 @@ rewriteInstance parties stats year =
 getFile : Int -> Cmd Msg
 getFile year =
     Http.get
-        { url = "/new_electoral_college/src/js/getJson.py?year=" ++ String.fromInt year
+        { url = "/new_electoral_college/src/js/getJson.py?year=" ++ S.fromInt year
         , expect = expectJson Response (dict string)
         }
 
@@ -605,8 +608,8 @@ init year =
         r =
             update (ChangeYear False year) <| Model year year False [] [] Map
     in
-    ( T.first r
-    , T.second r
+    ( first r
+    , second r
     )
 
 
@@ -619,10 +622,10 @@ body model =
             , p []
                 [ U.text
                     ("These are the projected results of the "
-                        ++ String.fromInt model.real_year
+                        ++ S.fromInt model.real_year
                         ++ " Election using our proposal. It takes the final "
                         ++ "certified results of the Election, and allocates the electors in each state. If the election were actually run under the New Electoral "
-                        ++ "College, the results would have been slightly different. Voters change their behavior under more representative "
+                        ++ "College, the results would have been slightly differen Voters change their behavior under more representative "
                         ++ "electoral systems."
                     )
                 ]
@@ -631,7 +634,7 @@ body model =
             [ class "container" ]
             [ div
                 [ class "container" ]
-                [ Html.span (getArrow model "left") []
+                [ span (getArrow model "left") []
                 , div
                     [ class "container col-sm-4"
                     , id "map"
@@ -640,7 +643,7 @@ body model =
                     [ svg
                         [ Sa.width "975px", Sa.height "520px", Sa.viewBox "0 0 800 193", id "map-svg" ]
                         (g [ Sa.class "include", Sa.id "paths" ] []
-                            :: List.concatMap (makeState (partiesInInstance model.current) model) model.current
+                            :: concatMap (makeState (partiesInInstance model.current) model) model.current
                         )
                     ]
                 , span (getArrow model "right") []
@@ -697,10 +700,10 @@ body model =
                             , th [] [ U.text "Old" ]
                             ]
                          ]
-                            ++ (List.map (makePartyRow model) <|
-                                    List.reverse <|
-                                        List.sortBy .votes <|
-                                            List.filter
+                            ++ (map (makePartyRow model) <|
+                                    reverse <|
+                                        sortBy .votes <|
+                                            filter
                                                 (ifQualifyingParty (totalVotesInInstance model.current))
                                                 (partiesInInstance model.current)
                                )
@@ -712,15 +715,15 @@ body model =
                 [ class "container" ]
                 [ tr
                     [ id "row-for-detailed-results" ]
-                    [ partyContainer model.current (List.map Just model.previous) doStateRow Democratic
-                    , partyContainer model.current (List.map Just model.previous) doStateRow Republican
+                    [ partyContainer model.current (map Just model.previous) doStateRow Democratic
+                    , partyContainer model.current (map Just model.previous) doStateRow Republican
                     ]
                 ]
             , p [ style "float" "right", style "text-align" "right" ]
                 [ text "Data Source: "
                 , a
                     [ target "_blank"
-                    , href "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX"
+                    , href "https://dataverse.harvard.edu/datasexhtml?persistentId=doi:10.7910/DVN/42MVDX"
                     ]
                     [ text "Massachusetts Institute of Technology (MIT) Election Lab" ]
                 ]
@@ -742,19 +745,19 @@ update msg model =
         Response (Ok response) ->
             let
                 parties =
-                    List.map
+                    map
                         (\n ->
                             case decodeString (at [ "parties" ] <| list newParty) n of
                                 Ok list ->
-                                    List.reverse <| List.sortBy .votes <| List.map (\p -> { p | color = color p.name }) list
+                                    reverse <| sortBy .votes <| map (\p -> { p | color = color p.name }) list
 
                                 _ ->
                                     []
                         )
-                        (List.filterMap (\n -> D.get (getName n) response) states)
+                        (filterMap (\n -> D.get (getName n) response) states)
 
                 stats =
-                    List.map
+                    map
                         (\n ->
                             case decodeString (at [ "stats" ] <| setStats) n of
                                 Ok stat ->
@@ -763,7 +766,7 @@ update msg model =
                                 _ ->
                                     Stats "" 0 0 0.0
                         )
-                        (List.filterMap (\n -> D.get (getName n) response) states)
+                        (filterMap (\n -> D.get (getName n) response) states)
             in
             if model.writingToPrevious then
                 ( { model
@@ -785,18 +788,18 @@ update msg model =
                     r =
                         update (ChangeYear True (tempmodel.year - 4)) tempmodel
                 in
-                ( T.first r, T.second r )
+                ( first r, second r )
 
         MoveDots a ->
             ( { model
                 | dotpos = a
-                , current = List.map (moveDots a) model.current
+                , current = map (moveDots a) model.current
               }
             , Cmd.none
             )
 
         TimeDelta timeDelta ->
-            ( { model | current = List.map (stepDots timeDelta) model.current }
+            ( { model | current = map (stepDots timeDelta) model.current }
             , Cmd.none
             )
 

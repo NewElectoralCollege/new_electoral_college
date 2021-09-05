@@ -1,9 +1,24 @@
-module Calculator.Model exposing (Data, Model, Msg(..), Showing(..), Slice, clamp, generator, getCurrentShowing, isHighlighted, nextColor, palette, totalSeats, totalVotes)
+module Calculator.Model exposing
+    ( Data
+    , Model
+    , Msg(..)
+    , Showing(..)
+    , Slice
+    , clamp
+    , generator
+    , getCurrentShowing
+    , isHighlighted
+    , nextColor
+    , palette
+    , totalSeats
+    , totalVotes
+    )
 
 import Animation exposing (Animatable, Target)
+import Basics as B
 import Either exposing (Either)
 import Party
-import Random exposing (Generator, int, list)
+import Random exposing (Generator, int, list, map2)
 import Util exposing (Party, summateRecords)
 
 
@@ -111,7 +126,7 @@ ceiling =
 
 mid : Int
 mid =
-    Basics.floor <| toFloat (ceiling + floor) * 0.1
+    B.floor <| toFloat (ceiling + floor) * 0.1
 
 
 floor : Int
@@ -121,7 +136,7 @@ floor =
 
 generator : Generator (List Int)
 generator =
-    Random.map2 (++) (list 2 (int floor ceiling)) (list 10 (int floor mid))
+    map2 (++) (list 2 (int floor ceiling)) (list 10 (int floor mid))
 
 
 clamp : Int -> Int -> Int
@@ -136,4 +151,4 @@ clamp scale num =
         c =
             toFloat (scale - floor)
     in
-    (Basics.floor <| (a / b) * c) + floor
+    (B.floor <| (a / b) * c) + floor

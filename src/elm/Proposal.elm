@@ -7,8 +7,10 @@ import Header exposing (Page(..), header)
 import Html as H exposing (Html, br, div, h2, img, node, p, text)
 import Html.Attributes exposing (class, src, style, width)
 import Http exposing (Error, expectString, get)
+import List exposing (head, map2)
 import List.Extra exposing (last)
 import Regex exposing (Match, Regex, fromString, replace)
+import String exposing (dropLeft, dropRight, join, lines, split, trim)
 import Util exposing (dropMaybe)
 
 
@@ -73,7 +75,7 @@ knesset =
 
 partyList : Content
 partyList =
-    picture "src/img/party_list.svg" 250
+    picture "src/img/party_svg" 250
 
 
 statesByRace : Content
@@ -233,10 +235,10 @@ textAndImage sectiontype par =
         Quote ->
             let
                 splt =
-                    String.split " \\begin{flushright}\\textit{---" par
+                    split " \\begin{flushright}\\textit{---" par
 
                 quote =
-                    dropMaybe <| List.head <| splt
+                    dropMaybe <| head <| splt
 
                 author =
                     dropMaybe <| last <| splt
@@ -244,8 +246,8 @@ textAndImage sectiontype par =
             [ node
                 "blockquote"
                 [ class "blockquote mb-0" ]
-                [ p [] [ quote |> String.dropRight 4 |> String.dropLeft 9 |> text ]
-                , H.footer [ class "blockquote-footer" ] [ author |> String.dropRight 17 |> text ]
+                [ p [] [ quote |> dropRight 4 |> dropLeft 9 |> text ]
+                , H.footer [ class "blockquote-footer" ] [ author |> dropRight 17 |> text ]
                 ]
             ]
 
@@ -265,7 +267,7 @@ textAndImage sectiontype par =
             ]
 
         SectionHeader ->
-            [ h2 [] [ par |> String.trim |> String.dropRight 1 |> String.dropLeft 9 |> text ] ]
+            [ h2 [] [ par |> trim |> dropRight 1 |> dropLeft 9 |> text ] ]
 
         FullImage img ->
             [ img ]
@@ -324,22 +326,17 @@ insertPercent =
 -- Required functions
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( "", getText )
-
-
 body : Model -> Html Msg
 body model =
     model
-        |> String.lines
-        |> String.join ""
+        |> lines
+        |> join ""
         |> replace beginRegex eater
         |> replace blockRegex eater
         |> replace percentRegex insertPercent
         |> replace commentRegex eater
-        |> String.split "\\\\"
-        |> List.map2 section sectionTypeList
+        |> split "\\\\"
+        |> map2 section sectionTypeList
         |> div [ class "container" ]
 
 
@@ -356,7 +353,7 @@ update msg model =
 main : Program () Model Msg
 main =
     document
-        { init = init
+        { init = always ( "", getText )
         , update = update
         , subscriptions = always Sub.none
         , view =

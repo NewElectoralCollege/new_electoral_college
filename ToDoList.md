@@ -6,7 +6,6 @@
 -   Update elector allocations graph in official proposal
 -   Fix 404.html
 -   Work on emails
--   Rework import names
 -   Predicates (func and function)
 -   Remove all Debugs
 

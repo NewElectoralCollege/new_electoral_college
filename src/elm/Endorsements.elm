@@ -5,9 +5,11 @@ import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, div, h1, h2, li, ol, p, text)
 import Html.Attributes exposing (class, href)
+import List exposing (head, map)
 import List.Extra exposing (count, groupsOfVarying, unique)
 import Party exposing (Party(..), inParenthesis)
 import State exposing (State(..))
+import String as S
 import Util exposing (dropMaybe, getName)
 
 
@@ -128,10 +130,10 @@ writeTerm : Maybe Term -> Html msg
 writeTerm term =
     case term of
         Just ( Definitive start, Incumbent ) ->
-            text <| String.fromInt start ++ "-incumbent"
+            text <| S.fromInt start ++ "-incumbent"
 
         Just ( Definitive start, Definitive end ) ->
-            text <| String.fromInt start ++ "-" ++ String.fromInt end
+            text <| S.fromInt start ++ "-" ++ S.fromInt end
 
         Just ( Incumbent, _ ) ->
             text "Unknown Term"
@@ -175,8 +177,8 @@ writeDistrict : District -> String
 writeDistrict district =
     case district of
         Numbered a ->
-            String.fromInt a
-                ++ (case String.right 1 <| String.fromInt a of
+            S.fromInt a
+                ++ (case S.right 1 <| S.fromInt a of
                         "1" ->
                             "st"
 
@@ -287,8 +289,8 @@ endorsements =
 makeDivision : List Endorsement -> Html msg
 makeDivision es =
     div []
-        [ h2 [] [ text <| getHeader <| (dropMaybe <| List.head es).office ]
-        , ol [] (List.map makeEndorser es)
+        [ h2 [] [ text <| getHeader <| (dropMaybe <| head es).office ]
+        , ol [] (map makeEndorser es)
         ]
 
 
@@ -313,13 +315,13 @@ body : Html msg
 body =
     let
         counts =
-            List.map
+            map
                 (\n -> count ((==) n << getHeader << .office) endorsements)
-                (unique <| List.map (getHeader << .office) endorsements)
+                (unique <| map (getHeader << .office) endorsements)
     in
     div
         [ class "container" ]
-        (h1 [] [ text "Endorsements" ] :: (List.map makeDivision <| groupsOfVarying counts endorsements))
+        (h1 [] [ text "Endorsements" ] :: (map makeDivision <| groupsOfVarying counts endorsements))
 
 
 main : Program () () msg

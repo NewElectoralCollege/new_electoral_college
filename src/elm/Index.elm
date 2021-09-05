@@ -135,7 +135,7 @@ body =
             [ class "container" ]
             [ blockquote
                 [ class "blockquote text-right" ]
-                [ text <| "Two roads diverged in a wood, and I—"
+                [ text "Two roads diverged in a wood, and I—"
                 , br [] []
                 , text "I took the one less traveled by,"
                 , br [] []

@@ -6,7 +6,8 @@ import Calculator.Model exposing (Data, Msg(..), Showing(..), Slice)
 import Html exposing (Html, br, h2, span, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
-import String
+import List exposing (filter, map)
+import String exposing (fromFloat, fromInt)
 import Svg exposing (Svg, circle, svg)
 import Svg.Attributes exposing (fill, r, stroke, strokeDasharray, strokeWidth, transform)
 import Util exposing (areEqual)
@@ -26,7 +27,7 @@ slice model { party, status, showing } =
         , fill "transparent"
         , stroke party.color
         , strokeWidth "100"
-        , strokeDasharray <| "calc(" ++ String.fromFloat ang ++ " / 360 * 100 * 314 / 100) 314"
+        , strokeDasharray <| "calc(" ++ fromFloat ang ++ " / 360 * 100 * 314 / 100) 314"
         , transform <| transformString status starting_angle
         , onMouseEnter (Highlight party.name)
         ]
@@ -39,11 +40,11 @@ pie model showing =
         [ br [] []
         , h2 [] [ text <| Debug.toString showing ]
         , svg
-            [ style "width" <| String.fromInt width
-            , style "height" <| String.fromInt height
+            [ style "width" <| fromInt width
+            , style "height" <| fromInt height
             , onMouseLeave ResetHighlight
             ]
-            (List.map (slice model) <| List.filter (areEqual showing .showing) <| List.filter showSlice model.slices)
+            (map (slice model) <| filter (areEqual showing .showing) <| filter showSlice model.slices)
         ]
 
 

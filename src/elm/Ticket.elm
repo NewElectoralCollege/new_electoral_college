@@ -1,6 +1,7 @@
 module Ticket exposing (Ticket, nominee, realElectors)
 
 import List.Extra exposing (find)
+import Maybe exposing (map)
 import Party exposing (Party(..))
 
 
@@ -24,12 +25,12 @@ ticket year party =
 
 nominee : Int -> Party -> Maybe String
 nominee year party =
-    Maybe.map .nominee <| ticket year party
+    map .nominee <| ticket year party
 
 
 realElectors : Int -> Party -> Maybe Int
 realElectors year party =
-    Maybe.map .real_electors <| ticket year party
+    map .real_electors <| ticket year party
 
 
 

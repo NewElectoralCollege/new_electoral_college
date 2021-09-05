@@ -44,18 +44,21 @@ module Util exposing
 
 import Animation exposing (Animatable)
 import Basics as B
+import Char exposing (isUpper)
 import Dict as D exposing (Dict)
 import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, id, rowspan, style)
-import Http exposing (Error, Expect, expectJson)
+import Http exposing (Error, Expect, expectJson, get)
 import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, nullable, string)
+import List exposing (concat, concatMap, filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sum)
 import List.Extra exposing (splitAt)
 import Party exposing (color, decodeParty)
 import Regex exposing (fromString)
 import State exposing (State(..))
+import String as S exposing (contains, dropLeft, fromChar, fromFloat, fromInt, left, length, replace, slice, toList)
 import Svg exposing (Svg, g)
 import Svg.Attributes exposing (fill)
-import Tuple as T
+import Tuple exposing (first, second)
 
 
 
@@ -181,7 +184,7 @@ ifQualifyingParty total_votes party =
 divide :
     Int
     -> Int
-    -> Float -- Takes the divisor as the first argument. This is used while pipeing (|>).
+    -> Float -- Takes the divisor as the first argumen This is used while pipeing (|>).
 divide a b =
     toFloat b / toFloat a
 
@@ -193,7 +196,7 @@ splitAtFloat i l =
 
 concatMapDict : (k -> a -> List b) -> Dict k a -> List b
 concatMapDict f d =
-    List.concatMap (\( a, b ) -> f a b) (D.toList d)
+    concatMap (\( a, b ) -> f a b) (D.toList d)
 
 
 concatTuple : ( List a, List a ) -> List a
@@ -209,17 +212,17 @@ styleNum : Int -> String
 styleNum num =
     let
         s =
-            String.reverse <| String.fromInt num
+            S.reverse <| S.fromInt num
 
         o =
-            (List.map (\n -> String.slice (n * 3) ((n * 3) + 3) s) <| List.range 0 <| String.length s // 3)
-                |> List.intersperse ","
-                |> String.concat
-                |> String.reverse
+            (map (\n -> slice (n * 3) ((n * 3) + 3) s) <| range 0 <| length s // 3)
+                |> intersperse ","
+                |> S.concat
+                |> S.reverse
     in
-    case String.left 1 o of
+    case left 1 o of
         "," ->
-            String.dropLeft 1 o
+            dropLeft 1 o
 
         _ ->
             o
@@ -236,7 +239,7 @@ stylePercent percent =
         * 10000
         |> B.round
         |> divide 100
-        |> String.fromFloat
+        |> fromFloat
     )
         ++ "%"
 
@@ -248,19 +251,19 @@ stylePercent percent =
 fix_string : String -> String
 fix_string string =
     string
-        |> String.replace "+" ""
-        |> String.replace "-" ""
+        |> replace "+" ""
+        |> replace "-" ""
 
 
 fix_change : String -> List (Html msg)
 fix_change string =
     if Regex.contains (dropMaybe <| fromString "(\\+0(?!.)|\\+0%)") string then
-        [ i [ class "steady" ] [], text (" " ++ String.dropLeft 1 string) ]
+        [ i [ class "steady" ] [], text (" " ++ dropLeft 1 string) ]
 
-    else if String.contains "+-" string then
+    else if contains "+-" string then
         [ i [ class "decrease" ] [], text (" " ++ fix_string string) ]
 
-    else if String.contains "+" string then
+    else if contains "+" string then
         [ i [ class "increase" ] [], text (" " ++ fix_string string) ]
 
     else
@@ -273,24 +276,24 @@ fix_change string =
 
 colorCircles : State -> List Party -> List (Svg a) -> List (Svg a)
 colorCircles state parties circles =
-    List.indexedMap
+    indexedMap
         (\n party ->
             g [ fill party.color, id <| Debug.toString state ]
                 (splitAtFloat
                     (parties
                         |> splitAt n
-                        |> T.first
-                        |> List.map .seats
-                        |> List.sum
+                        |> first
+                        |> map .seats
+                        |> sum
                     )
                     circles
-                    |> T.second
+                    |> second
                     |> splitAtFloat party.seats
-                    |> T.first
+                    |> first
                 )
         )
     <|
-        List.filter (lambdaCompare (>) 0 .seats) parties
+        filter (lambdaCompare (>) 0 .seats) parties
 
 
 
@@ -299,11 +302,11 @@ colorCircles state parties circles =
 
 getPartyProgressBar : Party -> Election -> String -> List (Html msg)
 getPartyProgressBar party election color =
-    [ text <| String.fromFloat party.seats ++ " / " ++ String.fromFloat election.stats.total_seats
+    [ text <| fromFloat party.seats ++ " / " ++ fromFloat election.stats.total_seats
     , div [ class "progress-bar-party" ]
         [ div
             [ style "backgroundColor" color
-            , style "width" <| (String.fromFloat <| party.seats / election.stats.total_seats * 100) ++ "%"
+            , style "width" <| (fromFloat <| party.seats / election.stats.total_seats * 100) ++ "%"
             , style "height" "100%"
             ]
             []
@@ -313,7 +316,7 @@ getPartyProgressBar party election color =
 
 updateColors : List Party -> List Party
 updateColors list =
-    List.map (\p -> { p | color = color p.name }) list
+    map (\p -> { p | color = color p.name }) list
 
 
 
@@ -349,7 +352,7 @@ partyContainer current previous doStateRow party =
                     , th [] [ text "+/-" ]
                     ]
                 ]
-                :: List.map2 (doStateRow party) current previous
+                :: map2 (doStateRow party) current previous
             )
         ]
 
@@ -366,7 +369,7 @@ seats party v =
 
 won : List Party -> Party.Party
 won lst =
-    (dropMaybe <| List.head <| List.reverse <| List.sortBy .votes lst).name
+    (dropMaybe <| head <| reverse <| sortBy .votes lst).name
 
 
 voteChange : ( Party, Maybe Party ) -> Stats -> Maybe Stats -> List (Html msg)
@@ -375,9 +378,9 @@ voteChange party new_s old_s =
         pvp =
             popularVotePercent party
     in
-    case T.second party of
+    case second party of
         Just _ ->
-            fix_change <| "+" ++ stylePercent (pvp new_s T.first - pvp (dropMaybe old_s) (dropMaybe << T.second))
+            fix_change <| "+" ++ stylePercent (pvp new_s first - pvp (dropMaybe old_s) (dropMaybe << second))
 
         Nothing ->
             [ text "n/a" ]
@@ -389,9 +392,9 @@ seatChange party =
         sts =
             seats party
     in
-    case T.second party of
+    case second party of
         Just _ ->
-            fix_change <| "+" ++ String.fromFloat (sts T.first - sts (dropMaybe << T.second))
+            fix_change <| "+" ++ fromFloat (sts first - sts (dropMaybe << second))
 
         Nothing ->
             [ text "n/a" ]
@@ -403,22 +406,22 @@ seatChange party =
 
 getNameHelper : Char -> String
 getNameHelper c =
-    if Char.isUpper c then
-        " " ++ String.fromChar c
+    if isUpper c then
+        " " ++ fromChar c
 
     else
-        String.fromChar c
+        fromChar c
 
 
 getName : a -> String
 getName a =
     a
         |> Debug.toString
-        |> String.toList
-        |> List.map getNameHelper
-        |> String.concat
-        |> String.dropLeft 1
-        |> String.replace " Of " " of "
+        |> toList
+        |> map getNameHelper
+        |> S.concat
+        |> dropLeft 1
+        |> replace " Of " " of "
 
 
 
@@ -473,8 +476,8 @@ statsMsg =
 
 getFile : Expect Msg -> Int -> State -> Cmd Msg
 getFile msg year state =
-    Http.get
-        { url = "data/" ++ String.fromInt year ++ "/" ++ getName state ++ ".json"
+    get
+        { url = "data/" ++ fromInt year ++ "/" ++ getName state ++ ".json"
         , expect = msg
         }
 
@@ -485,14 +488,14 @@ getFile msg year state =
 
 text : a -> Html msg
 text =
-    Html.text << String.replace "\"" "" << Debug.toString
+    Html.text << replace "\"" "" << Debug.toString
 
 
 round : Float -> Float
 round =
-    toFloat << Basics.round
+    toFloat << B.round
 
 
 floor : Float -> Float
 floor =
-    toFloat << Basics.floor
+    toFloat << B.floor

@@ -6,8 +6,9 @@ import Header exposing (Page(..), header)
 import Html exposing (Html, a, br, button, div, h2, img, p, span, text)
 import Html.Attributes exposing (attribute, class, href, id, property, src, style, target, title, type_)
 import Json.Encode exposing (string)
-import String as S
-import Tuple as T
+import List exposing (head, map)
+import String exposing (replace, split, toLower)
+import Tuple exposing (first)
 import Util exposing (dropMaybe)
 
 
@@ -18,10 +19,10 @@ import Util exposing (dropMaybe)
 modules : List ( String, String )
 modules =
     [ ( "The Proposal", "See the entire proposal in professional form." )
-    , ( "Proportional Representation", "Explination and Analysis of Proportional Representation methods." )
+    , ( "Proportional Representation", "Explination and Analysis of Proportional Representation method" )
     , ( "The Amendment", "See the draft Joint Resolution for a Constitutional Amendment that would allow for the New Electoral College." )
     , ( "Gallagher Index", "See explanations of the Gallagher Index." )
-    , ( "Programmer's Guide to Proportional Representation", "See implementations of Proportional Representation in multiple programming langugages." )
+    , ( "Programmer's Guide to Proportional Representation", "See implementations of Proportional Representation in multiple programming langugage" )
     ]
 
 
@@ -31,22 +32,22 @@ modules =
 
 languageLogos : List (Html msg)
 languageLogos =
-    List.map
+    map
         (\f ->
             a
-                [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ (dropMaybe <| List.head <| S.split "." f) ++ ".txt"
+                [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ (dropMaybe <| head <| split "." f) ++ ".txt"
                 , attribute "download" f
                 , target "_blank"
                 , title <|
                     (f
-                        |> S.split "."
-                        |> List.head
+                        |> split "."
+                        |> head
                         |> dropMaybe
-                        |> S.replace "cs" "C#"
+                        |> replace "cs" "C#"
                     )
                 ]
                 [ img
-                    [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| List.head <| S.split "." f) ++ ".svg"
+                    [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| head <| split "." f) ++ ".svg"
                     , style "max-width" "100px"
                     , style "max-height" "75px"
                     , class "language-icon"
@@ -56,7 +57,7 @@ languageLogos =
         )
         [ "C.c"
         , "C++.cpp"
-        , "cs.cs"
+        , "ccs"
         , "Python.py"
         , "PHP.php"
         , "Ruby.rb"
@@ -66,7 +67,7 @@ languageLogos =
 
 active : Model -> ( String, String ) -> String
 active model n =
-    case compare (S.replace " " "-" <| T.first n) model of
+    case compare (replace " " "-" <| first n) model of
         EQ ->
             " show active"
 
@@ -97,19 +98,19 @@ body model =
             []
             [ text <|
                 "This page contains a number of articles written by our team on different topics related to the New Electoral College, "
-                    ++ "Proportional Representation, or other topics. They are avaliable in both LaTeX and PDF form."
+                    ++ "Proportional Representation, or other topic They are avaliable in both LaTeX and PDF form."
             ]
         , div
             [ class "list-group list-group-flush"
             , id "reading-list"
             , property "role" <| string "tablist"
             ]
-            (List.map
+            (map
                 (\( f, s ) ->
                     a
                         [ class <| "list-group-item list-group-item-action" ++ active model ( f, s )
                         , property "data-toggle" <| string "list"
-                        , href <| "#" ++ (S.replace " " "-" <| S.replace "'" "" f)
+                        , href <| "#" ++ (replace " " "-" <| replace "'" "" f)
                         , property "role" <| string "tab"
                         ]
                         [ h2 [] [ text f ]
@@ -121,19 +122,19 @@ body model =
         , br [] []
         , div
             [ class "tab-content" ]
-            (List.map
+            (map
                 (\( f, s ) ->
                     div
                         [ class <| "tab-pane fade" ++ active model ( f, s )
-                        , id <| S.replace " " "-" <| S.replace "'" "" f
+                        , id <| replace " " "-" <| replace "'" "" f
                         , property "role" <| string "tabpanel"
                         ]
                         [ button
                             [ type_ "button", class "btn btn-secondary" ]
                             [ a
                                 [ style "color" "#fff"
-                                , attribute "download" <| (S.toLower <| S.replace " " "_" f) ++ ".tex"
-                                , href <| "/new_electoral_college/the_proposal/" ++ (S.toLower <| S.replace " " "_" <| S.replace "'" "" f) ++ ".tex"
+                                , attribute "download" <| (toLower <| replace " " "_" f) ++ ".tex"
+                                , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" <| replace "'" "" f) ++ ".tex"
                                 ]
                                 [ span
                                     [ id "LaTeX" ]
@@ -144,19 +145,18 @@ body model =
                             [ type_ "button", class "btn btn-secondary", id "pdf" ]
                             [ a
                                 [ style "color" "#ff0000"
-                                , attribute "download" <| (S.toLower <| S.replace " " "_" f) ++ ".pdf"
-                                , href <| "/new_electoral_college/the_proposal/" ++ (S.toLower <| S.replace " " "_" f) ++ ".pdf"
+                                , attribute "download" <| (toLower <| replace " " "_" f) ++ ".pdf"
+                                , href <| "/new_electoral_college/the_proposal/" ++ (toLower <| replace " " "_" f) ++ ".pdf"
                                 ]
                                 [ text "pdf" ]
                             ]
-                        , case compare (S.replace " " "-" f) "Programmer's-Guide-to-Proportional-Representation" of
-                            EQ ->
-                                div
-                                    [ id "languages" ]
-                                    languageLogos
+                        , if replace " " "-" f == "Programmer's-Guide-to-Proportional-Representation" then
+                            div
+                                [ id "languages" ]
+                                languageLogos
 
-                            _ ->
-                                br [] []
+                          else
+                            br [] []
                         , br [] []
                         ]
                 )

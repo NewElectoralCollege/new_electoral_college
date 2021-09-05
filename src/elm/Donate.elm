@@ -7,10 +7,12 @@ import Html exposing (Html, a, br, div, form, h2, input, label, p, text)
 import Html.Attributes exposing (class, for, href, id, name, pattern, placeholder, required, type_)
 import Html.Events exposing (onInput)
 import List.Extra exposing (getAt)
+import Maybe exposing (withDefault)
+import Platform.Cmd exposing (none)
 import String as S
-import Task
+import Task exposing (perform)
 import Time exposing (Posix, Zone, every, here, toHour, utc)
-import Tuple as T
+import Tuple exposing (first, second)
 import Util exposing (dropMaybe)
 
 
@@ -34,7 +36,7 @@ type Msg
 
 require : String -> Bool
 require amount =
-    (Maybe.withDefault 100 <| S.toFloat amount) > 200
+    (withDefault 100 <| S.toFloat amount) > 200
 
 
 fecLink : String
@@ -95,7 +97,7 @@ getCity zone posix =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model ( "Atlanta", "GA" ) utc False, Task.perform AdjustTimeZone here )
+    ( Model ( "Atlanta", "GA" ) utc False, perform AdjustTimeZone here )
 
 
 body : Model -> Html Msg
@@ -194,7 +196,7 @@ body { pl_city, o200 } =
                         , class "form-control"
                         , id "city"
                         , name "city"
-                        , placeholder <| T.first pl_city
+                        , placeholder <| first pl_city
                         , required o200
                         ]
                         []
@@ -209,7 +211,7 @@ body { pl_city, o200 } =
                         , class "form-control"
                         , id "state"
                         , name "state"
-                        , placeholder <| T.second pl_city
+                        , placeholder <| second pl_city
                         , required o200
                         ]
                         []
@@ -360,17 +362,17 @@ body { pl_city, o200 } =
         ]
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Amount a ->
-            ( { model | o200 = require a }, Cmd.none )
+            { model | o200 = require a }
 
         GetCity p ->
-            ( { model | pl_city = getCity model.zone p }, Cmd.none )
+            { model | pl_city = getCity model.zone p }
 
         AdjustTimeZone z ->
-            ( { model | zone = z }, Cmd.none )
+            { model | zone = z }
 
 
 subscriptions : Model -> Sub Msg
@@ -382,7 +384,7 @@ main : Program () Model Msg
 main =
     document
         { init = init
-        , update = update
+        , update = \msg model -> ( update msg model, none )
         , subscriptions = subscriptions
         , view =
             \model ->
