@@ -1,4 +1,4 @@
-module Party exposing (Party(..), color, decodeParty, inParenthesis)
+module Party exposing (Party(..), color, decodeParty, getName, inParenthesis)
 
 import Json.Decode exposing (Decoder, andThen, string, succeed)
 
@@ -331,3 +331,22 @@ inParenthesis party =
 
         Nothing ->
             ""
+
+
+getName : Party -> String
+getName party =
+    case party of
+        Independent (Just a) ->
+            "Independent - " ++ a
+
+        Independent Nothing ->
+            "Independent"
+
+        Other a ->
+            a
+
+        PeaceAndFreedom ->
+            "Peace and Feedom"
+
+        a ->
+            Debug.toString a
