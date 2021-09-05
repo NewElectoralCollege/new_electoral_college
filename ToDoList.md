@@ -4,9 +4,11 @@
 -   Programmer's Guide still contains all implementations
 -   Ensure that all elector numbers are accurate in official proposal
 -   Update elector allocations graph in official proposal
--   Add back Hemicircle
 -   Fix 404.html
 -   Work on emails
+-   Rework import names
+-   Predicates (func and function)
+-   Remove all Debugs
 
 Flags in database
 
