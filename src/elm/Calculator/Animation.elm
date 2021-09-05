@@ -2,7 +2,7 @@ module Calculator.Animation exposing (moveSlices, resetSlices, resetTransformati
 
 import Animation exposing (Animatable, Status(..), Target, move)
 import Calculator.Geometry exposing (halfHeight, halfWidth, width)
-import Calculator.Model exposing (Model, Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
+import Calculator.Model exposing (Data, Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
 import List.Extra exposing (splitWhen, updateIf)
 import Party
 import Tuple as T
@@ -31,16 +31,27 @@ shrink =
     Target halfWidth halfHeight 0 0.25
 
 
-getTransformedAngle : Model -> Showing -> Party -> Float
+getTransformedAngle : Data -> Showing -> Party -> Float
 getTransformedAngle model showing party =
     let
-        total =
+        ( total, pshowing ) =
             case showing of
                 Vote ->
-                    totalVotes model.parties
+                    ( totalVotes model.parties, party.votes )
 
                 Seat ->
-                    totalSeats model.parties
+                    ( totalSeats model.parties, party.seats )
+
+        ( total_nshowing, pnshowing ) =
+            case showing of
+                Vote ->
+                    ( totalSeats model.parties, party.seats )
+
+                Seat ->
+                    ( totalVotes model.parties, party.votes )
+
+        majority =
+            (pshowing / total > 0.5) || (pnshowing / total_nshowing > 0.5)
 
         move_from =
             splitWhen (areEqual party.name .name) model.parties
@@ -48,15 +59,23 @@ getTransformedAngle model showing party =
                 |> T.first
                 |> List.foldl (summateRecords (getCurrentShowing showing)) 0
                 |> (+)
-                    (case showing of
-                        Vote ->
-                            getCurrentShowing showing party
+                    (if xor (majority == True) (showing == Vote) then
+                        pshowing
 
-                        Seat ->
-                            0
+                     else
+                        0
                     )
     in
-    (move_from - (total * 0.75)) / total * 360 |> negate
+    if majority then
+        case showing of
+            Vote ->
+                move_from / total * 360 |> negate
+
+            Seat ->
+                (move_from - (total * 0.5)) / total * 360 |> negate
+
+    else
+        (move_from - (total * 0.75)) / total * 360 |> negate
 
 
 initialSliceStatus : Status
@@ -64,18 +83,33 @@ initialSliceStatus =
     Static halfWidth halfHeight 0 1
 
 
-resetTransformations : Model -> List (Animatable Slice)
+resetTransformations : Data -> List (Animatable Slice)
 resetTransformations model =
+    let
+        tv =
+            totalVotes model.parties
+
+        ts =
+            totalSeats model.parties
+    in
     List.concatMap
         (\n ->
+            let
+                ( shw, vhw ) =
+                    if (n.seats / ts > 0.75) || (n.votes / tv > 0.75) then
+                        ( 100, width - 100 )
+
+                    else
+                        ( 0, width )
+            in
             [ { party = n
               , showing = Seat
-              , highlighted_target = Target 0 halfHeight (getTransformedAngle model Seat n) 1
+              , highlighted_target = Target shw halfHeight (getTransformedAngle model Seat n) 1
               , status = initialSliceStatus
               }
             , { party = n
               , showing = Vote
-              , highlighted_target = Target width halfHeight (getTransformedAngle model Vote n) 1
+              , highlighted_target = Target vhw halfHeight (getTransformedAngle model Vote n) 1
               , status = initialSliceStatus
               }
             ]

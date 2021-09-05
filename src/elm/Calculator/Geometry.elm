@@ -1,6 +1,6 @@
 module Calculator.Geometry exposing (Point, angle, halfHeight, halfWidth, height, point, startingAngle, width)
 
-import Calculator.Model exposing (Model, Showing(..), getCurrentShowing, totalVotes)
+import Calculator.Model exposing (Data, Showing(..), getCurrentShowing, totalVotes)
 import List.Extra exposing (splitWhen)
 import Tuple as T
 import Util exposing (Party, areEqual, dropMaybe, summateRecords)
@@ -30,7 +30,7 @@ halfHeight =
     height / 2
 
 
-angle : Model -> Showing -> Party -> Float
+angle : Data -> Showing -> Party -> Float
 angle model showing party =
     let
         total =
@@ -44,10 +44,10 @@ angle model showing party =
         current =
             getCurrentShowing showing party
     in
-    2 * pi / total * current
+    (current / total) * 360
 
 
-startingAngle : Model -> Showing -> Party -> Float
+startingAngle : Data -> Showing -> Party -> Float
 startingAngle model showing party =
     splitWhen (areEqual party.name .name) model.parties
         |> dropMaybe

@@ -28,7 +28,7 @@ move : (Animatable a -> Target) -> Animatable a -> Animatable a
 move getTarget obj =
     case obj.status of
         Static cx cy ca cs ->
-            { obj | status = Moving 0 0 0 0 cx cy ca cs (getTarget obj) }
+            { obj | status = Moving 0 0 0 1 cx cy ca cs (getTarget obj) }
 
         Moving vx vy va vs cx cy ca cs _ ->
             { obj | status = Moving vx vy va vs cx cy ca cs (getTarget obj) }
@@ -90,7 +90,7 @@ step dt obj =
                 (abs (tx - n.tx) < 1 && abs (ty - n.ty) < 1 && abs (tt - n.ta) < 1 && abs (ts - n.ts) < 1)
                     && ((abs nv.tx < 0.6) && (abs nv.ty < 0.6) && (abs nv.ta < 0.6) && (abs nv.ts < 0.6))
             then
-                { obj | status = Static tx ty (normalize ta) 1 }
+                { obj | status = Static tx ty (normalize ta) ts }
 
             else
                 { obj | status = Moving nv.tx nv.ty nv.ta nv.ts n.tx n.ty n.ta n.ts (Target tx ty ta ts) }
@@ -120,25 +120,24 @@ normalize ang =
         ang
 
 
-transformHelp : Target -> String
-transformHelp { tx, ty, ta, ts } =
+transformHelp : Target -> Float -> String
+transformHelp { tx, ty, ta, ts } starting_angle =
     "translate("
         ++ String.fromFloat tx
         ++ " "
         ++ String.fromFloat ty
         ++ ") rotate("
-        ++ String.fromFloat ta
-        ++ ")"
-        ++ " scale("
+        ++ String.fromFloat (ta + starting_angle)
+        ++ ") scale("
         ++ String.fromFloat ts
         ++ ")"
 
 
-transformString : Status -> String
-transformString status =
+transformString : Status -> Float -> String
+transformString status starting_angle =
     case status of
         Static x y a s ->
-            transformHelp (Target x y a s)
+            transformHelp (Target x y a s) starting_angle
 
         Moving _ _ _ _ x y a s _ ->
-            transformHelp (Target x y a s)
+            transformHelp (Target x y a s) starting_angle

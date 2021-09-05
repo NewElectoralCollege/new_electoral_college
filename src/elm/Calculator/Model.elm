@@ -1,7 +1,9 @@
-module Calculator.Model exposing (Model, Msg(..), Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
+module Calculator.Model exposing (Data, Model, Msg(..), Showing(..), Slice, clamp, generator, getCurrentShowing, isHighlighted, nextColor, palette, totalSeats, totalVotes)
 
 import Animation exposing (Animatable, Target)
+import Either exposing (Either)
 import Party
+import Random exposing (Generator, int, list)
 import Util exposing (Party, summateRecords)
 
 
@@ -23,19 +25,29 @@ type alias Slice =
 
 
 type Msg
-    = Name String
-    | Votes String
+    = Name Int String
+    | Votes Int String
+    | AddPartyMenu
+    | NewParty (Either Party.Party String)
+    | RemoveParty Int
     | Highlight Party.Party
     | ResetHighlight
+    | RandomInts (List Int)
     | TimeDelta Float
 
 
-type alias Model =
+type alias Data =
     { parties : List Party
-    , calculated : Bool
+    , highlighted : Maybe Party.Party
+    , add_party_menu : Bool
     , seats : Float
     , slices : List (Animatable Slice)
+    , colors : List String
     }
+
+
+type alias Model =
+    Maybe Data
 
 
 summateParties : (Party -> Float) -> List Party -> Float
@@ -61,3 +73,67 @@ getCurrentShowing showing party =
 
         Seat ->
             party.seats
+
+
+palette : List String
+palette =
+    [ "#87cefa", "#cf5992", "#fa7500", "#2067bd", "#04cf9c", "#F4A460", "#EA6D6A", "#f7f06a", "#577b8c", "#069606", "#ffa6af", "#b50012" ]
+
+
+nextColor : List String -> String
+nextColor colors =
+    case colors of
+        [] ->
+            nextColor palette
+
+        x :: _ ->
+            x
+
+
+isHighlighted : Data -> Party -> Bool
+isHighlighted data party =
+    case data.highlighted of
+        Just a ->
+            a == party.name
+
+        _ ->
+            False
+
+
+
+-- Random
+
+
+ceiling : Int
+ceiling =
+    1000000
+
+
+mid : Int
+mid =
+    Basics.floor <| toFloat (ceiling + floor) * 0.1
+
+
+floor : Int
+floor =
+    2
+
+
+generator : Generator (List Int)
+generator =
+    Random.map2 (++) (list 2 (int floor ceiling)) (list 10 (int floor mid))
+
+
+clamp : Int -> Int -> Int
+clamp scale num =
+    let
+        a =
+            toFloat (num - floor)
+
+        b =
+            toFloat (ceiling - floor)
+
+        c =
+            toFloat (scale - floor)
+    in
+    (Basics.floor <| (a / b) * c) + floor

@@ -4,133 +4,205 @@ import Animation exposing (isAnyMoving, stepAll)
 import Browser exposing (document)
 import Browser.Events exposing (onAnimationFrameDelta)
 import Calculator.Animation exposing (moveSlices, resetSlices, resetTransformations)
-import Calculator.Form exposing (makePartiesForm, partiesHeader)
+import Calculator.Form exposing (addPartyButton, makePartiesForm, partiesHeader)
 import Calculator.Hare exposing (hare, quota)
-import Calculator.Model exposing (Model, Msg(..), Showing(..), totalVotes)
+import Calculator.Model as Cm exposing (Data, Model, Msg(..), Showing(..), generator, nextColor, palette, totalVotes)
 import Calculator.Pie exposing (pie)
+import Either exposing (Either(..))
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html exposing (Html, br, div, h1, h2, p, table, td, tr)
-import Html.Attributes exposing (class, id, rowspan, style)
-import Party exposing (Party(..))
+import Html.Attributes exposing (class, id, rowspan)
+import Json.Decode exposing (decodeString)
+import List.Extra exposing (removeAt, uncons, updateAt, zip)
+import Party exposing (Party(..), color, decodeParty)
+import Random exposing (generate)
 import Util as U exposing (Party, styleNumFloat)
 
 
-quotaBlock : Model -> Html Msg
+quotaBlock : Data -> List (Html Msg)
 quotaBlock model =
-    td
-        [ rowspan 2, style "width" "140px" ]
-        [ U.text <| "=   " ++ (styleNumFloat <| quota model)
-        ]
-
-
-defaultList : List Party
-defaultList =
-    [ Party Democratic 0 201636415 Nothing Nothing "#3333ff"
-    , Party Republican 0 200400839 Nothing Nothing "#ff3333"
-    , Party Libertarian 0 52221423 Nothing Nothing "#FED105"
-    , Party Green 0 10324131 Nothing Nothing "#17aa5c"
+    [ td [ rowspan 2 ] [ U.text "=" ]
+    , td [ rowspan 2 ] [ U.text <| styleNumFloat <| quota model ]
     ]
 
 
-defaultModel : Model
-defaultModel =
-    hare <| Model defaultList False 10 []
+makeParty : List String -> Float -> Either Party.Party String -> Party
+makeParty colors votes eps =
+    case eps of
+        Left party ->
+            Party party 0 votes Nothing Nothing (color party)
+
+        Right name ->
+            Party (Other name) 0 votes Nothing Nothing (nextColor colors)
+
+
+initializeModel : List Int -> Model
+initializeModel ints =
+    let
+        base =
+            Maybe.withDefault 10 <| Maybe.map Tuple.first <| uncons ints
+
+        parties =
+            List.indexedMap
+                (\i n -> makeParty (List.drop i colors) (toFloat n) (Right <| "Party " ++ String.fromInt (i + 1)))
+                (List.take (Cm.clamp 10 base) ints)
+
+        seats =
+            toFloat <| Cm.clamp 30 base
+
+        colors =
+            List.map Tuple.first <| List.sortBy Tuple.second <| zip palette ints
+
+        data =
+            hare <| Data parties Nothing False seats [] colors
+    in
+    Just <| { data | slices = resetTransformations data }
 
 
 
 -- Required functions
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( { defaultModel | slices = resetTransformations defaultModel }, Cmd.none )
-
-
 body : Model -> Html Msg
-body model =
-    div
-        []
-        [ div
-            [ class "jumbotron" ]
-            [ div
-                [ class "container" ]
-                [ h1 [ class "display-4" ] [ U.text "Proportional Representation Results Calculator" ]
-                , p
-                    []
-                    [ U.text <|
-                        "Below, you can run Proportional Representation elections by yourself, using the exact same calculation process proposed "
-                            ++ "for The New Electoral College."
+body mmodel =
+    case mmodel of
+        Just model ->
+            div
+                []
+                [ div
+                    [ class "jumbotron" ]
+                    [ div
+                        [ class "container" ]
+                        [ h1 [ class "display-4" ] [ U.text "Proportional Representation Results Calculator" ]
+                        , p
+                            []
+                            [ U.text <|
+                                "Below, you can run Proportional Representation elections by yourself, using the exact same calculation process proposed "
+                                    ++ "for The New Electoral College."
+                            ]
+                        ]
                     ]
-                ]
-            ]
-        , div
-            [ class "container" ]
-            [ div [ class "row" ]
-                [ div [ class "col" ]
-                    [ h2 [] [ U.text "Parties" ]
-                    , div
-                        []
-                        (partiesHeader :: makePartiesForm model)
-                    ]
-                , div [ class "col" ]
-                    [ h2 [] [ U.text "Quota" ]
-                    , table [ class "quota" ]
-                        [ tr [] [ td [ id "votes" ] [ U.text <| styleNumFloat <| totalVotes model.parties ], quotaBlock model ]
-                        , tr [] [ td [ id "seats" ] [ U.text <| styleNumFloat model.seats ] ]
+                , div
+                    [ class "container" ]
+                    [ div [ class "row" ]
+                        [ div [ class "col" ]
+                            [ h2 [] [ U.text "Parties" ]
+                            , div
+                                []
+                                (partiesHeader :: makePartiesForm model)
+                            , br [] []
+                            , addPartyButton model
+                            ]
+                        , div [ class "col" ]
+                            [ h2 [] [ U.text "Quota" ]
+                            , table [ class "quota" ]
+                                [ tr [] (td [ id "votes" ] [ U.text <| styleNumFloat <| totalVotes model.parties ] :: quotaBlock model)
+                                , tr [] [ td [ id "seats" ] [ U.text <| styleNumFloat model.seats ] ]
+                                ]
+                            ]
+                        ]
+                    , div []
+                        [ pie model Vote
+                        , pie model Seat
                         ]
                     ]
                 ]
-            , div []
-                [ pie model Vote
-                , pie model Seat
-                ]
-            ]
-        ]
+
+        Nothing ->
+            U.text "Nothing"
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
-    case msg of
-        Name _ ->
-            ( model, Cmd.none )
+    case ( msg, model ) of
+        ( Name n to, Just data ) ->
+            let
+                changeName : Party -> Party
+                changeName party =
+                    case decodeString decodeParty ("\"" ++ to ++ "\"") of
+                        Ok (Other _) ->
+                            { party
+                                | name = Other to
+                                , color = party.color
+                            }
 
-        Votes _ ->
-            ( hare model, Cmd.none )
+                        Ok pn ->
+                            { party
+                                | name = pn
+                                , color = color pn
+                            }
 
-        Highlight name ->
-            ( { model | slices = moveSlices model.slices name }, Cmd.none )
+                        Err _ ->
+                            party
 
-        ResetHighlight ->
-            ( { model | slices = resetSlices model.slices }, Cmd.none )
+                new_model =
+                    { data | parties = updateAt n changeName data.parties }
+            in
+            Just <| { new_model | slices = resetTransformations new_model }
 
-        TimeDelta timeDelta ->
-            ( { model
-                | slices =
-                    if isAnyMoving model.slices then
-                        stepAll timeDelta model.slices
+        ( Votes n votes, Just data ) ->
+            { data
+                | parties =
+                    updateAt
+                        n
+                        (\party -> { party | votes = Maybe.withDefault party.votes <| String.toFloat votes })
+                        data.parties
+            }
+                |> hare
+                |> Just
 
-                    else
-                        model.slices
-              }
-            , Cmd.none
-            )
+        ( AddPartyMenu, Just data ) ->
+            Just { data | add_party_menu = not data.add_party_menu }
+
+        ( NewParty party, Just data ) ->
+            { data
+                | parties = data.parties ++ [ makeParty data.colors 100 party ]
+                , add_party_menu = False
+            }
+                |> hare
+                |> Just
+
+        ( RemoveParty i, Just data ) ->
+            { data | parties = removeAt i data.parties }
+                |> hare
+                |> Just
+
+        ( Highlight n, Just data ) ->
+            Just { data | slices = moveSlices data.slices n, highlighted = Just n }
+
+        ( ResetHighlight, Just data ) ->
+            Just { data | slices = resetSlices data.slices, highlighted = Nothing }
+
+        ( RandomInts a, _ ) ->
+            initializeModel a
+
+        ( TimeDelta timeDelta, Just data ) ->
+            Just { data | slices = stepAll timeDelta data.slices }
+
+        ( _, Nothing ) ->
+            Nothing
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
-    if isAnyMoving model.slices then
-        onAnimationFrameDelta TimeDelta
+subscriptions mmodel =
+    case mmodel of
+        Just model ->
+            if isAnyMoving model.slices then
+                onAnimationFrameDelta TimeDelta
 
-    else
-        Sub.none
+            else
+                Sub.none
+
+        _ ->
+            Sub.none
 
 
 main : Program () Model Msg
 main =
     document
-        { init = init
-        , update = update
+        { init = always ( Nothing, generate RandomInts generator )
+        , update = \msg model -> ( update msg model, Cmd.none )
         , subscriptions = subscriptions
         , view =
             \model ->

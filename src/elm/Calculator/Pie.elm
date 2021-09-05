@@ -1,56 +1,50 @@
 module Calculator.Pie exposing (pie, slice)
 
 import Animation exposing (Animatable, Status(..), transformString)
-import Calculator.Geometry exposing (Point, angle, height, point, startingAngle, width)
-import Calculator.Model exposing (Model, Msg(..), Showing(..), Slice)
-import Html exposing (Html)
+import Calculator.Geometry exposing (angle, height, startingAngle, width)
+import Calculator.Model exposing (Data, Msg(..), Showing(..), Slice)
+import Html exposing (Html, br, h2, span, text)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
 import String
-import Svg exposing (Svg, path, svg)
-import Svg.Attributes exposing (d, fill, stroke, transform)
+import Svg exposing (Svg, circle, svg)
+import Svg.Attributes exposing (fill, r, stroke, strokeDasharray, strokeWidth, transform)
 import Util exposing (areEqual)
 
 
-slice : Model -> Animatable Slice -> Svg Msg
+slice : Data -> Animatable Slice -> Svg Msg
 slice model { party, status, showing } =
     let
         starting_angle =
             startingAngle model showing party
 
-        starting_point =
-            point starting_angle
-
-        pnt =
-            point <| (angle model showing party + starting_angle)
+        ang =
+            angle model showing party
     in
-    path
-        [ d <|
-            "M 0,0 "
-                ++ "L "
-                ++ stringifyPoint starting_point
-                ++ " "
-                ++ "a 100,100  0 0,1"
-                ++ stringifyPoint (difference pnt starting_point)
-                ++ " "
-                ++ "L 0,0 "
-                ++ " z"
-        , fill party.color
-        , stroke "black"
-        , transform <| transformString status
+    circle
+        [ r "50"
+        , fill "transparent"
+        , stroke party.color
+        , strokeWidth "100"
+        , strokeDasharray <| "calc(" ++ String.fromFloat ang ++ " / 360 * 100 * 314 / 100) 314"
+        , transform <| transformString status starting_angle
         , onMouseEnter (Highlight party.name)
         ]
         []
 
 
-pie : Model -> Showing -> Html Msg
+pie : Data -> Showing -> Html Msg
 pie model showing =
-    svg
-        [ style "width" <| String.fromInt width
-        , style "height" <| String.fromInt height
-        , onMouseLeave ResetHighlight
+    span [ style "display" "inline-block" ]
+        [ br [] []
+        , h2 [] [ text <| Debug.toString showing ]
+        , svg
+            [ style "width" <| String.fromInt width
+            , style "height" <| String.fromInt height
+            , onMouseLeave ResetHighlight
+            ]
+            (List.map (slice model) <| List.filter (areEqual showing .showing) <| List.filter showSlice model.slices)
         ]
-        (List.map (slice model) <| List.filter (areEqual showing .showing) <| List.filter showSlice model.slices)
 
 
 showSlice : Animatable Slice -> Bool
@@ -61,13 +55,3 @@ showSlice slc =
 
         Seat ->
             slc.party.seats /= 0
-
-
-stringifyPoint : Point -> String
-stringifyPoint ( a, b ) =
-    String.fromFloat a ++ "," ++ String.fromFloat b
-
-
-difference : Point -> Point -> Point
-difference ( a1, b1 ) ( a2, b2 ) =
-    ( a1 - a2, b1 - b2 )
