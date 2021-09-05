@@ -230,7 +230,7 @@ makeState national_parties model { list, dots, state } =
                             [ r <| String.fromFloat spotRadius
                             , cx "0"
                             , cy "0"
-                            , transform <| transformString dot.status
+                            , transform <| transformString dot.status 0
                             , Sa.style "stroke-width:0.8534;stroke:#000000"
                             ]
                             []
