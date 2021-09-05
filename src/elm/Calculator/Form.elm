@@ -6,9 +6,10 @@ import Either exposing (Either(..))
 import Html exposing (Attribute, Html, a, abbr, button, div, i, input, li, span, ul)
 import Html.Attributes exposing (class, placeholder, style, title, type_, value)
 import Html.Events exposing (onClick, onInput, onMouseEnter, onMouseLeave)
+import Maybe exposing (withDefault)
 import Party exposing (Party(..), getName)
 import String exposing (fromFloat, fromInt, left)
-import Util as U exposing (Party, areEqual, boolToInt, dropMaybe)
+import Util as U exposing (Party, areEqual, boolToInt)
 
 
 border : Attribute Msg
@@ -33,6 +34,12 @@ makePartyForm model n party =
 
             else
                 "none"
+
+        extra_seats =
+            boolToInt <| withDefault False party.extra_seat
+
+        initial_seats =
+            party.seats - extra_seats
     in
     div
         [ class "form-row"
@@ -72,10 +79,10 @@ makePartyForm model n party =
             [ U.text <| left 4 <| fromFloat <| party.votes / quota model ]
         , div
             stepStyle
-            [ U.text <| party.seats - (boolToInt <| dropMaybe party.extra_seat) ]
+            [ U.text initial_seats ]
         , div
             stepStyle
-            [ U.text <| boolToInt <| dropMaybe party.extra_seat ]
+            [ U.text extra_seats ]
         , div
             stepStyle
             [ U.text party.seats ]

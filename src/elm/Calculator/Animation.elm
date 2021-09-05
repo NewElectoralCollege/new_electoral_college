@@ -4,10 +4,9 @@ import Animation exposing (Animatable, Status(..), Target, move)
 import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Data, Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
 import List exposing (concatMap, foldl, map)
-import List.Extra exposing (splitWhen, updateIf)
+import List.Extra exposing (takeWhile, updateIf)
 import Party
-import Tuple exposing (first)
-import Util exposing (Party, areEqual, dropMaybe, lambdaCompare, summateRecords)
+import Util exposing (Party, areEqual, lambdaCompare, summateRecords)
 
 
 moveSlices : List (Animatable Slice) -> Party.Party -> List (Animatable Slice)
@@ -55,9 +54,7 @@ getTransformedAngle model showing party =
             (pshowing / total > 0.5) || (pnshowing / total_nshowing > 0.5)
 
         move_from =
-            splitWhen (areEqual party.name .name) model.parties
-                |> dropMaybe
-                |> first
+            takeWhile (areEqual party.name .name) model.parties
                 |> foldl (summateRecords (getCurrentShowing showing)) 0
                 |> (+)
                     (if xor (majority == True) (showing == Vote) then

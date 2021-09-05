@@ -28,7 +28,6 @@ module Util exposing
     , popularVotePercent
     , round
     , seatChange
-    , seats
     , setStats
     , statsMsg
     , styleNum
@@ -50,10 +49,11 @@ import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, id, rowspan, style)
 import Http exposing (Error, Expect, expectJson, get)
 import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, nullable, string)
-import List exposing (concat, concatMap, filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sum)
+import List exposing (concatMap, filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sum)
 import List.Extra exposing (splitAt)
+import Maybe as M exposing (withDefault)
 import Party exposing (color, decodeParty)
-import Regex exposing (fromString)
+import Regex as R exposing (fromString)
 import State exposing (State(..))
 import String as S exposing (contains, dropLeft, fromChar, fromFloat, fromInt, left, length, replace, slice, toList)
 import Svg exposing (Svg, g)
@@ -116,14 +116,11 @@ type alias Dot =
 
 
 -- Common Functions
-
-
 dropMaybe : Maybe a -> a
 dropMaybe x =
     case x of
         Just y ->
             y
-
         Nothing ->
             Debug.todo "A Nothing variable sent through dropMaybe function"
 
@@ -257,7 +254,7 @@ fix_string string =
 
 fix_change : String -> List (Html msg)
 fix_change string =
-    if Regex.contains (dropMaybe <| fromString "(\\+0(?!.)|\\+0%)") string then
+    if withDefault False <| M.map (\r -> R.contains r string) (fromString "(\\+0(?!.)|\\+0%)") then
         [ i [ class "steady" ] [], text (" " ++ dropLeft 1 string) ]
 
     else if contains "+-" string then
@@ -357,46 +354,33 @@ partyContainer current previous doStateRow party =
         ]
 
 
-popularVotePercent : ( Party, Maybe Party ) -> Stats -> (( Party, Maybe Party ) -> Party) -> Float
-popularVotePercent party stats v =
-    (.votes <| v party) / stats.total_votes
+popularVotePercent : Party -> Stats -> Float
+popularVotePercent party stats =
+    party.votes / stats.total_votes
 
 
-seats : ( Party, Maybe Party ) -> (( Party, Maybe Party ) -> Party) -> Float
-seats party v =
-    .seats <| v party
-
-
-won : List Party -> Party.Party
+won : List Party -> Maybe Party.Party
 won lst =
-    (dropMaybe <| head <| reverse <| sortBy .votes lst).name
+    M.map .name (head <| reverse <| sortBy .votes lst)
 
 
 voteChange : ( Party, Maybe Party ) -> Stats -> Maybe Stats -> List (Html msg)
 voteChange party new_s old_s =
-    let
-        pvp =
-            popularVotePercent party
-    in
-    case second party of
-        Just _ ->
-            fix_change <| "+" ++ stylePercent (pvp new_s first - pvp (dropMaybe old_s) (dropMaybe << second))
+    case ( party, old_s ) of
+        ( ( cparty, Just pparty ), Just j_old_s ) ->
+            fix_change <| "+" ++ stylePercent (popularVotePercent cparty new_s - popularVotePercent pparty j_old_s)
 
-        Nothing ->
+        _ ->
             [ text "n/a" ]
 
 
 seatChange : ( Party, Maybe Party ) -> List (Html msg)
 seatChange party =
-    let
-        sts =
-            seats party
-    in
-    case second party of
-        Just _ ->
-            fix_change <| "+" ++ fromFloat (sts first - sts (dropMaybe << second))
+    case party of
+        ( cparty, Just pparty ) ->
+            fix_change <| "+" ++ fromFloat (cparty.seats - pparty.seats)
 
-        Nothing ->
+        _ ->
             [ text "n/a" ]
 
 

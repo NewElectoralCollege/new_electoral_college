@@ -13,7 +13,6 @@ import String as S
 import Task exposing (perform)
 import Time exposing (Posix, Zone, every, here, toHour, utc)
 import Tuple exposing (first, second)
-import Util exposing (dropMaybe)
 
 
 
@@ -88,7 +87,7 @@ cities =
 
 getCity : Zone -> Posix -> City
 getCity zone posix =
-    dropMaybe <| getAt (toHour zone posix) cities
+    withDefault (getCity zone posix) <| getAt (toHour zone posix) cities
 
 
 

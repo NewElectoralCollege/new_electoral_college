@@ -9,9 +9,9 @@ import Html.Attributes exposing (class, src, style, width)
 import Http exposing (Error, expectString, get)
 import List exposing (head, map2)
 import List.Extra exposing (last)
+import Maybe exposing (withDefault)
 import Regex exposing (Match, Regex, fromString, replace)
 import String exposing (dropLeft, dropRight, join, lines, split, trim)
-import Util exposing (dropMaybe)
 
 
 
@@ -237,19 +237,21 @@ textAndImage sectiontype par =
                 splt =
                     split " \\begin{flushright}\\textit{---" par
 
-                quote =
-                    dropMaybe <| head <| splt
-
                 author =
-                    dropMaybe <| last <| splt
+                    withDefault "Unknown" <| last <| splt
             in
-            [ node
-                "blockquote"
-                [ class "blockquote mb-0" ]
-                [ p [] [ quote |> dropRight 4 |> dropLeft 9 |> text ]
-                , H.footer [ class "blockquote-footer" ] [ author |> dropRight 17 |> text ]
-                ]
-            ]
+            case splt of
+                quote :: _ ->
+                    [ node
+                        "blockquote"
+                        [ class "blockquote mb-0" ]
+                        [ p [] [ quote |> dropRight 4 |> dropLeft 9 |> text ]
+                        , H.footer [ class "blockquote-footer" ] [ author |> dropRight 17 |> text ]
+                        ]
+                    ]
+
+                _ ->
+                    []
 
         Text Lt _ img ->
             [ leftDiv (Left par)

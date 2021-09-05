@@ -7,10 +7,11 @@ import Html exposing (Html, a, br, div, h1, h2, li, ol, p, text)
 import Html.Attributes exposing (class, href)
 import List exposing (head, map)
 import List.Extra exposing (count, groupsOfVarying, unique)
+import Maybe as M exposing (withDefault)
 import Party exposing (Party(..), inParenthesis)
 import State exposing (State(..))
 import String as S
-import Util exposing (dropMaybe, getName)
+import Util exposing (getName)
 
 
 
@@ -289,7 +290,7 @@ endorsements =
 makeDivision : List Endorsement -> Html msg
 makeDivision es =
     div []
-        [ h2 [] [ text <| getHeader <| (dropMaybe <| head es).office ]
+        [ h2 [] [ text <| withDefault "" <| M.map getHeader <| M.map .office (head es) ]
         , ol [] (map makeEndorser es)
         ]
 

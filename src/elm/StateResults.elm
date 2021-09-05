@@ -7,11 +7,11 @@ import Header exposing (header)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, target, type_)
 import Html.Events exposing (onClick)
-import List exposing (drop, head, intersperse, length, map, reverse, sortBy)
+import List exposing (drop, intersperse, map, reverse, sortBy)
 import List.Extra exposing (find, setAt)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party(..))
-import State exposing (State, states)
+import State exposing (State(..), states)
 import String as S
 import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
 import Svg.Attributes as Sa exposing (cx, cy, fill, height, markerHeight, markerWidth, orient, points, r, refX, refY, width, x, y)
@@ -25,7 +25,6 @@ import Util as U
         , Stats
         , areEqual
         , colorCircles
-        , dropMaybe
         , firstYear
         , getFile
         , getName
@@ -126,45 +125,43 @@ getCircles angle model i =
 
 doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
 doPartyBars list parties nx model =
-    if length parties == 0 then
-        []
+    case parties of
+        [] ->
+            []
 
-    else
-        let
-            party =
-                dropMaybe (head parties)
-
-            nwidth =
-                getWidth party.votes model
-        in
-        if ifQualifyingParty model.stats.total_votes party then
-            list
-                ++ doPartyBars
-                    [ rect
-                        [ x (S.fromFloat nx)
-                        , y "370"
-                        , width (S.fromFloat nwidth)
-                        , height "50"
-                        , fill party.color
-                        , Sa.style "stroke-width:2;stroke:#fff;"
+        party :: _ ->
+            let
+                nwidth =
+                    getWidth party.votes model
+            in
+            if ifQualifyingParty model.stats.total_votes party then
+                list
+                    ++ doPartyBars
+                        [ rect
+                            [ x (S.fromFloat nx)
+                            , y "370"
+                            , width (S.fromFloat nwidth)
+                            , height "50"
+                            , fill party.color
+                            , Sa.style "stroke-width:2;stroke:#fff;"
+                            ]
+                            []
                         ]
-                        []
-                    ]
-                    (drop 1 parties)
-                    (nx + nwidth)
-                    model
+                        (drop 1 parties)
+                        (nx + nwidth)
+                        model
 
-        else
-            list
-                ++ [ rect
-                        [ x (S.fromFloat nx)
-                        , y "370"
-                        , width (S.fromFloat nwidth)
-                        , height "50"
-                        , fill "#dddddd"
-                        ]
-                        []
-                   ]
+            else
+                list
+                    ++ [ rect
+                            [ x (S.fromFloat nx)
+                            , y "370"
+                            , width (S.fromFloat nwidth)
+                            , height "50"
+                            , fill "#dddddd"
+                            ]
+                            []
+                       ]
 
 
 
@@ -191,7 +188,7 @@ newRow party model year =
             , td [] [ U.text <| styleNumFloat party.votes ]
             , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
             , td [] [ U.text <| getInitialSeats party ]
-            , td [] ((U.text <| styleNumFloat <| dropMaybe party.extra_votes) :: getCheckIcon party)
+            , td [] ((U.text <| styleNumFloat <| withDefault 0 party.extra_votes) :: getCheckIcon party)
             , td [] [ U.text party.seats ]
             , td [] [ U.text <| stylePercent (party.seats / model.stats.total_seats) ]
             ]
@@ -262,20 +259,19 @@ summaryFooter model =
 
 doYearRow : Party.Party -> Election -> Maybe Election -> Html Msg
 doYearRow partyname ({ list, stats, year } as current) previous =
-    let
-        party =
-            ( dropMaybe <| find (areEqual partyname .name) list
-            , find (areEqual partyname .name) <| withDefault [] <| M.map .list previous
-            )
-    in
-    tr []
-        [ td [] [ U.text year ]
-        , td [] [ U.text <| styleNumFloat <| .votes <| first party ]
-        , td [] [ U.text <| stylePercent <| (first party).votes / stats.total_votes ]
-        , td [] (voteChange party stats (M.map .stats previous))
-        , td [] <| getPartyProgressBar (first party) current (first party).color
-        , td [] (seatChange party)
-        ]
+    case ( find (areEqual partyname .name) list, find (areEqual partyname .name) <| withDefault [] <| M.map .list previous ) of
+        ( Just party, pparty ) ->
+            tr []
+                [ td [] [ U.text year ]
+                , td [] [ U.text <| styleNumFloat <| .votes <| party ]
+                , td [] [ U.text <| stylePercent <| party.votes / stats.total_votes ]
+                , td [] (voteChange ( party, pparty ) stats (M.map .stats previous))
+                , td [] <| getPartyProgressBar party current party.color
+                , td [] (seatChange ( party, pparty ))
+                ]
+
+        ( Nothing, _ ) ->
+            U.text ""
 
 
 previousElections : Model -> List (Maybe Election)
@@ -403,7 +399,7 @@ init flags =
             0
             (second flags)
             (second flags)
-            (dropMaybe <| find (areEqual (first flags) getName) states)
+            (withDefault Alabama <| find (areEqual (first flags) getName) states)
             ""
             Initializing
         )

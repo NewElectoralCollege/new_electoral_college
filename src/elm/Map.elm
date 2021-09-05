@@ -462,7 +462,7 @@ doStateRow partyname ({ list, stats, state } as current) p =
             )
 
         bold =
-            if won list == partyname && won previous.list /= partyname then
+            if (dropMaybe <| won list) == partyname && (dropMaybe <| won previous.list) /= partyname then
                 "bold"
 
             else
@@ -477,7 +477,7 @@ doStateRow partyname ({ list, stats, state } as current) p =
                 [ U.text <| getName state ]
             ]
         , td [] [ U.text <| styleNumFloat <| .votes <| first party ]
-        , td [] [ U.text <| stylePercent <| popularVotePercent party stats first ]
+        , td [] [ U.text <| stylePercent <| popularVotePercent (first party) stats ]
         , td [] (voteChange party stats (Just previous.stats))
         , td [] <| getPartyProgressBar (first party) current (first party).color
         , td [] (seatChange party)

@@ -3,13 +3,12 @@ module ReadMore exposing (main)
 import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
-import Html exposing (Html, a, br, button, div, h2, img, p, span, text)
-import Html.Attributes exposing (attribute, class, href, id, property, src, style, target, title, type_)
+import Html exposing (Html, a, br, button, div, h2, p, span, text)
+import Html.Attributes exposing (attribute, class, href, id, property, style, type_)
 import Json.Encode exposing (string)
-import List exposing (head, map)
-import String exposing (replace, split, toLower)
+import List exposing (map)
+import String exposing (replace, toLower)
 import Tuple exposing (first)
-import Util exposing (dropMaybe)
 
 
 
@@ -24,45 +23,6 @@ modules =
     , ( "Gallagher Index", "See explanations of the Gallagher Index." )
     , ( "Programmer's Guide to Proportional Representation", "See implementations of Proportional Representation in multiple programming langugage" )
     ]
-
-
-
--- Language Logos
-
-
-languageLogos : List (Html msg)
-languageLogos =
-    map
-        (\f ->
-            a
-                [ href <| "/new_electoral_college/the_proposal/programming_examples/" ++ (dropMaybe <| head <| split "." f) ++ ".txt"
-                , attribute "download" f
-                , target "_blank"
-                , title <|
-                    (f
-                        |> split "."
-                        |> head
-                        |> dropMaybe
-                        |> replace "cs" "C#"
-                    )
-                ]
-                [ img
-                    [ src <| "/new_electoral_college/src/img/languages/" ++ (dropMaybe <| head <| split "." f) ++ ".svg"
-                    , style "max-width" "100px"
-                    , style "max-height" "75px"
-                    , class "language-icon"
-                    ]
-                    []
-                ]
-        )
-        [ "C.c"
-        , "C++.cpp"
-        , "ccs"
-        , "Python.py"
-        , "PHP.php"
-        , "Ruby.rb"
-        , "Haskell.hs"
-        ]
 
 
 active : Model -> ( String, String ) -> String
@@ -150,13 +110,6 @@ body model =
                                 ]
                                 [ text "pdf" ]
                             ]
-                        , if replace " " "-" f == "Programmer's-Guide-to-Proportional-Representation" then
-                            div
-                                [ id "languages" ]
-                                languageLogos
-
-                          else
-                            br [] []
                         , br [] []
                         ]
                 )
