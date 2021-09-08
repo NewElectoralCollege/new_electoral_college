@@ -5,7 +5,6 @@
 -   Ensure that all elector numbers are accurate in official proposal (ensure that it is possible to download from Read More)
 -   Update elector allocations graph in official proposal
 -   Fix 404.html
--   Work on emails
 -   Predicates (func and function)
 -   Remove all Debugs
 

@@ -20,9 +20,10 @@ function getCookie(name, fallback) {
 
 // Get GET
 function getGet(key, fallback) {
-    let get = new RegExp("[?&]" + encodeURIComponent(key) + "=([^&]*)").exec(
+    const get = new RegExp("[?&]" + encodeURIComponent(key) + "=([^&]*)").exec(
         location.search
     );
+
     return get ? decodeURIComponent(get[1]) : fallback;
 }
 
