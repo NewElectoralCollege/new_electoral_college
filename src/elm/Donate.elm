@@ -3,12 +3,13 @@ module Donate exposing (main)
 import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (header)
-import Html exposing (Html, a, br, div, form, h2, input, label, p, text)
+import Html exposing (Html, a, br, div, form, h2, input, label, p, select, text)
 import Html.Attributes exposing (class, for, href, id, name, pattern, placeholder, required, type_)
 import Html.Events exposing (onInput)
 import List.Extra exposing (getAt)
 import Maybe exposing (withDefault)
 import Platform.Cmd exposing (none)
+import State exposing (makeOptionList, statesAndTerritories)
 import String as S
 import Task exposing (perform)
 import Time exposing (Posix, Zone, every, here, toHour, utc)
@@ -87,16 +88,11 @@ cities =
 
 getCity : Zone -> Posix -> City
 getCity zone posix =
-    withDefault (getCity zone posix) <| getAt (toHour zone posix) cities
+    withDefault ( "", "" ) <| getAt (toHour zone posix) cities
 
 
 
 -- Required functions
-
-
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( Model ( "Atlanta", "GA" ) utc False, perform AdjustTimeZone here )
 
 
 body : Model -> Html Msg
@@ -205,15 +201,14 @@ body { pl_city, o200 } =
                     [ label
                         [ for "state" ]
                         [ text "State" ]
-                    , input
-                        [ type_ "text"
-                        , class "form-control"
+                    , select
+                        [ class "form-control"
                         , id "state"
                         , name "state"
                         , placeholder <| second pl_city
                         , required o200
                         ]
-                        []
+                        (makeOptionList statesAndTerritories)
                     ]
                 , div
                     [ class "col" ]
@@ -374,17 +369,12 @@ update msg model =
             { model | zone = z }
 
 
-subscriptions : Model -> Sub Msg
-subscriptions _ =
-    every 1 GetCity
-
-
 main : Program () Model Msg
 main =
     document
-        { init = init
+        { init = always ( Model ( "Atlanta", "GA" ) utc False, perform AdjustTimeZone here )
         , update = \msg model -> ( update msg model, none )
-        , subscriptions = subscriptions
+        , subscriptions = always (every 1 GetCity)
         , view =
             \model ->
                 { title = "The New Electoral College - Donate"
