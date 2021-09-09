@@ -16,8 +16,6 @@ module Util exposing
     , fix_change
     , floor
     , getFile
-    , getName
-    , getNameHelper
     , getPartyProgressBar
     , ifQualifyingParty
     , lambdaCompare
@@ -43,7 +41,6 @@ module Util exposing
 
 import Animation exposing (Animatable)
 import Basics as B
-import Char exposing (isUpper)
 import Dict as D exposing (Dict)
 import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, id, rowspan, style)
@@ -52,10 +49,10 @@ import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, 
 import List exposing (concatMap, filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sum)
 import List.Extra exposing (splitAt)
 import Maybe as M exposing (withDefault)
-import Party exposing (color, decodeParty)
+import Party exposing (color, decodeParty, getName)
 import Regex as R exposing (fromString)
-import State exposing (State(..))
-import String as S exposing (contains, dropLeft, fromChar, fromFloat, fromInt, left, length, replace, slice, toList)
+import State as St exposing (State(..))
+import String as S exposing (contains, dropLeft, fromFloat, fromInt, left, length, replace, slice)
 import Svg exposing (Svg, g)
 import Svg.Attributes exposing (fill)
 import Tuple exposing (first, second)
@@ -116,11 +113,14 @@ type alias Dot =
 
 
 -- Common Functions
+
+
 dropMaybe : Maybe a -> a
 dropMaybe x =
     case x of
         Just y ->
             y
+
         Nothing ->
             Debug.todo "A Nothing variable sent through dropMaybe function"
 
@@ -385,30 +385,6 @@ seatChange party =
 
 
 
--- Party names
-
-
-getNameHelper : Char -> String
-getNameHelper c =
-    if isUpper c then
-        " " ++ fromChar c
-
-    else
-        fromChar c
-
-
-getName : a -> String
-getName a =
-    a
-        |> Debug.toString
-        |> toList
-        |> map getNameHelper
-        |> S.concat
-        |> dropLeft 1
-        |> replace " Of " " of "
-
-
-
 -- Msg for Http functions
 
 
@@ -461,7 +437,7 @@ statsMsg =
 getFile : Expect Msg -> Int -> State -> Cmd Msg
 getFile msg year state =
     get
-        { url = "data/" ++ fromInt year ++ "/" ++ getName state ++ ".json"
+        { url = "data/" ++ fromInt year ++ "/" ++ St.getName state ++ ".json"
         , expect = msg
         }
 

@@ -3,11 +3,9 @@ module CountMeIn exposing (main)
 import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
-import Html exposing (Html, b, br, button, div, form, h2, input, label, option, p, select, small, text)
+import Html exposing (Html, b, br, button, div, form, h2, input, label, p, select, small, text)
 import Html.Attributes exposing (action, class, for, id, method, name, novalidate, placeholder, required, type_)
-import List exposing (append, map, sort)
-import State exposing (states)
-import Util exposing (getName)
+import State exposing (makeOptionList, statesAndTerritories)
 
 
 
@@ -83,13 +81,7 @@ body =
                     , name "state"
                     , required True
                     ]
-                    (map
-                        (\n -> option [] [ text n ])
-                     <|
-                        sort <|
-                            append [ "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands" ] <|
-                                map getName states
-                    )
+                    (makeOptionList statesAndTerritories)
                 ]
             , div
                 [ class "form-group" ]

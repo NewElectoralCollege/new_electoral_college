@@ -1,4 +1,10 @@
-module State exposing (State(..), StateOutline, outline, states)
+module State exposing (State(..), StateOutline, getName, makeOptionList, outline, states, statesAndTerritories)
+
+import Char exposing (isUpper)
+import Debug exposing (toString)
+import Html exposing (Html, option, text)
+import List exposing (map, sort)
+import String exposing (concat, dropLeft, fromChar, replace, toList)
 
 
 type State
@@ -109,6 +115,36 @@ states =
     , Wisconsin
     , Wyoming
     ]
+
+
+statesAndTerritories : List String
+statesAndTerritories =
+    [ "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands" ] ++ map getName states |> sort
+
+
+makeOptionList : List String -> List (Html msg)
+makeOptionList =
+    map (\n -> option [] [ text n ])
+
+
+getNameHelper : Char -> String
+getNameHelper c =
+    if isUpper c then
+        " " ++ fromChar c
+
+    else
+        fromChar c
+
+
+getName : State -> String
+getName state =
+    state
+        |> toString
+        |> toList
+        |> map getNameHelper
+        |> concat
+        |> dropLeft 1
+        |> replace " Of " " of "
 
 
 type alias StateOutline =
