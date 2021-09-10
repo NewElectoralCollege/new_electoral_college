@@ -3,6 +3,7 @@ function replace(needle, replace, haystack) {
     while (haystack.includes(needle)) {
         haystack.replace(needle, replace);
     }
+
     return haystack;
 }
 
