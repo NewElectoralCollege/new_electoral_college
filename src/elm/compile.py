@@ -15,6 +15,8 @@ adding = ["<meta name='viewport' content='width=device-width,initial-scale=1,shr
           "<link rel='stylesheet' href='/new_electoral_college/src/sass/style.css'>"
           ]
 
+mathjax = '<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>'
+
 if fle == "CountMeIn.elm":
     adding.append(
         "<script src='/new_electoral_college/src/js/cmi_form_validation.js'></script>")
@@ -26,10 +28,12 @@ elif fle == "Map.elm":
 elif fle == "ReadMore.elm":
     adding.append(
         "<script src='/new_electoral_college/src/js/read_more_lists.js'></script>")
+    adding.append(mathjax)
 
 elif fle == "StateResults.elm":
     adding.append(
         "<script src='/new_electoral_college/src/js/state.js'></script>")
+    adding.append(mathjax)
 
 s = subprocess.call("elm make " + fle + " --output=" + output)
 
