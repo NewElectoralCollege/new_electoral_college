@@ -502,7 +502,7 @@ body model =
                     [ U.text "Data Source: "
                     , a
                         [ target "_blank"
-                        , href "https://dataverse.harvaredu/datasexhtml?persistentId=doi:10.7910/DVN/42MVDX"
+                        , href "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX"
                         ]
                         [ U.text "Massachusetts Institute of Technology (MIT) Election Lab" ]
                     ]
