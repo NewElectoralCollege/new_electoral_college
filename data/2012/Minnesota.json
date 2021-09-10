@@ -1,1 +1,80 @@
-{"parties": [{"name": "Democratic", "seats": 5, "votes": 1546167, "extra_votes": 83207, "extra_seat": false}, {"name": "Libertarian", "seats": 0, "votes": 35098, "extra_votes": 35098, "extra_seat": false}, {"name": "Green", "seats": 0, "votes": 13023, "extra_votes": 13023, "extra_seat": false}, {"name": "Constitution", "seats": 0, "votes": 3722, "extra_votes": 3722, "extra_seat": false}, {"name": "Grassroots", "seats": 0, "votes": 3149, "extra_votes": 3149, "extra_seat": false}, {"name": "Justice", "seats": 0, "votes": 1996, "extra_votes": 1996, "extra_seat": false}, {"name": "Constitutional Government", "seats": 0, "votes": 1092, "extra_votes": 1092, "extra_seat": false}, {"name": "Socialist Workers", "seats": 0, "votes": 1051, "extra_votes": 1051, "extra_seat": false}, {"name": "Party for Socialism and Liberation", "seats": 0, "votes": 397, "extra_votes": 397, "extra_seat": false}, {"name": "Republican", "seats": 5, "votes": 1320225, "extra_votes": 149857, "extra_seat": true}], "stats": {"name": "Minnesota 2012", "total_seats": 10, "total_votes": 2925920, "gallagher_index": 4.096170091878533}}
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 5,
+            "votes": 1546167,
+            "extra_votes": 83207,
+            "extra_seat": false
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 35098,
+            "extra_votes": 35098,
+            "extra_seat": false
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 13023,
+            "extra_votes": 13023,
+            "extra_seat": false
+        },
+        {
+            "name": "Constitution",
+            "seats": 0,
+            "votes": 3722,
+            "extra_votes": 3722,
+            "extra_seat": false
+        },
+        {
+            "name": "Grassroots",
+            "seats": 0,
+            "votes": 3149,
+            "extra_votes": 3149,
+            "extra_seat": false
+        },
+        {
+            "name": "Justice",
+            "seats": 0,
+            "votes": 1996,
+            "extra_votes": 1996,
+            "extra_seat": false
+        },
+        {
+            "name": "Constitutional Government",
+            "seats": 0,
+            "votes": 1092,
+            "extra_votes": 1092,
+            "extra_seat": false
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 1051,
+            "extra_votes": 1051,
+            "extra_seat": false
+        },
+        {
+            "name": "Party for Socialism and Liberation",
+            "seats": 0,
+            "votes": 397,
+            "extra_votes": 397,
+            "extra_seat": false
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1320225,
+            "extra_votes": 149857,
+            "extra_seat": true
+        }
+    ],
+    "stats": {
+        "name": "Minnesota 2012",
+        "total_seats": 10,
+        "total_votes": 2925920,
+        "gallagher_index": 4.096170091878533
+    }
+}

@@ -1,1 +1,66 @@
-{"parties": [{"name": "Republican", "seats": 0, "votes": 20698, "extra_votes": 20698, "extra_seat": false}, {"name": "Independent", "seats": 0, "votes": 9681, "extra_votes": 9681, "extra_seat": false}, {"name": "New Alliance", "seats": 0, "votes": 1459, "extra_votes": 1459, "extra_seat": false}, {"name": "Independent", "seats": 0, "votes": 1446, "extra_votes": 1446, "extra_seat": false}, {"name": "Libertarian", "seats": 0, "votes": 467, "extra_votes": 467, "extra_seat": false}, {"name": "Socialist Party USA", "seats": 0, "votes": 296, "extra_votes": 296, "extra_seat": false}, {"name": "Natural Law", "seats": 0, "votes": 230, "extra_votes": 230, "extra_seat": false}, {"name": "Democratic", "seats": 3, "votes": 192619, "extra_votes": 41355, "extra_seat": true}], "stats": {"name": "District of Columbia 1992", "total_seats": 3, "total_votes": 226896, "gallagher_index": 12.855513830306666}}
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 0,
+            "votes": 20698,
+            "extra_votes": 20698,
+            "extra_seat": false
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 9681,
+            "extra_votes": 9681,
+            "extra_seat": false
+        },
+        {
+            "name": "New Alliance",
+            "seats": 0,
+            "votes": 1459,
+            "extra_votes": 1459,
+            "extra_seat": false
+        },
+        {
+            "name": "Independent",
+            "seats": 0,
+            "votes": 1446,
+            "extra_votes": 1446,
+            "extra_seat": false
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 467,
+            "extra_votes": 467,
+            "extra_seat": false
+        },
+        {
+            "name": "Socialist Party USA",
+            "seats": 0,
+            "votes": 296,
+            "extra_votes": 296,
+            "extra_seat": false
+        },
+        {
+            "name": "Natural Law",
+            "seats": 0,
+            "votes": 230,
+            "extra_votes": 230,
+            "extra_seat": false
+        },
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 192619,
+            "extra_votes": 41355,
+            "extra_seat": true
+        }
+    ],
+    "stats": {
+        "name": "District of Columbia 1992",
+        "total_seats": 3,
+        "total_votes": 226896,
+        "gallagher_index": 12.855513830306666
+    }
+}

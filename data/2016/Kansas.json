@@ -1,1 +1,38 @@
-{"parties": [{"name": "Libertarian", "seats": 0, "votes": 55406, "extra_votes": 55406, "extra_seat": false}, {"name": "Democratic", "seats": 2, "votes": 427005, "extra_votes": 34695, "extra_seat": false}, {"name": "Green", "seats": 0, "votes": 23506, "extra_votes": 23506, "extra_seat": false}, {"name": "Republican", "seats": 4, "votes": 671018, "extra_votes": 82553, "extra_seat": true}], "stats": {"name": "Kansas 2016", "total_seats": 6, "total_votes": 1176935, "gallagher_index": 8.000429375583035}}
+{
+    "parties": [
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 55406,
+            "extra_votes": 55406,
+            "extra_seat": false
+        },
+        {
+            "name": "Democratic",
+            "seats": 2,
+            "votes": 427005,
+            "extra_votes": 34695,
+            "extra_seat": false
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 23506,
+            "extra_votes": 23506,
+            "extra_seat": false
+        },
+        {
+            "name": "Republican",
+            "seats": 4,
+            "votes": 671018,
+            "extra_votes": 82553,
+            "extra_seat": true
+        }
+    ],
+    "stats": {
+        "name": "Kansas 2016",
+        "total_seats": 6,
+        "total_votes": 1176935,
+        "gallagher_index": 8.000429375583035
+    }
+}

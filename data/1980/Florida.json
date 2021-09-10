@@ -1,1 +1,38 @@
-{"parties": [{"name": "Republican", "seats": 9, "votes": 2046951, "extra_votes": 95202, "extra_seat": false}, {"name": "Libertarian", "seats": 0, "votes": 30524, "extra_votes": 30524, "extra_seat": false}, {"name": "Independent", "seats": 1, "votes": 189692, "extra_votes": 189692, "extra_seat": true}, {"name": "Democratic", "seats": 7, "votes": 1419475, "extra_votes": 118309, "extra_seat": true}], "stats": {"name": "Florida 1980", "total_seats": 17, "total_votes": 3686642, "gallagher_index": 2.7425532885852326}}
+{
+    "parties": [
+        {
+            "name": "Republican",
+            "seats": 9,
+            "votes": 2046951,
+            "extra_votes": 95202,
+            "extra_seat": false
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 30524,
+            "extra_votes": 30524,
+            "extra_seat": false
+        },
+        {
+            "name": "Independent",
+            "seats": 1,
+            "votes": 189692,
+            "extra_votes": 189692,
+            "extra_seat": true
+        },
+        {
+            "name": "Democratic",
+            "seats": 7,
+            "votes": 1419475,
+            "extra_votes": 118309,
+            "extra_seat": true
+        }
+    ],
+    "stats": {
+        "name": "Florida 1980",
+        "total_seats": 17,
+        "total_votes": 3686642,
+        "gallagher_index": 2.7425532885852326
+    }
+}

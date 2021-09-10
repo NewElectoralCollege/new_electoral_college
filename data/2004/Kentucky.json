@@ -1,1 +1,45 @@
-{"parties": [{"name": "Democratic", "seats": 3, "votes": 712733, "extra_votes": 39287, "extra_seat": false}, {"name": "Green", "seats": 0, "votes": 8856, "extra_votes": 8856, "extra_seat": false}, {"name": "Libertarian", "seats": 0, "votes": 2619, "extra_votes": 2619, "extra_seat": false}, {"name": "Constitution", "seats": 0, "votes": 2213, "extra_votes": 2213, "extra_seat": false}, {"name": "Republican", "seats": 5, "votes": 1069439, "extra_votes": 171511, "extra_seat": true}], "stats": {"name": "Kentucky 2004", "total_seats": 8, "total_votes": 1795860, "gallagher_index": 2.623558069598461}}
+{
+    "parties": [
+        {
+            "name": "Democratic",
+            "seats": 3,
+            "votes": 712733,
+            "extra_votes": 39287,
+            "extra_seat": false
+        },
+        {
+            "name": "Green",
+            "seats": 0,
+            "votes": 8856,
+            "extra_votes": 8856,
+            "extra_seat": false
+        },
+        {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 2619,
+            "extra_votes": 2619,
+            "extra_seat": false
+        },
+        {
+            "name": "Constitution",
+            "seats": 0,
+            "votes": 2213,
+            "extra_votes": 2213,
+            "extra_seat": false
+        },
+        {
+            "name": "Republican",
+            "seats": 5,
+            "votes": 1069439,
+            "extra_votes": 171511,
+            "extra_seat": true
+        }
+    ],
+    "stats": {
+        "name": "Kentucky 2004",
+        "total_seats": 8,
+        "total_votes": 1795860,
+        "gallagher_index": 2.623558069598461
+    }
+}
