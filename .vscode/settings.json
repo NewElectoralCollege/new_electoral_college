@@ -1,5 +1,9 @@
 {
     "code-runner.executorMapByFileExtension": {
         ".elm": "cd $dir && python -u compile.py $fileName"
+    },
+    "code-runner.executorMap": {
+        "shellscript": "cd $dir && sh $fileName",
+        "scss": "cd $dir && sass $fileName $fileNameWithoutExt.css"
     }
 }
