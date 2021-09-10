@@ -11,7 +11,7 @@ import List exposing (drop, intersperse, map, reverse, sortBy)
 import List.Extra exposing (find, setAt)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party(..))
-import State exposing (State(..), states)
+import State as St exposing (State(..), states)
 import String as S
 import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
 import Svg.Attributes as Sa exposing (cx, cy, fill, height, markerHeight, markerWidth, orient, points, r, refX, refY, width, x, y)
@@ -27,7 +27,6 @@ import Util as U
         , colorCircles
         , firstYear
         , getFile
-        , getName
         , getPartyProgressBar
         , ifQualifyingParty
         , lastYear
@@ -211,7 +210,7 @@ doPartyElectors parties model =
 summaryHeader : Model -> List (Html msg)
 summaryHeader model =
     [ thead [ Ha.style "background-color" "#eaecf0" ]
-        [ tr [] [ th [ colspan 9 ] [ U.text (getName model.state ++ " - " ++ S.fromInt model.page_year) ] ]
+        [ tr [] [ th [ colspan 9 ] [ U.text (St.getName model.state ++ " - " ++ S.fromInt model.page_year) ] ]
         , tr []
             [ th [ colspan 2 ] [ U.text "Party" ]
             , th [] [ U.text "Nominee" ]
@@ -314,9 +313,9 @@ makeStateList state year =
         makeLink n =
             a
                 [ class <| "list-group-item list-group-item-action" ++ active n
-                , href ("stateresults.html?state=" ++ getName n ++ "&year=" ++ year)
+                , href ("stateresults.html?state=" ++ St.getName n ++ "&year=" ++ year)
                 ]
-                [ U.text <| getName n ]
+                [ U.text <| St.getName n ]
     in
     div
         [ class "list-group", id "state-list" ]
@@ -399,7 +398,7 @@ init flags =
             0
             (second flags)
             (second flags)
-            (withDefault Alabama <| find (areEqual (first flags) getName) states)
+            (withDefault Alabama <| find (areEqual (first flags) St.getName) states)
             ""
             Initializing
         )
@@ -455,7 +454,13 @@ body model =
                         [ class "btn-group", attribute "role" "group" ]
                         [ button
                             [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                            [ a [ Ha.style "color" "#fff", attribute "download" (getName model.state), href ("data/" ++ S.fromInt model.year ++ "/" ++ getName model.state ++ ".json") ] [ U.text "Download" ] ]
+                            [ a
+                                [ Ha.style "color" "#fff"
+                                , attribute "download" (St.getName model.state)
+                                , href ("data/" ++ S.fromInt model.year ++ "/" ++ St.getName model.state ++ ".json")
+                                ]
+                                [ U.text "Download" ]
+                            ]
                         , button
                             [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
                             [ a [ Ha.style "color" "#fff", href "map.html" ] [ U.text "Back" ] ]

@@ -14,8 +14,8 @@ import Json.Decode exposing (at, decodeString, dict, list, string)
 import List exposing (append, concat, concatMap, drop, filter, filterMap, foldl, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take)
 import List.Extra exposing (find, getAt, init, uniqueBy)
 import Maybe as M exposing (withDefault)
-import Party exposing (Party(..), color)
-import State exposing (State(..), StateOutline, outline, states)
+import Party as P exposing (Party(..), color)
+import State exposing (State(..), StateOutline, getName, outline, states)
 import String as S
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r, transform)
@@ -33,7 +33,6 @@ import Util as U
         , first3
         , firstYear
         , fix_change
-        , getName
         , getPartyProgressBar
         , ifQualifyingParty
         , lambdaCompare
@@ -276,7 +275,7 @@ makeMapDots { stats, state } =
         0
 
 
-makePartyDots : State -> Instance -> List Election -> List Party.Party -> List ( Float, Float ) -> List ( Float, Float )
+makePartyDots : State -> Instance -> List Election -> List P.Party -> List ( Float, Float ) -> List ( Float, Float )
 makePartyDots state instance elections parties dots =
     case ( parties, elections ) of
         ( [], _ ) ->
@@ -425,7 +424,7 @@ makePartyRow : Model -> Party -> Html Msg
 makePartyRow model party =
     let
         name =
-            getName party.name
+            P.getName party.name
 
         nmn =
             withDefault "n/a" <| nominee model.year party.name
@@ -450,7 +449,7 @@ makePartyRow model party =
 -- Party box
 
 
-doStateRow : Party.Party -> Election -> Maybe Election -> Html Msg
+doStateRow : P.Party -> Election -> Maybe Election -> Html Msg
 doStateRow partyname ({ list, stats, state } as current) p =
     let
         previous =
@@ -524,7 +523,7 @@ partiesInInstance es =
         parties =
             es
                 |> concatMap .list
-                |> uniqueBy (getName << .name)
+                |> uniqueBy (P.getName << .name)
 
         getInstancesOf : Party -> List Party
         getInstancesOf p =
