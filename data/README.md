@@ -1,3 +1,13 @@
+# Source
+
+Data Source: [Massachusetts Institute of Technology (MIT) Election Lab](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX)
+
+The link above is to the Harvard Dataverse website. The database is actualy maintained by MIT.
+
+# Deviations
+
+The database has been edited slightly from the actual results. This includes changes in party designations, and write-in designations. This is because MIT's database is extremely detailed, and some small details will screw up the calculation process.
+
 # Standard
 
 ```json
@@ -5,9 +15,9 @@
     "parties": [
         {
             "name": "Party A",
-            "seats": 4,    
-            "votes": 4100,      
-            "extra_votes": 60,      
+            "seats": 4,
+            "votes": 4100,
+            "extra_votes": 60,
             "extra_seat": false
         },
         {
@@ -28,12 +38,12 @@
     "stats": {
         "name": "Seat Allocation",
         "total_seats": 10,
-        "total_votes": 10100,     
-        "gallagher_index": 0.52391    
+        "total_votes": 10100,
+        "gallagher_index": 0.52391
     }
 }
 ```
 
 # Note on New York 2016
 
-Because of a caveat in the proposal, the Independence Party of New York would be awarded an elector for Gary Johnson (rather than the Libertarian Party). To avoid confusion, this model shows the Libertarians winning that elector instead, so that it is associated with Johnson.
+Because of a caveat in the proposal, the Independence Party of New York would be awarded an elector for Gary Johnson (rather than the Libertarian Party). To avoid confusion, this model shows the Libertarian Party winning that elector instead, so that it is associated with Johnson.
