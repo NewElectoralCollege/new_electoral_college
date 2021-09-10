@@ -30,62 +30,62 @@ picture url wdth =
 
 hareQuota : Content
 hareQuota =
-    picture "src/img/hare_quota.svg" 250
+    picture "static/img/hare_quota.svg" 250
 
 
 hareQuotaBars : Content
 hareQuotaBars =
-    picture "src/img/hare_quota_with_bars.svg" 250
+    picture "static/img/hare_quota_with_bars.svg" 250
 
 
 simpleExample : Content
 simpleExample =
-    picture "src/img/simple_example.png" 610
+    picture "static/img/simple_example.png" 610
 
 
 percentLineup : Content
 percentLineup =
-    picture "src/img/percent_lineup.png" 280
+    picture "static/img/percent_lineup.png" 280
 
 
 caveat : Html Never
 caveat =
-    img [ src "src/img/caveat.png" ] []
+    img [ src "static/img/caveat.png" ] []
 
 
 alliances : Content
 alliances =
-    picture "src/img/alliances.png" 620
+    picture "static/img/alliances.png" 620
 
 
 e1992 : Content
 e1992 =
-    picture "src/img/1992.png" 250
+    picture "static/img/1992.png" 250
 
 
 e2000 : Content
 e2000 =
-    picture "src/img/2000.png" 250
+    picture "static/img/2000.png" 250
 
 
 knesset : Content
 knesset =
-    picture "src/img/knesset.svg" 250
+    picture "static/img/knesset.svg" 250
 
 
 partyList : Content
 partyList =
-    picture "src/img/party_list.svg" 250
+    picture "static/img/party_list.svg" 250
 
 
 statesByRace : Content
 statesByRace =
-    picture "src/img/states_by_race.svg" 250
+    picture "static/img/states_by_race.svg" 250
 
 
 missHistory : Content
 missHistory =
-    picture "src/img/mississippi.svg" 250
+    picture "static/img/mississippi.svg" 250
 
 
 

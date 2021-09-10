@@ -10,7 +10,7 @@ year = cgi.FieldStorage().getvalue("year")
 
 output = {}
 
-directory = "/".join(__file__.split("/")[:-3]) + "/data/" + year + "/"
+directory = "../data/" + year + "/"
 for state in os.listdir(directory):
     file = open(directory + state, "r")
     state = state.split(".")[0].replace(" Of ", " of ")

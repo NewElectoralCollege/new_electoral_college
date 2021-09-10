@@ -1,0 +1,147 @@
+.arrow, #leftArrow, #rightArrow {
+  display: inline-block;
+  width: fit-content; }
+
+.arrow:hover, #leftArrow:hover, #rightArrow:hover {
+  opacity: 0.5;
+  cursor: pointer; }
+
+#leftArrow {
+  width: 0;
+  height: 0;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  border-right: 25px solid gray;
+  float: left; }
+
+#rightArrow {
+  width: 0;
+  height: 0;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+  border-left: 25px solid gray;
+  float: right; }
+
+.results-table, #single-results td,
+#single-results th,
+#single-results tr,
+#state-results td,
+#state-results th,
+#state-results tr,
+.detailed-results td,
+.detailed-results th,
+.detailed-results tr {
+  border: 1px solid #00022d;
+  padding: 4px;
+  border-collapse: collapse; }
+
+table.quota td {
+  text-align: center;
+  font-size: xx-large;
+  padding-left: 10px;
+  padding-right: 5px; }
+table.quota td#votes {
+  border-bottom: 1px solid black; }
+table.quota td#seats {
+  border-top: 1px solid black; }
+
+.change-arrow, .increase:after, .decrease:after, .steady:after {
+  font-size: 16px;
+  font-family: sans-serif; }
+
+.increase:after {
+  color: #32cd32;
+  content: "\25B2"; }
+
+.decrease:after {
+  color: red;
+  content: "\25BC"; }
+
+.steady:after {
+  color: skyblue;
+  content: "\25AC"; }
+
+@font-face {
+  font-family: Agincourt;
+  src: url(agincourt_font.ttf); }
+.logo {
+  font-family: Agincourt;
+  font-weight: normal;
+  font-size: 2.25rem; }
+
+#map svg {
+  width: 975px;
+  height: 520px; }
+
+.progress-bar-party {
+  border: 1px solid gray;
+  width: 100px;
+  height: 1.15em;
+  padding: 0; }
+
+#state-list {
+  max-width: fit-content;
+  position: absolute;
+  left: 5%; }
+  #state-list .list-group-item {
+    padding: 3px; }
+
+#LaTeX,
+mjx-container {
+  max-width: fit-content;
+  display: inline-block; }
+
+#pdf {
+  padding: 17px 20px; }
+  #pdf a {
+    font-size: 20px; }
+
+#sm a {
+  padding: 10px;
+  width: 35px;
+  text-align: center;
+  text-decoration: none;
+  color: white; }
+
+#languages a {
+  padding-left: 4em; }
+
+#languages::before {
+  display: block;
+  font-size: large;
+  padding: 5px;
+  content: "Or download the implementations directly by clicking on one of the following icons:"; }
+
+.language-icon:hover {
+  opacity: 0.5; }
+
+g#labels text {
+  font-size: 15px; }
+
+g#labels rect {
+  width: 2px;
+  height: 60px;
+  background: #00022d; }
+
+#state-container {
+  display: block;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden; }
+
+.centered-text {
+  vertical-align: middle;
+  display: table-cell; }
+
+.license {
+  font-size: 0.9rem;
+  font-style: italic; }
+
+img.jumbo-image {
+  width: inherit; }
+
+#result-foot #gallagher-desc {
+  display: none; }
+
+/*# sourceMappingURL=style.css.map */

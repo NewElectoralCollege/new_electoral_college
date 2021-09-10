@@ -77,7 +77,7 @@ body =
                     [ class "col-md-4" ]
                     [ img
                         [ style "display" "block"
-                        , src "src/img/electors_example.svg"
+                        , src "static/img/electors_example.svg"
                         , alt "Electors example"
                         , class "jumbo-image"
                         ]
@@ -113,7 +113,7 @@ body =
                     [ class "col-md-4" ]
                     [ img
                         [ style "display" "block"
-                        , src "src/img/pr_map.svg"
+                        , src "static/img/pr_map.svg"
                         , alt "PR Map"
                         , class "jumbo-image"
                         ]

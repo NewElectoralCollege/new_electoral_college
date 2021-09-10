@@ -5,8 +5,8 @@
 -   Update elector allocations graph in official proposal
 -   Fix 404.html
 -   Remove all Debugs
--   Move files to new folders
 -   Cleanup data getting process
+-   Pies are not oriented correctly on calculator page
 
 Flags in database
 
