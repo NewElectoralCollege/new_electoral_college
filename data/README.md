@@ -2,7 +2,7 @@
 
 Data Source: [Massachusetts Institute of Technology (MIT) Election Lab](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX)
 
-The link above is to the Harvard Dataverse website. The database is actualy maintained by MIT.
+The link above is to the Harvard Dataverse website. The database is actually maintained by MIT.
 
 # Deviations
 
