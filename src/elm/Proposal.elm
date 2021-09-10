@@ -7,7 +7,7 @@ import Header exposing (Page(..), header)
 import Html as H exposing (Html, br, div, h2, img, node, p, text)
 import Html.Attributes exposing (class, src, style, width)
 import Http exposing (Error, expectString, get)
-import List exposing (head, map2)
+import List exposing (map2)
 import List.Extra exposing (last)
 import Maybe exposing (withDefault)
 import Regex exposing (Match, Regex, fromString, replace)
@@ -48,7 +48,7 @@ percentLineup =
     picture "src/img/percent_lineup.png" 280
 
 
-caveat : Html Msg
+caveat : Html Never
 caveat =
     img [ src "src/img/caveat.png" ] []
 
@@ -75,7 +75,7 @@ knesset =
 
 partyList : Content
 partyList =
-    picture "src/img/party_svg" 250
+    picture "src/img/party_list.svg" 250
 
 
 statesByRace : Content
@@ -107,7 +107,7 @@ type Section
     | Quote
     | Text Side Length Content
     | SectionHeader
-    | FullImage (Html Msg)
+    | FullImage (Html Never)
 
 
 sectionTypeList : List Section
@@ -166,7 +166,7 @@ sectionTypeList =
 
 
 type alias Content =
-    Either String (Html Msg)
+    Either String (Html Never)
 
 
 
@@ -193,17 +193,17 @@ getText =
         }
 
 
-leftDiv : Content -> Html Msg
+leftDiv : Content -> Html Never
 leftDiv =
     divSpecific "col-7 col-lg-8"
 
 
-leftDivShort : Content -> Html Msg
+leftDivShort : Content -> Html Never
 leftDivShort =
     divSpecific "col-sm-3 col-md-6 col-lg-4"
 
 
-divSpecific : String -> Content -> Html Msg
+divSpecific : String -> Content -> Html Never
 divSpecific cls content =
     p
         [ class cls, class "centered-text" ]
@@ -216,17 +216,17 @@ divSpecific cls content =
         ]
 
 
-rightDiv : Content -> Html Msg
+rightDiv : Content -> Html Never
 rightDiv =
     divSpecific "col-5 col-lg-4"
 
 
-rightDivLong : Content -> Html Msg
+rightDivLong : Content -> Html Never
 rightDivLong =
     divSpecific "col-sm-9 col-md-6 col-lg-8"
 
 
-textAndImage : Section -> String -> List (Html Msg)
+textAndImage : Section -> String -> List (Html Never)
 textAndImage sectiontype par =
     case sectiontype of
         Full ->
@@ -275,7 +275,7 @@ textAndImage sectiontype par =
             [ img ]
 
 
-section : Section -> String -> Html Msg
+section : Section -> String -> Html Never
 section sectiontype par =
     div [ class "row", style "display" "table" ] (textAndImage sectiontype par)
 
@@ -328,7 +328,7 @@ insertPercent =
 -- Required functions
 
 
-body : Model -> Html Msg
+body : Model -> Html Never
 body model =
     model
         |> lines
@@ -361,6 +361,16 @@ main =
         , view =
             \model ->
                 { title = "The New Electoral College - Proposal"
-                , body = [ header (Just Proposal), br [] [], br [] [], br [] [], br [] [], body model, footer ]
+
+                --, body = [ header (Just Proposal), br [] [], br [] [], br [] [], br [] [], body model, footer ]
+                , body =
+                    [ header (Just Proposal)
+                    , br [] []
+                    , br [] []
+                    , br [] []
+                    , br [] []
+                    , H.map never (body model)
+                    , footer
+                    ]
                 }
         }

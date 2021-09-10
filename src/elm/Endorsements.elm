@@ -9,9 +9,8 @@ import List exposing (head, map)
 import List.Extra exposing (count, groupsOfVarying, unique)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party(..), inParenthesis)
-import State exposing (State(..))
+import State exposing (State(..), getName)
 import String as S
-import Util exposing (getName)
 
 
 
@@ -325,7 +324,7 @@ body =
         (h1 [] [ text "Endorsements" ] :: (map makeDivision <| groupsOfVarying counts endorsements))
 
 
-main : Program () () msg
+main : Program () () Never
 main =
     document
         { init = always ( (), Cmd.none )

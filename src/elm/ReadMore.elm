@@ -118,7 +118,7 @@ body model =
         ]
 
 
-main : Program () Model msg
+main : Program () Model Never
 main =
     document
         { init = always ( "The-Proposal", Cmd.none )

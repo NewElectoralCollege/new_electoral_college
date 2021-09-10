@@ -111,7 +111,7 @@ body =
         ]
 
 
-main : Program () () msg
+main : Program () () Never
 main =
     document
         { init = always ( (), Cmd.none )
