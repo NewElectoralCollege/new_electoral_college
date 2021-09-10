@@ -1,20 +1,20 @@
-module StateResults exposing (main)
+port module StateResults exposing (main)
 
 import Browser exposing (document)
 import Dict as D exposing (Dict, insert, values)
 import Footer exposing (footer)
 import Header exposing (header)
-import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, tfoot, th, thead, tr, var)
-import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, target, type_)
+import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr)
+import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, target, title, type_)
 import Html.Events exposing (onClick)
-import List exposing (drop, intersperse, map, reverse, sortBy)
-import List.Extra exposing (find, setAt)
+import List exposing (drop, map, reverse, sortBy)
+import List.Extra exposing (find)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party(..))
 import State as St exposing (State(..), states)
-import String as S
-import Svg exposing (Svg, circle, defs, g, marker, polygon, rect, svg, text_)
-import Svg.Attributes as Sa exposing (cx, cy, fill, height, markerHeight, markerWidth, orient, points, r, refX, refY, width, x, y)
+import String as S exposing (fromFloat, left)
+import Svg exposing (Svg, circle, g, rect, svg, text_)
+import Svg.Attributes as Sa exposing (cx, cy, fill, height, r, width, x, y)
 import Ticket exposing (nominee)
 import Tuple exposing (first, second)
 import Util as U
@@ -68,7 +68,6 @@ type alias Model =
     , year : Int
     , page_year : Int
     , state : State
-    , revealed : String
     , status : Status
     }
 
@@ -76,6 +75,13 @@ type alias Model =
 changeStats : Stats -> Election -> Election
 changeStats stats election =
     { election | stats = stats }
+
+
+
+-- Ports
+
+
+port initializePopovers : Int -> Cmd msg
 
 
 
@@ -163,6 +169,24 @@ doPartyBars list parties nx model =
                        ]
 
 
+labels : List (Html msg)
+labels =
+    let
+        makeLabel : Float -> Html msg
+        makeLabel n =
+            g
+                []
+                [ rect
+                    [ x <| S.fromFloat <| 100.0 + (n * 700.0), y "370" ]
+                    []
+                , text_
+                    [ x <| S.fromFloat <| 90.0 + (n * 700.0), y "460" ]
+                    [ U.text <| stylePercent n ]
+                ]
+    in
+    map makeLabel [ 0.5, 0.25, 0.75, 0, 1 ]
+
+
 
 -- Results box
 
@@ -225,29 +249,53 @@ summaryHeader model =
 
 summaryFooter : Model -> List (Html Msg)
 summaryFooter model =
+    let
+        quota =
+            getQuota model.stats.total_votes model.stats.total_seats
+
+        desc =
+            [ p [] [ text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
+            , p [] [ text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
+            , p []
+                [ text "Where "
+                , i [] [ text "V" ]
+                , text " is the percentage of votes cast for the party, and "
+                , i [] [ text "S" ]
+                , text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 "
+                , text "is a problem."
+                ]
+            ]
+
+        info =
+            button
+                [ class "btn fa"
+                , Ha.style "color" "blue"
+                , attribute "data-toggle" "popover"
+                , title "Gallagher Index"
+                , onClick TempTrigger
+                ]
+                [ text (S.fromChar '\u{F059}') ]
+
+        content =
+            [ text "Total Votes: "
+            , text <| styleNumFloat model.stats.total_votes
+            , br [] []
+            , text "Total Electors: "
+            , text <| styleNumFloat model.stats.total_seats
+            , br [] []
+            , text "Quota: "
+            , text <| styleNumFloat quota
+            , br [] []
+            , text "Gallagher Index: "
+            , text <| left 4 <| fromFloat model.stats.gallagher_index
+            , text " "
+            , info
+            , span [ id "gallagher-desc" ] desc
+            ]
+    in
     [ tfoot [ Ha.style "background-color" "#eaecf0" ]
         [ tr []
-            [ td [ colspan 9 ]
-                ("Total Votes: "
-                    ++ styleNumFloat model.stats.total_votes
-                    ++ "\n"
-                    ++ "Total Electors: "
-                    ++ S.fromFloat model.stats.total_seats
-                    ++ "\n"
-                    ++ "Quota: "
-                    ++ styleNumFloat (getQuota model.stats.total_votes model.stats.total_seats)
-                    ++ "\n"
-                    ++ "Gallagher Index: "
-                    ++ S.fromFloat model.stats.gallagher_index
-                    ++ " "
-                    ++ "\n"
-                    ++ "\n"
-                    |> S.lines
-                    |> map U.text
-                    |> intersperse (br [] [])
-                    |> setAt 7 (i [ class "fa", Ha.style "color" "blue", onClick <| RevealPopup "gallagher" ] [ U.text (S.fromChar '\u{F059}') ])
-                )
-            ]
+            [ td [ colspan 9, id "result-foot" ] content ]
         ]
     ]
 
@@ -280,19 +328,6 @@ previousElections model =
         |> values
         |> map Just
         |> (::) Nothing
-
-
-
--- Popup
-
-
-judgePopupShow : String -> Model -> String
-judgePopupShow name model =
-    if name == model.revealed then
-        "inline-block"
-
-    else
-        "none"
 
 
 
@@ -333,6 +368,9 @@ update msg model =
 
     else
         case msg of
+            TempTrigger ->
+                ( model, initializePopovers 3 )
+
             SendRequestParty ->
                 ( model, getFile partyMsg model.year model.state )
 
@@ -380,11 +418,11 @@ update msg model =
                         , elections = D.update model.year (M.map (changeStats stats)) model.elections
                     }
 
-            RevealPopup popup ->
-                ( { model | revealed = popup }, Cmd.none )
+            PartySuccess (Err _) ->
+                ( model, Cmd.none )
 
-            _ ->
-                Debug.todo (Debug.toString msg)
+            StatSuccess (Err _) ->
+                ( model, Cmd.none )
 
 
 init : ( String, Int ) -> ( Model, Cmd Msg )
@@ -399,7 +437,6 @@ init flags =
             (second flags)
             (second flags)
             (withDefault Alabama <| find (areEqual (first flags) St.getName) states)
-            ""
             Initializing
         )
 
@@ -414,31 +451,12 @@ body model =
                     [ width "975"
                     , height "520"
                     ]
-                    [ defs
-                        []
-                        [ marker [ Sa.class "arrowhead", id "bars", markerWidth "10", markerHeight "7", refX "6", refY "2", orient "0" ] [ polygon [ Sa.style "display:inline-block", points "4 2, 6 0, 8 2" ] [] ] ]
-                    , g
-                        [ id "circles" ]
+                    [ g [ id "circles" ]
                         (colorCircles model.state model.list <| getCircles (getAngle model.stats 0) model 0)
-                    , g
-                        [ id "bar" ]
+                    , g [ id "bar" ]
                         (doPartyBars [] model.list 100.0 model)
-                    , g
-                        [ id "labels" ]
-                        (map
-                            (\n ->
-                                g
-                                    []
-                                    [ rect
-                                        [ x <| S.fromFloat <| 100.0 + (n * 700.0), y "370" ]
-                                        []
-                                    , text_
-                                        [ x <| S.fromFloat <| 90.0 + (n * 700.0), y "460" ]
-                                        [ U.text <| stylePercent n ]
-                                    ]
-                            )
-                            [ 0.5, 0.25, 0.75, 0, 1 ]
-                        )
+                    , g [ id "labels" ]
+                        labels
                     , rect
                         [ x "100"
                         , y "370"
@@ -474,20 +492,11 @@ body model =
                 , div [ class "container" ]
                     [ h2 [] [ U.text "State History" ]
                     , table [ class "container" ]
-                        [ tr
-                            []
+                        [ tr []
                             [ partyContainer (values model.elections) (previousElections model) doYearRow Democratic
                             , partyContainer (values model.elections) (previousElections model) doYearRow Republican
                             ]
                         ]
-                    ]
-                , div
-                    [ id "gallagher-formula"
-                    , Ha.style "display" <| judgePopupShow "gallagher" model
-                    ]
-                    [ p [] [ U.text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
-                    , p [] [ U.text "$$LSq = {\\sqrt{\\frac{1}{2}\\sum_{i=1}^{n} {(V_i - S_i)^2}}}$$" ]
-                    , p [] [ U.text "Where ", var [] [ U.text "V" ], U.text " is the percentage of votes cast for the party, and ", var [] [ U.text "S" ], U.text " is the percentage of seats that party gets. A Gallagher Index less than 2 is good, while Gallagher Index greater than 5 is a problem." ]
                     ]
                 , p [ Ha.style "float" "right", Ha.style "text-align" "right" ]
                     [ U.text "Data Source: "

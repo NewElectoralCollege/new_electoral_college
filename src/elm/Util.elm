@@ -271,11 +271,11 @@ fix_change string =
 -- This colors a list of circles according to Party seat results.
 
 
-colorCircles : State -> List Party -> List (Svg a) -> List (Svg a)
+colorCircles : State -> List Party -> List (Svg msg) -> List (Svg msg)
 colorCircles state parties circles =
     indexedMap
         (\n party ->
-            g [ fill party.color, id <| Debug.toString state ]
+            g [ fill party.color, id <| St.getName state ]
                 (splitAtFloat
                     (parties
                         |> splitAt n
@@ -393,7 +393,7 @@ type Msg
     | PartySuccess (Result Error (List Party))
     | SendRequestStats
     | StatSuccess (Result Error Stats)
-    | RevealPopup String
+    | TempTrigger
 
 
 
