@@ -361,8 +361,6 @@ main =
         , view =
             \model ->
                 { title = "The New Electoral College - Proposal"
-
-                --, body = [ header (Just Proposal), br [] [], br [] [], br [] [], br [] [], body model, footer ]
                 , body =
                     [ header (Just Proposal)
                     , br [] []
