@@ -1,6 +1,6 @@
 function init() {
     let app = Elm.StateResults.init({
-        node: document.getElementById("elm"),
+        node: $("#elm"),
         flags: new RegExp(
             "[?&]" + encodeURIComponent("state") + "=([^&]*)"
         ).exec(location.search)

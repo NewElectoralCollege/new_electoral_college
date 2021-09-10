@@ -773,7 +773,7 @@ update msg model =
                     , writingToPrevious = False
                     , year = model.year + 4
                   }
-                , updateImages (portParties (partiesInInstance model.current))
+                , updateImages ()
                 )
 
             else
@@ -845,7 +845,7 @@ portParties ps =
             PortParty x.color x.seats :: portParties xs
 
 
-port updateImages : List PortParty -> Cmd msg
+port updateImages : () -> Cmd msg
 
 
 port wipeContent : Int -> Cmd msg

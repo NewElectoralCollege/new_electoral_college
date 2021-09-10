@@ -1,6 +1,6 @@
 function init() {
     var app = Elm.Unsubscribe.init({
-        node: document.getElementById("main"),
+        node: $("#elm"),
         flags: new RegExp(
             "[?&]" + encodeURIComponent("email") + "=([^&]*)"
         ).exec(location.search)
