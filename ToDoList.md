@@ -7,9 +7,9 @@
 -   Remove all Debugs
 -   Cleanup data getting process
 -   Pies are not oriented correctly on calculator page
+-   Terms in Endorsements.elm
 
 Flags in database
 
 -   Massachusetts 2016
--   New York 2016 (Johnson Party)
 -   1992 (Perot)
