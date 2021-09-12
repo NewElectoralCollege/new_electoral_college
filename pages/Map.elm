@@ -16,6 +16,7 @@ import List exposing (append, concat, concatMap, drop, filter, filterMap, foldl,
 import List.Extra exposing (find, getAt, init, uniqueBy)
 import Maybe as M exposing (withDefault)
 import Party as P exposing (Party, PartyName(..), color, ifQualifyingParty, newParty)
+import Platform.Cmd exposing (batch)
 import State exposing (State(..), StateOutline, getName, outline, states)
 import String as S
 import Svg exposing (Svg, circle, g, svg)
@@ -491,7 +492,7 @@ getArrow model side =
         []
 
     else
-        [ id (side ++ "Arrow"), onClick <| Reset (model.year + change) ]
+        [ id (side ++ "Arrow"), onClick <| ChangeYear (model.year + change) ]
 
 
 
@@ -560,12 +561,24 @@ getFile year =
 
 
 
+-- Commands
+
+
+getBatch : Int -> Cmd Msg
+getBatch year =
+    batch
+        [ wipeContent ()
+        , getFile year
+        , updateImages ()
+        ]
+
+
+
 -- Model
 
 
 type Msg
-    = Reset Int
-    | ChangeYear Bool Int
+    = ChangeYear Int
     | Response (Result Error (D.Dict String String))
     | MoveDots DotPosition
     | TimeDelta Float
@@ -579,8 +592,6 @@ type DotPosition
 
 type alias Model =
     { year : Int
-    , real_year : Int
-    , writingToPrevious : Bool
     , current : Instance
     , previous : Instance
     , dotpos : DotPosition
@@ -593,7 +604,9 @@ type alias Model =
 
 init : Int -> ( Model, Cmd Msg )
 init year =
-    update (ChangeYear False year) <| Model year year False [] [] Map
+    ( Model year [] [] Map
+    , getBatch year
+    )
 
 
 body : Model -> Html Msg
@@ -601,11 +614,11 @@ body model =
     div [ class "container", id "main" ]
         [ div
             [ class "container" ]
-            [ h1 [ id "election" ] [ U.text model.real_year ]
+            [ h1 [ id "election" ] [ U.text model.year ]
             , p []
                 [ U.text
                     ("These are the projected results of the "
-                        ++ S.fromInt model.real_year
+                        ++ S.fromInt model.year
                         ++ " Election using our proposal. It takes the final "
                         ++ "certified results of the Election, and allocates the electors in each state. If the election were actually run under the New Electoral "
                         ++ "College, the results would have been slightly differen Voters change their behavior under more representative "
@@ -719,11 +732,8 @@ body model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Reset year ->
-            ( model, wipeContent year )
-
-        ChangeYear previous year ->
-            ( { model | writingToPrevious = previous, year = year }, getFile year )
+        ChangeYear year ->
+            ( { model | year = year, current = [], previous = [] }, getBatch year )
 
         Response (Ok response) ->
             let
@@ -751,27 +761,16 @@ update msg model =
                         )
                         (filterMap (\n -> D.get (getName n) response) states)
             in
-            if model.writingToPrevious then
-                ( { model
-                    | previous = rewriteInstance parties stats (model.year + 4)
-                    , writingToPrevious = False
-                    , year = model.year + 4
-                  }
-                , updateImages ()
-                )
+            case model.current of
+                [] ->
+                    ( { model | current = rewriteInstance parties stats model.year }
+                    , getFile (model.year - 4)
+                    )
 
-            else
-                let
-                    tempmodel =
-                        { model
-                            | current = rewriteInstance parties stats model.year
-                            , real_year = model.year
-                        }
-
-                    r =
-                        update (ChangeYear True (tempmodel.year - 4)) tempmodel
-                in
-                ( first r, second r )
+                _ ->
+                    ( { model | previous = rewriteInstance parties stats (model.year - 4) }
+                    , Cmd.none
+                    )
 
         MoveDots a ->
             ( { model
@@ -796,7 +795,7 @@ subscriptions model =
         onAnimationFrameDelta TimeDelta
 
     else
-        sendMsg (ChangeYear False)
+        Sub.none
 
 
 main : Program Int Model Msg
@@ -816,7 +815,4 @@ main =
 port updateImages : () -> Cmd msg
 
 
-port wipeContent : Int -> Cmd msg
-
-
-port sendMsg : (Int -> msg) -> Sub msg
+port wipeContent : () -> Cmd msg

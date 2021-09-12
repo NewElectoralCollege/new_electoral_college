@@ -1,32 +1,30 @@
-port module StateResults exposing (main)
+module StateResults exposing (main)
 
 import Browser exposing (document)
 import Dict as D exposing (Dict, insert, values)
-import Election exposing (Election, Stats, firstYear, lastYear)
+import Election exposing (Election, Stats, firstYear, lastYear, setStats)
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, target, title, type_)
-import Html.Events exposing (onClick)
-import List exposing (drop, map, reverse, sortBy)
+import Http exposing (Error, expectJson)
+import Json.Decode as Jd exposing (Decoder, field, list)
+import List exposing (concatMap, drop, map, range, reverse, sortBy)
 import List.Extra exposing (find)
 import Maybe as M exposing (withDefault)
-import Party exposing (Party, PartyName(..), color, ifQualifyingParty)
+import Party exposing (Party, PartyName(..), color, ifQualifyingParty, newParty)
+import Platform.Cmd exposing (batch)
 import State as St exposing (State(..), states)
-import String as S exposing (fromFloat, left)
+import String as S exposing (fromFloat, fromInt, left, right, toInt)
 import Svg exposing (Svg, circle, g, rect, svg, text_)
 import Svg.Attributes as Sa exposing (cx, cy, fill, height, r, width, x, y)
 import Ticket exposing (nominee)
 import Util as U
     exposing
-        ( Msg(..)
-        , colorCircles
-        , getFile
+        ( colorCircles
         , getPartyProgressBar
         , partyContainer
-        , partyMsg
         , seatChange
-        , statsMsg
         , styleNum
         , styleNumFloat
         , stylePercent
@@ -52,34 +50,38 @@ updateColors list =
 -- Model
 
 
-type Status
-    = Initializing
-    | History
-    | Complete
-
-
 type alias Model =
-    { list : List Party
-    , elections : Dict Int Election
-    , stats : Stats
-    , assigned : Int
+    { elections : Dict Int Election
     , year : Int
-    , page_year : Int
     , state : State
-    , status : Status
     }
 
 
-changeStats : Stats -> Election -> Election
-changeStats stats election =
-    { election | stats = stats }
+type alias File =
+    { parties : List Party
+    , stats : Stats
+    }
+
+
+type Msg
+    = Response (Result Error File)
 
 
 
--- Ports
+-- JSON decoders
 
 
-port initializePopovers : Int -> Cmd msg
+fileDecoder : Decoder File
+fileDecoder =
+    Jd.map2 File (field "parties" <| list newParty) (field "stats" setStats)
+
+
+getFile : Int -> State -> Cmd Msg
+getFile year state =
+    Http.get
+        { url = "data/" ++ fromInt year ++ "/" ++ St.getName state ++ ".json"
+        , expect = expectJson Response fileDecoder
+        }
 
 
 
@@ -105,14 +107,14 @@ getAngle stats assigned =
     pi / stats.total_seats * (toFloat assigned + stats.total_seats + 0.5)
 
 
-getWidth : Float -> Model -> Float
-getWidth votes model =
-    (votes / model.stats.total_votes) * 700
+getWidth : Float -> Election -> Float
+getWidth votes { stats } =
+    (votes / stats.total_votes) * 700
 
 
-getCircles : Float -> Model -> Int -> List (Svg Msg)
-getCircles angle model i =
-    if i == (floor <| model.stats.total_seats) then
+getCircles : Float -> Election -> Int -> List (Svg Msg)
+getCircles angle ({ stats } as e) i =
+    if i == (floor <| stats.total_seats) then
         []
 
     else
@@ -123,11 +125,11 @@ getCircles angle model i =
             , Sa.style "stroke-width:1;stroke:#969696"
             ]
             []
-            :: getCircles (getAngle model.stats (i + 1)) model (i + 1)
+            :: getCircles (getAngle stats (i + 1)) e (i + 1)
 
 
-doPartyBars : List (Svg msg) -> List Party -> Float -> Model -> List (Svg msg)
-doPartyBars list parties nx model =
+doPartyBars : List (Svg msg) -> List Party -> Float -> Election -> List (Svg msg)
+doPartyBars list parties nx election =
     case parties of
         [] ->
             []
@@ -135,9 +137,9 @@ doPartyBars list parties nx model =
         party :: _ ->
             let
                 nwidth =
-                    getWidth party.votes model
+                    getWidth party.votes election
             in
-            if ifQualifyingParty model.stats.total_votes party then
+            if ifQualifyingParty election.stats.total_votes party then
                 list
                     ++ doPartyBars
                         [ rect
@@ -152,7 +154,7 @@ doPartyBars list parties nx model =
                         ]
                         (drop 1 parties)
                         (nx + nwidth)
-                        model
+                        election
 
             else
                 list
@@ -199,19 +201,19 @@ getCheckIcon party =
             [ U.text "" ]
 
 
-newRow : Party -> Model -> Int -> List (Html msg)
-newRow party model year =
-    if ifQualifyingParty model.stats.total_votes party then
+newRow : Election -> Int -> Party -> List (Html msg)
+newRow { stats } year party =
+    if ifQualifyingParty stats.total_votes party then
         [ tr []
             [ td [ class "color", Ha.style "backgroundColor" party.color ] []
             , td [] [ U.text party.name ]
             , td [] [ U.text <| withDefault "n/a" <| nominee year party.name ]
             , td [] [ U.text <| styleNumFloat party.votes ]
-            , td [] [ U.text <| stylePercent (party.votes / model.stats.total_votes) ]
+            , td [] [ U.text <| stylePercent (party.votes / stats.total_votes) ]
             , td [] [ U.text <| getInitialSeats party ]
             , td [] ((U.text <| styleNumFloat <| withDefault 0 party.extra_votes) :: getCheckIcon party)
             , td [] [ U.text party.seats ]
-            , td [] [ U.text <| stylePercent (party.seats / model.stats.total_seats) ]
+            , td [] [ U.text <| stylePercent (party.seats / stats.total_seats) ]
             ]
         ]
 
@@ -219,20 +221,10 @@ newRow party model year =
         []
 
 
-doPartyElectors : List Party -> Model -> List (Html msg)
-doPartyElectors parties model =
-    case parties of
-        [] ->
-            []
-
-        x :: xs ->
-            newRow x model model.page_year ++ doPartyElectors xs model
-
-
 summaryHeader : Model -> List (Html msg)
 summaryHeader model =
     [ thead [ Ha.style "background-color" "#eaecf0" ]
-        [ tr [] [ th [ colspan 9 ] [ U.text (St.getName model.state ++ " - " ++ S.fromInt model.page_year) ] ]
+        [ tr [] [ th [ colspan 9 ] [ U.text (St.getName model.state ++ " - " ++ S.fromInt model.year) ] ]
         , tr []
             [ th [ colspan 2 ] [ U.text "Party" ]
             , th [] [ U.text "Nominee" ]
@@ -245,11 +237,11 @@ summaryHeader model =
     ]
 
 
-summaryFooter : Model -> List (Html Msg)
-summaryFooter model =
+summaryFooter : Election -> List (Html Msg)
+summaryFooter election =
     let
         quota =
-            getQuota model.stats.total_votes model.stats.total_seats
+            getQuota election.stats.total_votes election.stats.total_seats
 
         desc =
             [ p [] [ text "The Gallagher Index is a measure of the proportionality of election results. The smaller the number is, the better. It is determined using this formula:" ]
@@ -270,22 +262,21 @@ summaryFooter model =
                 , Ha.style "color" "blue"
                 , attribute "data-toggle" "popover"
                 , title "Gallagher Index"
-                , onClick TempTrigger
                 ]
                 [ text (S.fromChar '\u{F059}') ]
 
         content =
             [ text "Total Votes: "
-            , text <| styleNumFloat model.stats.total_votes
+            , text <| styleNumFloat election.stats.total_votes
             , br [] []
             , text "Total Electors: "
-            , text <| styleNumFloat model.stats.total_seats
+            , text <| styleNumFloat election.stats.total_seats
             , br [] []
             , text "Quota: "
             , text <| styleNum quota
             , br [] []
             , text "Gallagher Index: "
-            , text <| left 4 <| fromFloat model.stats.gallagher_index
+            , text <| left 4 <| fromFloat election.stats.gallagher_index
             , text " "
             , info
             , span [ id "gallagher-desc" ] desc
@@ -361,98 +352,58 @@ makeStateList state year =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    if model.year == lastYear + 4 then
-        ( { model | status = Complete, year = 2016 }, Cmd.none )
+    case msg of
+        Response (Ok { parties, stats }) ->
+            let
+                year =
+                    stats.name |> right 4 |> toInt |> withDefault firstYear
 
-    else
-        case msg of
-            TempTrigger ->
-                ( model, initializePopovers 3 )
+                p2 =
+                    parties
+                        |> updateColors
+                        |> sortBy .votes
+                        |> reverse
 
-            SendRequestParty ->
-                ( model, getFile partyMsg model.year model.state )
+                election =
+                    Election p2 stats Nothing model.state year
+            in
+            ( { model | elections = insert year election model.elections }
+            , Cmd.none
+            )
 
-            SendRequestStats ->
-                ( model, getFile statsMsg model.year model.state )
-
-            PartySuccess (Ok parties) ->
-                case model.status of
-                    Initializing ->
-                        update SendRequestStats
-                            { model
-                                | list =
-                                    parties
-                                        |> updateColors
-                                        |> sortBy .votes
-                                        |> reverse
-                            }
-
-                    _ ->
-                        let
-                            election =
-                                Election (updateColors parties) model.stats Nothing model.state model.year
-                        in
-                        update SendRequestStats
-                            { model | elections = insert model.year election model.elections }
-
-            StatSuccess (Ok stats) ->
-                update SendRequestParty
-                    { model
-                        | year =
-                            case model.status of
-                                History ->
-                                    model.year + 4
-
-                                _ ->
-                                    firstYear
-                        , stats =
-                            case model.status of
-                                Initializing ->
-                                    stats
-
-                                _ ->
-                                    model.stats
-                        , status = History
-                        , elections = D.update model.year (M.map (changeStats stats)) model.elections
-                    }
-
-            PartySuccess (Err _) ->
-                ( model, Cmd.none )
-
-            StatSuccess (Err _) ->
-                ( model, Cmd.none )
+        Response (Err _) ->
+            ( model, Cmd.none )
 
 
 init : ( String, Int ) -> ( Model, Cmd Msg )
-init ( state, year ) =
-    update
-        SendRequestParty
-        (Model
-            []
-            D.empty
-            (Stats "none" 0 0 0.0)
-            0
-            year
-            year
-            (withDefault Alabama <| find ((==) state << St.getName) states)
-            Initializing
-        )
+init ( statename, year ) =
+    let
+        state =
+            withDefault Alabama <| find ((==) statename << St.getName) states
+    in
+    ( Model
+        D.empty
+        year
+        state
+    , batch
+        (map (\n -> getFile (4 * n + firstYear) state) (range 0 (floor (toFloat (lastYear - firstYear) / 4))))
+    )
 
 
 body : Model -> Html Msg
 body model =
-    case model.status of
-        Complete ->
+    case D.get model.year model.elections of
+        Just election ->
             div [ class "container", id "state-container" ]
-                [ makeStateList model.state <| S.fromInt model.page_year
+                [ makeStateList model.state <| S.fromInt model.year
                 , svg
                     [ width "975"
                     , height "520"
                     ]
                     [ g [ id "circles" ]
-                        (colorCircles model.state model.list <| getCircles (getAngle model.stats 0) model 0)
+                        (colorCircles model.state election.list <| getCircles (getAngle election.stats 0) election 0)
                     , g [ id "bar" ]
-                        (doPartyBars [] model.list 100.0 model)
+                        (doPartyBars [] election.list 100.0 election)
                     , g [ id "labels" ]
                         labels
                     , rect
@@ -484,7 +435,7 @@ body model =
                     , br [] []
                     , br [] []
                     , table [ id "single-results", class "table-bordered" ]
-                        (summaryHeader model ++ doPartyElectors model.list model ++ summaryFooter model)
+                        (summaryHeader model ++ concatMap (newRow election model.year) election.list ++ summaryFooter election)
                     ]
                 , br [] []
                 , div [ class "container" ]

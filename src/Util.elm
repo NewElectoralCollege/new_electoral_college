@@ -1,38 +1,37 @@
 module Util exposing
-    ( Msg(..)
-    , boolToInt
+    ( boolToInt
     , colorCircles
     , concatTuple
+    , divide
     , dropMaybe
     , first3
-    , getFile
+    , fix_change
     , getPartyProgressBar
     , partyContainer
-    , partyMsg
+    , popularVotePercent
     , seatChange
-    , statsMsg
     , styleNum
     , styleNumFloat
+    , stylePercent
     , summateRecords
     , text
     , tupleTail
     , voteChange
-    , won, stylePercent, divide, fix_change, popularVotePercent
+    , won
     )
 
 import Basics as B
-import Election exposing (Election, Stats, setStats)
+import Election exposing (Election, Stats)
 import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, id, rowspan, style)
-import Http exposing (Error, Expect, expectJson, get)
-import Json.Decode exposing (at, bool, list, string)
+import Json.Decode exposing (bool, string)
 import List exposing (filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sum)
 import List.Extra exposing (splitAt)
 import Maybe as M exposing (withDefault)
-import Party exposing (Party, PartyName, color, getName, newParty)
+import Party exposing (Party, PartyName, color, getName)
 import Regex as R exposing (fromString)
 import State as St exposing (State(..))
-import String as S exposing (contains, dropLeft, fromFloat, fromInt, left, length, replace, slice)
+import String as S exposing (contains, dropLeft, fromFloat, left, length, replace, slice)
 import Svg exposing (Svg, g)
 import Svg.Attributes exposing (fill)
 import Tuple exposing (first, second)
@@ -270,44 +269,6 @@ seatChange party =
 
         _ ->
             [ text "n/a" ]
-
-
-
--- Msg for Http functions
-
-
-type Msg
-    = SendRequestParty
-    | PartySuccess (Result Error (List Party))
-    | SendRequestStats
-    | StatSuccess (Result Error Stats)
-    | TempTrigger
-
-
-
--- JSON decoders
-
-
-partyMsg : Expect Msg
-partyMsg =
-    expectJson PartySuccess <| at [ "parties" ] <| list newParty
-
-
-statsMsg : Expect Msg
-statsMsg =
-    expectJson StatSuccess <| at [ "stats" ] setStats
-
-
-
--- Contacts a single file
-
-
-getFile : Expect Msg -> Int -> State -> Cmd Msg
-getFile msg year state =
-    get
-        { url = "data/" ++ fromInt year ++ "/" ++ St.getName state ++ ".json"
-        , expect = msg
-        }
 
 
 
