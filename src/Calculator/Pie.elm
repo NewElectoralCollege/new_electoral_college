@@ -13,6 +13,16 @@ import Svg.Attributes exposing (fill, r, stroke, strokeDasharray, strokeWidth, t
 import Util exposing (areEqual)
 
 
+toString : Showing -> String
+toString showing =
+    case showing of
+        Vote ->
+            "Vote"
+
+        Seat ->
+            "Seat"
+
+
 slice : Data -> Animatable Slice -> Svg Msg
 slice model { party, status, showing } =
     let
@@ -38,7 +48,7 @@ pie : Data -> Showing -> Html Msg
 pie model showing =
     span [ style "display" "inline-block" ]
         [ br [] []
-        , h2 [] [ text <| Debug.toString showing ]
+        , h2 [] [ text <| toString showing ]
         , svg
             [ style "width" <| fromInt width
             , style "height" <| fromInt height
