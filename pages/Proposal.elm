@@ -1,17 +1,52 @@
 module Proposal exposing (main)
 
+import Axis exposing (tickCount)
 import Browser exposing (document)
 import Either exposing (Either(..))
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html as H exposing (Html, br, div, h2, img, node, p, text)
-import Html.Attributes exposing (class, src, style, width)
-import Http exposing (Error, expectString, get)
-import List exposing (map2)
-import List.Extra exposing (last)
+import Html.Attributes exposing (src, style, width)
+import Http exposing (Error, expectJson, expectString, get)
+import Json.Decode as Jd exposing (Decoder, field, int, list)
+import List exposing (map, map2, map3, take)
+import List.Extra exposing (last, scanl)
 import Maybe exposing (withDefault)
+import Platform.Cmd exposing (batch)
 import Regex exposing (Match, Regex, fromString, replace)
-import String exposing (dropLeft, dropRight, join, lines, split, trim)
+import Scale exposing (band, bandwidth, convert, defaultBandConfig, linear, toRenderable)
+import String exposing (cons, dropLeft, dropRight, fromFloat, fromInt, join, lines, right, split, trim)
+import Svg as S exposing (Svg, g, rect, svg, text_)
+import Svg.Attributes as Sa exposing (class, height, transform, viewBox, x, y)
+
+
+
+-- Elector History Map
+
+
+type alias AllocationRecord =
+    { year : Int
+    , general_ticket : Int
+    , districts : Int
+    , hybrid : Int
+    , legislative : Int
+    }
+
+
+decodeAllocationRecord : Decoder AllocationRecord
+decodeAllocationRecord =
+    Jd.map5
+        AllocationRecord
+        (field "year" int)
+        (field "General Ticket" int)
+        (field "Districts" int)
+        (field "Hybrid" int)
+        (field "Legislative Selection" int)
+
+
+getRecordFile : Cmd Msg
+getRecordFile =
+    get { url = "static/elector_history.json", expect = expectJson AllocationRecordsReceived (list decodeAllocationRecord) }
 
 
 
@@ -26,6 +61,88 @@ picture url wdth =
         ]
         []
         |> Right
+
+
+allocationHistory : List AllocationRecord -> Html Never
+allocationHistory ars =
+    let
+        arsf =
+            take 30 ars
+
+        w =
+            900
+
+        h =
+            450
+
+        padding =
+            30
+
+        bandConfig =
+            { defaultBandConfig | paddingInner = 0.1, paddingOuter = 0.2 }
+
+        xscale =
+            band bandConfig ( 0, w - 2 * padding ) (map .year arsf)
+
+        yscale =
+            linear ( h - 2 * padding, 0 ) ( 0, 538 )
+
+        xAxis =
+            Axis.bottom [] (toRenderable fromInt xscale)
+
+        yAxis =
+            Axis.left [ tickCount 5 ] yscale
+
+        height n =
+            h - convert yscale n - 2 * padding
+
+        rectangle : Int -> Float -> String -> Float -> Svg Never
+        rectangle year up f val =
+            rect
+                [ x <| fromFloat <| convert xscale year
+                , y <| fromFloat <| convert yscale val
+                , Sa.width <| fromFloat <| bandwidth xscale
+                , Sa.height <| fromFloat <| height val
+                , class (f ++ " allocation-record-bar")
+                , transform ("translate(0," ++ (fromFloat <| negate up) ++ ")")
+                ]
+                []
+
+        column : AllocationRecord -> Svg Never
+        column ar =
+            let
+                values =
+                    [ toFloat ar.general_ticket
+                    , toFloat ar.districts
+                    , toFloat ar.hybrid
+                    , toFloat ar.legislative
+                    ]
+            in
+            map3
+                (rectangle ar.year)
+                (scanl (+) 0 (map height values))
+                [ "general-ticket", "district", "hybrid", "legislative-selection" ]
+                values
+                |> g [ class "column" ]
+    in
+    svg [ viewBox <| "0 0 " ++ fromInt w ++ " " ++ fromInt h ]
+        [ g [ transform ("translate(" ++ fromFloat (padding - 1) ++ " " ++ fromFloat (h - padding) ++ ")") ]
+            [ xAxis ]
+        , g [ transform ("translate(" ++ fromFloat (padding - 1) ++ " " ++ fromFloat padding ++ ")") ]
+            [ yAxis ]
+        , g [ transform ("translate(" ++ fromFloat padding ++ " " ++ fromFloat padding ++ ")") ]
+            (map column arsf)
+        , g []
+            [ rect [ x "100", y "100", Sa.width "10", Sa.height "10", class "general-ticket" ] []
+            , rect [ x "100", y "120", Sa.width "10", Sa.height "10", class "district" ] []
+            , rect [ x "100", y "140", Sa.width "10", Sa.height "10", class "hybrid" ] []
+            , rect [ x "100", y "160", Sa.width "10", Sa.height "10", class "legislative-selection" ] []
+            , text_ [ x "120", y "110" ] [ S.text "General Ticket" ]
+            , text_ [ x "120", y "130" ] [ S.text "Districts" ]
+            , text_ [ x "120", y "150" ] [ S.text "Hybrid" ]
+            , text_ [ x "120", y "170" ] [ S.text "Legislative Selection" ]
+            ]
+        ]
 
 
 hareQuota : Content
@@ -110,12 +227,12 @@ type Section
     | FullImage (Html Never)
 
 
-sectionTypeList : List Section
-sectionTypeList =
+sectionTypeList : List AllocationRecord -> List Section
+sectionTypeList ars =
     [ Full
     , Full
     , Quote
-    , Text Lt Short hareQuota
+    , Text Lt Long (Right (allocationHistory ars))
     , Full
     , Full
     , Full
@@ -175,10 +292,13 @@ type alias Content =
 
 type Msg
     = TextReceived (Result Error String)
+    | AllocationRecordsReceived (Result Error (List AllocationRecord))
 
 
 type alias Model =
-    String
+    { text : Maybe String
+    , allocation_records : Maybe (List AllocationRecord)
+    }
 
 
 
@@ -205,8 +325,7 @@ leftDivShort =
 
 divSpecific : String -> Content -> Html Never
 divSpecific cls content =
-    p
-        [ class cls, class "centered-text" ]
+    p [ class cls, class "centered-text" ]
         [ case content of
             Left str ->
                 text str
@@ -253,9 +372,14 @@ textAndImage sectiontype par =
                 _ ->
                     []
 
-        Text Lt _ img ->
+        Text Lt Short img ->
             [ leftDiv (Left par)
             , rightDiv img
+            ]
+
+        Text Lt Long img ->
+            [ leftDivShort (Left par)
+            , rightDivLong img
             ]
 
         Text Rt Short img ->
@@ -329,34 +453,42 @@ insertPercent =
 
 
 body : Model -> Html Never
-body model =
-    model
-        |> lines
-        |> join ""
-        |> replace beginRegex eater
-        |> replace blockRegex eater
-        |> replace percentRegex insertPercent
-        |> replace commentRegex eater
-        |> split "\\\\"
-        |> map2 section sectionTypeList
-        |> div [ class "container" ]
+body { text, allocation_records } =
+    case ( text, allocation_records ) of
+        ( Just a, Just b ) ->
+            a
+                |> lines
+                |> join ""
+                |> replace beginRegex eater
+                |> replace blockRegex eater
+                |> replace percentRegex insertPercent
+                |> replace commentRegex eater
+                |> split "\\\\"
+                |> map2 section (sectionTypeList b)
+                |> div [ class "container" ]
+
+        _ ->
+            H.text ""
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         TextReceived (Ok result) ->
-            ( result, Cmd.none )
+            { model | text = Just result }
 
-        TextReceived (Err _) ->
-            ( model, Cmd.none )
+        AllocationRecordsReceived (Ok result) ->
+            { model | allocation_records = Just result }
+
+        _ ->
+            model
 
 
 main : Program () Model Msg
 main =
     document
-        { init = always ( "", getText )
-        , update = update
+        { init = always ( Model Nothing Nothing, batch [ getText, getRecordFile ] )
+        , update = \msg model -> ( update msg model, Cmd.none )
         , subscriptions = always Sub.none
         , view =
             \model ->

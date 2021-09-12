@@ -1,0 +1,471 @@
+[
+    {
+        "year": 1788,
+        "General Ticket": 18,
+        "Districts": 15,
+        "Hybrid": 15,
+        "Legislative Selection": 33
+    },
+    {
+        "year": 1792,
+        "General Ticket": 25,
+        "Districts": 25,
+        "Hybrid": 22,
+        "Legislative Selection": 63
+    },
+    {
+        "year": 1796,
+        "General Ticket": 19,
+        "Districts": 47,
+        "Hybrid": 25,
+        "Legislative Selection": 47
+    },
+    {
+        "year": 1800,
+        "General Ticket": 25,
+        "Districts": 26,
+        "Hybrid": 3,
+        "Legislative Selection": 84
+    },
+    {
+        "year": 1804,
+        "General Ticket": 66,
+        "Districts": 57,
+        "Hybrid": 0,
+        "Legislative Selection": 53
+    },
+    {
+        "year": 1808,
+        "General Ticket": 66,
+        "Districts": 38,
+        "Hybrid": 0,
+        "Legislative Selection": 72
+    },
+    {
+        "year": 1812,
+        "General Ticket": 70,
+        "Districts": 53,
+        "Hybrid": 0,
+        "Legislative Selection": 95
+    },
+    {
+        "year": 1816,
+        "General Ticket": 93,
+        "Districts": 31,
+        "Hybrid": 0,
+        "Legislative Selection": 97
+    },
+    {
+        "year": 1820,
+        "General Ticket": 105,
+        "Districts": 58,
+        "Hybrid": 0,
+        "Legislative Selection": 72
+    },
+    {
+        "year": 1824,
+        "General Ticket": 139,
+        "Districts": 51,
+        "Hybrid": 0,
+        "Legislative Selection": 71
+    },
+    {
+        "year": 1828,
+        "General Ticket": 180,
+        "Districts": 67,
+        "Hybrid": 0,
+        "Legislative Selection": 14
+    },
+    {
+        "year": 1832,
+        "General Ticket": 267,
+        "Districts": 10,
+        "Hybrid": 0,
+        "Legislative Selection": 11
+    },
+    {
+        "year": 1836,
+        "General Ticket": 283,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 11
+    },
+    {
+        "year": 1840,
+        "General Ticket": 283,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 11
+    },
+    {
+        "year": 1844,
+        "General Ticket": 266,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 9
+    },
+    {
+        "year": 1848,
+        "General Ticket": 269,
+        "Districts": 0,
+        "Hybrid": 12,
+        "Legislative Selection": 9
+    },
+    {
+        "year": 1852,
+        "General Ticket": 288,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 8
+    },
+    {
+        "year": 1856,
+        "General Ticket": 288,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 8
+    },
+    {
+        "year": 1860,
+        "General Ticket": 295,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 8
+    },
+    {
+        "year": 1864,
+        "General Ticket": 231,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 3
+    },
+    {
+        "year": 1868,
+        "General Ticket": 291,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 3
+    },
+    {
+        "year": 1872,
+        "General Ticket": 366,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1876,
+        "General Ticket": 366,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 3
+    },
+    {
+        "year": 1880,
+        "General Ticket": 369,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1884,
+        "General Ticket": 401,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1888,
+        "General Ticket": 401,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1892,
+        "General Ticket": 430,
+        "Districts": 14,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1896,
+        "General Ticket": 447,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1900,
+        "General Ticket": 447,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1904,
+        "General Ticket": 476,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1908,
+        "General Ticket": 483,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1912,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1916,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1920,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1924,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1928,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1902,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1906,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1910,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1914,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1918,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1922,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1926,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1930,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1934,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1938,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1940,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1944,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1948,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1952,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1956,
+        "General Ticket": 531,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1960,
+        "General Ticket": 537,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1964,
+        "General Ticket": 538,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1968,
+        "General Ticket": 538,
+        "Districts": 0,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1972,
+        "General Ticket": 534,
+        "Districts": 4,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1976,
+        "General Ticket": 534,
+        "Districts": 4,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1980,
+        "General Ticket": 534,
+        "Districts": 4,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1984,
+        "General Ticket": 534,
+        "Districts": 4,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1988,
+        "General Ticket": 534,
+        "Districts": 4,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1992,
+        "General Ticket": 529,
+        "Districts": 9,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 1996,
+        "General Ticket": 529,
+        "Districts": 9,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 2000,
+        "General Ticket": 529,
+        "Districts": 9,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 2004,
+        "General Ticket": 529,
+        "Districts": 9,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 2008,
+        "General Ticket": 529,
+        "Districts": 9,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 2012,
+        "General Ticket": 529,
+        "Districts": 9,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 2016,
+        "General Ticket": 529,
+        "Districts": 9,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    },
+    {
+        "year": 2020,
+        "General Ticket": 529,
+        "Districts": 9,
+        "Hybrid": 0,
+        "Legislative Selection": 0
+    }
+]
