@@ -8,7 +8,6 @@
 -   Cleanup data getting process
 -   Pies are not oriented correctly on calculator page
 -   Terms in Endorsements.elm
--   Sort imports
 -   Format Stylesheets
 
 Flags in database
