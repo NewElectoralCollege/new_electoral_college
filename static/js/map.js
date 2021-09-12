@@ -13,13 +13,11 @@ function port() {
         includeHTML();
     });
 
-    app.ports.wipeContent.subscribe(function (data) {
+    app.ports.wipeContent.subscribe(function () {
         let p = $("#paths");
 
         while (p.firstChild) {
             p.removeChild(p.firstChild);
         }
-
-        app.ports.sendMsg.send(data);
     });
 }
