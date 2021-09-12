@@ -5,10 +5,10 @@
 -   Update elector allocations graph in official proposal
 -   Fix 404.html
 -   Remove all Debugs
--   Cleanup data getting process
 -   Pies are not oriented correctly on calculator page
 -   Terms in Endorsements.elm
 -   Format Stylesheets
+-   Clicking Back on state viewer should return you to the results for the correct year
 
 Flags in database
 
