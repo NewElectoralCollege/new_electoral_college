@@ -348,5 +348,17 @@ getName party =
         PeaceAndFreedom ->
             "Peace and Feedom"
 
-        a ->
-            Debug.toString a
+        Democratic ->
+            "Democratic"
+
+        Republican ->
+            "Republican"
+
+        Libertarian ->
+            "Libertarian"
+
+        Green ->
+            "Green"
+
+        Reform ->
+            "Reform"
