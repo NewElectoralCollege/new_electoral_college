@@ -568,6 +568,7 @@ getBatch : Int -> Cmd Msg
 getBatch year =
     batch
         [ wipeContent ()
+        , setCookieYear year
         , getFile year
         , updateImages ()
         ]
@@ -816,3 +817,6 @@ port updateImages : () -> Cmd msg
 
 
 port wipeContent : () -> Cmd msg
+
+
+port setCookieYear : Int -> Cmd msg

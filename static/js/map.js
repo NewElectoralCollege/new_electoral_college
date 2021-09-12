@@ -20,4 +20,8 @@ function port() {
             p.removeChild(p.firstChild);
         }
     });
+
+    app.ports.setCookieYear.subscribe(function (year) {
+        document.cookie = "year=" + year;
+    });
 }

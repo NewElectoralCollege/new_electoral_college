@@ -7,7 +7,6 @@
 -   Remove all Debugs
 -   Pies are not oriented correctly on calculator page
 -   Format Stylesheets
--   Clicking Back on state viewer should return you to the results for the correct year
 
 Flags in database
 
