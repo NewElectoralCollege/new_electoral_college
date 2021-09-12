@@ -23,7 +23,7 @@ type Year
 
 
 type alias Term =
-    ( Year, Year )
+    ( Int, Year )
 
 
 type Chamber
@@ -129,14 +129,11 @@ getTerm o =
 writeTerm : Maybe Term -> Html msg
 writeTerm term =
     case term of
-        Just ( Definitive start, Incumbent ) ->
+        Just ( start, Incumbent ) ->
             text <| S.fromInt start ++ "-incumbent"
 
-        Just ( Definitive start, Definitive end ) ->
+        Just ( start, Definitive end ) ->
             text <| S.fromInt start ++ "-" ++ S.fromInt end
-
-        Just ( Incumbent, _ ) ->
-            text "Unknown Term"
 
         Nothing ->
             text ""
@@ -246,30 +243,30 @@ type alias Endorsement =
 
 endorsements : List Endorsement
 endorsements =
-    [ Endorsement "Jane Doe" (Executive "56th President of the United States" ( Definitive 2000, Definitive 2004 )) "https://elm-lang.org/"
-    , Endorsement "Joe Smith" (Senate Georgia Democratic ( Definitive 1996, Incumbent )) "https://elm-lang.org/"
-    , Endorsement "John Citizen" (Senate Illinois Republican ( Definitive 2002, Definitive 2008 )) "https://elm-lang.org/"
-    , Endorsement "Fred Rubble" (Senate Georgia (Independent Nothing) ( Definitive 1968, Incumbent )) "https://elm-lang.org/"
-    , Endorsement "Mary Hill" (Representative Vermont AtLarge Republican ( Definitive 2001, Definitive 2015 )) "https://elm-lang.org/"
-    , Endorsement "Philip Henry Muntz" (Representative California (Numbered 4) Democratic ( Definitive 1968, Definitive 2019 )) "https://elm-lang.org/"
-    , Endorsement "John Bright" (Representative California (Numbered 52) Republican ( Definitive 2015, Incumbent )) "https://elm-lang.org/"
-    , Endorsement "Joseph Chamberlain" (Governor Kentucky Democratic ( Definitive 2011, Incumbent )) "https://elm-lang.org/"
-    , Endorsement "Alice Brown" (Governor Alabama Republican ( Definitive 1992, Definitive 1997 )) "https://elm-lang.org/"
-    , Endorsement "Matt Wright" (Governor Virginia Democratic ( Definitive 2010, Definitive 2015 )) "https://elm-lang.org/"
-    , Endorsement "Pranav Kapoor" (Governor Maine Republican ( Definitive 2005, Definitive 2016 )) "https://elm-lang.org/"
-    , Endorsement "Judy Bogart" (Governor Idaho Democratic ( Definitive 2019, Incumbent )) "https://elm-lang.org/"
-    , Endorsement "Thomas McLeish" (StateOffice "Lieutenant Governor" SouthCarolina Republican ( Definitive 2014, Incumbent )) "https://elm-lang.org/"
-    , Endorsement "Maurice Vuong" (StateOffice "Lieutenant Governor" Maryland Democratic ( Definitive 2011, Definitive 2013 )) "https://elm-lang.org/"
-    , Endorsement "Sean Stephens" (StateOffice "Secretary of State" Iowa Republican ( Definitive 2010, Definitive 2017 )) "https://elm-lang.org/"
-    , Endorsement "Megan Vargas" (StateLegislator Virginia Upper Democratic ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
-    , Endorsement "Bob Jones" (StateLegislator Montana Upper Republican ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
-    , Endorsement "David Ng" (StateLegislator Virginia Upper Democratic ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
-    , Endorsement "Allison Cook" (StateLegislator NorthDakota Upper Republican ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
-    , Endorsement "Tricia Chapman" (StateLegislator Kansas Lower Democratic ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
-    , Endorsement "Nikki Jefferson" (StateLegislator Michigan Lower Republican ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
-    , Endorsement "Gene MacDonald" (StateLegislator Indiana Upper Democratic ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
-    , Endorsement "Simon Levanshvili" (StateLegislator California Lower Republican ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
-    , Endorsement "Raymond Sullivan" (StateLegislator Alaska Upper Democratic ( Definitive 2000, Definitive 2009 )) "https://elm-lang.org/"
+    [ Endorsement "Jane Doe" (Executive "56th President of the United States" ( 2000, Definitive 2004 )) "https://elm-lang.org/"
+    , Endorsement "Joe Smith" (Senate Georgia Democratic ( 1996, Incumbent )) "https://elm-lang.org/"
+    , Endorsement "John Citizen" (Senate Illinois Republican ( 2002, Definitive 2008 )) "https://elm-lang.org/"
+    , Endorsement "Fred Rubble" (Senate Georgia (Independent Nothing) ( 1968, Incumbent )) "https://elm-lang.org/"
+    , Endorsement "Mary Hill" (Representative Vermont AtLarge Republican ( 2001, Definitive 2015 )) "https://elm-lang.org/"
+    , Endorsement "Philip Henry Muntz" (Representative California (Numbered 4) Democratic ( 1968, Definitive 2019 )) "https://elm-lang.org/"
+    , Endorsement "John Bright" (Representative California (Numbered 52) Republican ( 2015, Incumbent )) "https://elm-lang.org/"
+    , Endorsement "Joseph Chamberlain" (Governor Kentucky Democratic ( 2011, Incumbent )) "https://elm-lang.org/"
+    , Endorsement "Alice Brown" (Governor Alabama Republican ( 1992, Definitive 1997 )) "https://elm-lang.org/"
+    , Endorsement "Matt Wright" (Governor Virginia Democratic ( 2010, Definitive 2015 )) "https://elm-lang.org/"
+    , Endorsement "Pranav Kapoor" (Governor Maine Republican ( 2005, Definitive 2016 )) "https://elm-lang.org/"
+    , Endorsement "Judy Bogart" (Governor Idaho Democratic ( 2019, Incumbent )) "https://elm-lang.org/"
+    , Endorsement "Thomas McLeish" (StateOffice "Lieutenant Governor" SouthCarolina Republican ( 2014, Incumbent )) "https://elm-lang.org/"
+    , Endorsement "Maurice Vuong" (StateOffice "Lieutenant Governor" Maryland Democratic ( 2011, Definitive 2013 )) "https://elm-lang.org/"
+    , Endorsement "Sean Stephens" (StateOffice "Secretary of State" Iowa Republican ( 2010, Definitive 2017 )) "https://elm-lang.org/"
+    , Endorsement "Megan Vargas" (StateLegislator Virginia Upper Democratic ( 2000, Definitive 2009 )) "https://elm-lang.org/"
+    , Endorsement "Bob Jones" (StateLegislator Montana Upper Republican ( 2000, Definitive 2009 )) "https://elm-lang.org/"
+    , Endorsement "David Ng" (StateLegislator Virginia Upper Democratic ( 2000, Definitive 2009 )) "https://elm-lang.org/"
+    , Endorsement "Allison Cook" (StateLegislator NorthDakota Upper Republican ( 2000, Definitive 2009 )) "https://elm-lang.org/"
+    , Endorsement "Tricia Chapman" (StateLegislator Kansas Lower Democratic ( 2000, Definitive 2009 )) "https://elm-lang.org/"
+    , Endorsement "Nikki Jefferson" (StateLegislator Michigan Lower Republican ( 2000, Definitive 2009 )) "https://elm-lang.org/"
+    , Endorsement "Gene MacDonald" (StateLegislator Indiana Upper Democratic ( 2000, Definitive 2009 )) "https://elm-lang.org/"
+    , Endorsement "Simon Levanshvili" (StateLegislator California Lower Republican ( 2000, Definitive 2009 )) "https://elm-lang.org/"
+    , Endorsement "Raymond Sullivan" (StateLegislator Alaska Upper Democratic ( 2000, Definitive 2009 )) "https://elm-lang.org/"
     , Endorsement "Democratic Party of Arizona" (StateParty Arizona Democratic) "https://elm-lang.org/"
     , Endorsement "Illinois Republican Party" (StateParty Illinois Republican) "https://elm-lang.org/"
     , Endorsement "Illinois Democratic Party" (StateParty Illinois Democratic) "https://elm-lang.org/"
