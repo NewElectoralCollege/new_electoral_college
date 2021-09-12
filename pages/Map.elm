@@ -1,9 +1,10 @@
 port module Map exposing (main)
 
-import Animation exposing (Animatable, Status(..), Target, isAnyMoving, move, stepAll, transformString)
+import Animation exposing (Animatable, Dot, Status(..), Target, isAnyMoving, move, stepAll, transformString)
 import Browser exposing (document)
 import Browser.Events exposing (onAnimationFrameDelta)
 import Dict as D
+import Election exposing (Election, Stats, firstYear, lastYear, setStats)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html exposing (Attribute, Html, a, br, button, div, h1, p, span, table, td, text, th, tr)
@@ -14,7 +15,7 @@ import Json.Decode exposing (at, decodeString, dict, list, string)
 import List exposing (append, concat, concatMap, drop, filter, filterMap, foldl, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take)
 import List.Extra exposing (find, getAt, init, uniqueBy)
 import Maybe as M exposing (withDefault)
-import Party as P exposing (Party(..), color)
+import Party as P exposing (Party, PartyName(..), color, ifQualifyingParty, newParty)
 import State exposing (State(..), StateOutline, getName, outline, states)
 import String as S
 import Svg exposing (Svg, circle, g, svg)
@@ -23,25 +24,14 @@ import Ticket exposing (nominee, realElectors)
 import Tuple exposing (first, second)
 import Util as U
     exposing
-        ( Dot
-        , Election
-        , Party
-        , Stats
-        , areEqual
-        , colorCircles
+        ( colorCircles
         , dropMaybe
         , first3
-        , firstYear
         , fix_change
         , getPartyProgressBar
-        , ifQualifyingParty
-        , lambdaCompare
-        , lastYear
-        , newParty
         , partyContainer
         , popularVotePercent
         , seatChange
-        , setStats
         , styleNumFloat
         , stylePercent
         , summateRecords
@@ -214,7 +204,7 @@ makeState national_parties model { list, dots, state } =
         Just a ->
             let
                 result party =
-                    floor <| withDefault 0 <| M.map .seats <| find (areEqual party.name .name) national_parties
+                    floor <| withDefault 0 <| M.map .seats <| find ((==) party.name << .name) national_parties
 
                 sl =
                     case model.dotpos of
@@ -275,7 +265,7 @@ makeMapDots { stats, state } =
         0
 
 
-makePartyDots : State -> Instance -> List Election -> List P.Party -> List ( Float, Float ) -> List ( Float, Float )
+makePartyDots : State -> Instance -> List Election -> List PartyName -> List ( Float, Float ) -> List ( Float, Float )
 makePartyDots state instance elections parties dots =
     case ( parties, elections ) of
         ( [], _ ) ->
@@ -287,7 +277,7 @@ makePartyDots state instance elections parties dots =
         ( (p :: _) as pss, s :: ss ) ->
             let
                 result =
-                    floor <| withDefault 0 <| M.map .seats <| find (areEqual p .name) s.list
+                    floor <| withDefault 0 <| M.map .seats <| find ((==) p << .name) s.list
             in
             if s.state == state then
                 take result dots ++ makePartyDots state instance ss pss (drop result dots)
@@ -362,7 +352,7 @@ makeDots instance ({ state } as election) =
                 |> partiesInInstance
                 |> sortBy .seats
                 |> reverse
-                |> filter (lambdaCompare (>) 0 .seats)
+                |> filter ((<) 0 << .seats)
                 |> map .name
 
         makeDot a (( x, y ) as b) c =
@@ -449,15 +439,15 @@ makePartyRow model party =
 -- Party box
 
 
-doStateRow : P.Party -> Election -> Maybe Election -> Html Msg
+doStateRow : PartyName -> Election -> Maybe Election -> Html Msg
 doStateRow partyname ({ list, stats, state } as current) p =
     let
         previous =
             dropMaybe p
 
         party =
-            ( dropMaybe <| find (areEqual partyname .name) list
-            , find (areEqual partyname .name) previous.list
+            ( dropMaybe <| find ((==) partyname << .name) list
+            , find ((==) partyname << .name) previous.list
             )
 
         bold =
@@ -527,7 +517,7 @@ partiesInInstance es =
 
         getInstancesOf : Party -> List Party
         getInstancesOf p =
-            filterMap (find (areEqual p.name .name) << .list) es
+            filterMap (find ((==) p.name << .name) << .list) es
     in
     map
         (\p ->
@@ -603,13 +593,7 @@ type alias Model =
 
 init : Int -> ( Model, Cmd Msg )
 init year =
-    let
-        r =
-            update (ChangeYear False year) <| Model year year False [] [] Map
-    in
-    ( first r
-    , second r
-    )
+    update (ChangeYear False year) <| Model year year False [] [] Map
 
 
 body : Model -> Html Msg

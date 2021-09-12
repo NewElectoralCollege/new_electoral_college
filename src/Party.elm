@@ -1,9 +1,19 @@
-module Party exposing (Party(..), color, decodeParty, getName, inParenthesis)
+module Party exposing (Party, PartyName(..), color, decodePartyName, getName, ifQualifyingParty, inParenthesis, newParty)
 
-import Json.Decode exposing (Decoder, andThen, string, succeed)
+import Json.Decode as Jd exposing (Decoder, andThen, bool, field, float, nullable, string, succeed)
 
 
-type Party
+type alias Party =
+    { name : PartyName
+    , seats : Float
+    , votes : Float
+    , extra_votes : Maybe Float
+    , extra_seat : Maybe Bool
+    , color : String
+    }
+
+
+type PartyName
     = Democratic
     | Independent (Maybe String)
     | Republican
@@ -14,8 +24,8 @@ type Party
     | Other String
 
 
-decodeParty : Decoder Party
-decodeParty =
+decodePartyName : Decoder PartyName
+decodePartyName =
     string
         |> andThen
             (\party ->
@@ -47,7 +57,7 @@ decodeParty =
             )
 
 
-color : Party -> String
+color : PartyName -> String
 color party =
     case party of
         Democratic ->
@@ -302,7 +312,7 @@ color party =
                     "#ffffff"
 
 
-inParenthesis : Maybe Party -> String
+inParenthesis : Maybe PartyName -> String
 inParenthesis party =
     case party of
         Just Democratic ->
@@ -333,7 +343,7 @@ inParenthesis party =
             ""
 
 
-getName : Party -> String
+getName : PartyName -> String
 getName party =
     case party of
         Independent (Just a) ->
@@ -362,3 +372,19 @@ getName party =
 
         Reform ->
             "Reform"
+
+
+ifQualifyingParty : Float -> Party -> Bool
+ifQualifyingParty total_votes party =
+    party.votes / total_votes >= 0.01 || party.seats > 0
+
+
+newParty : Decoder Party
+newParty =
+    Jd.map6 Party
+        (field "name" decodePartyName)
+        (field "seats" float)
+        (field "votes" float)
+        (field "extra_votes" (nullable float))
+        (field "extra_seat" (nullable bool))
+        (field "name" string)

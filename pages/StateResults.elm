@@ -2,6 +2,7 @@ port module StateResults exposing (main)
 
 import Browser exposing (document)
 import Dict as D exposing (Dict, insert, values)
+import Election exposing (Election, Stats, firstYear, lastYear)
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr)
@@ -10,33 +11,25 @@ import Html.Events exposing (onClick)
 import List exposing (drop, map, reverse, sortBy)
 import List.Extra exposing (find)
 import Maybe as M exposing (withDefault)
-import Party exposing (Party(..))
+import Party exposing (Party, PartyName(..), color, ifQualifyingParty)
 import State as St exposing (State(..), states)
 import String as S exposing (fromFloat, left)
 import Svg exposing (Svg, circle, g, rect, svg, text_)
 import Svg.Attributes as Sa exposing (cx, cy, fill, height, r, width, x, y)
 import Ticket exposing (nominee)
-import Tuple exposing (first, second)
 import Util as U
     exposing
-        ( Election
-        , Msg(..)
-        , Party
-        , Stats
-        , areEqual
+        ( Msg(..)
         , colorCircles
-        , firstYear
         , getFile
         , getPartyProgressBar
-        , ifQualifyingParty
-        , lastYear
         , partyContainer
         , partyMsg
         , seatChange
         , statsMsg
+        , styleNum
         , styleNumFloat
         , stylePercent
-        , updateColors
         , voteChange
         )
 
@@ -45,9 +38,14 @@ import Util as U
 -- Misc
 
 
-getQuota : Float -> Float -> Float
+getQuota : Float -> Float -> Int
 getQuota total_votes total_seats =
-    total_votes / total_seats |> U.floor
+    total_votes / total_seats |> floor
+
+
+updateColors : List Party -> List Party
+updateColors list =
+    map (\p -> { p | color = color p.name }) list
 
 
 
@@ -284,7 +282,7 @@ summaryFooter model =
             , text <| styleNumFloat model.stats.total_seats
             , br [] []
             , text "Quota: "
-            , text <| styleNumFloat quota
+            , text <| styleNum quota
             , br [] []
             , text "Gallagher Index: "
             , text <| left 4 <| fromFloat model.stats.gallagher_index
@@ -304,9 +302,9 @@ summaryFooter model =
 -- Party box
 
 
-doYearRow : Party.Party -> Election -> Maybe Election -> Html Msg
+doYearRow : PartyName -> Election -> Maybe Election -> Html Msg
 doYearRow partyname ({ list, stats, year } as current) previous =
-    case ( find (areEqual partyname .name) list, find (areEqual partyname .name) <| withDefault [] <| M.map .list previous ) of
+    case ( find ((==) partyname << .name) list, find ((==) partyname << .name) <| withDefault [] <| M.map .list previous ) of
         ( Just party, pparty ) ->
             tr []
                 [ td [] [ U.text year ]
@@ -426,7 +424,7 @@ update msg model =
 
 
 init : ( String, Int ) -> ( Model, Cmd Msg )
-init flags =
+init ( state, year ) =
     update
         SendRequestParty
         (Model
@@ -434,9 +432,9 @@ init flags =
             D.empty
             (Stats "none" 0 0 0.0)
             0
-            (second flags)
-            (second flags)
-            (withDefault Alabama <| find (areEqual (first flags) St.getName) states)
+            year
+            year
+            (withDefault Alabama <| find ((==) state << St.getName) states)
             Initializing
         )
 

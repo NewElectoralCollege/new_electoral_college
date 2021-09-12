@@ -17,9 +17,9 @@ module Calculator.Model exposing
 import Animation exposing (Animatable, Target)
 import Basics as B
 import Either exposing (Either)
-import Party
+import Party exposing (Party, PartyName)
 import Random exposing (Generator, int, list, map2)
-import Util exposing (Party, summateRecords)
+import Util exposing (summateRecords)
 
 
 type Showing
@@ -43,9 +43,9 @@ type Msg
     = Name Int String
     | Votes Int String
     | AddPartyMenu
-    | NewParty (Either Party.Party String)
+    | NewParty (Either PartyName String)
     | RemoveParty Int
-    | Highlight Party.Party
+    | Highlight PartyName
     | ResetHighlight
     | RandomInts (List Int)
     | TimeDelta Float
@@ -53,7 +53,7 @@ type Msg
 
 type alias Data =
     { parties : List Party
-    , highlighted : Maybe Party.Party
+    , highlighted : Maybe PartyName
     , add_party_menu : Bool
     , seats : Float
     , slices : List (Animatable Slice)

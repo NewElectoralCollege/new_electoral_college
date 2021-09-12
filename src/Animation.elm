@@ -1,4 +1,4 @@
-module Animation exposing (Animatable, Status(..), Target, isAnyMoving, isMoving, move, stepAll, transformString)
+module Animation exposing (Animatable, Dot, Status(..), Target, isAnyMoving, isMoving, move, stepAll, transformString)
 
 import List exposing (any, map)
 import String exposing (fromFloat)
@@ -23,6 +23,14 @@ type Status
 
 type alias Animatable a =
     { a | status : Status }
+
+
+type alias Dot =
+    Animatable
+        { hemicircle : ( Float, Float )
+        , map : ( Float, Float )
+        , bar : ( Float, Float )
+        }
 
 
 

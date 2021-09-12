@@ -5,8 +5,9 @@ import Calculator.Model exposing (Data, totalSeats, totalVotes)
 import List exposing (map, reverse, sortBy)
 import List.Extra exposing (findIndex, splitAt)
 import Maybe exposing (withDefault)
+import Party exposing (Party)
 import Tuple exposing (mapBoth)
-import Util as U exposing (Party, areEqual, concatTuple)
+import Util as U exposing (concatTuple)
 
 
 quota : Data -> Float
@@ -45,7 +46,7 @@ extraSeats model list =
         |> splitAt (floor <| model.seats - totalSeats list)
         |> mapBoth (map setExtraSeat) (map setNoExtraSeat)
         |> concatTuple
-        |> sortBy (\n -> withDefault 0 <| findIndex (areEqual n.name .name) list)
+        |> sortBy (\n -> withDefault 0 <| findIndex ((==) n.name << .name) list)
 
 
 hare : Data -> Data

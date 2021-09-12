@@ -7,9 +7,10 @@ import Html exposing (Attribute, Html, a, abbr, button, div, i, input, li, span,
 import Html.Attributes exposing (class, placeholder, style, title, type_, value)
 import Html.Events exposing (onClick, onInput, onMouseEnter, onMouseLeave)
 import Maybe exposing (withDefault)
-import Party exposing (Party(..), getName)
+import Party exposing (PartyName(..), getName)
 import String exposing (fromFloat, fromInt, left)
-import Util as U exposing (Party, areEqual, boolToInt)
+import Util as U exposing (boolToInt)
+import Party exposing (Party)
 
 
 border : Attribute Msg
@@ -116,11 +117,11 @@ makePartiesForm model =
     List.indexedMap (makePartyForm model) model.parties
 
 
-makePartySlot : Data -> Party.Party -> Html Msg
+makePartySlot : Data -> PartyName -> Html Msg
 makePartySlot model partyname =
     let
         disabled =
-            if List.any (areEqual partyname .name) model.parties then
+            if List.any ((==) partyname << .name) model.parties then
                 " disabled"
 
             else

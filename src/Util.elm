@@ -1,114 +1,41 @@
 module Util exposing
-    ( Dot
-    , Election
-    , Msg(..)
-    , Party
-    , Stats
-    , areEqual
+    ( Msg(..)
     , boolToInt
     , colorCircles
-    , concatMapDict
     , concatTuple
     , dropMaybe
-    , exists
     , first3
-    , firstYear
-    , fix_change
-    , floor
     , getFile
     , getPartyProgressBar
-    , ifQualifyingParty
-    , lambdaCompare
-    , lastYear
-    , newParty
     , partyContainer
     , partyMsg
-    , popularVotePercent
-    , round
     , seatChange
-    , setStats
     , statsMsg
     , styleNum
     , styleNumFloat
-    , stylePercent
     , summateRecords
     , text
     , tupleTail
-    , updateColors
     , voteChange
-    , won
+    , won, stylePercent, divide, fix_change, popularVotePercent
     )
 
-import Animation exposing (Animatable)
 import Basics as B
-import Dict as D exposing (Dict)
+import Election exposing (Election, Stats, setStats)
 import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, id, rowspan, style)
 import Http exposing (Error, Expect, expectJson, get)
-import Json.Decode exposing (Decoder, at, bool, field, float, list, map4, map6, nullable, string)
-import List exposing (concatMap, filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sum)
+import Json.Decode exposing (at, bool, list, string)
+import List exposing (filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sum)
 import List.Extra exposing (splitAt)
 import Maybe as M exposing (withDefault)
-import Party exposing (color, decodeParty, getName)
+import Party exposing (Party, PartyName, color, getName, newParty)
 import Regex as R exposing (fromString)
 import State as St exposing (State(..))
 import String as S exposing (contains, dropLeft, fromFloat, fromInt, left, length, replace, slice)
 import Svg exposing (Svg, g)
 import Svg.Attributes exposing (fill)
 import Tuple exposing (first, second)
-
-
-
--- Constants
-
-
-firstYear : Int
-firstYear =
-    1976
-
-
-lastYear : Int
-lastYear =
-    2020
-
-
-
--- Types
-
-
-type alias Stats =
-    { name : String
-    , total_seats : Float
-    , total_votes : Float
-    , gallagher_index : Float
-    }
-
-
-type alias Party =
-    { name : Party.Party
-    , seats : Float
-    , votes : Float
-    , extra_votes : Maybe Float
-    , extra_seat : Maybe Bool
-    , color : String
-    }
-
-
-type alias Election =
-    { list : List Party
-    , stats : Stats
-    , dots : Maybe (List (Animatable Dot))
-    , state : State
-    , year : Int
-    }
-
-
-type alias Dot =
-    Animatable
-        { hemicircle : ( Float, Float )
-        , map : ( Float, Float )
-        , bar : ( Float, Float )
-        }
 
 
 
@@ -123,26 +50,6 @@ dropMaybe x =
 
         Nothing ->
             Debug.todo "A Nothing variable sent through dropMaybe function"
-
-
-exists : Maybe a -> Bool
-exists a =
-    case a of
-        Just _ ->
-            True
-
-        Nothing ->
-            False
-
-
-lambdaCompare : (a -> a -> Bool) -> a -> (b -> a) -> b -> Bool
-lambdaCompare comp value function record =
-    comp (function record) value
-
-
-areEqual : a -> (b -> a) -> b -> Bool
-areEqual =
-    lambdaCompare (==)
 
 
 summateRecords : (a -> number) -> a -> number -> number
@@ -169,11 +76,6 @@ tupleTail ( _, b, c ) =
     ( b, c )
 
 
-ifQualifyingParty : Float -> Party -> Bool
-ifQualifyingParty total_votes party =
-    party.votes / total_votes >= 0.01 || party.seats > 0
-
-
 
 -- Basic operations
 
@@ -184,16 +86,6 @@ divide :
     -> Float -- Takes the divisor as the first argumen This is used while pipeing (|>).
 divide a b =
     toFloat b / toFloat a
-
-
-splitAtFloat : Float -> List a -> ( List a, List a )
-splitAtFloat i l =
-    splitAt (B.floor i) l
-
-
-concatMapDict : (k -> a -> List b) -> Dict k a -> List b
-concatMapDict f d =
-    concatMap (\( a, b ) -> f a b) (D.toList d)
 
 
 concatTuple : ( List a, List a ) -> List a
@@ -276,21 +168,22 @@ colorCircles state parties circles =
     indexedMap
         (\n party ->
             g [ fill party.color, id <| St.getName state ]
-                (splitAtFloat
+                (splitAt
                     (parties
                         |> splitAt n
                         |> first
                         |> map .seats
                         |> sum
+                        |> floor
                     )
                     circles
                     |> second
-                    |> splitAtFloat party.seats
+                    |> splitAt (floor party.seats)
                     |> first
                 )
         )
     <|
-        filter (lambdaCompare (>) 0 .seats) parties
+        filter ((<) 0 << .seats) parties
 
 
 
@@ -311,11 +204,6 @@ getPartyProgressBar party election color =
     ]
 
 
-updateColors : List Party -> List Party
-updateColors list =
-    map (\p -> { p | color = color p.name }) list
-
-
 
 -- Party Boxes
 
@@ -323,8 +211,8 @@ updateColors list =
 partyContainer :
     List Election
     -> List (Maybe Election)
-    -> (Party.Party -> Election -> Maybe Election -> Html msg)
-    -> Party.Party
+    -> (PartyName -> Election -> Maybe Election -> Html msg)
+    -> PartyName
     -> Html msg
 partyContainer current previous doStateRow party =
     td
@@ -359,7 +247,7 @@ popularVotePercent party stats =
     party.votes / stats.total_votes
 
 
-won : List Party -> Maybe Party.Party
+won : List Party -> Maybe PartyName
 won lst =
     M.map .name (head <| reverse <| sortBy .votes lst)
 
@@ -400,26 +288,6 @@ type Msg
 -- JSON decoders
 
 
-newParty : Decoder Party
-newParty =
-    map6 Party
-        (field "name" decodeParty)
-        (field "seats" float)
-        (field "votes" float)
-        (field "extra_votes" (nullable float))
-        (field "extra_seat" (nullable bool))
-        (field "name" string)
-
-
-setStats : Decoder Stats
-setStats =
-    map4 Stats
-        (field "name" string)
-        (field "total_seats" float)
-        (field "total_votes" float)
-        (field "gallagher_index" float)
-
-
 partyMsg : Expect Msg
 partyMsg =
     expectJson PartySuccess <| at [ "parties" ] <| list newParty
@@ -449,13 +317,3 @@ getFile msg year state =
 text : a -> Html msg
 text =
     Html.text << replace "\"" "" << Debug.toString
-
-
-round : Float -> Float
-round =
-    toFloat << B.round
-
-
-floor : Float -> Float
-floor =
-    toFloat << B.floor

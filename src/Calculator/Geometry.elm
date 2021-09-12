@@ -3,7 +3,8 @@ module Calculator.Geometry exposing (Point, angle, halfHeight, halfWidth, height
 import Calculator.Model exposing (Data, Showing(..), getCurrentShowing, totalVotes)
 import List exposing (foldl)
 import List.Extra exposing (takeWhile)
-import Util exposing (Party, areEqual, summateRecords)
+import Party exposing (Party)
+import Util exposing (summateRecords)
 
 
 type alias Point =
@@ -49,7 +50,7 @@ angle model showing party =
 
 startingAngle : Data -> Showing -> Party -> Float
 startingAngle model showing party =
-    takeWhile (areEqual party.name .name) model.parties
+    takeWhile ((==) party.name << .name) model.parties
         |> foldl (summateRecords (angle model showing)) 0.0
 
 

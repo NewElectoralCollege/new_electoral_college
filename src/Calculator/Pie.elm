@@ -10,7 +10,6 @@ import List exposing (filter, map)
 import String exposing (fromFloat, fromInt)
 import Svg exposing (Svg, circle, svg)
 import Svg.Attributes exposing (fill, r, stroke, strokeDasharray, strokeWidth, transform)
-import Util exposing (areEqual)
 
 
 toString : Showing -> String
@@ -54,7 +53,7 @@ pie model showing =
             , style "height" <| fromInt height
             , onMouseLeave ResetHighlight
             ]
-            (map (slice model) <| filter (areEqual showing .showing) <| filter showSlice model.slices)
+            (map (slice model) <| filter ((==) showing << .showing) <| filter showSlice model.slices)
         ]
 
 

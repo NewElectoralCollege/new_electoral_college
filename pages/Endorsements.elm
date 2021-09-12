@@ -8,7 +8,7 @@ import Html.Attributes exposing (class, href)
 import List exposing (head, map)
 import List.Extra exposing (count, groupsOfVarying, unique)
 import Maybe as M exposing (withDefault)
-import Party exposing (Party(..), inParenthesis)
+import Party exposing (PartyName(..), inParenthesis)
 import State exposing (State(..), getName)
 import String as S
 
@@ -38,12 +38,12 @@ type District
 
 type Office
     = Executive String Term
-    | Senate State Party Term
-    | Representative State District Party Term
-    | Governor State Party Term
-    | StateOffice String State Party Term
-    | StateLegislator State Chamber Party Term
-    | StateParty State Party
+    | Senate State PartyName Term
+    | Representative State District PartyName Term
+    | Governor State PartyName Term
+    | StateOffice String State PartyName Term
+    | StateLegislator State Chamber PartyName Term
+    | StateParty State PartyName
     | Organization String
     | Individual String
 
@@ -79,7 +79,7 @@ getHeader o =
             "Individuals"
 
 
-getParty : Office -> Maybe Party
+getParty : Office -> Maybe PartyName
 getParty o =
     case o of
         Senate _ party _ ->

@@ -5,15 +5,15 @@ import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Data, Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
 import List exposing (concatMap, foldl, map)
 import List.Extra exposing (takeWhile, updateIf)
-import Party
-import Util exposing (Party, areEqual, lambdaCompare, summateRecords)
+import Party exposing (Party, PartyName(..))
+import Util exposing (summateRecords)
 
 
-moveSlices : List (Animatable Slice) -> Party.Party -> List (Animatable Slice)
+moveSlices : List (Animatable Slice) -> PartyName -> List (Animatable Slice)
 moveSlices list name =
     list
-        |> updateIf (areEqual name <| .name << .party) (move .highlighted_target)
-        |> updateIf (lambdaCompare (/=) name <| .name << .party) (move <| always shrink)
+        |> updateIf ((==) name << .name << .party) (move .highlighted_target)
+        |> updateIf ((/=) name << .name << .party) (move <| always shrink)
 
 
 resetSlices : List (Animatable Slice) -> List (Animatable Slice)
@@ -54,7 +54,7 @@ getTransformedAngle model showing party =
             (pshowing / total > 0.5) || (pnshowing / total_nshowing > 0.5)
 
         move_from =
-            takeWhile (areEqual party.name .name) model.parties
+            takeWhile ((==) party.name << .name) model.parties
                 |> foldl (summateRecords (getCurrentShowing showing)) 0
                 |> (+)
                     (if xor (majority == True) (showing == Vote) then

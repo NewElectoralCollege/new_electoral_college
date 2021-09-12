@@ -2,33 +2,33 @@ module Ticket exposing (Ticket, nominee, realElectors)
 
 import List.Extra exposing (find)
 import Maybe exposing (map)
-import Party exposing (Party(..))
+import Party exposing (PartyName(..))
 
 
 type alias Ticket =
     { year : Int
-    , party : Party
+    , party : PartyName
     , nominee : String
     , real_electors : Int
     }
 
 
-correctTicket : Int -> Party -> Ticket -> Bool
+correctTicket : Int -> PartyName -> Ticket -> Bool
 correctTicket year party t =
     t.year == year && t.party == party
 
 
-ticket : Int -> Party -> Maybe Ticket
+ticket : Int -> PartyName -> Maybe Ticket
 ticket year party =
     find (correctTicket year party) tickets
 
 
-nominee : Int -> Party -> Maybe String
+nominee : Int -> PartyName -> Maybe String
 nominee year party =
     map .nominee <| ticket year party
 
 
-realElectors : Int -> Party -> Maybe Int
+realElectors : Int -> PartyName -> Maybe Int
 realElectors year party =
     map .real_electors <| ticket year party
 

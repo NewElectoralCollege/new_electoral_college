@@ -18,11 +18,11 @@ import Json.Decode exposing (decodeString)
 import List exposing (drop, indexedMap, map, sortBy, take)
 import List.Extra exposing (removeAt, uncons, updateAt, zip)
 import Maybe as M exposing (withDefault)
-import Party exposing (Party(..), color, decodeParty)
+import Party exposing (Party, PartyName(..), color, decodePartyName)
 import Random exposing (generate)
 import String as S exposing (fromInt)
 import Tuple exposing (first, second)
-import Util as U exposing (Party, styleNumFloat)
+import Util as U exposing (styleNumFloat)
 
 
 quotaBlock : Data -> List (Html Msg)
@@ -32,7 +32,7 @@ quotaBlock model =
     ]
 
 
-makeParty : List String -> Float -> Either Party.Party String -> Party
+makeParty : List String -> Float -> Either PartyName String -> Party
 makeParty colors votes eps =
     case eps of
         Left party ->
@@ -125,7 +125,7 @@ update msg model =
             let
                 changeName : Party -> Party
                 changeName party =
-                    case decodeString decodeParty ("\"" ++ to ++ "\"") of
+                    case decodeString decodePartyName ("\"" ++ to ++ "\"") of
                         Ok (Other _) ->
                             { party
                                 | name = Other to
