@@ -829,22 +829,6 @@ main =
         }
 
 
-type alias PortParty =
-    { color : String
-    , seats : Float
-    }
-
-
-portParties : List Party -> List PortParty
-portParties ps =
-    case ps of
-        [] ->
-            []
-
-        x :: xs ->
-            PortParty x.color x.seats :: portParties xs
-
-
 port updateImages : () -> Cmd msg
 
 
