@@ -20,7 +20,7 @@ import List.Extra exposing (removeAt, uncons, updateAt, zip)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party(..), color, decodeParty)
 import Random exposing (generate)
-import String as S exposing (fromInt, toFloat)
+import String as S exposing (fromInt)
 import Tuple exposing (first, second)
 import Util as U exposing (Party, styleNumFloat)
 
