@@ -12,12 +12,12 @@ import Util as U exposing (concatTuple)
 
 quota : Data -> Float
 quota model =
-    U.floor (totalVotes model.parties / model.seats)
+    toFloat <| floor (totalVotes model.parties / model.seats)
 
 
 setInitialSeats : Float -> Party -> Party
 setInitialSeats qta party =
-    { party | seats = U.floor <| party.votes / qta }
+    { party | seats = toFloat <| floor <| party.votes / qta }
 
 
 setExtraVotes : Float -> Party -> Party
