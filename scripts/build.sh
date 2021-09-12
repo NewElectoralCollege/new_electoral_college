@@ -14,7 +14,3 @@ cd ../static/sass
 
 scss style.scss style.css
 scss 404.scss 404.css
-
-cd ../../
-
-python -u makeResults.py
