@@ -7,14 +7,14 @@ function init() {
             ? [getGet("state", "Georgia"), Number(getGet("year", 2020))]
             : [getCookie("state", "Georgia"), Number(getCookie("year", 2020))],
     });
-
-    app.ports.initializePopovers.subscribe(function (parties) {
-        MathJax.typeset();
-
-        $('[data-toggle="popover"]').popover({
-            content: $("#gallagher-desc"),
-            html: true,
-            trigger: "hover",
-        });
-    });
 }
+
+window.onload = function () {
+    MathJax.typeset();
+
+    $('[data-toggle="popover"]').popover({
+        content: $("#gallagher-desc"),
+        html: true,
+        trigger: "hover",
+    });
+};
