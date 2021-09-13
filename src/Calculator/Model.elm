@@ -18,7 +18,7 @@ import Animation exposing (Animatable, Target)
 import Basics as B
 import Either exposing (Either)
 import Party exposing (Party, PartyName)
-import Random exposing (Generator, int, list, map2)
+import Random exposing (Generator, int, list)
 import Util exposing (summateRecords)
 
 
@@ -136,7 +136,7 @@ floor =
 
 generator : Generator (List Int)
 generator =
-    map2 (++) (list 2 (int floor ceiling)) (list 10 (int floor mid))
+    Random.map2 (++) (list 2 (int floor ceiling)) (list 10 (int floor mid))
 
 
 clamp : Int -> Int -> Int
