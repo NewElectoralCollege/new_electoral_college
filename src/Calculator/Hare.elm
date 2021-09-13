@@ -7,7 +7,7 @@ import List.Extra exposing (findIndex, splitAt)
 import Maybe exposing (withDefault)
 import Party exposing (Party)
 import Tuple exposing (mapBoth)
-import Util as U exposing (concatTuple)
+import Util exposing (concatTuple)
 
 
 quota : Data -> Float

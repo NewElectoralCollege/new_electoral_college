@@ -15,7 +15,7 @@ import Maybe exposing (withDefault)
 import Platform.Cmd exposing (batch)
 import Regex exposing (Match, Regex, fromString, replace)
 import Scale exposing (band, bandwidth, convert, defaultBandConfig, linear, toRenderable)
-import String exposing (cons, dropLeft, dropRight, fromFloat, fromInt, join, lines, right, split, trim)
+import String exposing (dropLeft, dropRight, fromFloat, fromInt, join, lines, split, trim)
 import Svg as S exposing (Svg, g, rect, svg, text_)
 import Svg.Attributes as Sa exposing (class, height, transform, viewBox, x, y)
 
