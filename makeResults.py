@@ -142,6 +142,8 @@ class Election:
 
         return pow(0.5 * cs, 0.5)
 
+    # makeResults.py
+
     def run(self):
         nds = {}
 
