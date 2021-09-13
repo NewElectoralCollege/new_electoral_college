@@ -33,7 +33,7 @@ function includeHTML() {
     z = $(".include");
     for (i = 0; i < z.length; i++) {
         elmnt = z[i];
-        file = elmnt.getAttribute("w3-include-html");
+        file = elmnt.getAttribute("nec-include-html");
         if (file) {
             xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
@@ -47,7 +47,7 @@ function includeHTML() {
                     if (this.status == 404) {
                         console.log("Hello");
                     }
-                    elmnt.removeAttribute("w3-include-html");
+                    elmnt.removeAttribute("nec-include-html");
                     includeHTML();
                 }
             };

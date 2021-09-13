@@ -6,7 +6,7 @@ function port() {
 
     app.ports.updateImages.subscribe(function () {
         $(".include#paths").attr(
-            "w3-include-html",
+            "nec-include-html",
             "static/img/us_electoral_college_2010.svg"
         );
 
