@@ -1,5 +1,7 @@
 cd ../pages
 
+python -u compile.py PageNotFound.elm
+python -u compile.py NotAuthorized.elm
 python -u compile.py Calculator.elm
 python -u compile.py CountMeIn.elm
 python -u compile.py Donate.elm
@@ -13,4 +15,4 @@ python -u compile.py StateResults.elm
 cd ../static/sass
 
 scss style.scss style.css
-scss 404.scss 404.css
+scss error.scss error.css

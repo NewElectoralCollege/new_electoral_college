@@ -1,3 +1,5 @@
+rm ../404.html
+rm ../403.html
 rm ../calculator.html
 rm ../donate.html
 rm ../endorsements.html
@@ -10,7 +12,7 @@ rm ../stateresults.html
 
 rm ../static/sass/style.css
 rm ../static/sass/style.css.map
-rm ../static/sass/404.css
-rm ../static/sass/404.css.map
+rm ../static/sass/error.css
+rm ../static/sass/error.css.map
 
 rm -r ../elm-stuff/
