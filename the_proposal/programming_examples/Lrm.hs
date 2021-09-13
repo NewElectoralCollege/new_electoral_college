@@ -1,5 +1,9 @@
+module Lrm where
+
 import Data.List
 import Data.Ord
+
+-- Party
 
 data Party =
   Party
@@ -12,10 +16,12 @@ data Party =
 instance Show Party where
   show p = show (number p) ++ ", " ++ show (seats p) ++ " seats\n"
 
+-- Calculation
+
 seats :: Party -> Int
-seats Party {extra_seat = extra_seat, initial_seats = initial_seats}
-  | extra_seat = initial_seats + 1
-  | otherwise = initial_seats
+seats Party {extra_seat = es, initial_seats = is}
+  | es = is + 1
+  | otherwise = is
 
 extraVotes :: Int -> Party -> Int
 extraVotes quota party = votes party - (initial_seats party * quota)
@@ -41,11 +47,13 @@ tp a = ([], a)
 hareMethod :: Int -> [Party] -> [Party]
 hareMethod _ [] = error "No Parties provided"
 hareMethod 0 _ = error "At least one seat must be awarded"
-hareMethod seats list =
-  extraSeats seats $
+hareMethod s list =
+  extraSeats s $
   tp $ sortOn (Down . extraVotes quota) $ quotaSeats quota list
   where
-    quota = totalVotes list `div` seats
+    quota = totalVotes list `div` s
+
+-- Testing
 
 makeParties :: [Int] -> [Party]
 makeParties [] = []

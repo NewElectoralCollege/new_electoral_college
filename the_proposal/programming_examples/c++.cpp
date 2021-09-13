@@ -22,11 +22,19 @@ public:
         }
     };
 
-    inline Party(int votes);
+    inline Party(int v) : votes(v), number(Party::list.size() + 1), seats(0)
+    {
+        total_votes += votes;
+    }
 
     inline const int getVotes()
     {
         return this->votes;
+    }
+
+    inline short getSeats()
+    {
+        return this->seats;
     }
 
     inline void addSeats(short seats)
@@ -46,18 +54,20 @@ private:
 
 std::vector<Party *> Party::list;
 
-inline Party::Party(int v) : votes(v), number(Party::list.size() + 1), seats(0)
-{
-    total_votes += votes;
-}
-
-int main()
+void makeList()
 {
     Party::list.push_back(new Party(400000));
     Party::list.push_back(new Party(250000));
     Party::list.push_back(new Party(100000));
     Party::list.push_back(new Party(73000));
     Party::list.push_back(new Party(5000));
+}
+
+#ifndef LIB
+
+int main()
+{
+    makeList();
 
     int seats, awarded, awarding, i;
     Party *p;
@@ -89,3 +99,5 @@ int main()
         std::cout << p->results();
     }
 }
+
+#endif

@@ -6,8 +6,10 @@ parties = {
     5: {'votes': 5000, 'seats': 0}
 }
 
+
 def sortRemainder(val):
     return val['remainder']
+
 
 def totalVotes(parties):
     total = 0
@@ -16,6 +18,7 @@ def totalVotes(parties):
         total += party['votes']
 
     return total
+
 
 total_votes = totalVotes(parties)
 seats = 5

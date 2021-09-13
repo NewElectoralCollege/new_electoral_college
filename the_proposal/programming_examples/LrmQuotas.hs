@@ -1,3 +1,15 @@
+{-
+On some occasions, the Hagenbach-Bischoff and Imperiali quotas can result in more
+seats being allocated than necessary.
+This is solved by increasing the quota by one until the number of seats is correct.
+This is mathematically impossible under Hare or Droop.
+-}
+
+import Lrm hiding (main)
+
+import Data.List
+import Data.Ord
+
 data QuotaType
   = Hare
   | Droop
@@ -32,6 +44,8 @@ lrm (Left qt) total_seats list =
   lrm (Right $ properQuota qt total_seats list) total_seats list
 lrm (Right q) total_seats list =
   extraSeats total_seats $ tp $ sortOn (Down . extraVotes q) $ quotaSeats q list
+
+-- Testing
 
 main :: IO ()
 main =
