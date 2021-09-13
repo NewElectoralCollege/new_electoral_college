@@ -35,6 +35,16 @@ elif fle == "StateResults.elm":
         "<script src='/new_electoral_college/static/js/state.js'></script>")
     adding.append(mathjax)
 
+elif fle == "PageNotFound.elm" or fle == "NotAuthorized.elm":
+    adding.append(
+        "<link rel='stylesheet' href='/new_electoral_college/static/sass/error.css'>")
+
+if fle == "PageNotFound.elm":
+    output = "../404.html"
+
+elif fle == "NotAuthorized.elm":
+    output = "../403.html"
+
 s = subprocess.call("elm make " + fle + " --output=" + output)
 
 file = open(output, "r")
@@ -47,6 +57,9 @@ if fle == "Map.elm":
 
 elif fle == "StateResults.elm":
     text = text[:-17] + ["init();"] + text[-16:]
+
+elif fle == "PageNotFound.elm" or fle == "NotAuthorized.elm":
+    text = text[:-16] + ["includeHTML();}"] + text[-15:]
 
 file.close()
 file = open(output, "w")
