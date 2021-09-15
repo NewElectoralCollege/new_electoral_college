@@ -35,6 +35,14 @@ elif fle == "StateResults.elm":
         "<script src='/new_electoral_college/static/js/state.js'></script>")
     adding.append(mathjax)
 
+elif fle == "Endorsements.elm":
+    adding.append(
+        "<script async src='https://platform.twitter.com/widgets.js'></script>")
+    adding.append(
+        "<script async defer src='https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2'></script>")
+    adding.append(
+        "<script src='/new_electoral_college/static/js/endorsements.js'></script>")
+
 elif fle == "PageNotFound.elm" or fle == "NotAuthorized.elm":
     adding.append(
         "<link rel='stylesheet' href='/new_electoral_college/static/sass/error.css'>")
@@ -55,7 +63,7 @@ text = text[:5] + adding + text[6:]
 if fle == "Map.elm":
     text = text[:-17] + ["port();"] + text[-16:]
 
-elif fle == "StateResults.elm":
+elif fle == "StateResults.elm" or fle == "Index.elm":
     text = text[:-17] + ["init();"] + text[-16:]
 
 elif fle == "PageNotFound.elm" or fle == "NotAuthorized.elm":
