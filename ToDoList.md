@@ -1,12 +1,12 @@
 -   Finish donation page
 -   Format Library
--   Programmer's Guide still contains all implementations
--   Ensure that all elector numbers are accurate in official proposal (ensure that it is possible to download from Read More)
+-   Ensure that all elector numbers are accurate in official proposal
 -   Remove all Debugs
 -   Pies are not oriented correctly on calculator page
 -   Format Stylesheets
 -   Fix social media logo position
 -   Make sure sections are aligned on home page
+-   Format essays (maybe)
 
 Flags in database
 

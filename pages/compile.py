@@ -63,7 +63,7 @@ text = text[:5] + adding + text[6:]
 if fle == "Map.elm":
     text = text[:-17] + ["port();"] + text[-16:]
 
-elif fle == "StateResults.elm":
+elif fle == "StateResults.elm" or fle == "ReadMore.elm":
     text = text[:-17] + ["init();"] + text[-16:]
 
 elif fle == "PageNotFound.elm" or fle == "NotAuthorized.elm":
