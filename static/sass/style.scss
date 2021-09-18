@@ -29,13 +29,14 @@
         padding: 3px;
     }
 }
-#LaTeX,
+.latex,
 mjx-container {
     max-width: fit-content;
     display: inline-block;
 }
-#pdf {
+.pdf {
     padding: 17px 20px;
+    max-width: fit-content;
     a {
         font-size: 20px;
     }
@@ -114,6 +115,7 @@ img.jumbo-image {
     opacity: 0.5;
 }
 
-.tweet, .fb-post {
+.tweet,
+.fb-post {
     width: 575px;
 }
