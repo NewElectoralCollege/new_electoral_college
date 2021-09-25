@@ -7,6 +7,7 @@
 -   Fix social media logo position
 -   Make sure sections are aligned on home page
 -   Format essays (maybe)
+-   Remove font from git
 
 Flags in database
 
