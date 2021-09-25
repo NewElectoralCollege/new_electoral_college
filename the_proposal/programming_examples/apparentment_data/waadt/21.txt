@@ -1,0 +1,20 @@
+28315,0
+Balmer Romain,2279
+Bardi Luan,1320
+Bliesener Ludovic,1197
+Flückiger Amélie,1591
+Gemesio Denise,1341
+Girod Maxime,1337
+Loertscher Philippe,1360
+Maillard Mathilde,1796
+Marzolini Anthony,971
+Méan Ambroise,1241
+Meier Maxime,1331
+Müller Antoine,1358
+Pinar Sara,1253
+Reymond Nicolas,1301
+Rezso Tatiana,1227
+Stern Maxime,1227
+Stramke Luc-Olivier,1581
+Villois Noémie,1419
+Wahlen Léonie,1454

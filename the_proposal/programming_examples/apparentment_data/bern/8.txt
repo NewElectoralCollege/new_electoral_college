@@ -1,0 +1,25 @@
+74204,0
+Zuberbühler Remo,3671
+Huissoud Nicolas,3253
+Bilang David,2419
+Cantieni Sandro,1702
+Erhard Marcel,1851
+Gerlach Debora Vanessa,3199
+Glauser Bendicht,2257
+Herrmann Lukas,1741
+Hofer Yvo Andri,2923
+Kaufmann Thomas,2572
+Leuenberger Nino,1717
+Luginbühl Dominik,3438
+Moser Salomon Johann,3711
+Muff Kai Noah,2712
+Parisi Robin,1749
+Reichenbach Selina,2573
+Reist Astrick,2196
+Schwarz Michèle,3698
+Steinlin Timo,4596
+Weibel Sandra,4770
+Willener Mia,1921
+Wüthrich Jan,3698
+Zbinden Sascha,1959
+Zwyer Lukas,2527

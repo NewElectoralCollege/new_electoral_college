@@ -1,0 +1,25 @@
+95347,0
+Schluep Tina,4801
+Gerber Andreas,4266
+Fiechter Nils,5432
+Spahr Adrian,7423
+Dubach Lars,2746
+Buchter Yannick,2850
+Weyermann Janosch,3343
+Allemann Linda,3463
+Dummermuth Dominik,3344
+Estoppey Samantha,3319
+Grütter Patrick,2356
+Häusler Oliver,2301
+Henz Christoph,2689
+Keller Désirée,2597
+Mundwiler Nico,3400
+Ochsenbein Maxime,4701
+Rochat Julien,3074
+Senti Anja,2590
+Siegfried Fiona,2650
+Tschanz Nico,2638
+Weyermann Anissa,2885
+Widmer Fabian,3056
+Wyssen Fabian,3301
+Zemp Patrick,2518

@@ -1,0 +1,25 @@
+655801,2
+Markwalder Christa,66264
+Wasserfallen Christian,57155
+Arn Daniel,23689
+Bircher Laura,22231
+Deckert Madeleine,21127
+Dütschler Peter,21182
+Esseiva Claudine,22956
+Evard Amélie,19640
+Fankhauser Karin,18291
+Frost-Hirschi Andrea,17626
+Haas Adrian,22321
+Haudenschild Peter,19378
+Hess Sandra,24170
+Kohler Hans-Peter,19546
+Kölliker Lenka,18061
+Lehmann-Gygax Marianna,20218
+Lüthi Jürg,18827
+Richner Simone,21408
+Rubin Nicolas,17503
+Schär Michael,19360
+Schmidt Alexandre,19389
+Siegenthaler Mathias,18332
+Sommer Peter,19859
+Zimmerli Christoph,18791

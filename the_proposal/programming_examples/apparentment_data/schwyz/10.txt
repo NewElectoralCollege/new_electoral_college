@@ -1,0 +1,5 @@
+3059,0
+Betschart Django,1167
+Zürrer Irina,979
+Milles Severin,458
+Fischer Nico,411

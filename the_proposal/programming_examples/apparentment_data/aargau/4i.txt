@@ -1,0 +1,15 @@
+10300,0
+Steinacher-Eckert Martin,1700
+Aston Peter,739
+Brugger Schmidt Caroline,614
+Bugmann François,456
+Fricker Christian,739
+Gmünder Bamert Susanne,831
+Henzel Thomas Richard,443
+Koch Christoph,748
+Mezzi Daniele,544
+Mounier Astrid,539
+Reimann Viktor,499
+Stadler René,579
+Weiss Herbert,813
+Zumstein Walter,425

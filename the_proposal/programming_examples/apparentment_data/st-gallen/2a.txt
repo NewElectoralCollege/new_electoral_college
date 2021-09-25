@@ -1,0 +1,13 @@
+164005,1
+Ritter Markus,31337
+Ammann Thomas,23545
+Dürr Barbara,13312
+Suter Yvonne,11463
+Krempl-Gnädinger Luzia,7706
+Bischofberger Felix,7915
+Dürr Patrick,9133
+Göldi Peter,6995
+Hess Sandro,9667
+Kohler Stefan,7552
+Morelli Sandro,6415
+Warzinek Thomas,12871

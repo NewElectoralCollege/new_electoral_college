@@ -1,0 +1,25 @@
+202288,1
+Gafner Andreas,13885
+Baumann Katharina,8741
+Bonsack Peter,6978
+Früh Marc,7529
+Grädel Johann Ulrich,8974
+Kullmann Samuel,8268
+Schwarz Jakob,9001
+Tanner Ernst,8829
+Baumann Bernhard,6680
+Brönnimann Michael,6482
+Burri Niklaus,6905
+Carisch Benjamin,6667
+Eggenberg Franziska,6978
+Fankhauser Markus,7815
+Gerber Christian,7409
+Gobeli Hansjürg,7189
+Gubser Beat,6457
+Loosli Barbara,7018
+Neuenschwander Christian,6968
+Reichenbach Markus,6394
+Steinmann Sonja,6710
+Stoller Stephan,7479
+Stucki Martin,6716
+Trachsel Stefan,6662

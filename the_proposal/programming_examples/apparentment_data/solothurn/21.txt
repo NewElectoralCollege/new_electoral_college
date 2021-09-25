@@ -1,0 +1,7 @@
+7801,0
+Beer Samuel,1975
+Oegerli Markus,1620
+Lüthi Thomas,1293
+Stähli Heiner,908
+Bonanno Marco,926
+Sarkar Florian,922

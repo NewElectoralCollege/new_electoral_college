@@ -1,0 +1,23 @@
+77922,0
+Bajraktar Michaela,4364
+Blatter Sarah,4038
+Blume Tanja,3790
+Diener Vera,3763
+Faccio Mayra Kyra,2803
+Fisch Sofia,3770
+Günther Muriel,3498
+Jaccard Manon,3657
+Keller Barbara,3256
+Martini Samira,2887
+Strobel Gianna,3030
+Binggeli Vinzenz,3295
+Jakob Nino,2634
+Koller Levin,4284
+Mader Frédéric,3440
+Meyer Miro,3791
+Reusser Jérémie,2174
+Roquet Hervé,3117
+Steinmann Marcel,2290
+Stückelberger Benjamin,2554
+von Bergen Michael,2479
+Zimmermann Henrik,2750
