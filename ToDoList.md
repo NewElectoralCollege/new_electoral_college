@@ -11,6 +11,7 @@
 -   Fix Independent Name
 -   Order of parties in hemicircle view
 -   Finish Electoral Thresholds essay
+-   Changed icon for .ico
 
 Flags in database
 
