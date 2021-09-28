@@ -86,18 +86,18 @@ class Nominee:
         self.name = name
         self.party = party
         self.votes = votes
-        self.extra_votes = 0
+        self.extra_votes = votes
         self.extra_seat = False
         self.seats = 0
 
 
 class Election:
     def __init__(self, state, year):
-        self.lists = []
+        self.lists: 'list[List]' = []
         self.state = state
         self.year = year
         self.total_seats = getElectors(state, year)
-        self.candidates = []
+        self.candidates: 'list[Nominee]' = []
 
     def parties(self):
         pts = []
@@ -173,15 +173,17 @@ class Election:
         self.candidates.sort(key=extra_votes, reverse=True)
 
         while assigned < self.total_seats:
-            self.candidates[0].extra_seat = True
-            self.candidates[0].seats += 1
+            c = self.candidates[0]
 
-            self.candidates.append(self.candidates[0])
+            c.extra_seat = True
+            c.seats += 1
+
+            self.candidates.append(c)
             del self.candidates[0]
 
             assigned += 1
 
-    def partyOfCandidate(self, candidate):
+    def partyOfCandidate(self, candidate: str):
         party = (-1, "")
 
         for list in self.lists:
