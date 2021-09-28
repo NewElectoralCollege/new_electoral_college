@@ -8,8 +8,12 @@
 -   Make sure sections are aligned on home page
 -   Format essays (maybe)
 -   Remove font from git
+-   Fix Independent Name
+-   Order of parties in hemicircle view
+-   Finish Electoral Thresholds essay
 
 Flags in database
 
 -   Massachusetts 2016
+-   Ohio 2016
 -   1992 (Perot)
