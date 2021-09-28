@@ -1,0 +1,60 @@
+Sec 1. Columns
+
+1: Country (sec 2)
+2: Thresholds (sec 3)
+3: Exceptions (sec 4)
+4: Minority Leniency (sec 5)
+5: Minimum Parties (sec 6)
+
+Sec 2. Country
+
+Most countries use the same PR rules in both chambers. If both legislative chambers in a country are elected using PR, than the rules are true for both of them. The ONLY exception is Italy, where the Chamber of Deputies does not have a threshold.
+
+Sec 3. Thresholds
+
+Most countries have a simple thresholds where all parties must pass the threshold in order to be allocated any seats. Others have different thresholds for different parties. You will notice that some countries have two hyphenated percentages listed. These countries have higher percentages for coalitions.
+
+Slovakia, Lithuania, Armenia, and Moldova have 5% thresholds for most parties, but 7% for alliances of parties. In Poland, it is 8% for alliances. In Moldova, independent candidates are subject to 2% thresholds. Hungary has a threshold of 5% for parties, 10% for alliances of two parties, and 15% for alliances of three or more.
+
+San Marino's threshold depends on the number of parties competing, which is multipled by 0.4 to get the threshold. However, the threshold can not be more than 3.5%
+
+Sec 4. Exceptions
+
+In Sweden, the 4% national threshold can be ignored in constituencies in which the party won more than 12% of the vote.
+
+In Romania, the 5% national threshold is ignored entirely for parties that win more than 20% of the vote in at least four constituencies.
+
+In theory, Peruvian law allows parties to ignore the 5% national threshold if they are entitled to at least 7 seats in one constituency. However, only three of the 27 constituencies actually have 7 seats. Two of them have exctly 7, meaning a party would have to win them all. Lima has 33 seats, but the winning party in Lima in the last election (2021) won only 6. This indicates that one would have to win Lima, which would likley mean that a party had passed the 5% threshold anyway.
+
+New Zealand, Germany use Mixed-Member Proportional representation. In New Zealand, the 5% threshold is exempted for a party that won at least one single-member constituency seat. This is not uncommon, as the Māori Party won constituency seats in 2005, 2008, 2011, 2014, and 2020 without winning 5% of the Party Vote. In fact, in every single election ever held in New Zealand under MMP, one party has taken advantage of this exception. In Germany, 3 constituency seats are required in order to surpass the threshold. In South Korea, 5 constituency seats are required, but the threshold is only 3%.
+
+The proportional seats in Tanzania and Kenya are based off the number of seats already won, not the number of votes cast. This means that each party must have won at least one seat already.
+
+In Kyrgystan, parties must pass BOTH 3% of the national vote, and 0.7% of the vote in all regions.
+
+Sec 5. Minority Leniency
+
+In Hungary in Romania, the treshold is lowered for parties that represent minority ethnicities. In Romania, this is mostly Hungarians, and in Hungary, both Germans and Romani.
+
+Montenegro also lowers the threshold for most minorities, but only for a maximum of three seats. Croat lists are given even more Leniency.
+
+In Poland, Serbia, and Germany the threshold is waived entirely for ethnic minority parties.
+
+Sec 6. Minimum Parties
+
+In Armenia, at least three parties will enter parliament, regardless of the threshold.
+
+Sec 7. Misc
+
+There are precious few sources that contain all the data contained in this dataset. While I wish I could say "Here is the one source where I got all the information," I just can't. Many sources contradict each other, or contain inaccurate information, oversimplify because they are directed at regular voters not experts, or aren't available in English (and reliable translations aren't avaliable). It also doesn't help that this information changes constantly, particularly in Asia and Africa where constant coups result in the electoral laws and constitutions being changed.
+
+Here is the (incomplete) list of sources:
+
+- Inter-Parliamentary Union's PARLINE database (https://data.ipu.org/)
+- International Institute for Democracy and Electoral Assistance (IDEA) (https://www.idea.int/data-tools/data/electoral-system-design)
+- Wikipedia
+- Varius Constitutions and Electoral Laws
+
+Last Updated 2/26/2021
+
+-- David Boers
