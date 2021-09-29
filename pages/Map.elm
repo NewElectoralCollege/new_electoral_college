@@ -4,19 +4,20 @@ import Animation exposing (Animatable, Dot, Status(..), Target, isAnyMoving, mov
 import Browser exposing (document)
 import Browser.Events exposing (onAnimationFrameDelta)
 import Dict as D
-import Election exposing (Election, Stats, firstYear, lastYear, setStats)
+import Election exposing (Election, Stats, firstYear, lastYear, newParty, setStats)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html exposing (Attribute, Html, a, br, button, div, h1, p, span, table, td, text, th, tr)
 import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, style, target, type_)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
-import Json.Decode exposing (at, decodeString, dict, list, string)
-import List exposing (append, concat, concatMap, drop, filter, filterMap, foldl, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take)
-import List.Extra exposing (find, getAt, init, uniqueBy)
+import Json.Decode exposing (Decoder, at, decodeString, dict, list, string)
+import List exposing (append, concat, concatMap, drop, filter, filterMap, foldl, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
+import List.Extra exposing (find, getAt, init, unique, uniqueBy)
 import Maybe as M exposing (withDefault)
-import Party as P exposing (Party, PartyName(..), color, ifQualifyingParty, newParty)
+import Party as P exposing (Party, PartyName(..), ifQualifyingParty, toString)
 import Platform.Cmd exposing (batch)
+import Result as R
 import State exposing (State(..), StateOutline, getName, outline, states)
 import String as S
 import Svg exposing (Svg, circle, g, svg)
@@ -425,7 +426,7 @@ makePartyRow model party =
     in
     tr
         []
-        [ td [ class "color", id <| S.replace " " "-" name, style "background-color" (color party.name) ] []
+        [ td [ class "color", id <| S.replace " " "-" name, style "background-color" party.color ] []
         , td [] [ U.text name ]
         , td [] [ U.text nmn ]
         , td [] [ U.text <| styleNumFloat party.votes ]
@@ -514,7 +515,7 @@ partiesInInstance es =
         parties =
             es
                 |> concatMap .list
-                |> uniqueBy (P.getName << .name)
+                |> uniqueBy (toString True << .name)
 
         getInstancesOf : Party -> List Party
         getInstancesOf p =
@@ -738,29 +739,20 @@ update msg model =
 
         Response (Ok response) ->
             let
-                parties =
-                    map
-                        (\n ->
-                            case decodeString (at [ "parties" ] <| list newParty) n of
-                                Ok list ->
-                                    reverse <| sortBy .votes <| map (\p -> { p | color = color p.name }) list
+                decodeTemplate : a -> String -> Decoder a -> String -> a
+                decodeTemplate default field decoder json =
+                    R.withDefault default <| decodeString (at [ field ] <| decoder) json
 
-                                _ ->
-                                    []
-                        )
-                        (filterMap (\n -> D.get (getName n) response) states)
+                decode : String -> ( List Party, Stats )
+                decode n =
+                    ( reverse <| sortBy .votes <| decodeTemplate [] "parties" (list newParty) n
+                    , decodeTemplate (Stats "" 0 0 0.0) "stats" setStats n
+                    )
 
-                stats =
-                    map
-                        (\n ->
-                            case decodeString (at [ "stats" ] <| setStats) n of
-                                Ok stat ->
-                                    stat
-
-                                _ ->
-                                    Stats "" 0 0 0.0
-                        )
-                        (filterMap (\n -> D.get (getName n) response) states)
+                ( parties, stats ) =
+                    unzip <|
+                        map decode
+                            (filterMap (\n -> D.get (getName n) response) states)
             in
             case model.current of
                 [] ->

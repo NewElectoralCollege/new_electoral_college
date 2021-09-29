@@ -1,8 +1,8 @@
 module Election exposing (..)
 
 import Animation exposing (Animatable, Dot)
-import Json.Decode as Jd exposing (Decoder, field, float, string)
-import Party exposing (Party)
+import Json.Decode as Jd exposing (Decoder, bool, field, float, list, nullable, string)
+import Party exposing (Party, color, decodePartyName)
 import State exposing (State)
 
 
@@ -31,6 +31,33 @@ type alias Election =
     , state : State
     , year : Int
     }
+
+
+type alias File =
+    { parties : List Party
+    , stats : Stats
+    }
+
+
+fileDecoder : Decoder File
+fileDecoder =
+    Jd.map2 File (field "parties" <| list newParty) (field "stats" setStats)
+
+
+colorDecoder : Decoder String
+colorDecoder =
+    Jd.map color decodePartyName
+
+
+newParty : Decoder Party
+newParty =
+    Jd.map6 Party
+        (field "name" decodePartyName)
+        (field "seats" float)
+        (field "votes" float)
+        (field "extra_votes" (nullable float))
+        (field "extra_seat" (nullable bool))
+        (field "name" colorDecoder)
 
 
 setStats : Decoder Stats
