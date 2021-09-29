@@ -1,14 +1,14 @@
 {
     "parties": [
         {
-            "name": "Independent",
+            "name": "Independent - Perot, Ross",
             "seats": 4,
             "votes": 1036426,
             "extra_votes": 95490,
             "extra_seat": false
         },
         {
-            "name": "Independent",
+            "name": "Independent - Other",
             "seats": 0,
             "votes": 24247,
             "extra_votes": 24247,

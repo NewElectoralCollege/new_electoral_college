@@ -66,13 +66,14 @@ tickets =
     , Ticket 1976 Republican "Gerald Ford" 241
     , Ticket 2016 Libertarian "Gary Johnson" 0
     , Ticket 2016 Green "Jill Stein" 0
-    , Ticket 2016 (Independent (Just "Evan McMullin")) "Evan McMullin" 0
+    , Ticket 2016 (Independent (Just "McMullin, Evan")) "Evan McMullin" 0
     , Ticket 2012 Libertarian "Gary Johnson" 0
     , Ticket 2008 PeaceAndFreedom "Ralph Nader" 0
     , Ticket 2000 Green "Ralph Nader" 0
     , Ticket 1996 Green "Ralph Nader" 0
     , Ticket 1996 Reform "Ross Perot" 0
-    , Ticket 1992 (Independent (Just "Ross Perot")) "Ross Perot" 0
-    , Ticket 1980 (Independent (Just "John B. Anderson")) "John B. Anderson" 0
+    , Ticket 1992 (Independent (Just "Perot, Ross")) "Ross Perot" 0
+    , Ticket 1980 (Independent (Just "Anderson, John B.")) "John B. Anderson" 0
     , Ticket 1980 Libertarian "Ed Clark" 0
+    , Ticket 1976 (Independent (Just "McCarthy, Eugene")) "Eugene McCarthy" 0
     ]

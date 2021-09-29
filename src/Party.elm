@@ -1,6 +1,8 @@
-module Party exposing (Party, PartyName(..), color, decodePartyName, getName, ifQualifyingParty, inParenthesis, newParty)
+module Party exposing (Party, PartyName(..), color, decodePartyName, getName, ifQualifyingParty, inParenthesis, toString)
 
-import Json.Decode as Jd exposing (Decoder, andThen, bool, field, float, nullable, string, succeed)
+import Json.Decode exposing (Decoder, andThen, string, succeed)
+import Maybe exposing (withDefault)
+import String exposing (dropLeft)
 
 
 type alias Party =
@@ -50,7 +52,11 @@ decodePartyName =
 
                     a ->
                         if String.startsWith "Independent" a then
-                            succeed (Independent (Just a))
+                            a
+                                |> dropLeft 14
+                                |> Just
+                                |> Independent
+                                |> succeed
 
                         else
                             succeed (Other a)
@@ -137,16 +143,19 @@ inParenthesis party =
 
 
 getName : PartyName -> String
-getName party =
+getName =
+    toString False
+
+
+toString : Bool -> PartyName -> String
+toString independent_names party =
     case party of
-        Independent (Just a) ->
-            "Independent - " ++ a
+        Independent a ->
+            if independent_names then
+                withDefault "Independent" a
 
-        Independent Nothing ->
-            "Independent"
-
-        Other a ->
-            a
+            else
+                "Independent"
 
         PeaceAndFreedom ->
             "Peace and Feedom"
@@ -166,18 +175,10 @@ getName party =
         Reform ->
             "Reform"
 
+        Other a ->
+            a
+
 
 ifQualifyingParty : Float -> Party -> Bool
 ifQualifyingParty total_votes party =
     party.votes / total_votes >= 0.01 || party.seats > 0
-
-
-newParty : Decoder Party
-newParty =
-    Jd.map6 Party
-        (field "name" decodePartyName)
-        (field "seats" float)
-        (field "votes" float)
-        (field "extra_votes" (nullable float))
-        (field "extra_seat" (nullable bool))
-        (field "name" string)

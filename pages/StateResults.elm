@@ -2,17 +2,17 @@ module StateResults exposing (main)
 
 import Browser exposing (document)
 import Dict as D exposing (Dict, insert, values)
-import Election exposing (Election, Stats, firstYear, lastYear, setStats)
+import Election exposing (Election, File, Stats, fileDecoder, firstYear, lastYear)
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr)
 import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, target, title, type_)
 import Http exposing (Error, expectJson)
-import Json.Decode as Jd exposing (Decoder, field, list)
+import Json.Decode exposing (list)
 import List exposing (concatMap, drop, map, range, reverse, sortBy)
 import List.Extra exposing (find)
 import Maybe as M exposing (withDefault)
-import Party exposing (Party, PartyName(..), color, ifQualifyingParty, newParty)
+import Party exposing (Party, PartyName(..), getName, ifQualifyingParty)
 import Platform.Cmd exposing (batch)
 import State as St exposing (State(..), states)
 import String as S exposing (fromFloat, fromInt, left, right, toInt)
@@ -41,11 +41,6 @@ getQuota total_votes total_seats =
     total_votes / total_seats |> floor
 
 
-updateColors : List Party -> List Party
-updateColors list =
-    map (\p -> { p | color = color p.name }) list
-
-
 
 -- Model
 
@@ -57,23 +52,12 @@ type alias Model =
     }
 
 
-type alias File =
-    { parties : List Party
-    , stats : Stats
-    }
-
-
 type Msg
     = Response (Result Error File)
 
 
 
 -- JSON decoders
-
-
-fileDecoder : Decoder File
-fileDecoder =
-    Jd.map2 File (field "parties" <| list newParty) (field "stats" setStats)
 
 
 getFile : Int -> State -> Cmd Msg
@@ -206,7 +190,7 @@ newRow { stats } year party =
     if ifQualifyingParty stats.total_votes party then
         [ tr []
             [ td [ class "color", Ha.style "backgroundColor" party.color ] []
-            , td [] [ U.text party.name ]
+            , td [] [ U.text <| getName party.name ]
             , td [] [ U.text <| withDefault "n/a" <| nominee year party.name ]
             , td [] [ U.text <| styleNumFloat party.votes ]
             , td [] [ U.text <| stylePercent (party.votes / stats.total_votes) ]
@@ -360,7 +344,6 @@ update msg model =
 
                 p2 =
                     parties
-                        |> updateColors
                         |> sortBy .votes
                         |> reverse
 
@@ -386,7 +369,9 @@ init ( statename, year ) =
         year
         state
     , batch
-        (map (\n -> getFile (4 * n + firstYear) state) (range 0 (floor (toFloat (lastYear - firstYear) / 4))))
+        (map (\n -> getFile (4 * n + firstYear) state)
+            (range 0 (floor (toFloat (lastYear - firstYear) / 4)))
+        )
     )
 
 

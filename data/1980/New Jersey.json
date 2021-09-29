@@ -1,7 +1,7 @@
 {
     "parties": [
         {
-            "name": "Independent",
+            "name": "Independent - Anderson, John B.",
             "seats": 1,
             "votes": 234632,
             "extra_votes": 59592,
@@ -71,7 +71,7 @@
             "extra_seat": false
         },
         {
-            "name": "Independent",
+            "name": "Independent - Wendelken, Martin E.",
             "seats": 0,
             "votes": 923,
             "extra_votes": 923,
