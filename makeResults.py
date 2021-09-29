@@ -190,6 +190,9 @@ class Election:
             if list.votes > party[0] and list.candidate == candidate:
                 party = (list.votes, list.name)
 
+        if party[1] == "Independent":
+            party = (party[0], "Independent - " + candidate)
+
         return party[1]
 
 
