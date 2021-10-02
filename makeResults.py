@@ -73,12 +73,11 @@ def getElectors(state, year):
 
 
 class List:
-    def __init__(self, name, votes, candidate, writein):
+    def __init__(self, name, votes, candidate):
         self.name = name
         self.votes = int(votes)
         self.candidate = candidate
-        self.writein = writein
-        self.real = not(candidate in ["Write-In", "Invalid"])
+        self.real = not(candidate == "Invalid")
 
 
 class Nominee:
@@ -201,13 +200,16 @@ elections = {}
 with open("./data/database.csv", "r") as file:
     lines = csv.reader(file)
 
-    for year, state, candidate, party, writein, votes in lines:
+    for year, state, candidate, party, votes in lines:
+        if "Header" in year:
+            continue
+
         try:
             elections[state + "-" +
-                      year].lists.append(List(party, votes, candidate, writein))
+                      year].lists.append(List(party, votes, candidate))
         except KeyError:
             election = Election(state, year)
-            election.lists.append(List(party, votes, candidate, writein))
+            election.lists.append(List(party, votes, candidate))
             elections[state + "-" + year] = election
 
 for election in elections.values():
