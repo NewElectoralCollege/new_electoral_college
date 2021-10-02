@@ -1,12 +1,12 @@
 # Source
 
-Data Source: [Massachusetts Institute of Technology (MIT) Election Lab](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX)
+Data Sources: - [Massachusetts Institute of Technology (MIT) Election Lab](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX) - [Federal Election Commission (FEC)](https://www.fec.gov/introduction-campaign-finance/election-and-voting-information/)
 
-The link above is to the Harvard Dataverse website. The database is actually maintained by MIT.
+The link above for MIT is to the Harvard Dataverse website. The database is actually maintained by MIT.
 
 # Deviations
 
-The database has been edited slightly from the actual results. This includes changes in party designations, and write-in designations. This is because MIT's database is extremely detailed, and some small details will screw up the calculation process.
+The database has been edited slightly from the actual results. This includes changes in party designations, and write-in designations. This is because both databases are extremely detailed, and some small details will screw up the calculation process.
 
 # Standard
 

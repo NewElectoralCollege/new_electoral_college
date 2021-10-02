@@ -14,6 +14,7 @@ import List.Extra exposing (find)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party, PartyName(..), getName, ifQualifyingParty)
 import Platform.Cmd exposing (batch)
+import Sources exposing (getCitation)
 import State as St exposing (State(..), states)
 import String as S exposing (fromFloat, fromInt, left, right, toInt)
 import Svg exposing (Svg, circle, g, rect, svg, text_)
@@ -432,14 +433,7 @@ body model =
                             ]
                         ]
                     ]
-                , p [ Ha.style "float" "right", Ha.style "text-align" "right" ]
-                    [ U.text "Data Source: "
-                    , a
-                        [ target "_blank"
-                        , href "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX"
-                        ]
-                        [ U.text "Massachusetts Institute of Technology (MIT) Election Lab" ]
-                    ]
+                , getCitation model.year
                 , br [] []
                 , br [] []
                 ]

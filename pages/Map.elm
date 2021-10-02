@@ -13,11 +13,12 @@ import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (Decoder, at, decodeString, dict, list, string)
 import List exposing (append, concat, concatMap, drop, filter, filterMap, foldl, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
-import List.Extra exposing (find, getAt, init, unique, uniqueBy)
+import List.Extra exposing (find, getAt, init, uniqueBy)
 import Maybe as M exposing (withDefault)
 import Party as P exposing (Party, PartyName(..), ifQualifyingParty, toString)
 import Platform.Cmd exposing (batch)
 import Result as R
+import Sources exposing (getCitation)
 import State exposing (State(..), StateOutline, getName, outline, states)
 import String as S
 import Svg exposing (Svg, circle, g, svg)
@@ -717,14 +718,8 @@ body model =
                     , partyContainer model.current (map Just model.previous) doStateRow Republican
                     ]
                 ]
-            , p [ style "float" "right", style "text-align" "right" ]
-                [ text "Data Source: "
-                , a
-                    [ target "_blank"
-                    , href "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX"
-                    ]
-                    [ text "Massachusetts Institute of Technology (MIT) Election Lab" ]
-                ]
+            , br [] []
+            , getCitation model.year
             , br [] []
             , br [] []
             ]
