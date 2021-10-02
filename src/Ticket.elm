@@ -76,4 +76,5 @@ tickets =
     , Ticket 1980 (Independent (Just "Anderson, John B.")) "John B. Anderson" 0
     , Ticket 1980 Libertarian "Ed Clark" 0
     , Ticket 1976 (Independent (Just "McCarthy, Eugene")) "Eugene McCarthy" 0
+    , Ticket 2004 (Independent (Just "Nader, Ralph")) "Ralph Nader" 0
     ]
