@@ -11,7 +11,14 @@
             "name": "Democratic",
             "seats": 1,
             "votes": 116454,
-            "extra_votes": 13319,
+            "extra_votes": 10252,
+            "extra_seat": false
+        },
+        {
+            "name": "Scattered",
+            "seats": 0,
+            "votes": 9201,
+            "extra_votes": 9201,
             "extra_seat": false
         },
         {
@@ -29,7 +36,7 @@
             "extra_seat": false
         },
         {
-            "name": "Independent - De La Fuente, Roque \"\"Rocky\"\"",
+            "name": "American Delta",
             "seats": 0,
             "votes": 1240,
             "extra_votes": 1240,
@@ -39,14 +46,14 @@
             "name": "Republican",
             "seats": 2,
             "votes": 163387,
-            "extra_votes": 60252,
+            "extra_votes": 57185,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Alaska 2016",
         "total_seats": 3,
-        "total_votes": 309407,
-        "gallagher_index": 11.23422675892491
+        "total_votes": 318608,
+        "gallagher_index": 12.14083746046208
     }
 }

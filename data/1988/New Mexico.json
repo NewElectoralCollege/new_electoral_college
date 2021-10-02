@@ -4,7 +4,7 @@
             "name": "Democratic",
             "seats": 2,
             "votes": 244497,
-            "extra_votes": 35981,
+            "extra_votes": 35943,
             "extra_seat": false
         },
         {
@@ -43,17 +43,24 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 93,
+            "extra_votes": 93,
+            "extra_seat": false
+        },
+        {
             "name": "Republican",
             "seats": 3,
             "votes": 270341,
-            "extra_votes": 61825,
+            "extra_votes": 61787,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "New Mexico 1988",
         "total_seats": 5,
-        "total_votes": 521294,
-        "gallagher_index": 7.5668189029982615
+        "total_votes": 521387,
+        "gallagher_index": 7.567987555155644
     }
 }

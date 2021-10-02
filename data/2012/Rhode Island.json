@@ -4,7 +4,7 @@
             "name": "Republican",
             "seats": 1,
             "votes": 157204,
-            "extra_votes": 46037,
+            "extra_votes": 45692,
             "extra_seat": false
         },
         {
@@ -19,6 +19,20 @@
             "seats": 0,
             "votes": 2421,
             "extra_votes": 2421,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 686,
+            "extra_votes": 686,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 617,
+            "extra_votes": 617,
             "extra_seat": false
         },
         {
@@ -43,17 +57,31 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 64,
+            "extra_votes": 64,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 14,
+            "extra_votes": 14,
+            "extra_seat": false
+        },
+        {
             "name": "Democratic",
             "seats": 3,
             "votes": 279677,
-            "extra_votes": 57343,
+            "extra_votes": 56653,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Rhode Island 2012",
         "total_seats": 4,
-        "total_votes": 444668,
-        "gallagher_index": 11.291381451026039
+        "total_votes": 446049,
+        "gallagher_index": 11.347317750197698
     }
 }

@@ -4,7 +4,7 @@
             "name": "Republican",
             "seats": 16,
             "votes": 3036829,
-            "extra_votes": 42557,
+            "extra_votes": 42397,
             "extra_seat": false
         },
         {
@@ -22,17 +22,24 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 270,
+            "extra_votes": 270,
+            "extra_seat": false
+        },
+        {
             "name": "Democratic",
             "seats": 13,
             "votes": 2352748,
-            "extra_votes": 107044,
+            "extra_votes": 106924,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Texas 1988",
         "total_seats": 29,
-        "total_votes": 5427140,
-        "gallagher_index": 1.2497547422215196
+        "total_votes": 5427410,
+        "gallagher_index": 1.2501560522322166
     }
 }

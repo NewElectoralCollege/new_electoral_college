@@ -4,14 +4,14 @@
             "name": "Republican",
             "seats": 3,
             "votes": 617178,
-            "extra_votes": 57360,
+            "extra_votes": 57342,
             "extra_seat": false
         },
         {
             "name": "Independent - Perot, Ross",
             "seats": 1,
             "votes": 203944,
-            "extra_votes": 17338,
+            "extra_votes": 17332,
             "extra_seat": false
         },
         {
@@ -43,17 +43,24 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 47,
+            "extra_votes": 47,
+            "extra_seat": false
+        },
+        {
             "name": "Democratic",
             "seats": 4,
             "votes": 665104,
-            "extra_votes": 105286,
+            "extra_votes": 105268,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Kentucky 1992",
         "total_seats": 8,
-        "total_votes": 1492853,
-        "gallagher_index": 4.7898151707363255
+        "total_votes": 1492900,
+        "gallagher_index": 4.790038993972391
     }
 }

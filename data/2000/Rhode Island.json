@@ -4,7 +4,7 @@
             "name": "Republican",
             "seats": 1,
             "votes": 130555,
-            "extra_votes": 28360,
+            "extra_votes": 28277,
             "extra_seat": false
         },
         {
@@ -29,6 +29,13 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 329,
+            "extra_votes": 329,
+            "extra_seat": false
+        },
+        {
             "name": "Natural Law",
             "seats": 0,
             "votes": 271,
@@ -36,7 +43,7 @@
             "extra_seat": false
         },
         {
-            "name": "Workers World",
+            "name": "Worker's World",
             "seats": 0,
             "votes": 199,
             "extra_votes": 199,
@@ -50,24 +57,31 @@
             "extra_seat": false
         },
         {
-            "name": "Socialist Party USA",
+            "name": "Socialist",
             "seats": 0,
-            "votes": 86,
-            "extra_votes": 86,
+            "votes": 52,
+            "extra_votes": 52,
+            "extra_seat": false
+        },
+        {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 34,
+            "extra_votes": 34,
             "extra_seat": false
         },
         {
             "name": "Democratic",
             "seats": 3,
             "votes": 249508,
-            "extra_votes": 45118,
+            "extra_votes": 44952,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Rhode Island 2000",
         "total_seats": 4,
-        "total_votes": 408783,
-        "gallagher_index": 11.853431122589749
+        "total_votes": 409112,
+        "gallagher_index": 11.873719698505754
     }
 }

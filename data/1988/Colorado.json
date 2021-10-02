@@ -4,7 +4,7 @@
             "name": "Republican",
             "seats": 4,
             "votes": 728177,
-            "extra_votes": 42053,
+            "extra_votes": 41981,
             "extra_seat": false
         },
         {
@@ -29,17 +29,24 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 139,
+            "extra_votes": 139,
+            "extra_seat": false
+        },
+        {
             "name": "Democratic",
             "seats": 4,
             "votes": 621453,
-            "extra_votes": 106860,
+            "extra_votes": 106806,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Colorado 1988",
         "total_seats": 8,
-        "total_votes": 1372255,
-        "gallagher_index": 4.06336245815461
+        "total_votes": 1372394,
+        "gallagher_index": 4.063987655927568
     }
 }

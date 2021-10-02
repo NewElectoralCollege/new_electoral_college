@@ -8,6 +8,13 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 17089,
+            "extra_votes": 17089,
+            "extra_seat": false
+        },
+        {
             "name": "Green",
             "seats": 0,
             "votes": 11831,
@@ -25,21 +32,21 @@
             "name": "Democratic",
             "seats": 4,
             "votes": 1340383,
-            "extra_votes": 330142,
+            "extra_votes": 322819,
             "extra_seat": true
         },
         {
             "name": "Republican",
             "seats": 3,
             "votes": 958448,
-            "extra_votes": 284954,
+            "extra_votes": 280072,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Oregon 2020",
         "total_seats": 7,
-        "total_votes": 2357232,
-        "gallagher_index": 2.038983128757821
+        "total_votes": 2374321,
+        "gallagher_index": 2.297023461952181
     }
 }

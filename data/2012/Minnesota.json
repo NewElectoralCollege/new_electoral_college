@@ -4,7 +4,7 @@
             "name": "Democratic",
             "seats": 5,
             "votes": 1546167,
-            "extra_votes": 83207,
+            "extra_votes": 77887,
             "extra_seat": false
         },
         {
@@ -19,6 +19,13 @@
             "seats": 0,
             "votes": 13023,
             "extra_votes": 13023,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 10533,
+            "extra_votes": 10533,
             "extra_seat": false
         },
         {
@@ -64,17 +71,59 @@
             "extra_seat": false
         },
         {
+            "name": "Peace and Freedom",
+            "seats": 0,
+            "votes": 46,
+            "extra_votes": 46,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 35,
+            "extra_votes": 35,
+            "extra_seat": false
+        },
+        {
+            "name": "America's",
+            "seats": 0,
+            "votes": 14,
+            "extra_votes": 14,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 8,
+            "extra_votes": 8,
+            "extra_seat": false
+        },
+        {
+            "name": "Reform",
+            "seats": 0,
+            "votes": 4,
+            "extra_votes": 4,
+            "extra_seat": false
+        },
+        {
+            "name": "Constitution",
+            "seats": 0,
+            "votes": 1,
+            "extra_votes": 1,
+            "extra_seat": false
+        },
+        {
             "name": "Republican",
             "seats": 5,
             "votes": 1320225,
-            "extra_votes": 149857,
+            "extra_votes": 145601,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Minnesota 2012",
         "total_seats": 10,
-        "total_votes": 2925920,
-        "gallagher_index": 4.096170091878533
+        "total_votes": 2936561,
+        "gallagher_index": 4.1378334608784355
     }
 }

@@ -8,6 +8,13 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 6397,
+            "extra_votes": 6397,
+            "extra_seat": false
+        },
+        {
             "name": "Green",
             "seats": 0,
             "votes": 3780,
@@ -32,7 +39,7 @@
             "name": "Republican",
             "seats": 2,
             "votes": 216794,
-            "extra_votes": 104140,
+            "extra_votes": 102008,
             "extra_seat": true
         },
         {
@@ -46,7 +53,7 @@
     "stats": {
         "name": "North Dakota 2016",
         "total_seats": 3,
-        "total_votes": 337963,
-        "gallagher_index": 6.300339651922942
+        "total_votes": 344360,
+        "gallagher_index": 6.883113313368193
     }
 }

@@ -3,15 +3,8 @@
         {
             "name": "Republican",
             "seats": 10,
-            "votes": 2350363,
-            "extra_votes": 101943,
-            "extra_seat": false
-        },
-        {
-            "name": "Libertarian",
-            "seats": 0,
-            "votes": 26948,
-            "extra_votes": 26948,
+            "votes": 2351209,
+            "extra_votes": 110519,
             "extra_seat": false
         },
         {
@@ -22,10 +15,17 @@
             "extra_seat": false
         },
         {
+            "name": "Libertarian",
+            "seats": 0,
+            "votes": 13475,
+            "extra_votes": 13475,
+            "extra_seat": false
+        },
+        {
             "name": "Natural Law",
             "seats": 0,
-            "votes": 12350,
-            "extra_votes": 12350,
+            "votes": 6169,
+            "extra_votes": 6169,
             "extra_seat": false
         },
         {
@@ -36,10 +36,17 @@
             "extra_seat": false
         },
         {
+            "name": "Socialist Workers",
+            "seats": 0,
+            "votes": 10,
+            "extra_votes": 10,
+            "extra_seat": false
+        },
+        {
             "name": "Democratic",
             "seats": 10,
-            "votes": 2183628,
-            "extra_votes": 160050,
+            "votes": 2186190,
+            "extra_votes": 169569,
             "extra_seat": true
         },
         {
@@ -53,7 +60,7 @@
     "stats": {
         "name": "Ohio 2000",
         "total_seats": 21,
-        "total_votes": 4721693,
-        "gallagher_index": 2.4899060273891678
+        "total_votes": 4705457,
+        "gallagher_index": 2.48809818257567
     }
 }

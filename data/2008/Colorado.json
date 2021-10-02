@@ -1,24 +1,24 @@
 {
     "parties": [
         {
-            "name": "Peace and Freedom",
+            "name": "UN",
             "seats": 0,
-            "votes": 13350,
-            "extra_votes": 13350,
+            "votes": 13352,
+            "extra_votes": 13352,
             "extra_seat": false
         },
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 10897,
-            "extra_votes": 10897,
+            "votes": 10898,
+            "extra_votes": 10898,
             "extra_seat": false
         },
         {
             "name": "Republican",
             "seats": 4,
-            "votes": 1073589,
-            "extra_votes": 6321,
+            "votes": 1073629,
+            "extra_votes": 6313,
             "extra_seat": false
         },
         {
@@ -29,7 +29,7 @@
             "extra_seat": false
         },
         {
-            "name": "America's Independent",
+            "name": "Constitution",
             "seats": 0,
             "votes": 3051,
             "extra_votes": 3051,
@@ -43,10 +43,10 @@
             "extra_seat": false
         },
         {
-            "name": "Independent - McEnulty, Frank",
+            "name": "UN",
             "seats": 0,
-            "votes": 828,
-            "extra_votes": 828,
+            "votes": 829,
+            "extra_votes": 829,
             "extra_seat": false
         },
         {
@@ -57,7 +57,7 @@
             "extra_seat": false
         },
         {
-            "name": "Heartquake '08",
+            "name": "Write-In",
             "seats": 0,
             "votes": 348,
             "extra_votes": 348,
@@ -71,7 +71,7 @@
             "extra_seat": false
         },
         {
-            "name": "Socialist Party USA",
+            "name": "Socialist",
             "seats": 0,
             "votes": 226,
             "extra_votes": 226,
@@ -92,7 +92,7 @@
             "extra_seat": false
         },
         {
-            "name": "Pacifist",
+            "name": "USP",
             "seats": 0,
             "votes": 110,
             "extra_votes": 110,
@@ -108,15 +108,15 @@
         {
             "name": "Democratic",
             "seats": 5,
-            "votes": 1288576,
-            "extra_votes": 221308,
+            "votes": 1288633,
+            "extra_votes": 221317,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Colorado 2008",
         "total_seats": 9,
-        "total_votes": 2401361,
-        "gallagher_index": 1.4622196287108775
+        "total_votes": 2401462,
+        "gallagher_index": 1.462138621845136
     }
 }

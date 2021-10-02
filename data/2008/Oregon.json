@@ -1,14 +1,14 @@
 {
     "parties": [
         {
-            "name": "Peace and Freedom",
+            "name": "PE",
             "seats": 0,
             "votes": 18614,
             "extra_votes": 18614,
             "extra_seat": false
         },
         {
-            "name": "",
+            "name": "Write-In",
             "seats": 0,
             "votes": 13613,
             "extra_votes": 13613,

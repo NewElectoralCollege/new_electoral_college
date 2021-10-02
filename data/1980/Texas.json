@@ -4,7 +4,7 @@
             "name": "Republican",
             "seats": 14,
             "votes": 2510705,
-            "extra_votes": 65493,
+            "extra_votes": 65213,
             "extra_seat": false
         },
         {
@@ -15,10 +15,17 @@
             "extra_seat": false
         },
         {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 528,
+            "extra_votes": 528,
+            "extra_seat": false
+        },
+        {
             "name": "Democratic",
             "seats": 11,
             "votes": 1881147,
-            "extra_votes": 134567,
+            "extra_votes": 134367,
             "extra_seat": true
         },
         {
@@ -32,7 +39,7 @@
     "stats": {
         "name": "Texas 1980",
         "total_seats": 26,
-        "total_votes": 4541108,
-        "gallagher_index": 1.654387452050742
+        "total_votes": 4541636,
+        "gallagher_index": 1.6529960972573456
     }
 }

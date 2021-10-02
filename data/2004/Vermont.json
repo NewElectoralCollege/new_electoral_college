@@ -4,7 +4,7 @@
             "name": "Republican",
             "seats": 1,
             "votes": 121180,
-            "extra_votes": 17396,
+            "extra_votes": 17077,
             "extra_seat": false
         },
         {
@@ -19,6 +19,13 @@
             "seats": 0,
             "votes": 1102,
             "extra_votes": 1102,
+            "extra_seat": false
+        },
+        {
+            "name": "Write-In",
+            "seats": 0,
+            "votes": 957,
+            "extra_votes": 957,
             "extra_seat": false
         },
         {
@@ -39,14 +46,14 @@
             "name": "Democratic",
             "seats": 2,
             "votes": 184067,
-            "extra_votes": 80283,
+            "extra_votes": 79964,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Vermont 2004",
         "total_seats": 3,
-        "total_votes": 311352,
-        "gallagher_index": 6.723554066820112
+        "total_votes": 312309,
+        "gallagher_index": 6.780182016445489
     }
 }

@@ -3,15 +3,15 @@
         {
             "name": "Libertarian",
             "seats": 0,
-            "votes": 29829,
-            "extra_votes": 29829,
+            "votes": 29949,
+            "extra_votes": 29949,
             "extra_seat": false
         },
         {
-            "name": "Independent - McMullin, Evan",
+            "name": "Independent - McMullin, Evan ",
             "seats": 0,
-            "votes": 13255,
-            "extra_votes": 13255,
+            "votes": 13176,
+            "extra_votes": 13176,
             "extra_seat": false
         },
         {
@@ -39,11 +39,11 @@
             "name": "Democratic",
             "seats": 2,
             "votes": 380494,
-            "extra_votes": 3616,
+            "extra_votes": 3602,
             "extra_seat": false
         },
         {
-            "name": "Independent - Kahn, Lynn S.",
+            "name": "Independent - Kahn, Lynn",
             "seats": 0,
             "votes": 3390,
             "extra_votes": 3390,
@@ -53,14 +53,14 @@
             "name": "Republican",
             "seats": 4,
             "votes": 684872,
-            "extra_votes": 119555,
+            "extra_votes": 119534,
             "extra_seat": true
         }
     ],
     "stats": {
         "name": "Arkansas 2016",
         "total_seats": 6,
-        "total_votes": 1130635,
-        "gallagher_index": 4.831573456484097
+        "total_votes": 1130676,
+        "gallagher_index": 4.834939812724361
     }
 }
