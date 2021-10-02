@@ -1,6 +1,8 @@
 # Source
 
-Data Sources: - [Massachusetts Institute of Technology (MIT) Election Lab](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX) - [Federal Election Commission (FEC)](https://www.fec.gov/introduction-campaign-finance/election-and-voting-information/)
+Data Sources: 
+- [Massachusetts Institute of Technology (MIT) Election Lab](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX) 
+- [Federal Election Commission (FEC)](https://www.fec.gov/introduction-campaign-finance/election-and-voting-information/)
 
 The link above for MIT is to the Harvard Dataverse website. The database is actually maintained by MIT.
 
