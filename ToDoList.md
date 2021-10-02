@@ -2,8 +2,9 @@
 -   Finish main page
 -   Ensure that all elector numbers are accurate in official proposal
 -   Pies are not oriented correctly on calculator page
--   Format Stylesheets
 -   Fix social media logo position
 -   Format essays (maybe)
 -   Finish Electoral Thresholds essay
 -   Changed icon for .ico
+-   Parties not sorting properly on hemicircle and bar
+    - Low framerate may have to do with the 0 seat filter being removed
