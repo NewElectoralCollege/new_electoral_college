@@ -54,7 +54,7 @@ getTransformedAngle model showing party =
             (pshowing / total > 0.5) || (pnshowing / total_nshowing > 0.5)
 
         move_from =
-            takeWhile ((==) party.name << .name) model.parties
+            takeWhile ((/=) party.name << .name) model.parties
                 |> foldl (summateRecords (getCurrentShowing showing)) 0
                 |> (+)
                     (if xor (majority == True) (showing == Vote) then
