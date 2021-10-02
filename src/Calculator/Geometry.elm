@@ -50,7 +50,7 @@ angle model showing party =
 
 startingAngle : Data -> Showing -> Party -> Float
 startingAngle model showing party =
-    takeWhile ((==) party.name << .name) model.parties
+    takeWhile ((/=) party.name << .name) model.parties
         |> foldl (summateRecords (angle model showing)) 0.0
 
 
