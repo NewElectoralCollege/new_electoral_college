@@ -7,8 +7,8 @@ import Dict as D
 import Election exposing (Election, Stats, firstYear, lastYear, newParty, setStats)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
-import Html exposing (Attribute, Html, a, br, button, div, h1, p, span, table, td, text, th, tr)
-import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, style, target, type_)
+import Html exposing (Attribute, Html, a, br, button, div, h1, p, span, table, td, th, tr)
+import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, style, type_)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (Decoder, at, decodeString, dict, list, string)
@@ -623,8 +623,9 @@ body model =
                     ("These are the projected results of the "
                         ++ S.fromInt model.year
                         ++ " Election using our proposal. It takes the final "
-                        ++ "certified results of the Election, and allocates the electors in each state. If the election were actually run under the New Electoral "
-                        ++ "College, the results would have been slightly differen Voters change their behavior under more representative "
+                        ++ "certified results of the Election, and allocates the electors in each state according to the official rules under."
+                        ++ "The New Electoral College. If the election were actually run under the New Electoral "
+                        ++ "College, the results would have been slightly different. Voters change their behavior under more representative "
                         ++ "electoral systems."
                     )
                 ]
