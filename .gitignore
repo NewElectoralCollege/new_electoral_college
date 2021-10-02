@@ -6,6 +6,8 @@ emails/welcome_key.txt
 
 emails/unsubscribe.html
 
+static/bootstrap/
+
 static/sass/.sass-cache/
 static/sass/*.css
 static/sass/*.css.map

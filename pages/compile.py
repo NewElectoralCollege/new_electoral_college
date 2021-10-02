@@ -6,16 +6,17 @@ fle = sys.argv[1]
 output = "../" + fle.replace(".elm", ".html").lower()
 adding = ["<meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no'>",
           "<link rel='icon' href='/new_electoral_college/static/img/icon.png'>",
-          "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>",
+          "<link rel='stylesheet' href='/new_electoral_college/static/bootstrap/css/bootstrap.min.css'>",
           "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>",
           "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>",
-          "<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js'></script>",
-          "<script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>",
+          "<script src='https://unpkg.com/@popperjs/core@2'></script>",
+          "<script src='/new_electoral_college/static/bootstrap/js/bootstrap.min.js'></script>",
           "<script src='/new_electoral_college/static/js/util.js'></script>"
-          "<link rel='stylesheet' href='/new_electoral_college/static/sass/style.css'>"
+          "<link rel='stylesheet' href='/new_electoral_college/static/sass/" +
+          fle.replace(".elm", ".css") + "'>"
           ]
 
-mathjax = '<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>'
+mathjax = '<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>'
 
 if fle == "CountMeIn.elm":
     adding.append(
