@@ -16,7 +16,7 @@ function init() {
         let elem = $("#block-" + module.id_);
         elem.attr("href", "#" + module.id_);
 
-        $(".tab-content .tab-pane").removeClass("active");
+        $(".module .tab-pane").removeClass("active");
 
         elem.tab("show");
     });
