@@ -4,7 +4,7 @@ import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, br, div, span, text)
-import Html.Attributes exposing (attribute, class, id, style)
+import Html.Attributes exposing (attribute, class, id)
 
 
 body : Html Never
@@ -15,7 +15,6 @@ body =
         , div
             [ class "container col-sm-4 include"
             , id "map"
-            , style "display" "inline-block"
             , attribute "nec-include-html" "/new_electoral_college/static/img/blank_states.svg"
             ]
             []

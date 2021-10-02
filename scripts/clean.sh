@@ -10,9 +10,7 @@ rm ../proposal.html
 rm ../readmore.html
 rm ../stateresults.html
 
-rm ../static/sass/style.css
-rm ../static/sass/style.css.map
-rm ../static/sass/error.css
-rm ../static/sass/error.css.map
+rm ../static/sass/*.css
+rm ../static/sass/*.css.map
 
 rm -r ../elm-stuff/

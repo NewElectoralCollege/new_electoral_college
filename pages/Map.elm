@@ -438,6 +438,34 @@ makePartyRow model party =
         ]
 
 
+makePartyRows : Model -> List (Html Msg)
+makePartyRows model =
+    map (makePartyRow model) <|
+        reverse <|
+            sortBy .votes <|
+                filter
+                    (ifQualifyingParty (totalVotesInInstance model.current))
+                    (partiesInInstance model.current)
+
+
+makePartyHeader : List (Html Msg)
+makePartyHeader =
+    [ tr
+        []
+        [ th [ colspan 2, rowspan 2 ] [ U.text "Party" ]
+        , th [ rowspan 2 ] [ U.text "Nominee" ]
+        , th [ colspan 2, rowspan 2 ] [ U.text "Votes" ]
+        , th [ colspan 2 ] [ U.text "Electors" ]
+        , th [ rowspan 2 ] [ U.text "+/-" ]
+        ]
+    , tr
+        []
+        [ th [] [ U.text "New" ]
+        , th [] [ U.text "Old" ]
+        ]
+    ]
+
+
 
 -- Party box
 
@@ -638,7 +666,6 @@ body model =
                 , div
                     [ class "container col-sm-4"
                     , id "map"
-                    , style "display" "inline-block"
                     ]
                     [ svg
                         [ Sa.width "975px", Sa.height "520px", Sa.viewBox "0 0 800 193", id "map-svg" ]
@@ -658,56 +685,23 @@ body model =
                     [ span
                         [ class "btn-group", attribute "role" "group" ]
                         [ button
-                            [ type_ "button", class "btn btn-secondary", style "display" "inline-block", onClick (MoveDots Map) ]
-                            [ a
-                                [ style "color" "#fff" ]
-                                [ U.text "Map" ]
+                            [ type_ "button", class "btn btn-secondary dot-toggle", onClick (MoveDots Map) ]
+                            [ a [] [ U.text "Map" ]
                             ]
                         , button
-                            [ type_ "button", class "btn btn-secondary", style "display" "inline-block", onClick (MoveDots Hemicircle) ]
-                            [ a
-                                [ style "color" "#fff" ]
-                                [ U.text "Hemicircle" ]
+                            [ type_ "button", class "btn btn-secondary dot-toggle", onClick (MoveDots Hemicircle) ]
+                            [ a [] [ U.text "Hemicircle" ]
                             ]
                         , button
-                            [ type_ "button", class "btn btn-secondary", style "display" "inline-block", onClick (MoveDots Bar) ]
-                            [ a
-                                [ style "color" "#fff" ]
-                                [ U.text "Bar" ]
+                            [ type_ "button", class "btn btn-secondary dot-toggle", onClick (MoveDots Bar) ]
+                            [ a [] [ U.text "Bar" ]
                             ]
                         ]
                     ]
-                , div
-                    [ class "container col-sm-2"
-                    , style "display" "inline-block"
-                    , style "vertical-align" "middle"
-                    , style "left" "260px"
-                    , style "min-width" "fit-content"
-                    ]
+                , div [ class "container col-sm-2 single-results-div" ]
                     [ table
                         [ id "single-results" ]
-                        ([ tr
-                            []
-                            [ th [ colspan 2, rowspan 2 ] [ U.text "Party" ]
-                            , th [ rowspan 2 ] [ U.text "Nominee" ]
-                            , th [ colspan 2, rowspan 2 ] [ U.text "Votes" ]
-                            , th [ colspan 2 ] [ U.text "Electors" ]
-                            , th [ rowspan 2 ] [ U.text "+/-" ]
-                            ]
-                         , tr
-                            []
-                            [ th [] [ U.text "New" ]
-                            , th [] [ U.text "Old" ]
-                            ]
-                         ]
-                            ++ (map (makePartyRow model) <|
-                                    reverse <|
-                                        sortBy .votes <|
-                                            filter
-                                                (ifQualifyingParty (totalVotesInInstance model.current))
-                                                (partiesInInstance model.current)
-                               )
-                        )
+                        (makePartyHeader ++ makePartyRows model)
                     ]
                 ]
             , br [] []

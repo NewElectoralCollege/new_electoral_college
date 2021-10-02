@@ -4,7 +4,7 @@ import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html exposing (Html, a, br, button, div, h2, p, span, text)
-import Html.Attributes exposing (attribute, class, download, href, id, style, type_)
+import Html.Attributes exposing (attribute, class, download, href, id, type_)
 import Html.Events exposing (onClick)
 
 
@@ -68,8 +68,7 @@ programming =
 make : Module -> Html Msg
 make m =
     div
-        [ class "list-group-item list-group-item-action tab-content"
-        , style "cursor" "pointer"
+        [ class "module"
         , attribute "data-toggle" "list"
         , attribute "role" "tab"
         , onClick (Port select m)
@@ -83,13 +82,13 @@ make m =
             ]
             [ p [] [ text m.desc ]
             , span
-                [ class "btn-group", style "float" "right" ]
+                [ class "btn-group downloads" ]
                 [ button
                     [ type_ "button"
                     , class "btn btn-secondary latex"
                     , onClick (Port downloadLatex m)
                     ]
-                    [ a [ style "color" "lime" ]
+                    [ a []
                         [ text "$$\\LaTeX{}$$" ]
                     ]
                 , button
@@ -97,7 +96,7 @@ make m =
                     , class "btn btn-secondary pdf"
                     , onClick (Port downloadPdf m)
                     ]
-                    [ a [ style "color" "#dd0000" ]
+                    [ a []
                         [ text ".pdf" ]
                     ]
                 ]
@@ -142,7 +141,7 @@ body =
             , make amendment
             , make programming
             ]
-        , a [ id "downloader", style "display" "none", href "nothing", download "nothing" ] []
+        , a [ id "downloader", href "nothing", download "nothing" ] []
         ]
 
 

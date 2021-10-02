@@ -1,7 +1,7 @@
 module Footer exposing (footer)
 
 import Html as H exposing (Html, a, div, h6, i, p, section, span)
-import Html.Attributes exposing (class, href, style)
+import Html.Attributes exposing (class, href, id)
 import Util exposing (text)
 
 
@@ -74,6 +74,6 @@ footer =
                     ]
                 ]
             ]
-        , div [ class "text-center p-4", style "background-color" "rgba(0, 0, 0, 0.05)" ]
+        , div [ class "text-center p-4", id "copyright" ]
             [ text "© The New Electoral College 2021" ]
         ]

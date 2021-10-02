@@ -1,4 +1,18 @@
-cd ../pages
+cd ../static/sass
+
+scss calculator.scss calculator.css
+scss style.scss countmein.css
+scss style.scss donate.css
+scss endorsements.scss endorsements.css
+scss index.scss index.css
+scss map.scss map.css
+scss proposal.scss proposal.css
+scss readmore.scss readmore.css
+scss stateresults.scss stateresults.css
+scss error.scss pagenotfound.css
+scss error.scss notauthorized.css
+
+cd ../../pages
 
 python -u compile.py PageNotFound.elm
 python -u compile.py NotAuthorized.elm
@@ -11,8 +25,3 @@ python -u compile.py Map.elm
 python -u compile.py Proposal.elm
 python -u compile.py ReadMore.elm
 python -u compile.py StateResults.elm
-
-cd ../static/sass
-
-scss style.scss style.css
-scss error.scss error.css

@@ -1,21 +1,6 @@
-.results-table {
-    border: 1px solid #00022d;
-    padding: 4px;
-    border-collapse: collapse;
-}
-
-#single-results,
-#state-results,
-.detailed-results {
-    td,
-    th,
-    tr {
-        @extend .results-table;
-    }
-}
+@import "style";
 
 table.quota {
-    
     td {
         text-align: center;
         font-size: xx-large;

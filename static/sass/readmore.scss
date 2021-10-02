@@ -1,0 +1,30 @@
+@import "style";
+@import "../bootstrap/scss/functions";
+@import "../bootstrap/scss/variables";
+@import "../bootstrap/scss/mixins";
+@import "../bootstrap/scss/nav";
+@import "../bootstrap/scss/list-group";
+
+.downloads {
+    float: right;
+
+    button.latex a {
+        color: lime;
+    }
+
+    button.pdf a {
+        color: #dd0000;
+    }
+}
+
+#downloader {
+    display: none;
+}
+
+.module {
+    @extend .list-group-item;
+    @extend .list-group-item-action;
+    @extend .tab-content;
+
+    cursor: pointer;
+}

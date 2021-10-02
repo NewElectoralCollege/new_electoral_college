@@ -1,0 +1,45 @@
+@import "style";
+@import "results.scss";
+
+#state-list {
+    max-width: fit-content;
+    position: absolute;
+    left: 5%;
+
+    .list-group-item {
+        padding: 3px;
+    }
+}
+
+#result-foot #gallagher-desc {
+    display: none;
+}
+
+.bpo {
+    display: inline-block;
+
+    a {
+        color: #fff;
+    }
+}
+
+.extra-seat:after {
+    color: green;
+    content: "\F058";
+}
+
+.question-mark:after {
+    color: blue;
+    content: "\F059";
+}
+
+// Hemicircle
+
+g#labels text {
+    font-size: 15px;
+}
+g#labels rect {
+    width: 2px;
+    height: 60px;
+    background: #00022d;
+}

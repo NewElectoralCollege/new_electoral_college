@@ -2,7 +2,7 @@ module Header exposing (Page(..), header)
 
 import Calculator.Model exposing (Model)
 import Html exposing (Attribute, Html, a, div, li, nav, text, ul)
-import Html.Attributes exposing (class, href, id, style)
+import Html.Attributes exposing (class, href, id)
 
 
 type Page
@@ -50,11 +50,10 @@ header model =
         , ul
             [ class "navbar-nav mr-auto"
             , id "sm"
-            , style "font-size" "20px"
             ]
-            [ li [ class "nav-item" ] [ a [ class "fa fa-facebook", style "background" "#3b5998" ] [] ]
-            , li [ class "nav-item" ] [ a [ class "fa fa-twitter", style "background" "#55acee" ] [] ]
-            , li [ class "nav-item" ] [ a [ class "fa fa-youtube", style "background" "#dd0000" ] [] ]
+            [ li [ class "nav-item" ] [ a [ class "fa fa-facebook" ] [] ]
+            , li [ class "nav-item" ] [ a [ class "fa fa-twitter" ] [] ]
+            , li [ class "nav-item" ] [ a [ class "fa fa-youtube" ] [] ]
             , li [ class "nav-item" ] [ a [ class "fa fa-github", href "https://github.com/KingWither/new_electoral_college" ] [] ]
             ]
         ]

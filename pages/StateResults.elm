@@ -6,7 +6,7 @@ import Election exposing (Election, File, Stats, fileDecoder, firstYear, lastYea
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr)
-import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, target, title, type_)
+import Html.Attributes as Ha exposing (attribute, class, colspan, href, id, title, type_)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (list)
 import List exposing (concatMap, drop, map, range, reverse, sortBy)
@@ -180,7 +180,7 @@ getCheckIcon : Party -> List (Html msg)
 getCheckIcon party =
     case party.extra_seat of
         Just True ->
-            [ U.text " ", i [ class "fa", Ha.style "color" "green" ] [ U.text (S.fromChar '\u{F058}') ] ]
+            [ U.text " ", i [ class "fa extra-seat" ] [] ]
 
         _ ->
             [ U.text "" ]
@@ -243,12 +243,11 @@ summaryFooter election =
 
         info =
             button
-                [ class "btn fa"
-                , Ha.style "color" "blue"
+                [ class "btn fa question-mark"
                 , attribute "data-toggle" "popover"
                 , title "Gallagher Index"
                 ]
-                [ text (S.fromChar '\u{F059}') ]
+                []
 
         content =
             [ text "Total Votes: "
@@ -406,17 +405,16 @@ body model =
                     [ span
                         [ class "btn-group", attribute "role" "group" ]
                         [ button
-                            [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
+                            [ type_ "button", class "btn btn-secondary bpo" ]
                             [ a
-                                [ Ha.style "color" "#fff"
-                                , attribute "download" (St.getName model.state)
+                                [ attribute "download" (St.getName model.state)
                                 , href ("data/" ++ S.fromInt model.year ++ "/" ++ St.getName model.state ++ ".json")
                                 ]
                                 [ U.text "Download" ]
                             ]
                         , button
-                            [ type_ "button", class "btn btn-secondary", Ha.style "display" "inline-block" ]
-                            [ a [ Ha.style "color" "#fff", href "map.html" ] [ U.text "Back" ] ]
+                            [ type_ "button", class "btn btn-secondary bpo" ]
+                            [ a [ href "map.html" ] [ U.text "Back" ] ]
                         ]
                     , br [] []
                     , br [] []

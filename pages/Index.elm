@@ -4,7 +4,7 @@ import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html as H exposing (Html, a, b, blockquote, br, div, h1, h2, hr, img, p, text)
-import Html.Attributes exposing (alt, attribute, class, href, src, style)
+import Html.Attributes exposing (alt, attribute, class, href, src)
 
 
 
@@ -76,8 +76,7 @@ body =
                 [ div
                     [ class "col-md-4" ]
                     [ img
-                        [ style "display" "block"
-                        , src "static/img/electors_example.svg"
+                        [ src "static/img/electors_example.svg"
                         , alt "Electors example"
                         , class "jumbo-image"
                         ]
@@ -92,8 +91,7 @@ body =
                 , div
                     [ class "col-md-4" ]
                     [ img
-                        [ style "display" "block"
-                        , src "https://live.staticflickr.com/8600/15870725062_120c91470a_b.jpg"
+                        [ src "https://live.staticflickr.com/8600/15870725062_120c91470a_b.jpg"
                         , alt "White House"
                         , class "jumbo-image"
                         ]
@@ -112,8 +110,7 @@ body =
                 , div
                     [ class "col-md-4" ]
                     [ img
-                        [ style "display" "block"
-                        , src "static/img/pr_map.svg"
+                        [ src "static/img/pr_map.svg"
                         , alt "PR Map"
                         , class "jumbo-image"
                         ]

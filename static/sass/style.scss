@@ -1,122 +1,43 @@
-@import "arrows";
-@import "tables.scss";
-@import "change-arrows.scss";
+// Logo
 
 @font-face {
     font-family: Agincourt;
     src: url(agincourt_font.ttf);
 }
+
 .logo {
     font-family: Agincourt;
     font-weight: normal;
     font-size: 2.25rem;
 }
-#map svg {
-    width: 975px;
-    height: 520px;
-}
-.progress-bar-party {
-    border: 1px solid gray;
-    width: 100px;
-    height: 1.15em;
-    padding: 0;
-}
-#state-list {
-    max-width: fit-content;
-    position: absolute;
-    left: 5%;
-    .list-group-item {
-        padding: 3px;
-    }
-}
-.latex,
-mjx-container {
-    max-width: fit-content;
-    display: inline-block;
-}
-.pdf {
-    padding: 17px 20px;
-    max-width: fit-content;
+
+// Social Media
+
+#sm {
     a {
+        padding: 10px;
+        width: 35px;
+        text-align: center;
+        text-decoration: none;
+        color: white;
         font-size: 20px;
     }
-}
-#sm a {
-    padding: 10px;
-    width: 35px;
-    text-align: center;
-    text-decoration: none;
-    color: white;
-}
-#languages a {
-    padding-left: 4em;
-}
-#languages::before {
-    display: block;
-    font-size: large;
-    padding: 5px;
-    content: "Or download the implementations directly by clicking on one of the following icons:";
-}
-.language-icon:hover {
-    opacity: 0.5;
-}
-g#labels text {
-    font-size: 15px;
-}
-g#labels rect {
-    width: 2px;
-    height: 60px;
-    background: #00022d;
+
+    a.fa-facebook {
+        background: #3b5998;
+    }
+
+    a.fa-twitter {
+        background: #55acee;
+    }
+
+    a.fa-youtube {
+        background: #dd0000;
+    }
 }
 
-#state-container {
-    display: block;
-    max-width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
-}
+// Copyright
 
-.centered-text {
-    vertical-align: middle;
-    display: table-cell;
-}
-
-.license {
-    font-size: 0.9rem;
-    font-style: italic;
-}
-
-img.jumbo-image {
-    width: inherit;
-    height: 250px;
-}
-
-#result-foot #gallagher-desc {
-    display: none;
-}
-
-.general-ticket {
-    fill: #4265c5;
-}
-
-.district {
-    fill: #412b08;
-}
-
-.hybrid {
-    fill: #72149e;
-}
-
-.legislative-selection {
-    fill: #117211;
-}
-
-.allocation-record-bar:hover {
-    opacity: 0.5;
-}
-
-.tweet,
-.fb-post {
-    width: 575px;
+#copyright {
+    background-color: rgba(0, 0, 0, 0.05);
 }

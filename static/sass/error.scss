@@ -1,3 +1,5 @@
+@import "style";
+
 #outlines path {
     fill: #969696;
     fill-opacity: 0.5;
@@ -26,4 +28,8 @@ span {
     left: 0;
     font-size: 20px;
     color: black;
+}
+
+#map {
+    display: inline-block;
 }
