@@ -7,9 +7,3 @@
 -   Format essays (maybe)
 -   Finish Electoral Thresholds essay
 -   Changed icon for .ico
-
-Flags in database
-
--   Massachusetts 2016
--   Ohio 2016
--   1992 (Perot)
