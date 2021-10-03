@@ -404,17 +404,19 @@ body model =
                     [ class "container" ]
                     [ span
                         [ class "btn-group", attribute "role" "group" ]
-                        [ button
-                            [ type_ "button", class "btn btn-secondary bpo" ]
-                            [ a
-                                [ attribute "download" (St.getName model.state)
-                                , href ("data/" ++ S.fromInt model.year ++ "/" ++ St.getName model.state ++ ".json")
-                                ]
-                                [ U.text "Download" ]
+                        [ a
+                            [ type_ "button"
+                            , class "btn btn-secondary bpo"
+                            , href ("data/" ++ S.fromInt model.year ++ "/" ++ St.getName model.state ++ ".json")
+                            , attribute "download" (St.getName model.state)
                             ]
-                        , button
-                            [ type_ "button", class "btn btn-secondary bpo" ]
-                            [ a [ href "map.html" ] [ U.text "Back" ] ]
+                            [ U.text "Download" ]
+                        , a
+                            [ type_ "button"
+                            , class "btn btn-secondary bpo"
+                            , href "map.html"
+                            ]
+                            [ U.text "Back" ]
                         ]
                     , br [] []
                     , br [] []
