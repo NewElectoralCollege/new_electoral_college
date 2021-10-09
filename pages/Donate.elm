@@ -3,8 +3,8 @@ module Donate exposing (main)
 import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (header)
-import Html exposing (Html, a, br, div, form, h2, input, label, p, select, text)
-import Html.Attributes exposing (class, for, href, id, name, pattern, placeholder, required, type_)
+import Html exposing (Html, a, br, button, div, form, h2, input, label, p, select, span, text)
+import Html.Attributes exposing (class, for, href, id, name, novalidate, placeholder, required, type_, value)
 import Html.Events exposing (onInput)
 import List.Extra exposing (getAt)
 import Maybe exposing (withDefault)
@@ -14,6 +14,7 @@ import String as S
 import Task exposing (perform)
 import Time exposing (Posix, Zone, every, here, toHour, utc)
 import Tuple exposing (first, second)
+import Util exposing (bringToFront)
 
 
 
@@ -59,36 +60,48 @@ type alias City =
 
 cities : List City
 cities =
-    [ ( "New York City", "NY" )
-    , ( "Miami", "FL" )
-    , ( "Orlando", "FL" )
-    , ( "Atlanta", "GA" )
-    , ( "Houston", "TX" )
-    , ( "Tallahassee", "FL" )
-    , ( "Los Angeles", "CA" )
-    , ( "Chicago", "IL" )
-    , ( "Phoenix", "AZ" )
-    , ( "San Antonio", "TX" )
-    , ( "San Diego", "TX" )
-    , ( "Dallas", "TX" )
-    , ( "San Jose", "CA" )
-    , ( "Austin", "TX" )
-    , ( "Jacksonville", "FL" )
-    , ( "Fort Worth", "TX" )
-    , ( "Columbus", "OH" )
-    , ( "Indianapolis", "IN" )
-    , ( "Charlotte", "NC" )
-    , ( "San Francisco", "CA" )
-    , ( "Seattle", "WA" )
-    , ( "Denver", "CO" )
-    , ( "Helena", "MT" )
-    , ( "Portland", "OR" )
+    [ ( "New York City", "New York" )
+    , ( "Miami", "Florida" )
+    , ( "Orlando", "Florida" )
+    , ( "Atlanta", "Georgia" )
+    , ( "Houston", "Texas" )
+    , ( "Tallahassee", "Florida" )
+    , ( "Los Angeles", "California" )
+    , ( "Chicago", "Illinois" )
+    , ( "Phoenix", "Arizona" )
+    , ( "San Antonio", "Texas" )
+    , ( "San Diego", "Texas" )
+    , ( "Dallas", "Texas" )
+    , ( "San Jose", "California" )
+    , ( "Austin", "Texas" )
+    , ( "Jacksonville", "Florida" )
+    , ( "Fort Worth", "Texas" )
+    , ( "Columbus", "Ohio" )
+    , ( "Indianapolis", "Indiana" )
+    , ( "Charlotte", "North Carolina" )
+    , ( "San Francisco", "California" )
+    , ( "Seattle", "Washington" )
+    , ( "Denver", "Colorado" )
+    , ( "Helena", "Montana" )
+    , ( "Portland", "Oregon" )
     ]
 
 
 getCity : Zone -> Posix -> City
 getCity zone posix =
     withDefault ( "", "" ) <| getAt (toHour zone posix) cities
+
+
+
+-- Checkbox
+
+
+checkbox : String -> String -> Html Msg
+checkbox i txt =
+    div [ class "form-check" ]
+        [ input [ class "form-check-input", type_ "checkbox", value "", id i, required True ] []
+        , label [ class "form-check-label", for i ] [ text txt ]
+        ]
 
 
 
@@ -110,39 +123,41 @@ body { pl_city, o200 } =
             , text "."
             ]
         , p []
-            [ text "We are required by federal law to disclose publicly every contribution we recieve, who made it, and the amount that was given. "
+            [ text "We are required by federal law to publicly disclose every contribution we recieve, who made it, and the amount that was given. "
             , text "Your donation, your name, city, state, zip code, occupation, and employer will be published on the "
             , a [ href contLink ] [ text "FEC's website." ]
             ]
-        , form []
+        , form
+            [ class "needs-validation"
+            , novalidate True
+            , id "payment-form"
+            ]
             [ div
                 [ class "form-row" ]
                 [ div
-                    [ class "col" ]
-                    [ label
-                        [ for "first-name" ]
-                        [ text "First Name" ]
+                    [ class "col input-group" ]
+                    [ div [ class "input-group-prepend" ]
+                        [ span [ class "input-group-text" ] [ text "First Name" ]
+                        ]
                     , input
                         [ type_ "text"
                         , class "form-control"
                         , id "first-name"
                         , name "first-name"
-                        , placeholder "First"
                         , required o200
                         ]
                         []
                     ]
                 , div
-                    [ class "col" ]
-                    [ label
-                        [ for "last-name" ]
-                        [ text "Last Name" ]
+                    [ class "col input-group" ]
+                    [ div [ class "input-group-prepend" ]
+                        [ span [ class "input-group-text" ] [ text "Last Name" ]
+                        ]
                     , input
                         [ type_ "text"
                         , class "form-control"
                         , id "last-name"
                         , name "last-name"
-                        , placeholder "Last"
                         , required o200
                         ]
                         []
@@ -150,31 +165,31 @@ body { pl_city, o200 } =
                 ]
             , br [] []
             , div
-                [ class "form-group" ]
-                [ label
-                    [ for "addr1" ]
-                    [ text "Address Line 1" ]
+                [ class "input-group" ]
+                [ div [ class "input-group-prepend" ]
+                    [ span [ class "input-group-text" ] [ text "Address Line 1" ]
+                    ]
                 , input
                     [ type_ "text"
                     , class "form-control"
                     , id "addr1"
                     , name "addr1"
-                    , placeholder "Address"
+                    , placeholder "Street Address"
                     , required o200
                     ]
                     []
                 ]
             , div
-                [ class "form-group" ]
-                [ label
-                    [ for "addr2" ]
-                    [ text "Address Line 2" ]
+                [ class "input-group" ]
+                [ div [ class "input-group-prepend" ]
+                    [ span [ class "input-group-text" ] [ text "Address Line 2" ]
+                    ]
                 , input
                     [ type_ "text"
                     , class "form-control"
                     , id "addr2"
                     , name "addr2"
-                    , placeholder "Address Line 2"
+                    , placeholder "Appartment or Office # (optional)"
                     , required False
                     ]
                     []
@@ -182,10 +197,10 @@ body { pl_city, o200 } =
             , div
                 [ class "form-row" ]
                 [ div
-                    [ class "col" ]
-                    [ label
-                        [ for "city" ]
-                        [ text "City" ]
+                    [ class "col input-group" ]
+                    [ div [ class "input-group-prepend" ]
+                        [ span [ class "input-group-text" ] [ text "City" ]
+                        ]
                     , input
                         [ type_ "text"
                         , class "form-control"
@@ -197,24 +212,23 @@ body { pl_city, o200 } =
                         []
                     ]
                 , div
-                    [ class "col" ]
-                    [ label
-                        [ for "state" ]
-                        [ text "State" ]
+                    [ class "col input-group" ]
+                    [ div [ class "input-group-prepend" ]
+                        [ span [ class "input-group-text" ] [ text "State" ]
+                        ]
                     , select
                         [ class "form-control"
                         , id "state"
                         , name "state"
-                        , placeholder <| second pl_city
                         , required o200
                         ]
-                        (makeOptionList statesAndTerritories)
+                        (makeOptionList <| bringToFront (second pl_city) statesAndTerritories)
                     ]
                 , div
-                    [ class "col" ]
-                    [ label
-                        [ for "zip" ]
-                        [ text "Zip" ]
+                    [ class "col input-group" ]
+                    [ div [ class "input-group-prepend" ]
+                        [ span [ class "input-group-text" ] [ text "Zip" ]
+                        ]
                     , input
                         [ type_ "text"
                         , class "form-control"
@@ -228,10 +242,10 @@ body { pl_city, o200 } =
                 ]
             , br [] []
             , div
-                [ class "form-group" ]
-                [ label
-                    [ for "occ" ]
-                    [ text "Occupation" ]
+                [ class "input-group" ]
+                [ div [ class "input-group-prepend" ]
+                    [ span [ class "input-group-text" ] [ text "Occupation" ]
+                    ]
                 , input
                     [ type_ "text"
                     , class "form-control"
@@ -243,10 +257,10 @@ body { pl_city, o200 } =
                     []
                 ]
             , div
-                [ class "form-group" ]
-                [ label
-                    [ for "emp" ]
-                    [ text "Employer" ]
+                [ class "input-group" ]
+                [ div [ class "input-group-prepend" ]
+                    [ span [ class "input-group-text" ] [ text "Employer" ]
+                    ]
                 , input
                     [ type_ "text"
                     , class "form-control"
@@ -257,101 +271,62 @@ body { pl_city, o200 } =
                     ]
                     []
                 ]
+            , br [] []
             , div
-                [ class "form-group" ]
-                [ label
-                    [ for "amount" ]
-                    [ text "Donation Amount" ]
+                [ class "input-group" ]
+                [ div [ class "input-group-prepend" ]
+                    [ span [ class "input-group-text" ] [ text "$" ]
+                    ]
                 , input
                     [ type_ "text"
                     , class "form-control"
                     , id "amount"
                     , name "amount"
-                    , pattern "$[0-9](.[0.9]{2})?"
-                    , placeholder "$100.00"
+                    , placeholder "100.00"
                     , onInput Amount
                     , required True
                     ]
                     []
                 ]
+            , br [] []
             , div
-                [ class "form-group" ]
-                [ label
-                    [ for "fn" ]
-                    [ text "I am not a Foreign National who lacks permanent residency in the United States. Residents of American Samoa are American "
-                    , text "Nationals."
+                [ class "form-row" ]
+                [ div
+                    [ class "col-7 input-group" ]
+                    [ div [ class "input-group-prepend" ]
+                        [ span [ class "input-group-text" ] [ text "Credit Card #" ]
+                        ]
+                    , div [ id "card-number", class "form-control credit-card-info" ] []
                     ]
-                , input
-                    [ type_ "checkbox"
-                    , class "form-control"
-                    , id "fn"
-                    , name "fn"
-                    , required True
+                , div
+                    [ class "col input-group" ]
+                    [ div [ class "input-group-prepend" ]
+                        [ span [ class "input-group-text" ] [ text "Expiry Date" ]
+                        ]
+                    , div [ id "card-expiry", class "form-control credit-card-info" ] []
                     ]
-                    []
+                , div
+                    [ class "col input-group" ]
+                    [ div [ class "input-group-prepend" ]
+                        [ span [ class "input-group-text" ] [ text "CVC" ]
+                        ]
+                    , div [ id "card-cvc", class "form-control credit-card-info" ] []
+                    ]
                 ]
-            , div
-                [ class "form-group" ]
-                [ label
-                    [ for "mf" ]
-                    [ text "This contribution is made from my own funds, not those of another."
-                    ]
-                , input
-                    [ type_ "checkbox"
-                    , class "form-control"
-                    , id "mf"
-                    , name "mf"
-                    , required True
-                    ]
-                    []
+            , br [] []
+            , checkbox "fn" "I am not a Foreign National who lacks permanent residency in the United States. Residents of American Samoa are American Nationals."
+            , checkbox "of" "This contribution is made from my own funds, not those of another."
+            , checkbox "cor" "This contribution is not made from the treasury of a corporation, labor organization, or national bank."
+            , checkbox "fc" "I am not a federal contractor, or making this contribution on behalf of an entity that is a federal contractor."
+            , checkbox "pc" "I am making this contribution on a personal credit or debit card for which I have legal obligation to pay, and is made neither on a corporate or business entity card nor on the card of another."
+            , br [] []
+            , button
+                [ class "btn btn-primary mb-2"
+                , required True
                 ]
-            , div
-                [ class "form-group" ]
-                [ label
-                    [ for "clonb" ]
-                    [ text "This contribution is not made from the treasury of a corporation, labor organization, or national bank."
-                    ]
-                , input
-                    [ type_ "checkbox"
-                    , class "form-control"
-                    , id "clonb"
-                    , name "clonb"
-                    , required True
-                    ]
-                    []
-                ]
-            , div
-                [ class "form-group" ]
-                [ label
-                    [ for "fc" ]
-                    [ text "I am not a federal contractor, or making this contribution on behalf of an entity that is a federal contractor."
-                    ]
-                , input
-                    [ type_ "checkbox"
-                    , class "form-control"
-                    , id "fc"
-                    , name "fc"
-                    , required True
-                    ]
-                    []
-                ]
-            , div
-                [ class "form-group" ]
-                [ label
-                    [ for "card" ]
-                    [ text "I am making this contribution on a personal credit or debit card for which I have legal obligation to pay, and is made neither "
-                    , text "on a corporate or business entity card nor on the card of another."
-                    ]
-                , input
-                    [ type_ "checkbox"
-                    , class "form-control"
-                    , id "card"
-                    , name "card"
-                    , required True
-                    ]
-                    []
-                ]
+                [ text "Submit" ]
             ]
+        , p [ id "error-message" ] []
         , p [] [ text "Paid for by The New Electoral College Campaign Committee (NECCC) (www.newelectoralcollege.com) and not authorized by any candidate or candidate's committee." ]
         ]
 

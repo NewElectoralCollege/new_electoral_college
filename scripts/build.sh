@@ -2,7 +2,7 @@ cd ../static/sass
 
 scss calculator.scss calculator.css
 scss style.scss countmein.css
-scss style.scss donate.css
+scss donate.scss donate.css
 scss endorsements.scss endorsements.css
 scss index.scss index.css
 scss map.scss map.css

@@ -18,11 +18,7 @@ adding = ["<meta name='viewport' content='width=device-width,initial-scale=1,shr
 
 mathjax = '<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>'
 
-if fle == "CountMeIn.elm":
-    adding.append(
-        "<script src='/new_electoral_college/static/js/cmi_form_validation.js'></script>")
-
-elif fle == "Map.elm":
+if fle == "Map.elm":
     adding.append(
         "<script src='/new_electoral_college/static/js/map.js'></script>")
 
@@ -44,15 +40,15 @@ elif fle == "Endorsements.elm":
     adding.append(
         "<script src='/new_electoral_college/static/js/endorsements.js'></script>")
 
-elif fle == "PageNotFound.elm" or fle == "NotAuthorized.elm":
-    adding.append(
-        "<link rel='stylesheet' href='/new_electoral_college/static/sass/error.css'>")
-
 if fle == "PageNotFound.elm":
     output = "../404.html"
 
 elif fle == "NotAuthorized.elm":
     output = "../403.html"
+
+elif fle == "Donate.elm":
+    adding.append("<script src='https://js.stripe.com/v3/'></script>")
+    adding.append("<script src='/new_electoral_college/static/js/donate.js'></script>")
 
 s = subprocess.call("elm make " + fle + " --output=" + output)
 
@@ -63,6 +59,9 @@ text = text[:5] + adding + text[6:]
 
 if fle == "Map.elm":
     text = text[:-17] + ["port();"] + text[-16:]
+
+elif fle == "CountMeIn.elm":
+    text = text[:-16] + ["validate_forms();}"] + text[-15:]
 
 elif fle == "StateResults.elm" or fle == "ReadMore.elm":
     text = text[:-17] + ["init();"] + text[-16:]
