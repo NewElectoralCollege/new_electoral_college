@@ -1,6 +1,9 @@
 {
     "type": "application",
-    "source-directories": ["src", "pages"],
+    "source-directories": [
+        "src",
+        "pages"
+    ],
     "elm-version": "0.19.1",
     "dependencies": {
         "direct": {
@@ -17,6 +20,7 @@
             "elm/url": "1.0.0",
             "elm/virtual-dom": "1.0.2",
             "elm-community/list-extra": "8.2.4",
+            "elm-explorations/markdown": "1.0.0",
             "gampleman/elm-visualization": "2.3.0",
             "kingwither/elmeither": "1.0.0"
         },
