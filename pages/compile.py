@@ -52,7 +52,7 @@ elif fle == "Donate.elm":
 
 s = subprocess.call("elm make " + fle + " --output=" + output)
 
-file = open(output, "r")
+file = open(output, "r", encoding="utf-8")
 
 text = file.readlines()
 text = text[:5] + adding + text[6:]
