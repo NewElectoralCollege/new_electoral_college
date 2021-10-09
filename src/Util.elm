@@ -1,5 +1,6 @@
 module Util exposing
     ( boolToInt
+    , bringToFront
     , colorCircles
     , concatTuple
     , divide
@@ -25,7 +26,7 @@ import Election exposing (Election, Stats)
 import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, id, rowspan, style)
 import Json.Decode exposing (bool, string)
-import List exposing (filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sum)
+import List exposing (filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sortWith, sum)
 import List.Extra exposing (splitAt)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party, PartyName, getName)
@@ -269,6 +270,27 @@ seatChange party =
 
         _ ->
             [ text "n/a" ]
+
+
+
+-- Sorting
+
+
+bringToFront : a -> List a -> List a
+bringToFront elem list =
+    sortWith (bringToFrontHelper elem) list
+
+
+bringToFrontHelper : a -> a -> a -> Order
+bringToFrontHelper elem a b =
+    if elem == a then
+        LT
+
+    else if elem == b then
+        GT
+
+    else
+        EQ
 
 
 
