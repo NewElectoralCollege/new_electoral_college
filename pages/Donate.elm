@@ -4,13 +4,13 @@ import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, button, div, form, h2, input, label, p, select, span, text)
-import Html.Attributes exposing (class, for, href, id, name, novalidate, placeholder, required, type_, value)
+import Html.Attributes exposing (class, disabled, for, href, id, name, novalidate, placeholder, required, type_, value)
 import Html.Events exposing (onInput)
 import List.Extra exposing (getAt)
 import Maybe exposing (withDefault)
 import Platform.Cmd exposing (none)
 import State exposing (makeOptionList, statesAndTerritories)
-import String as S
+import String as S exposing (toInt)
 import Task exposing (perform)
 import Time exposing (Posix, Zone, every, here, toHour, utc)
 import Tuple exposing (first, second)
@@ -22,11 +22,16 @@ import Util exposing (bringToFront)
 
 
 type alias Model =
-    { pl_city : City, zone : Zone, o200 : Bool }
+    { pl_city : City
+    , zone : Zone
+    , anonymous : Bool
+    , new_amount : String
+    }
 
 
 type Msg
-    = Amount String
+    = Anonymous
+    | CheckAmount String
     | GetCity Posix
     | AdjustTimeZone Zone
 
@@ -35,19 +40,17 @@ type Msg
 -- Functionality
 
 
-require : String -> Bool
-require amount =
-    (withDefault 100 <| S.toFloat amount) > 200
-
-
-fecLink : String
-fecLink =
-    "https://www.fec.gov/help-candidates-and-committees/taking-receipts-pac/who-can-and-cant-contribute-nonconnected-pac/"
-
-
 contLink : String
 contLink =
     "https://www.fec.gov/data/receipts/individual-contributions/"
+
+
+checkbox : String -> String -> Html Msg
+checkbox i txt =
+    div [ class "form-check" ]
+        [ input [ class "form-check-input", type_ "checkbox", value "", id i, required True ] []
+        , label [ class "form-check-label", for i ] [ text txt ]
+        ]
 
 
 
@@ -93,34 +96,20 @@ getCity zone posix =
 
 
 
--- Checkbox
-
-
-checkbox : String -> String -> Html Msg
-checkbox i txt =
-    div [ class "form-check" ]
-        [ input [ class "form-check-input", type_ "checkbox", value "", id i, required True ] []
-        , label [ class "form-check-label", for i ] [ text txt ]
-        ]
-
-
-
 -- Required functions
 
 
 body : Model -> Html Msg
-body { pl_city, o200 } =
+body { pl_city, anonymous, new_amount } =
     div
         [ class "container" ]
         [ h2 [] [ text "Donate" ]
         , p [] [ text "Thank you for your generous contribution." ]
         , br [] []
         , p []
-            [ text "Contributions may not exceed $5,000.00 in a calendar year. Spouses may contribute independently even if they don't have an "
-            , text "income. Individuals below the age of 18 may contribute, subject to limitations. If you are unsure as to whether or not you are "
-            , text "able to contribute, see "
-            , a [ href fecLink ] [ text "this link" ]
-            , text "."
+            [ text "You might want to view our "
+            , a [ href "/new_electoral_college/donatefaq.html" ] [ text "FAQs" ]
+            , text " about donations."
             ]
         , p []
             [ text "We are required by federal law to publicly disclose every contribution we recieve, who made it, and the amount that was given. "
@@ -144,7 +133,8 @@ body { pl_city, o200 } =
                         , class "form-control"
                         , id "first-name"
                         , name "first-name"
-                        , required o200
+                        , disabled anonymous
+                        , required True
                         ]
                         []
                     ]
@@ -158,7 +148,8 @@ body { pl_city, o200 } =
                         , class "form-control"
                         , id "last-name"
                         , name "last-name"
-                        , required o200
+                        , disabled anonymous
+                        , required True
                         ]
                         []
                     ]
@@ -175,7 +166,8 @@ body { pl_city, o200 } =
                     , id "addr1"
                     , name "addr1"
                     , placeholder "Street Address"
-                    , required o200
+                    , disabled anonymous
+                    , required True
                     ]
                     []
                 ]
@@ -190,6 +182,7 @@ body { pl_city, o200 } =
                     , id "addr2"
                     , name "addr2"
                     , placeholder "Appartment or Office # (optional)"
+                    , disabled anonymous
                     , required False
                     ]
                     []
@@ -207,7 +200,8 @@ body { pl_city, o200 } =
                         , id "city"
                         , name "city"
                         , placeholder <| first pl_city
-                        , required o200
+                        , disabled anonymous
+                        , required True
                         ]
                         []
                     ]
@@ -220,7 +214,8 @@ body { pl_city, o200 } =
                         [ class "form-control"
                         , id "state"
                         , name "state"
-                        , required o200
+                        , disabled anonymous
+                        , required True
                         ]
                         (makeOptionList <| bringToFront (second pl_city) statesAndTerritories)
                     ]
@@ -235,7 +230,8 @@ body { pl_city, o200 } =
                         , id "zip"
                         , name "zip"
                         , placeholder "12345-67"
-                        , required o200
+                        , disabled anonymous
+                        , required True
                         ]
                         []
                     ]
@@ -252,7 +248,8 @@ body { pl_city, o200 } =
                     , id "occ"
                     , name "occ"
                     , placeholder "Occupation"
-                    , required o200
+                    , disabled anonymous
+                    , required True
                     ]
                     []
                 ]
@@ -267,9 +264,22 @@ body { pl_city, o200 } =
                     , id "emp"
                     , name "emp"
                     , placeholder "Employer"
-                    , required o200
+                    , disabled anonymous
+                    , required True
                     ]
                     []
+                ]
+            , br [] []
+            , div [ class "form-check" ]
+                [ input
+                    [ class "form-check-input"
+                    , type_ "checkbox"
+                    , value ""
+                    , id "anonymous"
+                    , onInput (always Anonymous)
+                    ]
+                    []
+                , label [ class "form-check-label", for "anonymous" ] [ text "Anonymous" ]
                 ]
             , br [] []
             , div
@@ -282,8 +292,9 @@ body { pl_city, o200 } =
                     , class "form-control"
                     , id "amount"
                     , name "amount"
+                    , value new_amount
                     , placeholder "100.00"
-                    , onInput Amount
+                    , onInput CheckAmount
                     , required True
                     ]
                     []
@@ -334,8 +345,24 @@ body { pl_city, o200 } =
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Amount a ->
-            { model | o200 = require a }
+        Anonymous ->
+            { model | anonymous = not model.anonymous }
+
+        CheckAmount s ->
+            case S.toFloat s of
+                Just a ->
+                    if model.anonymous && a > 50 then
+                        { model | new_amount = "50" }
+
+                    else
+                        { model | new_amount = s }
+
+                Nothing ->
+                    if s == "" then
+                        { model | new_amount = s }
+
+                    else
+                        { model | new_amount = "0" }
 
         GetCity p ->
             { model | pl_city = getCity model.zone p }
@@ -347,7 +374,7 @@ update msg model =
 main : Program () Model Msg
 main =
     document
-        { init = always ( Model ( "Atlanta", "GA" ) utc False, perform AdjustTimeZone here )
+        { init = always ( Model ( "Atlanta", "GA" ) utc False "", perform AdjustTimeZone here )
         , update = \msg model -> ( update msg model, none )
         , subscriptions = always (every 1 GetCity)
         , view =

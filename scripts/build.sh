@@ -2,6 +2,7 @@ cd ../static/sass
 
 scss calculator.scss calculator.css
 scss style.scss countmein.css
+scss style.scss donatefaq.css
 scss donate.scss donate.css
 scss endorsements.scss endorsements.css
 scss index.scss index.css
@@ -19,6 +20,7 @@ python -u compile.py NotAuthorized.elm
 python -u compile.py Calculator.elm
 python -u compile.py CountMeIn.elm
 python -u compile.py Donate.elm
+python -u compile.py DonateFAQ.elm
 python -u compile.py Endorsements.elm
 python -u compile.py Index.elm
 python -u compile.py Map.elm
