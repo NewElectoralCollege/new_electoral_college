@@ -28,6 +28,28 @@ function getGet(key, fallback) {
     return get ? decodeURIComponent(get[1]) : fallback;
 }
 
+// Validate forms
+
+var validate_form = function (form) {
+    return function (event) {
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+        form.classList.add("was-validated");
+    };
+};
+
+function validate_forms() {
+    const forms = $(".needs-validation");
+
+    var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener("submit", validate_form(form), false);
+    });
+}
+
+// Include HTML
+
 function includeHTML() {
     let z, i, elmnt, file, xhttp;
     z = $(".include");
