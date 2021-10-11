@@ -3,7 +3,6 @@
 -   Ensure that all elector numbers are accurate in official proposal
 -   Format essays (maybe)
 -   Finish Electoral Thresholds essay
--   Changed icon for .ico
 -   Parties not sorting properly on hemicircle and bar
     - Low framerate may have to do with the 0 seat filter being removed
 -   JavaScript functions need to have _ instead of camelcase names

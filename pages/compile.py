@@ -5,7 +5,6 @@ fle = sys.argv[1]
 
 output = "../" + fle.replace(".elm", ".html").lower()
 adding = ["<meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no'>",
-          "<link rel='icon' href='/new_electoral_college/static/img/icon.png'>",
           "<link rel='stylesheet' href='/new_electoral_college/static/bootstrap/css/bootstrap.min.css'>",
           "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>",
           "<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>",
@@ -49,7 +48,8 @@ elif fle == "NotAuthorized.elm":
 
 elif fle == "Donate.elm":
     adding.append("<script src='https://js.stripe.com/v3/'></script>")
-    adding.append("<script src='/new_electoral_college/static/js/donate.js'></script>")
+    adding.append(
+        "<script src='/new_electoral_college/static/js/donate.js'></script>")
 
 elif fle == "DonateFAQ.elm":
     encoding = "utf-8"
