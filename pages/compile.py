@@ -17,6 +17,7 @@ adding = ["<meta name='viewport' content='width=device-width,initial-scale=1,shr
           ]
 
 mathjax = '<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>'
+encoding = None
 
 if fle == "Map.elm":
     adding.append(
@@ -50,9 +51,12 @@ elif fle == "Donate.elm":
     adding.append("<script src='https://js.stripe.com/v3/'></script>")
     adding.append("<script src='/new_electoral_college/static/js/donate.js'></script>")
 
+elif fle == "DonateFAQ.elm":
+    encoding = "utf-8"
+
 s = subprocess.call("elm make " + fle + " --output=" + output)
 
-file = open(output, "r", encoding="utf-8")
+file = open(output, "r", encoding=encoding)
 
 text = file.readlines()
 text = text[:5] + adding + text[6:]
