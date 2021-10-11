@@ -1,7 +1,6 @@
 -   Finish donation page
 -   Finish main page
 -   Ensure that all elector numbers are accurate in official proposal
--   Fix social media logo position
 -   Format essays (maybe)
 -   Finish Electoral Thresholds essay
 -   Changed icon for .ico

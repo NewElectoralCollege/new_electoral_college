@@ -36,7 +36,7 @@ header model =
     nav [ class "navbar navbar-expand-md navbar-dark fixed-top bg-dark" ]
         [ a [ class "navbar-brand logo", href "#" ] [ text "The New Electoral College" ]
         , div
-            [ class "navbar-collape"
+            [ class "navbar-collapse"
             , id "navbarsDefault"
             ]
             [ ul [ class "navbar-nav mr-auto" ]
@@ -46,14 +46,11 @@ header model =
                 , li [ class "nav-item" ] [ a [ class "nav-link", active CountMeIn model, href "/new_electoral_college/countmein.html" ] [ text "Count Me In" ] ]
                 , li [ class "nav-item" ] [ a [ class "nav-link", active ReadMore model, href "/new_electoral_college/readmore.html" ] [ text "Read More" ] ]
                 ]
-            ]
-        , ul
-            [ class "navbar-nav mr-auto"
-            , id "sm"
-            ]
-            [ li [ class "nav-item" ] [ a [ class "fa fa-facebook" ] [] ]
-            , li [ class "nav-item" ] [ a [ class "fa fa-twitter" ] [] ]
-            , li [ class "nav-item" ] [ a [ class "fa fa-youtube" ] [] ]
-            , li [ class "nav-item" ] [ a [ class "fa fa-github", href "https://github.com/KingWither/new_electoral_college" ] [] ]
+            , ul [ id "sm", class "navbar-nav" ]
+                [ li [ class "nav-item" ] [ a [ class "fa fa-facebook" ] [] ]
+                , li [ class "nav-item" ] [ a [ class "fa fa-twitter" ] [] ]
+                , li [ class "nav-item" ] [ a [ class "fa fa-youtube" ] [] ]
+                , li [ class "nav-item" ] [ a [ class "fa fa-github", href "https://github.com/KingWither/new_electoral_college" ] [] ]
+                ]
             ]
         ]
