@@ -10,7 +10,7 @@ import List.Extra exposing (getAt)
 import Maybe exposing (withDefault)
 import Platform.Cmd exposing (none)
 import State exposing (makeOptionList, statesAndTerritories)
-import String as S exposing (toInt)
+import String as S
 import Task exposing (perform)
 import Time exposing (Posix, Zone, every, here, toHour, utc)
 import Tuple exposing (first, second)
