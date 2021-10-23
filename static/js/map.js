@@ -1,7 +1,7 @@
-function port() {
+var port = function () {
     let app = Elm.Map.init({
         node: $("#elm"),
-        flags: Number(getCookie("year", 2020)),
+        flags: Number(get_cookie("year", 2020)),
     });
 
     app.ports.updateImages.subscribe(function () {
@@ -24,4 +24,4 @@ function port() {
     app.ports.setCookieYear.subscribe(function (year) {
         document.cookie = "year=" + year;
     });
-}
+};

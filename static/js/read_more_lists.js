@@ -1,4 +1,4 @@
-function init() {
+var init = function () {
     let download = function (link, name) {
         const a = $("a#downloader");
         a.attr("href", link);
@@ -28,4 +28,4 @@ function init() {
     app.ports.downloadPdf.subscribe(function (module) {
         download(module.pdf, name(module.pdf));
     });
-}
+};

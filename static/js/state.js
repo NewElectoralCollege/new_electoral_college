@@ -1,11 +1,11 @@
-function init() {
+var init = function () {
     let app = Elm.StateResults.init({
         node: $("#elm"),
         flags: new RegExp(
             "[?&]" + encodeURIComponent("state") + "=([^&]*)"
         ).exec(location.search)
-            ? [getGet("state", "Georgia"), Number(getGet("year", 2020))]
-            : [getCookie("state", "Georgia"), Number(getCookie("year", 2020))],
+            ? [get_get("state", "Georgia"), Number(get_get("year", 2020))]
+            : [get_cookie("state", "Georgia"), Number(get_cookie("year", 2020))],
     });
 }
 
