@@ -20,7 +20,6 @@ the_proposal/*.log
 the_proposal/*.gz
 the_proposal/dirtytalk.sty
 
-database.csv
 data.txt
 static/sass/agincourt_font.ttf
 
