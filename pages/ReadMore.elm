@@ -30,8 +30,8 @@ proposal =
     Module
         "The Proposal"
         "See the entire proposal in professional form."
-        "the_proposal/the_proposal.tex"
-        "the_proposal/the_proposal.pdf"
+        "../nec_proposal/src/the_proposal.tex"
+        "../nec_proposal/bin/the_proposal.pdf"
         "the-proposal"
 
 
@@ -40,8 +40,8 @@ pr =
     Module
         "Proportional Representation"
         "Explanation and Analysis of Proportional Representation methods."
-        "the_proposal/proportional_representation.tex"
-        "the_proposal/proportional_representation.pdf"
+        "../nec_proposal/src/proportional_representation.tex"
+        "../nec_proposal/bin/proportional_representation.pdf"
         "proportional-representation"
 
 
@@ -50,8 +50,8 @@ amendment =
     Module
         "The Amendment"
         "See the draft Joint Resolution for a Constitutional Amendment that would allow for the New Electoral College."
-        "the_proposal/the_amendment.tex"
-        "the_proposal/the_amendment.pdf"
+        "../nec_proposal/src/the_amendment.tex"
+        "../nec_proposal/bin/the_amendment.pdf"
         "amendment"
 
 
@@ -60,8 +60,8 @@ programming =
     Module
         "Programmer's Guide to Proportional Representation"
         "See how Proportional Representation is implemented on the computer."
-        "the_proposal/programmers_guide_to_proportional_representation.tex"
-        "the_proposal/programmers_guide_to_proportional_representation.pdf"
+        "../nec_proposal/src/programmers_guide_to_proportional_representation.tex"
+        "../nec_proposal/bin/programmers_guide_to_proportional_representation.pdf"
         "programming"
 
 
