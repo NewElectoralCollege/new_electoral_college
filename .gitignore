@@ -12,14 +12,6 @@ static/sass/.sass-cache/
 static/sass/*.css
 static/sass/*.css.map
 
-the_proposal/*.pdf
-the_proposal/*.aux
-the_proposal/*.fdb_latexmk
-the_proposal/*.fls
-the_proposal/*.log
-the_proposal/*.gz
-the_proposal/dirtytalk.sty
-
 data.txt
 static/sass/agincourt_font.ttf
 

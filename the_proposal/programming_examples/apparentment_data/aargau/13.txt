@@ -1,9 +1,0 @@
-6541,0
-Stamm Luzi,4029
-Baur Mark,297
-Bächli Christian,310
-Zeller Matthias,319
-Mattenberger Georg,310
-Strebel Oliver,338
-Treier André,321
-Brunner Felix,294

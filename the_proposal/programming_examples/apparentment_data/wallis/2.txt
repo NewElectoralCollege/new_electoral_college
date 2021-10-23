@@ -1,8 +1,0 @@
-62697,0
-Egger Thomas,20041
-Zurbriggen Lehner Danica,5947
-Kalbermatter Martin,5854
-Kiechler Gerhard,5435
-Schnyder Michel,6026
-Schwestermann Alex,5732
-Wellig Diego,8264

@@ -1,7 +1,0 @@
-9153,0
-Vogel Simon,1993
-Brot Naomi,1539
-Hüther Fabio,1252
-Michel Sarah,1655
-Wolfensberger Remo,888
-Reinhart Simone,1723

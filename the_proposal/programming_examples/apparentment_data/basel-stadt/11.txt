@@ -1,5 +1,0 @@
-985,0
-Ackermann Hubert,424
-Burger René,237
-Dzodic Willi,145
-Schielly Michel,167
