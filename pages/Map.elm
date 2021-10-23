@@ -651,7 +651,7 @@ body model =
                     ("These are the projected results of the "
                         ++ S.fromInt model.year
                         ++ " Election using our proposal. It takes the final "
-                        ++ "certified results of the Election, and allocates the electors in each state according to the official rules under."
+                        ++ "certified results of the Election, and allocates the electors in each state according to the official rules under "
                         ++ "The New Electoral College. If the election were actually run under the New Electoral "
                         ++ "College, the results would have been slightly different. Voters change their behavior under more representative "
                         ++ "electoral systems."
