@@ -226,7 +226,7 @@ makeState national_parties model { list, dots, state } =
                             , cx "0"
                             , cy "0"
                             , transform <| transformString dot.status 0
-                            , Sa.style "stroke-width:0.8534;stroke:#000000"
+                            , Sa.style "stroke-width:0.5534;stroke:#000000"
                             ]
                             []
                     )
