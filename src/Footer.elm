@@ -1,7 +1,7 @@
 module Footer exposing (footer)
 
 import Html as H exposing (Html, a, div, h6, i, p, section, span)
-import Html.Attributes exposing (class, href, id)
+import Html.Attributes exposing (class, href, id, style)
 import Util exposing (text)
 
 
@@ -34,21 +34,17 @@ footer =
                         ]
                     , div [ class "col-md-2 col-lg-2 col-xl-2 mx-auto mb-4" ]
                         [ h6 [ class "text-uppercase fw-bold mb-4" ] [ text "Info" ]
-                        , p
-                            []
+                        , p []
                             [ a [ href "proposal.html", class "text-reset" ] [ text "Proposal" ]
                             ]
-                        , p
-                            []
+                        , p []
                             [ a [ href "endorsements.html", class "text-reset" ] [ text "Endorsements" ]
                             ]
-                        , p
-                            []
-                            [ a [ href "#!", class "text-reset" ] [ text "Campaign Structure" ]
+                        , p []
+                            [ a [ href "404.html", class "text-reset" ] [ text "Campaign Structure" ]
                             ]
-                        , p
-                            []
-                            [ a [ href "#!", class "text-reset" ] [ text "Local Chapters" ]
+                        , p []
+                            [ a [ href "404.html", class "text-reset" ] [ text "Local Chapters" ]
                             ]
                         ]
                     , div [ class "col-md-3 col-lg-2 col-xl-2 mx-auto mb-4" ]
@@ -59,17 +55,16 @@ footer =
                         , p []
                             [ a [ href "countmein.html", class "text-reset" ] [ text "Count Me In" ]
                             ]
-                        , p
-                            []
+                        , p []
                             [ a [ href "calculator.html", class "text-reset" ] [ text "Result Calculator" ]
                             ]
                         ]
                     , div [ class "col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4" ]
                         [ h6 [ class "text-uppercase fw-bold mb-4" ] [ text "Contact" ]
-                        , p [] [ i [ class "fa fa-home me-3" ] [], text " City, GA ZIP, US" ]
+                        , p [] [ i [ class "fa fa-home me-3" ] [], text " Atlanta, GA 30024, US" ]
                         , p [] [ i [ class "fa fa-envelope me-3" ] [], text " info@newelectoralcollege.com" ]
-                        , p [] [ i [ class "fa fa-phone me-3" ] [], text " + 01 234 567 89" ]
-                        , p [] [ i [ class "fa fa-print me-3" ] [], text " + 01 234 567 89" ]
+                        , p [ style "display" "none" ] [ i [ class "fa fa-phone me-3" ] [], text " + 01 234 567 89" ]
+                        , p [ style "display" "none" ] [ i [ class "fa fa-print me-3" ] [], text " + 01 234 567 89" ]
                         ]
                     ]
                 ]

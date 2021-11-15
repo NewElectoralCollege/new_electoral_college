@@ -4,7 +4,7 @@ import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, button, div, form, h2, input, label, p, select, span, text)
-import Html.Attributes exposing (class, disabled, for, href, id, name, novalidate, placeholder, required, type_, value)
+import Html.Attributes exposing (class, disabled, for, href, id, name, novalidate, placeholder, required, style, type_, value)
 import Html.Events exposing (onInput)
 import List.Extra exposing (getAt)
 import Maybe exposing (withDefault)
@@ -334,11 +334,12 @@ body { pl_city, anonymous, new_amount } =
             , button
                 [ class "btn btn-primary mb-2"
                 , required True
+                , disabled True
                 ]
                 [ text "Submit" ]
             ]
-        , p [ id "error-message" ] []
-        , p [] [ text "Paid for by The New Electoral College Campaign Committee (NECCC) (www.newelectoralcollege.com) and not authorized by any candidate or candidate's committee." ]
+        , p [ id "error-message" ] [ text "We are not currently taking contributions. We will begin doing so once the campaign is officially registered." ]
+        , p [ style "display" "none" ] [ text "Paid for by The New Electoral College Campaign Committee (NECCC) (www.newelectoralcollege.com) and not authorized by any candidate or candidate's committee." ]
         ]
 
 
