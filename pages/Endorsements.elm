@@ -5,12 +5,15 @@ import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, div, h1, h2, img, li, ol, p, span, text)
 import Html.Attributes exposing (attribute, class, href, id, src)
+import Http exposing (Error, expectJson, get)
+import Json.Decode as Jd exposing (Decoder, andThen, fail, field, int, list, map2, map3, map4, oneOf, string, succeed)
 import List exposing (filterMap, head, length, map)
 import List.Extra exposing (count, groupsOfVarying, splitAt, unique)
 import Maybe as M exposing (withDefault)
-import Party exposing (PartyName(..), inParenthesis)
+import Party exposing (PartyName(..), decodePartyName, inParenthesis)
 import State exposing (State(..), getName)
 import String as S
+import State exposing (decodeState)
 
 
 
@@ -26,9 +29,43 @@ type alias Term =
     ( Int, Year )
 
 
+termDecoder : Decoder Term
+termDecoder =
+    list int
+        |> andThen
+            (\n ->
+                case n of
+                    [ a ] ->
+                        succeed ( a, Incumbent )
+
+                    [ a, b ] ->
+                        succeed ( a, Definitive b )
+
+                    _ ->
+                        fail "Failed to decode term"
+            )
+
+
 type Chamber
     = Upper
     | Lower
+
+
+decodeChamber : Decoder Chamber
+decodeChamber =
+    string
+        |> andThen
+            (\n ->
+                case n of
+                    "Upper" ->
+                        succeed Upper
+
+                    "Lower" ->
+                        succeed Lower
+
+                    _ ->
+                        fail "Failed to decode chamber"
+            )
 
 
 type District
@@ -36,9 +73,17 @@ type District
     | AtLarge
 
 
+districtDecoder : Decoder District
+districtDecoder =
+    oneOf
+        [ int |> andThen (succeed << Numbered)
+        , succeed AtLarge
+        ]
+
+
 type Office
     = Executive String Term
-    | Senate State PartyName Term
+    | Senator State PartyName Term
     | Representative State District PartyName Term
     | Governor State PartyName Term
     | StateOffice String State PartyName Term
@@ -54,7 +99,7 @@ getHeader o =
         Executive _ _ ->
             "Executive Officers"
 
-        Senate _ _ _ ->
+        Senator _ _ _ ->
             "Senators"
 
         Representative _ _ _ _ ->
@@ -82,7 +127,7 @@ getHeader o =
 getParty : Office -> Maybe PartyName
 getParty o =
     case o of
-        Senate _ party _ ->
+        Senator _ party _ ->
             Just party
 
         Representative _ _ party _ ->
@@ -107,7 +152,7 @@ getTerm o =
         Executive _ term ->
             Just term
 
-        Senate _ _ term ->
+        Senator _ _ term ->
             Just term
 
         Representative _ _ _ term ->
@@ -145,8 +190,8 @@ writeOffice office =
         Executive s_office _ ->
             text s_office
 
-        Senate state _ _ ->
-            text <| "United States Senator for " ++ getName state
+        Senator state _ _ ->
+            text <| "United States Senator from " ++ getName state
 
         Representative state district _ _ ->
             text <| "Member of the House from " ++ getName state ++ "'s " ++ writeDistrict district ++ " district"
@@ -227,7 +272,67 @@ writeChamber state chamber =
             "House of Representatives"
 
         ( _, Upper ) ->
-            "Senate"
+            "Senator"
+
+
+officeDecoder : Decoder Office
+officeDecoder =
+    field "type" string
+        |> andThen
+            (\n ->
+                case n of
+                    "Executive" ->
+                        map2 Executive
+                            (field "office" string)
+                            (field "term" termDecoder)
+
+                    "Senator" ->
+                        map3 Senator
+                            (field "state" decodeState)
+                            (field "party" decodePartyName)
+                            (field "term" termDecoder)
+
+                    "Representative" ->
+                        map4 Representative
+                            (field "state" decodeState)
+                            (field "district" districtDecoder)
+                            (field "party" decodePartyName)
+                            (field "term" termDecoder)
+
+                    "Governor" ->
+                        map3 Governor
+                            (field "state" decodeState)
+                            (field "party" decodePartyName)
+                            (field "term" termDecoder)
+
+                    "State Office" ->
+                        map4 StateOffice
+                            (field "office" string)
+                            (field "state" decodeState)
+                            (field "party" decodePartyName)
+                            (field "term" termDecoder)
+
+                    "State Legislator" ->
+                        map4 StateLegislator
+                            (field "state" decodeState)
+                            (field "chamber" decodeChamber)
+                            (field "party" decodePartyName)
+                            (field "term" termDecoder)
+
+                    "State Party" ->
+                        map2 StateParty
+                            (field "state" decodeState)
+                            (field "party" decodePartyName)
+
+                    "Organization" ->
+                        Jd.map Organization (field "type" string)
+
+                    "Individual" ->
+                        Jd.map Individual (field "title" string)
+
+                    _ ->
+                        fail "Failed to decode office"
+            )
 
 
 
@@ -268,6 +373,28 @@ showEndorsement { link } =
                 img [ src url ] []
 
 
+linkDecoder : Decoder Link
+linkDecoder =
+    field "type" string
+        |> andThen
+            (\n ->
+                case n of
+                    "Website" ->
+                        Jd.map Website (field "url" string)
+
+                    "Twitter" ->
+                        Jd.map Twitter (field "code" string)
+
+                    "Facebook" ->
+                        map2 Facebook
+                            (field "user" string)
+                            (field "post" string)
+
+                    _ ->
+                        fail "Failed to decode link"
+            )
+
+
 
 -- Endorsements
 
@@ -279,42 +406,14 @@ type alias Endorsement =
     }
 
 
-endorsements : List Endorsement
-endorsements =
-    [ Endorsement "Jane Doe" (Executive "56th President of the United States" ( 2000, Definitive 2004 )) (Website "https://elm-lang.org/")
-    , Endorsement "Joe Smith" (Senate Georgia Democratic ( 1996, Incumbent )) (Twitter "1437901000401170447")
-    , Endorsement "John Citizen" (Senate Illinois Republican ( 2002, Definitive 2008 )) (Twitter "1437810022193434636")
-    , Endorsement "Fred Rubble" (Senate Georgia (Independent Nothing) ( 1968, Incumbent )) (Twitter "1437807949192237056")
-    , Endorsement "Mary Hill" (Representative Vermont AtLarge Republican ( 2001, Definitive 2015 )) (Website "https://elm-lang.org/")
-    , Endorsement "Philip Henry Muntz" (Representative California (Numbered 4) Democratic ( 1968, Definitive 2019 )) (Website "https://elm-lang.org/")
-    , Endorsement "John Bright" (Representative California (Numbered 52) Republican ( 2015, Incumbent )) (Website "https://elm-lang.org/")
-    , Endorsement "Joseph Chamberlain" (Governor Kentucky Democratic ( 2011, Incumbent )) (Website "https://elm-lang.org/")
-    , Endorsement "Alice Brown" (Governor Alabama Republican ( 1992, Definitive 1997 )) (Twitter "1437914579292524546")
-    , Endorsement "Matt Wright" (Governor Virginia Democratic ( 2010, Definitive 2015 )) (Facebook "20531316728" "10154009990506729")
-    , Endorsement "Pranav Kapoor" (Governor Maine Republican ( 2005, Definitive 2016 )) (Website "https://elm-lang.org/")
-    , Endorsement "Judy Bogart" (Governor Idaho Democratic ( 2019, Incumbent )) (Website "https://elm-lang.org/")
-    , Endorsement "Thomas McLeish" (StateOffice "Lieutenant Governor" SouthCarolina Republican ( 2014, Incumbent )) (Website "https://elm-lang.org/")
-    , Endorsement "Maurice Vuong" (StateOffice "Lieutenant Governor" Maryland Democratic ( 2011, Definitive 2013 )) (Website "https://elm-lang.org/")
-    , Endorsement "Sean Stephens" (StateOffice "Secretary of State" Iowa Republican ( 2010, Definitive 2017 )) (Website "https://elm-lang.org/")
-    , Endorsement "Megan Vargas" (StateLegislator Virginia Upper Democratic ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "Bob Jones" (StateLegislator Montana Upper Republican ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "David Ng" (StateLegislator Virginia Upper Democratic ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "Allison Cook" (StateLegislator NorthDakota Upper Republican ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "Tricia Chapman" (StateLegislator Kansas Lower Democratic ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "Nikki Jefferson" (StateLegislator Michigan Lower Republican ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "Gene MacDonald" (StateLegislator Indiana Upper Democratic ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "Simon Levanshvili" (StateLegislator California Lower Republican ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "Raymond Sullivan" (StateLegislator Alaska Upper Democratic ( 2000, Definitive 2009 )) (Website "https://elm-lang.org/")
-    , Endorsement "Democratic Party of Arizona" (StateParty Arizona Democratic) (Twitter "1434305958482751488")
-    , Endorsement "Illinois Republican Party" (StateParty Illinois Republican) (Website "https://elm-lang.org/")
-    , Endorsement "Illinois Democratic Party" (StateParty Illinois Democratic) (Website "https://elm-lang.org/")
-    , Endorsement "The Sylvia Ambrosetti Foundation" (Organization "Charity") (Website "https://elm-lang.org/")
-    , Endorsement "The Sam Miller Group" (Organization "Consulting Firm") (Website "https://elm-lang.org/")
-    , Endorsement "Pat Malkiewicz" (Individual "Businessman") (Website "https://elm-lang.org/")
-    , Endorsement "Rick Vogelman" (Individual "Author") (Website "https://elm-lang.org/")
-    , Endorsement "David Higgins" (Individual "Activist") (Website "https://elm-lang.org/")
-    , Endorsement "Duncan Bradshaw" (Individual "Scientist") (Website "https://elm-lang.org/")
-    ]
+decodeEndorsement : Decoder Endorsement
+decodeEndorsement =
+    map3 Endorsement (field "name" string) officeDecoder (field "source" linkDecoder)
+
+
+decodeEndorsements : Decoder (List Endorsement)
+decodeEndorsements =
+    list decodeEndorsement
 
 
 
@@ -370,28 +469,53 @@ makeEndorser { endorser, office, link } =
 -- Main functions
 
 
-body : Html Never
-body =
+type Msg
+    = EndorsementsReceived (Result Error (List Endorsement))
+
+
+update : Msg -> List Endorsement -> List Endorsement
+update (EndorsementsReceived rs) _ =
+    case rs of
+        Ok a ->
+            a
+
+        Err e ->
+            Debug.todo <| Debug.toString e
+
+
+body : List Endorsement -> Html Never
+body endorsements =
     let
         counts =
             map
                 (\n -> count ((==) n << getHeader << .office) endorsements)
                 (unique <| map (getHeader << .office) endorsements)
     in
-    div
-        [ class "container" ]
-        (h1 [] [ text "Endorsements" ] :: (map makeDivision <| groupsOfVarying counts endorsements))
+    case endorsements of
+        [] ->
+            div [ class "container" ] [ text "We're sorry, an error occurred." ]
+
+        _ ->
+            div [ class "container" ]
+                (h1 [] [ text "Endorsements" ] :: (map makeDivision <| groupsOfVarying counts endorsements))
 
 
-main : Program () () Never
+main : Program () (List Endorsement) Msg
 main =
     document
-        { init = always ( (), Cmd.none )
-        , update = \_ _ -> ( (), Cmd.none )
+        { init =
+            always
+                ( []
+                , get
+                    { url = "static/endorsements.json"
+                    , expect = expectJson EndorsementsReceived decodeEndorsements
+                    }
+                )
+        , update = \msg _ -> ( update msg [], Cmd.none )
         , subscriptions = always Sub.none
         , view =
-            always
+            \endorsements ->
                 { title = "The New Electoral College - Endorsements"
-                , body = [ header Nothing, br [] [], br [] [], br [] [], br [] [], Html.map never body, footer ]
+                , body = [ header Nothing, br [] [], br [] [], br [] [], br [] [], Html.map never (body endorsements), footer ]
                 }
         }
