@@ -1,9 +1,11 @@
-module State exposing (State(..), StateOutline, getName, makeOptionList, outline, states, statesAndTerritories)
+module State exposing (State(..), StateOutline, decodeState, getName, makeOptionList, outline, states, statesAndTerritories)
 
 import Char exposing (isUpper)
 import Debug exposing (toString)
 import Html exposing (Html, option, text)
+import Json.Decode exposing (Decoder, andThen, fail, string, succeed)
 import List exposing (map, sort)
+import List.Extra exposing (find)
 import String exposing (concat, dropLeft, fromChar, replace, toList)
 
 
@@ -120,6 +122,20 @@ states =
 statesAndTerritories : List String
 statesAndTerritories =
     [ "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands" ] ++ map getName states |> sort
+
+
+decodeState : Decoder State
+decodeState =
+    string
+        |> andThen
+            (\n ->
+                case find ((==) n << getName) states of
+                    Just a ->
+                        succeed a
+
+                    _ ->
+                        fail "Failed to decode state"
+            )
 
 
 makeOptionList : List String -> List (Html msg)
