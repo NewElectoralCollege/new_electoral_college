@@ -585,7 +585,7 @@ rewriteInstance parties stats year =
 getFile : Int -> Cmd Msg
 getFile year =
     Http.get
-        { url = "/new_electoral_college/static/getJson.py?year=" ++ S.fromInt year
+        { url = "data/getJson.py?year=" ++ S.fromInt year
         , expect = expectJson Response (dict string)
         }
 

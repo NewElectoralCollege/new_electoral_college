@@ -64,7 +64,7 @@ type Msg
 getFile : Int -> State -> Cmd Msg
 getFile year state =
     Http.get
-        { url = "../new_electoral_college_database/data/" ++ fromInt year ++ "/" ++ St.getName state ++ ".json"
+        { url = "data/" ++ fromInt year ++ "/" ++ St.getName state ++ ".json"
         , expect = expectJson Response fileDecoder
         }
 

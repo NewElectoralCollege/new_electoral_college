@@ -308,7 +308,7 @@ type alias Model =
 getText : Cmd Msg
 getText =
     get
-        { url = "../nec_proposal/src/the_proposal.tex"
+        { url = "proposal/src/the_proposal.tex"
         , expect = expectString TextReceived
         }
 
