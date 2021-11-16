@@ -2,7 +2,7 @@ import smtplib
 import csv
 import email.mime.multipart as emM
 import email.mime.text as emT
-
+import os
 
 def send(subject, file_name, welcome=[]):
 
@@ -11,22 +11,8 @@ def send(subject, file_name, welcome=[]):
     text = "".join(x.strip()
                    for x in list(open("./" + file_name, "r")))
 
-    # For obvious reasons, the key files are not put in the github repository.
-    try:
-        key_file = "./welcome_key.txt" if len(welcome) > 0 else "/key.txt"
-        password = list(open("./" + key_file, "r"))[0].strip()
-        if welcome == []:
-            file = open("./" + key_file, "w")
-            file.close()
-    except FileNotFoundError:
-        print("You don't have the password.")
-        exit(-1)
-    except Exception as e:
-        print(e.__class__.__name__ +
-              " error occured in the reading of the key file.")
-        exit(-1)
-
-    sender = "newelectoralcollege@gmail.com"
+    sender = os.environ["FROM_ADDRESS"]
+    password = os.environ["PASSWORD"]
 
     sent_to = []
 
@@ -44,7 +30,6 @@ def send(subject, file_name, welcome=[]):
             server.sendmail(sender, welcome[3], message.as_string().format(
                 first=welcome[0], last=welcome[1], state=welcome[2], email=welcome[3]))
         else:
-            # The "emails.csv" is also not in the github repository
             with open("./emails.csv", "r") as file:
                 lines = csv.reader(file)
                 for first, last, state, email, admin in lines:
