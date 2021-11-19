@@ -1,6 +1,5 @@
 elm-stuff
-
-emails/unsubscribe.html
+__pycache__
 
 static/bootstrap/
 
@@ -9,6 +8,9 @@ static/sass/*.css
 static/sass/*.css.map
 
 data.txt
+donation_budget.png
+538_dollar_drive.png
+
 static/sass/agincourt_font.ttf
 
 404.html
@@ -23,3 +25,4 @@ map.html
 proposal.html
 readmore.html
 stateresults.html
+unsubscribe.html
