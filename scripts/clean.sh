@@ -10,6 +10,7 @@ rm ../map.html
 rm ../proposal.html
 rm ../readmore.html
 rm ../stateresults.html
+rm ../unsubscribe.html
 
 rm ../static/sass/*.css
 rm ../static/sass/*.css.map
