@@ -31,7 +31,7 @@ main =
         , subscriptions = always Sub.none
         , view =
             always
-                { title = "The New Electoral College - Count Me In"
+                { title = "The New Electoral College - 404 Page Not Found"
                 , body = [ header Nothing, br [] [], br [] [], br [] [], br [] [], body, footer ]
                 }
         }
