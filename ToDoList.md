@@ -2,9 +2,9 @@
 -   Parties not sorting properly on hemicircle and bar
     -   Low framerate may have to do with the 0 seat filter being removed
 -   Add missing essays to read more
--   Error 500 Page
 -   Fix access permissions
 -   Mobile compatibility
+-   Profreading
 
 Projects on Hold:
 
