@@ -746,8 +746,16 @@ update msg model =
             in
             case model.current of
                 [] ->
+                    let
+                        call_previous =
+                            if model.year == firstYear then
+                                Cmd.none
+
+                            else
+                                getFile (model.year - 4)
+                    in
                     ( { model | current = rewriteInstance parties stats model.year }
-                    , getFile (model.year - 4)
+                    , call_previous
                     )
 
                 _ ->
@@ -768,8 +776,8 @@ update msg model =
             , Cmd.none
             )
 
-        Response (Err _) ->
-            ( model, Cmd.none )
+        Response (Err response) ->
+            Debug.todo <| Debug.toString response
 
 
 subscriptions : Model -> Sub Msg
