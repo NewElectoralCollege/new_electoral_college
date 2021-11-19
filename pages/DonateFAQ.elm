@@ -21,7 +21,7 @@ body : Html Never
 body =
     div [ class "container" ]
         [ toHtmlWith options [] markdown
-        , a [ type_ "button", class "btn btn-primary", href "/new_electoral_college/donate.html" ] [ text "Donate" ]
+        , a [ type_ "button", class "btn btn-primary", href "/donate.html" ] [ text "Donate" ]
         ]
 
 
@@ -99,7 +99,7 @@ Currently, we do not accept bitcoin donations. If we recive enough requests, we 
 
 ## Are there public officials that you won't contribute to?
 
-On exceedingly rare occasions, we will not contribute to a figure that endorses our proposal if we believe that their values pose an active danger to democracy. We do not specificly define these individuals, apart from the eight senators that voted to overturn the Electoral College results in 2021.
+On exceedingly rare occasions, we will not contribute to a figure that endorses our proposal if we believe that their values pose an active danger to democracy. We do not specificly define these individuals.
 
 """
 

@@ -108,7 +108,7 @@ body { pl_city, anonymous, new_amount } =
         , br [] []
         , p []
             [ text "You might want to view our "
-            , a [ href "/new_electoral_college/donatefaq.html" ] [ text "FAQs" ]
+            , a [ href "/donatefaq.html" ] [ text "FAQs" ]
             , text " about donations."
             ]
         , p []
