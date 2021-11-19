@@ -1,0 +1,93 @@
+{
+    "Calculator.elm": {
+        "output": "../calculator.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/calculator.css'/>"
+        ],
+        "encoding": "None"
+    },
+    "Map.elm": {
+        "output": "../map.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/map.css'/>",
+            "<script src='static/js/map.js'></script>"
+        ],
+        "encoding": "None"
+    },
+    "ReadMore.elm": {
+        "output": "../readmore.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/readmore.css'/>",
+            "<script src='static/js/read_more_lists.js'></script>",
+            "<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script><script type='text/javascript' id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'></script>"
+        ],
+        "encoding": "None"
+    },
+    "StateResults.elm": {
+        "output": "../stateresults.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/state.css'/>",
+            "<script src='static/js/state.js'></script>",
+            "<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script><script type='text/javascript' id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'></script>"
+        ],
+        "encoding": "None"
+    },
+    "Endorsements.elm": {
+        "output": "../endorsements.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/endorsements.css'/>",
+            "<script async src='https://platform.twitter.com/widgets.js'></script>",
+            "<script async defer src='https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2'></script>",
+            "<script src='static/js/endorsements.js'></script>"
+        ],
+        "encoding": "None"
+    },
+    "PageNotFound.elm": {
+        "output": "../404.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/pagenotfound.css'/>"
+        ],
+        "encoding": "None"
+    },
+    "NotAuthorized.elm": {
+        "output": "../403.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/notauthorized.css'/>"
+        ],
+        "encoding": "None"
+    },
+    "Donate.elm": {
+        "output": "../donate.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/donate.css'/>",
+            "<script src='https://js.stripe.com/v3/'></script>",
+            "<script src='static/js/donate.js'></script>"
+        ],
+        "encoding": "None"
+    },
+    "Unsubscribe.elm": {
+        "output": "../unsubscribe.html",
+        "header": ["<script src='static/js/unsubscribe.js'></script>"],
+        "encoding": "None"
+    },
+    "DonateFAQ.elm": {
+        "output": "../donatefaq.html",
+        "header": ["<link rel='stylesheet' href='static/sass/donatefaq.css'/>"],
+        "encoding": "UTF-8"
+    },
+    "CountMeIn.elm": {
+        "output": "../countmein.html",
+        "header": ["<link rel='stylesheet' href='static/sass/countmein.css'/>"],
+        "encoding": "None"
+    },
+    "Index.elm": {
+        "output": "../index.html",
+        "header": ["<link rel='stylesheet' href='static/sass/index.css'/>"],
+        "encoding": "None"
+    },
+    "Proposal.elm": {
+        "output": "../proposal.html",
+        "header": ["<link rel='stylesheet' href='static/sass/proposal.css'/>"],
+        "encoding": "None"
+    }
+}
