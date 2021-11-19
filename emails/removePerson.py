@@ -1,4 +1,4 @@
-#!C:\Python27\python
+#!/usr/bin/python
 
 import cgi
 import csv
