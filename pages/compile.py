@@ -51,6 +51,9 @@ elif fle == "Donate.elm":
     adding.append(
         "<script src='static/js/donate.js'></script>")
 
+elif fle == "Unsubscribe.elm":
+    adding.append("<script src='static/js/unsubscribe.js'></script>")
+
 elif fle == "DonateFAQ.elm":
     encoding = "utf-8"
 
@@ -67,7 +70,7 @@ if fle == "Map.elm":
 elif fle == "CountMeIn.elm":
     text = text[:-16] + ["validate_forms();}"] + text[-15:]
 
-elif fle == "StateResults.elm" or fle == "ReadMore.elm":
+elif fle == "StateResults.elm" or fle == "ReadMore.elm" or fle == "Unsubscribe.elm":
     text = text[:-17] + ["init();"] + text[-16:]
 
 elif fle == "PageNotFound.elm" or fle == "NotAuthorized.elm":
