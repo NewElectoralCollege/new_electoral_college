@@ -1,10 +1,8 @@
 module Unsubscribe exposing (main)
 
 import Browser exposing (document)
-import Debug exposing (toString)
 import Html exposing (Html, pre, text)
-import Http exposing (Error, expectString, header, post, stringBody)
-import Json.Encode exposing (encode, string)
+import Http exposing (Error, expectString, post, stringBody)
 
 
 
@@ -27,7 +25,7 @@ init : String -> ( Model, Cmd Msg )
 init email =
     ( Nothing
     , post
-        { url = "removePerson.py"
+        { url = "emails/removePerson.py"
         , body = stringBody "text/html" email
         , expect = expectString SentCGI
         }
@@ -37,17 +35,20 @@ init email =
 view : Model -> Html Msg
 view model =
     case model of
-        Just t  -> pre [] [ text t ]
-        Nothing -> pre [] []
+        Just t ->
+            pre [] [ text t ]
+
+        Nothing ->
+            pre [] []
 
 
-update : Msg -> Model -> Model
-update msg model =
+update : Msg -> Model
+update msg =
     case msg of
         SentCGI (Ok a) ->
             Just a
 
-        SentCGI (Err e) ->
+        SentCGI (Err _) ->
             Just "An error occured. Please contact the administrators. (Error 111)"
 
 
@@ -55,7 +56,7 @@ main : Program String Model Msg
 main =
     document
         { init = init
-        , update = \msg model -> ( update msg model, Cmd.none )
+        , update = \msg _ -> ( update msg, Cmd.none )
         , subscriptions = always Sub.none
         , view =
             \model ->
