@@ -3,10 +3,9 @@ module Calculator.Hare exposing (hare, quota)
 import Calculator.Animation exposing (resetTransformations)
 import Calculator.Model exposing (Data, totalSeats, totalVotes)
 import List exposing (map, reverse, sortBy)
-import List.Extra exposing (findIndex, splitAt, updateIfIndex)
+import List.Extra exposing (findIndex, updateIfIndex)
 import Maybe exposing (withDefault)
 import Party exposing (Party)
-import Tuple exposing (mapBoth)
 
 
 quota : Data -> Float
@@ -30,11 +29,6 @@ setExtraSeat party =
         | extra_seat = Just True
         , seats = party.seats + 1
     }
-
-
-setNoExtraSeat : Party -> Party
-setNoExtraSeat party =
-    { party | extra_seat = Just False }
 
 
 extraSeats : Data -> List Party -> List Party

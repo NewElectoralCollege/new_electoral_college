@@ -3,7 +3,7 @@ module Calculator.Animation exposing (moveSlices, resetSlices, resetTransformati
 import Animation exposing (Animatable, Status(..), Target, move)
 import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Data, Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
-import List exposing (concatMap, foldl, map, sum)
+import List exposing (concatMap, map, sum)
 import List.Extra exposing (takeWhile, updateIf)
 import Party exposing (Party, PartyName(..))
 
