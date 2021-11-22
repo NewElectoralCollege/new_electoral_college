@@ -5,6 +5,11 @@
 -   Fix access permissions
 -   Mobile compatibility
 -   Profreading
+-   Verify all imports in elm.json are neccisary
+-   Use elm-arithmetic
+-   Clean up imports
+-   Fix state results
+-   Mix map loading every time year is changed
 
 Projects on Hold:
 
