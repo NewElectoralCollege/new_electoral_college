@@ -1,4 +1,4 @@
-module State exposing (State(..), StateOutline, decodeState, getName, makeOptionList, outline, states, statesAndTerritories)
+module State exposing (State(..), center, decodeState, getName, makeOptionList, states, statesAndTerritories)
 
 import Char exposing (isUpper)
 import Debug exposing (toString)
@@ -163,166 +163,158 @@ getName state =
         |> replace " Of " " of "
 
 
-type alias StateOutline =
-    { x : Float
-    , y : Float
-    , width : Float
-    , height : Float
-    }
-
-
-outline : State -> StateOutline
-outline state =
+center : State -> ( Float, Float )
+center state =
     case state of
         Alabama ->
-            StateOutline 492.4187 129.51944 37.238781 82.202576
+            ( 397.84961, 138.35794 )
 
         Alaska ->
-            StateOutline 36.09499 198.73701 106.64176 69.758583
+            ( 76.140747, 186.16605 )
 
         Arizona ->
-            StateOutline 177.47163 98.563324 68.972443 87.950653
+            ( 123.29901, 106.23036 )
 
         Arkansas ->
-            StateOutline 418.9455 106.394 44.921261 54.199783
+            ( 333.62344, 113.10128 )
 
         California ->
-            StateOutline 62.723625 35.508301 67.517708 132.37302
+            ( 33.772861, 57.363304 )
 
         Colorado ->
-            StateOutline 246.25554 36.569534 83.914627 62.180717
+            ( 197.22939, 52.0196 )
 
         Connecticut ->
-            StateOutline 691.57336 94.687637 44.673531 22.36248
+            ( 696.51532, 81.351776 )
 
         Delaware ->
-            StateOutline 721.02448 201.64488 18.868713 45.751633
+            ( 737.75012, 162.12654 )
 
         DistrictOfColumbia ->
-            StateOutline 646.30328 269.89484 9.2927532 6.7461395
+            ( 621.33716, 206.13264 )
 
         Florida ->
-            StateOutline 502.44095 191.65808 90.914276 99.892456
+            ( 466.66937, 202.86136 )
 
         Georgia ->
-            StateOutline 531.38696 128.69734 37.325054 68.420944
+            ( 436.00665, 134.35741 )
 
         Hawaii ->
-            StateOutline 207.24611 218.67052 55.956772 34.094986
+            ( 185.30777, 211.87964 )
 
         Idaho ->
-            StateOutline 148.42528 -32.424271 62.744469 53.70792
+            ( 116.16545, -26.53595 )
 
         Illinois ->
-            StateOutline 468.48819 13.216415 35.599812 85.692909
+            ( 365.06607, 40.431717 )
 
         Indiana ->
-            StateOutline 588.14087 -103.25637 38.845997 74.5168
+            ( 440.99203, -75.178154 )
 
         Iowa ->
-            StateOutline 394.76978 -2.1643698 77.717377 48.415207
+            ( 319.03452, 16.454082 )
 
         Kansas ->
-            StateOutline 330.06042 52.065708 89.015045 46.67168
+            ( 271.02896, 63.38488 )
 
         Kentucky ->
-            StateOutline 489.35892 70.209358 74.287804 36.217716
+            ( 412.53015, 67.288467 )
 
         Louisiana ->
-            StateOutline 425.8204 170.15668 50.14761 52.653034
+            ( 339.95142, 171.59372 )
 
         Maine ->
-            StateOutline 741.87134 -56.074318 49.049866 68.224724
+            ( 544.91211, -64.565536 )
 
         Maryland ->
-            StateOutline 644.68329 205.34126 77.436104 58.629501
+            ( 704.39142, 152.62688 )
 
         Massachusetts ->
-            StateOutline 655.47339 78.998398 146.04584 16.370806
-
-        Missouri ->
-            StateOutline 405.21436 42.597088 79.69281 71.603775
-
-        Montana ->
-            StateOutline 162.69676 -87.455528 143.59465 61.846279
+            ( 767.69861, -35.130657 )
 
         Michigan ->
-            StateOutline 511.63086 -74.648277 53.247669 100.45961
+            ( 405.65195, -14.733506 )
 
         Minnesota ->
-            StateOutline 387.72873 -87.055099 62.360752 84.903046
+            ( 308.88324, -34.793686 )
 
         Mississippi ->
-            StateOutline 461.12634 129.71049 33.533707 62.691135
+            ( 365.14948, 137.54379 )
 
-        Ohio ->
-            StateOutline 628.38147 -102.13499 61.607937 67.74073
+        Missouri ->
+            ( 329.39972, 64.923454 )
+
+        Montana ->
+            ( 169.64409, -61.026711 )
 
         Nebraska ->
-            StateOutline 306.13052 5.583293 104.56277 46.533787
-
-        Oklahoma ->
-            StateOutline 355.07327 98.630424 66.104538 52.133888
+            ( 257.93274, 22.952248 )
 
         Nevada ->
-            StateOutline 121.20766 21.101032 65.493599 77.029831
+            ( 84.63942, 29.62895 )
 
         NewHampshire ->
-            StateOutline 728.50018 43.753941 25.301216 37.333866
-
-        Oregon ->
-            StateOutline 61.023174 -44.941399 96.718002 66.168266
+            ( 716.69318, -29.098757 )
 
         NewJersey ->
-            StateOutline 732.31976 151.25398 36.797558 72.852074
+            ( 560.89905, 16.958797 )
 
         NewMexico ->
-            StateOutline 246.38519 98.629982 72.310974 78.528084
+            ( 186.2827, 111.79833 )
 
         NewYork ->
-            StateOutline 583.03168 -29.966894 129.14343 54.99575
+            ( 644.93469, 0.39888215 )
 
         NorthCarolina ->
-            StateOutline 566.56183 105.01874 106.32806 28.595343
+            ( 473.60602, 87.470322 )
 
         NorthDakota ->
-            StateOutline 306.1832 -87.449394 89.606354 47.531338
+            ( 254.90767, -58.160706 )
+
+        Ohio ->
+            ( 487.47314, -83.713608 )
+
+        Oklahoma ->
+            ( 281.55511, 105.36795 )
+
+        Oregon ->
+            ( 62.664146, -40.081 )
 
         Pennsylvania ->
-            StateOutline 576.2406 22.070066 101.0198 35.881847
+            ( 471.01007, 11.854957 )
 
         RhodeIsland ->
-            StateOutline 750.56775 121.27811 25 25
+            ( 746.33173, 57.790436 )
 
         SouthCarolina ->
-            StateOutline 568.53125 133.27658 51.624866 47.587463
+            ( 498.20657, 138.8876 )
 
         SouthDakota ->
-            StateOutline 306.07565 -40.075359 91.091095 45.277149
+            ( 254.90767, -19.111414 )
 
         Tennessee ->
-            StateOutline 473.63629 104.30125 84.314865 25.581249
+            ( 395.85468, 95.485962 )
 
         Texas ->
-            StateOutline 307.58276 106.37769 124.52712 165.30261
+            ( 257.69229, 168.58836 )
 
         Utah ->
-            StateOutline 186.59776 21.076538 59.886551 77.590057
+            ( 136.22748, 41.092957 )
 
         Vermont ->
-            StateOutline 709.50104 32.357742 17.475252 48.10199
+            ( 693.50623, -34.91116 )
 
         Virginia ->
-            StateOutline 586.92297 75.394981 63.691685 30.35725
+            ( 541.30615, 63.721447 )
 
         Washington ->
-            StateOutline 59.211422 -85.982491 93.121674 52.07362
+            ( 72.299355, -86.26503 )
 
         WestVirginia ->
-            StateOutline 536.88135 29.634378 38.408298 35.710678
+            ( 453.24347, 48.95 )
 
         Wisconsin ->
-            StateOutline 439.6813 -55.769642 69.961426 69.2435
+            ( 352.96109, -17.061199 )
 
         Wyoming ->
-            StateOutline 222.40602 -25.508213 83.726303 62.197315
+            ( 182.54111, -3.3484042 )

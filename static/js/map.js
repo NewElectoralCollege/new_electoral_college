@@ -10,7 +10,9 @@ var port = function () {
             "static/img/us_electoral_college_2010.svg"
         );
 
-        includeHTML();
+        includeHTML(function (string) {
+            return string.replace(new RegExp("<\\?xml(.|\\s)*?<\\/defs>"), "");
+        });
     });
 
     app.ports.wipeContent.subscribe(function () {

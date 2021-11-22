@@ -48,10 +48,14 @@ var validate_forms = function () {
     });
 };
 
+var identity = function (a) {
+    return a;
+};
+
 // Include HTML
 
-var includeHTML = function () {
-    let z, i, elmnt, file, xhttp;
+var includeHTML = function (alter = identity) {
+    let z, i, elmnt, file, xhttp, act_text;
     z = $(".include");
     for (i = 0; i < z.length; i++) {
         elmnt = z[i];
@@ -61,10 +65,9 @@ var includeHTML = function () {
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4) {
                     if (this.status == 200) {
-                        elmnt.insertAdjacentHTML(
-                            "afterbegin",
-                            this.responseText
-                        );
+                        act_text = alter(this.responseText);
+
+                        elmnt.insertAdjacentHTML("afterbegin", act_text);
                     }
                     if (this.status == 404) {
                         console.log("Hello");
