@@ -13,7 +13,7 @@ import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, s
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (Decoder, at, decodeString, dict, list, string)
-import List exposing (concat, concatMap, drop, filter, filterMap, foldl, head, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
+import List exposing (concat, concatMap, drop, filter, filterMap, head, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
 import List.Extra exposing (find, getAt, init, last, scanl, splitAt, uniqueBy)
 import Maybe as M exposing (withDefault)
 import Party as P exposing (Party, PartyName(..), ifQualifyingParty, toString)
