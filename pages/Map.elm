@@ -435,7 +435,6 @@ barDots =
             800 / 2 - ((columns / 2) * (spotRadius * 2))
 
         pattern =
-            --Runoff ( columns, 10 ) rows
             Rectangle columns rows
     in
     makeCircles ( start_x, 0 ) pattern 538
@@ -679,7 +678,7 @@ rewriteInstance parties stats year =
 getFile : Int -> Cmd Msg
 getFile year =
     Http.get
-        { url = "../new_electoral_college_database/data/getJson.py?year=" ++ S.fromInt year
+        { url = "../data/getJson.py?year=" ++ S.fromInt year
         , expect = expectJson Response (dict string)
         }
 
