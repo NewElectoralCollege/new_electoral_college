@@ -5,7 +5,6 @@
 -   Mobile compatibility !
 -   Profreading
 -   Verify all imports in elm.json are neccisary
--   Use elm-arithmetic
 -   Clean up imports
 
 Projects on Hold:

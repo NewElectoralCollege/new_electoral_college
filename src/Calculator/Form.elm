@@ -6,11 +6,9 @@ import Either exposing (Either(..))
 import Html exposing (Attribute, Html, a, abbr, button, div, i, input, li, span, ul)
 import Html.Attributes exposing (class, placeholder, style, title, type_, value)
 import Html.Events exposing (onClick, onInput, onMouseEnter, onMouseLeave)
-import Maybe exposing (withDefault)
-import Party exposing (PartyName(..), getName)
+import Party exposing (Party, PartyName(..), getName)
 import String exposing (fromFloat, fromInt, left)
-import Util as U exposing (boolToInt)
-import Party exposing (Party)
+import Util as U
 
 
 border : Attribute Msg
@@ -37,7 +35,12 @@ makePartyForm model n party =
                 "none"
 
         extra_seats =
-            boolToInt <| withDefault False party.extra_seat
+            case party.extra_seat of
+                Just True ->
+                    1
+
+                _ ->
+                    0
 
         initial_seats =
             party.seats - extra_seats

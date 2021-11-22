@@ -3,10 +3,9 @@ module Calculator.Animation exposing (moveSlices, resetSlices, resetTransformati
 import Animation exposing (Animatable, Status(..), Target, move)
 import Calculator.Geometry exposing (halfHeight, halfWidth, width)
 import Calculator.Model exposing (Data, Showing(..), Slice, getCurrentShowing, totalSeats, totalVotes)
-import List exposing (concatMap, foldl, map)
+import List exposing (concatMap, foldl, map, sum)
 import List.Extra exposing (takeWhile, updateIf)
 import Party exposing (Party, PartyName(..))
-import Util exposing (summateRecords)
 
 
 moveSlices : List (Animatable Slice) -> PartyName -> List (Animatable Slice)
@@ -55,7 +54,8 @@ getTransformedAngle model showing party =
 
         move_from =
             takeWhile ((/=) party.name << .name) model.parties
-                |> foldl (summateRecords (getCurrentShowing showing)) 0
+                |> map (getCurrentShowing showing)
+                |> sum
                 |> (+)
                     (if xor (majority == True) (showing == Vote) then
                         pshowing

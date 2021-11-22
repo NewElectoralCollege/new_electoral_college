@@ -30,16 +30,13 @@ import Util as U
     exposing
         ( colorCircles
         , dropMaybe
-        , first3
-        , fix_change
+        , fixChange
         , getPartyProgressBar
         , partyContainer
         , popularVotePercent
         , seatChange
         , styleNumFloat
         , stylePercent
-        , summateRecords
-        , tupleTail
         , voteChange
         , won
         )
@@ -391,7 +388,7 @@ hemicircleDots =
         numbers =
             range 1 (floor rows)
 
-        makeRow : Float -> List ( Float, Float, Float )
+        makeRow : Float -> List ( Float, ( Float, Float ) )
         makeRow i =
             let
                 magic_number =
@@ -410,16 +407,17 @@ hemicircleDots =
                 angle n =
                     toFloat n * ((pi - 2 * s) / dots) + s
 
-                coords : Int -> ( Float, Float, Float )
+                coords : Int -> ( Float, ( Float, Float ) )
                 coords n =
                     ( angle n
-                    , 100 * (rowRadius * cos (angle n) + 4)
-                    , 100 * (1 - (rowRadius * sin (angle n)) + 1)
+                    , ( 100 * (rowRadius * cos (angle n) + 4)
+                      , 100 * (1 - (rowRadius * sin (angle n)) + 1)
+                      )
                     )
             in
             map coords (range 0 <| floor dots)
     in
-    concatMap (makeRow << toFloat) numbers |> sortBy first3 |> reverse |> map tupleTail
+    concatMap (makeRow << toFloat) numbers |> sortBy first |> reverse |> map second
 
 
 barDots : List ( Float, Float )
@@ -527,7 +525,7 @@ makePartyRow model party =
         , td [] [ U.text <| stylePercent <| party.votes / totalVotesInInstance model.current ]
         , td [] [ U.text party.seats ]
         , td [] [ U.text real_electors ]
-        , td [] <| fix_change <| "+" ++ (S.fromFloat <| party.seats - toFloat real_electors)
+        , td [] <| fixChange <| "+" ++ (S.fromFloat <| party.seats - toFloat real_electors)
         ]
 
 
@@ -628,7 +626,7 @@ type alias Instance =
 
 totalVotesInInstance : Instance -> Float
 totalVotesInInstance =
-    foldl (summateRecords (.total_votes << .stats)) 0
+    sum << map (.total_votes << .stats)
 
 
 partiesInInstance : Instance -> List Party

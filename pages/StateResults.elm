@@ -154,21 +154,21 @@ doPartyBars list parties nx election =
                        ]
 
 
+makeLabel : Float -> Html msg
+makeLabel n =
+    g
+        []
+        [ rect
+            [ x <| S.fromFloat <| 100.0 + (n * 700.0), y "370" ]
+            []
+        , text_
+            [ x <| S.fromFloat <| 90.0 + (n * 700.0), y "460" ]
+            [ U.text <| stylePercent n ]
+        ]
+
+
 labels : List (Html msg)
 labels =
-    let
-        makeLabel : Float -> Html msg
-        makeLabel n =
-            g
-                []
-                [ rect
-                    [ x <| S.fromFloat <| 100.0 + (n * 700.0), y "370" ]
-                    []
-                , text_
-                    [ x <| S.fromFloat <| 90.0 + (n * 700.0), y "460" ]
-                    [ U.text <| stylePercent n ]
-                ]
-    in
     map makeLabel [ 0.5, 0.25, 0.75, 0, 1 ]
 
 
@@ -340,7 +340,10 @@ update msg model =
         Response (Ok { parties, stats }) ->
             let
                 year =
-                    stats.name |> right 4 |> toInt |> withDefault firstYear
+                    stats.name
+                        |> right 4
+                        |> toInt
+                        |> withDefault firstYear
 
                 p2 =
                     parties

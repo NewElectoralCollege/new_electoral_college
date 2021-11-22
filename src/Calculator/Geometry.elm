@@ -1,10 +1,9 @@
 module Calculator.Geometry exposing (Point, angle, halfHeight, halfWidth, height, point, startingAngle, width)
 
 import Calculator.Model exposing (Data, Showing(..), getCurrentShowing, totalVotes)
-import List exposing (foldl)
+import List exposing (map, sum)
 import List.Extra exposing (takeWhile)
 import Party exposing (Party)
-import Util exposing (summateRecords)
 
 
 type alias Point =
@@ -51,7 +50,8 @@ angle model showing party =
 startingAngle : Data -> Showing -> Party -> Float
 startingAngle model showing party =
     takeWhile ((/=) party.name << .name) model.parties
-        |> foldl (summateRecords (angle model showing)) 0.0
+        |> map (angle model showing)
+        |> sum
 
 
 pointSpecificR : Float -> Float -> Point

@@ -3,11 +3,10 @@ module Calculator.Hare exposing (hare, quota)
 import Calculator.Animation exposing (resetTransformations)
 import Calculator.Model exposing (Data, totalSeats, totalVotes)
 import List exposing (map, reverse, sortBy)
-import List.Extra exposing (findIndex, splitAt)
+import List.Extra exposing (findIndex, splitAt, updateIfIndex)
 import Maybe exposing (withDefault)
 import Party exposing (Party)
 import Tuple exposing (mapBoth)
-import Util exposing (concatTuple)
 
 
 quota : Data -> Float
@@ -43,9 +42,7 @@ extraSeats model list =
     list
         |> sortBy (withDefault 0 << .extra_votes)
         |> reverse
-        |> splitAt (floor <| model.seats - totalSeats list)
-        |> mapBoth (map setExtraSeat) (map setNoExtraSeat)
-        |> concatTuple
+        |> updateIfIndex ((>) (floor <| model.seats - totalSeats list)) setExtraSeat
         |> sortBy (\n -> withDefault 0 <| findIndex ((==) n.name << .name) list)
 
 

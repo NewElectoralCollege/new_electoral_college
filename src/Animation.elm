@@ -100,8 +100,16 @@ step dt obj =
                         (cs + nv.ts * dt)
             in
             if
-                (abs (tx - n.tx) < 1 && abs (ty - n.ty) < 1 && abs (tt - n.ta) < 1 && abs (ts - n.ts) < 1)
-                    && ((abs nv.tx < 0.6) && (abs nv.ty < 0.6) && (abs nv.ta < 0.6) && (abs nv.ts < 0.6))
+                ((abs (tx - n.tx) < 1)
+                    && (abs (ty - n.ty) < 1)
+                    && (abs (tt - n.ta) < 1)
+                    && (abs (ts - n.ts) < 1)
+                )
+                    && ((abs nv.tx < 0.6)
+                            && (abs nv.ty < 0.6)
+                            && (abs nv.ta < 0.6)
+                            && (abs nv.ts < 0.6)
+                       )
             then
                 { obj | status = Static tx ty (normalize ta) ts }
 

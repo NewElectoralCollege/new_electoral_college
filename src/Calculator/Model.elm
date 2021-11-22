@@ -17,9 +17,9 @@ module Calculator.Model exposing
 import Animation exposing (Animatable, Target)
 import Basics as B
 import Either exposing (Either)
+import List exposing (map, sum)
 import Party exposing (Party, PartyName)
 import Random exposing (Generator, int, list)
-import Util exposing (summateRecords)
 
 
 type Showing
@@ -65,19 +65,14 @@ type alias Model =
     Maybe Data
 
 
-summateParties : (Party -> Float) -> List Party -> Float
-summateParties function parties =
-    List.foldl (summateRecords function) 0 parties
-
-
 totalVotes : List Party -> Float
 totalVotes parties =
-    summateParties .votes parties
+    sum <| map .votes parties
 
 
 totalSeats : List Party -> Float
 totalSeats parties =
-    summateParties .seats parties
+    sum <| map .seats parties
 
 
 getCurrentShowing : Showing -> Party -> Float

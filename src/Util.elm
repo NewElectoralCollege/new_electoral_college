@@ -1,12 +1,9 @@
 module Util exposing
-    ( boolToInt
-    , bringToFront
+    ( bringToFront
     , colorCircles
-    , concatTuple
-    , divide
     , dropMaybe
-    , first3
-    , fix_change
+    , fixChange
+    , fixString
     , getPartyProgressBar
     , partyContainer
     , popularVotePercent
@@ -14,9 +11,7 @@ module Util exposing
     , styleNum
     , styleNumFloat
     , stylePercent
-    , summateRecords
     , text
-    , tupleTail
     , voteChange
     , won
     )
@@ -52,47 +47,6 @@ dropMaybe x =
             Debug.todo "A Nothing variable sent through dropMaybe function"
 
 
-summateRecords : (a -> number) -> a -> number -> number
-summateRecords function record value =
-    function record + value
-
-
-boolToInt : Bool -> number
-boolToInt bool =
-    if bool then
-        1
-
-    else
-        0
-
-
-first3 : ( a, b, c ) -> a
-first3 ( a, _, _ ) =
-    a
-
-
-tupleTail : ( a, b, c ) -> ( b, c )
-tupleTail ( _, b, c ) =
-    ( b, c )
-
-
-
--- Basic operations
-
-
-divide :
-    Int
-    -> Int
-    -> Float -- Takes the divisor as the first argumen This is used while pipeing (|>).
-divide a b =
-    toFloat b / toFloat a
-
-
-concatTuple : ( List a, List a ) -> List a
-concatTuple ( a, b ) =
-    a ++ b
-
-
 
 -- Used to style numbers with commas, for instance (1000000 -> 1,000,000)
 
@@ -126,8 +80,7 @@ stylePercent : Float -> String
 stylePercent percent =
     (percent
         * 10000
-        |> B.round
-        |> divide 100
+        |> (/) 100
         |> fromFloat
     )
         ++ "%"
@@ -137,23 +90,23 @@ stylePercent percent =
 -- Used to insert green and red triangles for change measurements
 
 
-fix_string : String -> String
-fix_string string =
+fixString : String -> String
+fixString string =
     string
         |> replace "+" ""
         |> replace "-" ""
 
 
-fix_change : String -> List (Html msg)
-fix_change string =
+fixChange : String -> List (Html msg)
+fixChange string =
     if withDefault False <| M.map (\r -> R.contains r string) (fromString "(\\+0(?!.)|\\+0%)") then
         [ i [ class "steady" ] [], text (" " ++ dropLeft 1 string) ]
 
     else if contains "+-" string then
-        [ i [ class "decrease" ] [], text (" " ++ fix_string string) ]
+        [ i [ class "decrease" ] [], text (" " ++ fixString string) ]
 
     else if contains "+" string then
-        [ i [ class "increase" ] [], text (" " ++ fix_string string) ]
+        [ i [ class "increase" ] [], text (" " ++ fixString string) ]
 
     else
         [ text "n/a" ]
@@ -256,7 +209,7 @@ voteChange : ( Party, Maybe Party ) -> Stats -> Maybe Stats -> List (Html msg)
 voteChange party new_s old_s =
     case ( party, old_s ) of
         ( ( cparty, Just pparty ), Just j_old_s ) ->
-            fix_change <| "+" ++ stylePercent (popularVotePercent cparty new_s - popularVotePercent pparty j_old_s)
+            fixChange <| "+" ++ stylePercent (popularVotePercent cparty new_s - popularVotePercent pparty j_old_s)
 
         _ ->
             [ text "n/a" ]
@@ -266,7 +219,7 @@ seatChange : ( Party, Maybe Party ) -> List (Html msg)
 seatChange party =
     case party of
         ( cparty, Just pparty ) ->
-            fix_change <| "+" ++ fromFloat (cparty.seats - pparty.seats)
+            fixChange <| "+" ++ fromFloat (cparty.seats - pparty.seats)
 
         _ ->
             [ text "n/a" ]
