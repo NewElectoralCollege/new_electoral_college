@@ -7,7 +7,6 @@
 -   Verify all imports in elm.json are neccisary
 -   Use elm-arithmetic
 -   Clean up imports
--   Mix map loading every time year is changed !
 
 Projects on Hold:
 

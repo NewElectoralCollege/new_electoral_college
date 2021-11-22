@@ -16,11 +16,7 @@ var port = function () {
     });
 
     app.ports.wipeContent.subscribe(function () {
-        let p = $("#paths");
-
-        while (p.firstChild) {
-            p.removeChild(p.firstChild);
-        }
+        $(".include#paths").html("");
     });
 
     app.ports.setCookieYear.subscribe(function (year) {
