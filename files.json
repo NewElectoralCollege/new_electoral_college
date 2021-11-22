@@ -26,7 +26,7 @@
     "StateResults.elm": {
         "output": "../stateresults.html",
         "header": [
-            "<link rel='stylesheet' href='static/sass/state.css'/>",
+            "<link rel='stylesheet' href='static/sass/stateresults.css'/>",
             "<script src='static/js/state.js'></script>",
             "<script src='https://polyfill.io/v3/polyfill.min.js?features=es6'></script><script type='text/javascript' id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js'></script>"
         ],
