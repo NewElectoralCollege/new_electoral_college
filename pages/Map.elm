@@ -1,30 +1,31 @@
 port module Map exposing (main)
 
 import Animation exposing (Animatable, Dot, Status(..), Target, isAnyMoving, move, stepAll, transformString)
+import Arithmetic exposing (divisorCount, divisors, intSquareRoot, isPrime, isSquare)
 import Browser exposing (document)
 import Browser.Events exposing (onAnimationFrameDelta)
 import Dict as D
 import Election exposing (Election, Stats, firstYear, lastYear, newParty, setStats)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
-import Html exposing (Attribute, Html, a, br, button, div, h1, p, span, table, td, th, tr)
+import Html exposing (Attribute, Html, a, br, button, div, h1, p, s, span, table, td, th, tr)
 import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, style, type_)
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (Decoder, at, decodeString, dict, list, string)
-import List exposing (append, concat, concatMap, drop, filter, filterMap, foldl, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
-import List.Extra exposing (find, getAt, init, uniqueBy)
+import List exposing (concat, concatMap, drop, filter, filterMap, foldl, head, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
+import List.Extra exposing (find, getAt, init, last, scanl, splitAt, uniqueBy)
 import Maybe as M exposing (withDefault)
 import Party as P exposing (Party, PartyName(..), ifQualifyingParty, toString)
 import Platform.Cmd exposing (batch)
 import Result as R
 import Sources exposing (getCitation)
-import State exposing (State(..), StateOutline, getName, outline, states)
+import State exposing (State(..), center, getName, states)
 import String as S
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r, transform)
 import Ticket exposing (nominee, realElectors)
-import Tuple exposing (first, second)
+import Tuple exposing (first, mapBoth, second)
 import Util as U
     exposing
         ( colorCircles
@@ -48,157 +49,257 @@ import Util as U
 -- Dot patterns
 
 
-type Direction
-    = Vertical
-    | Horizontal
-
-
 type Pattern
-    = Square Int
-    | Rectangle Direction Int Int
-    | Triumvirate Direction
+    = Rectangle Int Int
+    | Runoff ( Int, Int ) Int
 
 
 spotRadius : Float
 spotRadius =
-    5.5
+    4.114
+
+
+spacing : Float
+spacing =
+    2
 
 
 getX : Pattern -> Float
 getX pattern =
     case pattern of
-        Square a ->
-            toFloat a
-
-        Rectangle _ x _ ->
+        Rectangle x _ ->
             toFloat x
 
-        Triumvirate Vertical ->
-            1
-
-        Triumvirate Horizontal ->
-            3
+        Runoff ( x, _ ) _ ->
+            toFloat x
 
 
 getY : Pattern -> Float
 getY pattern =
     case pattern of
-        Square a ->
-            toFloat a
-
-        Rectangle _ _ y ->
+        Rectangle _ y ->
             toFloat y
 
-        Triumvirate Vertical ->
-            3
-
-        Triumvirate Horizontal ->
-            1
+        Runoff _ y ->
+            toFloat y
 
 
-getPattern : StateOutline -> Float -> Pattern
-getPattern so total_seats =
-    if total_seats > 3 then
-        let
-            sq =
-                sqrt total_seats
-
-            a =
-                floor <| min so.width so.height / (2 * spotRadius)
-
-            b =
-                round <|
-                    if a == 0 then
-                        total_seats
-
-                    else
-                        total_seats / toFloat a
-        in
-        if member total_seats [ 4, 9 ] then
-            Square (floor sq)
-
-        else if 2 * spotRadius * sq > min so.width so.height then
-            if so.width < so.height then
-                Rectangle Vertical a b
-
-            else
-                Rectangle Horizontal b a
-
-        else if so.width < so.height then
-            Rectangle Vertical (round sq) (floor sq + 1)
-
-        else
-            Rectangle Horizontal (floor sq + 1) (round sq)
-
-    else if so.width < so.height then
-        Triumvirate Vertical
-
-    else
-        Triumvirate Horizontal
+thinStates : List State
+thinStates =
+    [ Arkansas
+    , California
+    , Delaware
+    , Georgia
+    , Illinois
+    , Indiana
+    , Mississippi
+    , Nevada
+    , Utah
+    , Vermont
+    ]
 
 
-row : Float -> Float -> Int -> List ( Float, Float )
-row x y columns =
-    map (\n -> ( x + (spotRadius * 2 * toFloat n), y + (spotRadius * 2) )) <| range 0 (columns - 1)
+exceptions : State -> Int -> Maybe Pattern
+exceptions state year =
+    let
+        census =
+            floor ((toFloat year - 1) / 10) - 197
+
+        eight =
+            Just <| Runoff ( 3, 2 ) 3
+
+        eleven =
+            Just <| Runoff ( 3, 2 ) 4
+    in
+    case ( state, census ) of
+        ( Illinois, 4 ) ->
+            Just <| Runoff ( 3, 2 ) 7
+
+        ( Indiana, 4 ) ->
+            eleven
+
+        ( Louisiana, 4 ) ->
+            eight
+
+        ( Indiana, 3 ) ->
+            eleven
+
+        ( California, 2 ) ->
+            Just <| Runoff ( 5, 4 ) 11
+
+        ( Georgia, 2 ) ->
+            Just <| Runoff ( 4, 1 ) 4
+
+        ( Illinois, 2 ) ->
+            Just <| Runoff ( 3, 1 ) 7
+
+        ( Ohio, 2 ) ->
+            Just <| Runoff ( 5, 1 ) 5
+
+        ( Illinois, 1 ) ->
+            Just <| Rectangle 3 8
+
+        ( Ohio, 1 ) ->
+            Just <| Runoff ( 5, 3 ) 5
+
+        ( Pennsylvania, 1 ) ->
+            Just <| Runoff ( 7, 4 ) 4
+
+        ( Tennessee, 1 ) ->
+            Just <| Runoff ( 6, 5 ) 2
+
+        ( Illinois, 0 ) ->
+            Just <| Runoff ( 4, 2 ) 7
+
+        ( Indiana, 0 ) ->
+            Just <| Runoff ( 3, 1 ) 5
+
+        ( Michigan, 0 ) ->
+            Just <| Runoff ( 6, 3 ) 4
+
+        ( Missouri, 0 ) ->
+            Just <| Rectangle 3 4
+
+        ( Pennsylvania, 0 ) ->
+            Just <| Runoff ( 7, 6 ) 4
+
+        ( Tennessee, 0 ) ->
+            Just <| Rectangle 5 2
+
+        _ ->
+            Nothing
 
 
-column : Float -> Float -> Int -> List ( Float, Float )
-column x y rows =
-    map (\n -> ( x + (spotRadius * 2), y + (spotRadius * 2 * toFloat n) )) <| range 0 (rows - 1)
+getPattern : State -> Int -> Int -> Pattern
+getPattern state year total_seats =
+    case exceptions state year of
+        Just a ->
+            a
 
+        Nothing ->
+            let
+                p =
+                    isPrime total_seats
 
-type CoordType
-    = X
-    | Y
+                s =
+                    isSquare total_seats
 
+                t =
+                    member state thinStates
+            in
+            if s then
+                Rectangle (intSquareRoot total_seats) (intSquareRoot total_seats)
 
-makeOffset : Pattern -> CoordType -> Float -> Float
-makeOffset pattern xoy coord =
-    (spotRadius * 2 * (coord / 2 - 0.5))
-        + (case ( pattern, xoy ) of
-            ( Square _, Y ) ->
-                spotRadius * 2
-
-            ( Rectangle _ _ _, Y ) ->
-                spotRadius * 2
-
-            ( Triumvirate Vertical, X ) ->
-                spotRadius * 2
-
-            ( Triumvirate Horizontal, Y ) ->
-                spotRadius * 2
-
-            ( _, _ ) ->
-                0
-          )
-
-
-makeCircles : ( Float, Float ) -> Pattern -> Int -> Int -> List ( Float, Float )
-makeCircles ( x, y ) pattern total_seats progress =
-    if progress >= total_seats then
-        []
-
-    else
-        case pattern of
-            Square b ->
-                append (row x y b) (makeCircles ( x, y + (spotRadius * 2) ) pattern total_seats (progress + b))
-
-            Rectangle _ c _ ->
+            else if not p || total_seats == 13 then
                 let
-                    offset =
-                        if (total_seats - (progress + c)) < c then
-                            spotRadius * toFloat (c - (total_seats - (progress + c)))
+                    f ns =
+                        divisors ns
+                            |> splitAt (floor <| (toFloat <| divisorCount ns) / 2)
+                            |> mapBoth last head
+                            |> mapBoth (withDefault 1) (withDefault 1)
+
+                    ( a, b ) =
+                        f total_seats
+
+                    ( a2, b2 ) =
+                        if isSquare (total_seats + 2) then
+                            ( intSquareRoot (total_seats + 2), intSquareRoot (total_seats + 2) )
 
                         else
-                            0
+                            f (total_seats + 2)
                 in
-                concat [ row x y c, makeCircles ( x + offset, y + (spotRadius * 2) ) pattern total_seats (progress + c) ]
+                if max a b - min a b > max a2 b2 - min a2 b2 then
+                    Runoff ( b2, b2 - 2 ) a2
 
-            Triumvirate Vertical ->
-                column x y 3
+                else if t then
+                    Rectangle a b
 
-            Triumvirate Horizontal ->
-                row x y 3
+                else
+                    Rectangle b a
+
+            else if total_seats == 3 then
+                if t then
+                    Rectangle 1 3
+
+                else
+                    Rectangle 3 1
+
+            else
+                let
+                    ( a, b ) =
+                        case getPattern state year (total_seats + 1) of
+                            Rectangle a1 b1 ->
+                                ( a1, b1 )
+
+                            Runoff ( a1, _ ) b1 ->
+                                ( a1, b1 )
+                in
+                Runoff ( a, a - 1 ) b
+
+
+makeOffset : Pattern -> ( Float, Float )
+makeOffset pattern =
+    let
+        x =
+            getX pattern
+
+        y =
+            getY pattern
+
+        a c =
+            (c / 2 - 0.5) * (spotRadius * 2)
+
+        b c =
+            ((c / 2 - 1) * spacing) + (spacing / 2)
+
+        ax =
+            a x
+
+        ay =
+            a y
+
+        bx =
+            b x
+
+        by =
+            b y
+    in
+    ( ax + bx
+    , ay + by
+    )
+
+
+makeCircles : ( Float, Float ) -> Pattern -> Int -> List ( Float, Float )
+makeCircles ( ix, iy ) pattern total_seats =
+    let
+        ( a, c, b ) =
+            case pattern of
+                Rectangle a1 b1 ->
+                    ( a1, 0, b1 )
+
+                Runoff ( a1, c1 ) b1 ->
+                    ( a1, c1, b1 )
+
+        breaks =
+            map ((*) a) (range 1 b)
+
+        shift =
+            toFloat <| a - c
+    in
+    scanl
+        (\n ( x, y ) ->
+            if member (n - 1) breaks then
+                if total_seats - c == (n - 1) then
+                    ( ix + (spotRadius * shift) + (spacing / 2 * shift), y + (spotRadius * 2) + spacing )
+
+                else
+                    ( ix, y + (spotRadius * 2) + spacing )
+
+            else
+                ( x + (spotRadius * 2) + spacing, y )
+        )
+        ( ix, iy )
+        (range 2 total_seats)
 
 
 makeState : List Party -> Model -> Election -> List (Svg Msg)
@@ -226,7 +327,7 @@ makeState national_parties model { list, dots, state } =
                             , cx "0"
                             , cy "0"
                             , transform <| transformString dot.status 0
-                            , Sa.style "stroke-width:0.5534;stroke:#000000"
+                            , Sa.style "stroke-width:0.3;stroke:#000000"
                             ]
                             []
                     )
@@ -238,34 +339,26 @@ makeState national_parties model { list, dots, state } =
 
 
 makeMapDots : Election -> List ( Float, Float )
-makeMapDots { stats, state } =
+makeMapDots { stats, state, year } =
     let
-        ol =
-            outline state
+        c =
+            center state
 
         pattern =
-            getPattern ol stats.total_seats
+            getPattern state year <| floor stats.total_seats
 
         offset =
-            ( makeOffset pattern X (getX pattern)
-            , makeOffset pattern Y (getY pattern)
-            )
-
-        center =
-            ( ol.x + (ol.width / 2)
-            , ol.y + (ol.height / 2)
-            )
+            makeOffset pattern
 
         begin =
-            ( first center - first offset
-            , second center - second offset
+            ( first c - first offset
+            , second c - second offset
             )
     in
     makeCircles
         begin
         pattern
         (floor <| stats.total_seats)
-        0
 
 
 makePartyDots : State -> Instance -> List Election -> List PartyName -> List ( Float, Float ) -> List ( Float, Float )
@@ -342,9 +435,10 @@ barDots =
             800 / 2 - ((columns / 2) * (spotRadius * 2))
 
         pattern =
-            Rectangle Horizontal columns rows
+            --Runoff ( columns, 10 ) rows
+            Rectangle columns rows
     in
-    makeCircles ( start_x, 0 ) pattern 538 0
+    makeCircles ( start_x, 0 ) pattern 538
 
 
 makeDots : Instance -> Election -> List (Animatable Dot)
@@ -585,7 +679,7 @@ rewriteInstance parties stats year =
 getFile : Int -> Cmd Msg
 getFile year =
     Http.get
-        { url = "data/getJson.py?year=" ++ S.fromInt year
+        { url = "../new_electoral_college_database/data/getJson.py?year=" ++ S.fromInt year
         , expect = expectJson Response (dict string)
         }
 
@@ -668,7 +762,11 @@ body model =
                     , id "map"
                     ]
                     [ svg
-                        [ Sa.width "975px", Sa.height "520px", Sa.viewBox "0 0 800 193", id "map-svg" ]
+                        [ Sa.width "975px"
+                        , Sa.height "520px"
+                        , Sa.viewBox "0 0 800 193"
+                        , Sa.id "map-svg"
+                        ]
                         (g [ Sa.class "include", Sa.id "paths" ] []
                             :: concatMap (makeState (partiesInInstance model.current) model) model.current
                         )
