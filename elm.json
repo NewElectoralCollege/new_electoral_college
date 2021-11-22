@@ -22,7 +22,8 @@
             "elm-community/list-extra": "8.2.4",
             "elm-explorations/markdown": "1.0.0",
             "gampleman/elm-visualization": "2.3.0",
-            "kingwither/elmeither": "1.0.0"
+            "kingwither/elmeither": "1.0.0",
+            "lynn/elm-arithmetic": "3.0.0"
         },
         "indirect": {
             "avh4/elm-color": "1.0.0",
