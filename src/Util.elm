@@ -78,9 +78,12 @@ styleNumFloat =
 
 stylePercent : Float -> String
 stylePercent percent =
-    (percent
+    ((percent
         * 10000
-        |> (/) 100
+        |> B.round
+        |> toFloat
+     )
+        / 100
         |> fromFloat
     )
         ++ "%"
