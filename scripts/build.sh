@@ -10,13 +10,13 @@ scss map.scss map.css
 scss proposal.scss proposal.css
 scss readmore.scss readmore.css
 scss stateresults.scss stateresults.css
-scss error.scss pagenotfound.css
-scss error.scss notauthorized.css
+scss error.scss error.css
 
 cd ../../pages
 
 python -u ../compile.py PageNotFound.elm
 python -u ../compile.py NotAuthorized.elm
+python -u ../compile.py InternalServerError.elm
 python -u ../compile.py Calculator.elm
 python -u ../compile.py CountMeIn.elm
 python -u ../compile.py Donate.elm

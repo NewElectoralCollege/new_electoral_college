@@ -1,5 +1,6 @@
 rm ../404.html
 rm ../403.html
+rm ../500.html
 rm ../calculator.html
 rm ../donate.html
 rm ../donatefaq.html
