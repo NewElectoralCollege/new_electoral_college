@@ -15,7 +15,7 @@ body =
         , div
             [ class "container col-sm-4 include"
             , id "map"
-            , attribute "nec-include-html" "https://www.newelectoralcollege.com/static/img/blank_states.svg"
+            , attribute "nec-include-html" "static/img/blank_states.svg"
             ]
             []
         , span [ class "m" ] [ text "!" ]

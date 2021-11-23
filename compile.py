@@ -50,7 +50,7 @@ elif fle == "CountMeIn.elm":
 elif fle == "StateResults.elm" or fle == "ReadMore.elm" or fle == "Unsubscribe.elm":
     text = text[:-17] + ["init();"] + text[-16:]
 
-elif fle == "PageNotFound.elm" or fle == "NotAuthorized.elm":
+elif fle in ["PageNotFound.elm", "NotAuthorized.elm", "InternalServerError.elm"]:
     text = text[:-16] + ["includeHTML();}"] + text[-15:]
 
 file.close()
