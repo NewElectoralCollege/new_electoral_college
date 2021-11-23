@@ -6,6 +6,7 @@
 -   Profreading
 -   Verify all imports in elm.json are neccisary
 -   Clean up imports
+-   Fix alignment of state list
 
 Projects on Hold:
 
