@@ -3,6 +3,7 @@ module Proposal exposing (main)
 import Axis exposing (tickCount)
 import Browser exposing (document)
 import Either exposing (Either(..))
+import Env exposing (Result(..), getEnv, parseEnv)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html as H exposing (Html, br, div, h2, img, node, p, text)
@@ -14,6 +15,7 @@ import List.Extra exposing (last, scanl)
 import Maybe exposing (withDefault)
 import Platform.Cmd exposing (batch)
 import Regex exposing (Match, Regex, fromString, replace)
+import Result as R
 import Scale exposing (band, bandwidth, convert, defaultBandConfig, linear, toRenderable)
 import String exposing (dropLeft, dropRight, fromFloat, fromInt, join, lines, split, trim)
 import Svg as S exposing (Svg, g, rect, svg, text_)
@@ -46,7 +48,10 @@ decodeAllocationRecord =
 
 getRecordFile : Cmd Msg
 getRecordFile =
-    get { url = "static/elector_history.json", expect = expectJson AllocationRecordsReceived (list decodeAllocationRecord) }
+    get
+        { url = "static/elector_history.json"
+        , expect = expectJson AllocationRecordsReceived (list decodeAllocationRecord)
+        }
 
 
 
@@ -291,8 +296,9 @@ type alias Content =
 
 
 type Msg
-    = TextReceived (Result Error String)
-    | AllocationRecordsReceived (Result Error (List AllocationRecord))
+    = Env (R.Result Error String)
+    | TextReceived (R.Result Error String)
+    | AllocationRecordsReceived (R.Result Error (List AllocationRecord))
 
 
 type alias Model =
@@ -305,10 +311,10 @@ type alias Model =
 -- Functions
 
 
-getText : Cmd Msg
-getText =
+getText : String -> Cmd Msg
+getText url_beginning =
     get
-        { url = "proposal/src/the_proposal.tex"
+        { url = url_beginning ++ "/src/the_proposal.tex"
         , expect = expectString TextReceived
         }
 
@@ -471,24 +477,32 @@ body { text, allocation_records } =
             H.text ""
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Env r ->
+            case parseEnv "PROPOSAL" r of
+                Good env ->
+                    ( model, batch [ getText env, getRecordFile ] )
+
+                _ ->
+                    ( model, Cmd.none )
+
         TextReceived (Ok result) ->
-            { model | text = Just result }
+            ( { model | text = Just result }, Cmd.none )
 
         AllocationRecordsReceived (Ok result) ->
-            { model | allocation_records = Just result }
+            ( { model | allocation_records = Just result }, Cmd.none )
 
         _ ->
-            model
+            ( model, Cmd.none )
 
 
 main : Program () Model Msg
 main =
     document
-        { init = always ( Model Nothing Nothing, batch [ getText, getRecordFile ] )
-        , update = \msg model -> ( update msg model, Cmd.none )
+        { init = always ( Model Nothing Nothing, getEnv Env )
+        , update = update
         , subscriptions = always Sub.none
         , view =
             \model ->

@@ -3,6 +3,7 @@ module StateResults exposing (main)
 import Browser exposing (document)
 import Dict as D exposing (Dict, insert, values)
 import Election exposing (Election, File, Stats, fileDecoder, firstYear, lastYear)
+import Env exposing (Result(..), getEnv, parseEnv)
 import Footer exposing (footer)
 import Header exposing (header)
 import Html exposing (Html, a, br, button, div, h2, i, p, span, table, td, text, tfoot, th, thead, tr)
@@ -14,6 +15,7 @@ import List.Extra exposing (find)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party, PartyName(..), getName, ifQualifyingParty)
 import Platform.Cmd exposing (batch)
+import Result as R
 import Sources exposing (getCitation)
 import State as St exposing (State(..), states)
 import String as S exposing (fromFloat, fromInt, left, right, toInt)
@@ -47,24 +49,26 @@ getQuota total_votes total_seats =
 
 
 type alias Model =
-    { elections : Dict Int Election
+    { database : String
+    , elections : Dict Int Election
     , year : Int
     , state : State
     }
 
 
 type Msg
-    = Response (Result Error File)
+    = Env (R.Result Error String)
+    | Response (R.Result Error File)
 
 
 
 -- JSON decoders
 
 
-getFile : Int -> State -> Cmd Msg
-getFile year state =
+getFile : String -> Int -> State -> Cmd Msg
+getFile database year state =
     Http.get
-        { url = "data/" ++ fromInt year ++ "/" ++ St.getName state ++ ".json"
+        { url = database ++ "/" ++ fromInt year ++ "/" ++ St.getName state ++ ".json"
         , expect = expectJson Response fileDecoder
         }
 
@@ -337,6 +341,19 @@ makeStateList state year =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Env r ->
+            case parseEnv "DATABASE" r of
+                Good env ->
+                    ( { model | database = env }
+                    , batch
+                        (map (\n -> getFile env (4 * n + firstYear) model.state)
+                            (range 0 (floor (toFloat (lastYear - firstYear) / 4)))
+                        )
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
+
         Response (Ok { parties, stats }) ->
             let
                 year =
@@ -368,13 +385,11 @@ init ( statename, year ) =
             withDefault Alabama <| find ((==) statename << St.getName) states
     in
     ( Model
+        ""
         D.empty
         year
         state
-    , batch
-        (map (\n -> getFile (4 * n + firstYear) state)
-            (range 0 (floor (toFloat (lastYear - firstYear) / 4)))
-        )
+    , getEnv Env
     )
 
 

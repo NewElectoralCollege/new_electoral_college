@@ -6,6 +6,8 @@ import Browser exposing (document)
 import Browser.Events exposing (onAnimationFrameDelta)
 import Dict as D
 import Election exposing (Election, Stats, firstYear, lastYear, newParty, setStats)
+import Env exposing (Result(..), getEnv, parseEnv)
+import Envfile
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html exposing (Attribute, Html, a, br, button, div, h1, p, s, span, table, td, th, tr)
@@ -16,6 +18,7 @@ import Json.Decode exposing (Decoder, at, decodeString, dict, list, string)
 import List exposing (concat, concatMap, drop, filter, filterMap, head, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
 import List.Extra exposing (find, getAt, init, last, scanl, splitAt, uniqueBy)
 import Maybe as M exposing (withDefault)
+import Parser exposing (run)
 import Party as P exposing (Party, PartyName(..), ifQualifyingParty, toString)
 import Platform.Cmd exposing (batch)
 import Result as R
@@ -673,10 +676,10 @@ rewriteInstance parties stats year =
 -- Files
 
 
-getFile : Int -> Cmd Msg
-getFile year =
+getFile : Int -> String -> Cmd Msg
+getFile year database =
     Http.get
-        { url = "../data/getJson.py?year=" ++ S.fromInt year
+        { url = database ++ "/getJson.py?year=" ++ S.fromInt year
         , expect = expectJson Response (dict string)
         }
 
@@ -685,12 +688,12 @@ getFile year =
 -- Commands
 
 
-getBatch : Int -> Cmd Msg
-getBatch year =
+getBatch : Model -> Cmd Msg
+getBatch { year, database } =
     batch
         [ wipeContent ()
         , setCookieYear year
-        , getFile year
+        , getFile year database
         , updateImages ()
         ]
 
@@ -700,8 +703,9 @@ getBatch year =
 
 
 type Msg
-    = ChangeYear Int
-    | Response (Result Error (D.Dict String String))
+    = Env (R.Result Error String)
+    | ChangeYear Int
+    | Response (R.Result Error (D.Dict String String))
     | MoveDots DotPosition
     | TimeDelta Float
 
@@ -714,6 +718,7 @@ type DotPosition
 
 type alias Model =
     { year : Int
+    , database : String
     , current : Instance
     , previous : Instance
     , dotpos : DotPosition
@@ -726,8 +731,12 @@ type alias Model =
 
 init : Int -> ( Model, Cmd Msg )
 init year =
-    ( Model year [] [] Map
-    , getBatch year
+    let
+        model =
+            Model year "" [] [] Map
+    in
+    ( model
+    , getEnv Env
     )
 
 
@@ -819,8 +828,16 @@ body model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Env r ->
+            case parseEnv "DATABASE" r of
+                Good env ->
+                    ( { model | database = env }, getBatch { model | database = env } )
+
+                _ ->
+                    ( model, Cmd.none )
+
         ChangeYear year ->
-            ( { model | year = year, current = [], previous = [] }, getBatch year )
+            ( { model | year = year, current = [], previous = [] }, getBatch { model | year = year } )
 
         Response (Ok response) ->
             let
@@ -847,7 +864,7 @@ update msg model =
                                 Cmd.none
 
                             else
-                                getFile (model.year - 4)
+                                getFile (model.year - 4) model.database
                     in
                     ( { model | current = rewriteInstance parties stats model.year }
                     , call_previous
