@@ -19,6 +19,10 @@ var port = function () {
         $(".include#paths").html("");
     });
 
+    app.ports.error500.subscribe(function () {
+        window.location.href = "500.html";
+    });
+
     app.ports.setCookieYear.subscribe(function (year) {
         document.cookie = "year=" + year;
     });

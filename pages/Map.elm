@@ -886,8 +886,8 @@ update msg model =
             , Cmd.none
             )
 
-        Response (Err response) ->
-            Debug.todo <| Debug.toString response
+        Response (Err _) ->
+            ( model, error500 () )
 
 
 subscriptions : Model -> Sub Msg
@@ -917,6 +917,9 @@ port updateImages : () -> Cmd msg
 
 
 port wipeContent : () -> Cmd msg
+
+
+port error500 : () -> Cmd msg
 
 
 port setCookieYear : Int -> Cmd msg
