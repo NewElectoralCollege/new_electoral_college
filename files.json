@@ -45,21 +45,21 @@
     "PageNotFound.elm": {
         "output": "../404.html",
         "header": [
-            "<link rel='stylesheet' href='static/sass/pagenotfound.css'/>"
+            "<link rel='stylesheet' href='static/sass/error.css'/>"
         ],
         "encoding": "None"
     },
     "NotAuthorized.elm": {
         "output": "../403.html",
         "header": [
-            "<link rel='stylesheet' href='static/sass/notauthorized.css'/>"
+            "<link rel='stylesheet' href='static/sass/error.css'/>"
         ],
         "encoding": "None"
     },
     "InternalServerError.elm": {
         "output": "../500.html",
         "header": [
-            "<link rel='stylesheet' href='static/sass/notauthorized.css'/>"
+            "<link rel='stylesheet' href='static/sass/error.css'/>"
         ],
         "encoding": "None"
     },
