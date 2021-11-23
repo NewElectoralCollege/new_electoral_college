@@ -45,14 +45,21 @@
     "PageNotFound.elm": {
         "output": "../404.html",
         "header": [
-            "<link rel='stylesheet' href='https://www.newelectoralcollege.com/static/sass/pagenotfound.css'/>"
+            "<link rel='stylesheet' href='static/sass/pagenotfound.css'/>"
         ],
         "encoding": "None"
     },
     "NotAuthorized.elm": {
         "output": "../403.html",
         "header": [
-            "<link rel='stylesheet' href='https://www.newelectoralcollege.com/static/sass/notauthorized.css'/>"
+            "<link rel='stylesheet' href='static/sass/notauthorized.css'/>"
+        ],
+        "encoding": "None"
+    },
+    "InternalServerError.elm": {
+        "output": "../500.html",
+        "header": [
+            "<link rel='stylesheet' href='static/sass/notauthorized.css'/>"
         ],
         "encoding": "None"
     },
