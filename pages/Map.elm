@@ -7,7 +7,6 @@ import Browser.Events exposing (onAnimationFrameDelta)
 import Dict as D
 import Election exposing (Election, Stats, firstYear, lastYear, newParty, setStats)
 import Env exposing (Result(..), getEnv, parseEnv)
-import Envfile
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html exposing (Attribute, Html, a, br, button, div, h1, p, s, span, table, td, th, tr)
@@ -18,7 +17,6 @@ import Json.Decode exposing (Decoder, at, decodeString, dict, list, string)
 import List exposing (concat, concatMap, drop, filter, filterMap, head, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
 import List.Extra exposing (find, getAt, init, last, scanl, splitAt, uniqueBy)
 import Maybe as M exposing (withDefault)
-import Parser exposing (run)
 import Party as P exposing (Party, PartyName(..), ifQualifyingParty, toString)
 import Platform.Cmd exposing (batch)
 import Result as R
