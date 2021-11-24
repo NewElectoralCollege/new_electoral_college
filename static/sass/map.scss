@@ -51,6 +51,8 @@
 
 #map {
     display: inline-block;
+    width: 85%;
+    height: 520px;
 }
 
 .dot-toggle {
@@ -64,6 +66,5 @@
 .single-results-div {
     display: inline-block;
     vertical-align: middle;
-    left: 260px;
     min-width: fit-content;
 }

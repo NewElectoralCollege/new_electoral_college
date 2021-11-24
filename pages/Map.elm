@@ -742,7 +742,7 @@ body : Model -> Html Msg
 body model =
     div [ class "container", id "main" ]
         [ div
-            [ class "container" ]
+            []
             [ h1 [ id "election" ] [ U.text model.year ]
             , p []
                 [ U.text
@@ -756,18 +756,13 @@ body model =
                     )
                 ]
             ]
-        , div
-            [ class "container" ]
-            [ div
-                [ class "container" ]
+        , div []
+            [ div []
                 [ span (getArrow model "left") []
-                , div
-                    [ class "container col-sm-4"
-                    , id "map"
-                    ]
+                , div [ id "map" ]
                     [ svg
-                        [ Sa.width "975px"
-                        , Sa.height "520px"
+                        [ Sa.width "100%"
+                        , Sa.height "100%"
                         , Sa.viewBox "0 0 800 193"
                         , Sa.id "map-svg"
                         ]
@@ -777,10 +772,9 @@ body model =
                     ]
                 , span (getArrow model "right") []
                 ]
-            , div
-                [ class "container", style "width" "fit-content" ]
+            , div []
                 [ div
-                    [ class "container col-sm-2"
+                    [ class "col-sm-4"
                     , id "switch"
                     , style "display" "inline-block"
                     ]
@@ -800,20 +794,16 @@ body model =
                             ]
                         ]
                     ]
-                , div [ class "container col-sm-2 single-results-div" ]
+                , div [ class "col-sm-4 single-results-div" ]
                     [ table
                         [ id "single-results" ]
                         (makePartyHeader ++ makePartyRows model)
                     ]
                 ]
             , br [] []
-            , table
-                [ class "container" ]
-                [ tr
-                    [ id "row-for-detailed-results" ]
-                    [ partyContainer model.current (map Just model.previous) doStateRow Democratic
-                    , partyContainer model.current (map Just model.previous) doStateRow Republican
-                    ]
+            , div []
+                [ partyContainer model.current (map Just model.previous) doStateRow Democratic
+                , partyContainer model.current (map Just model.previous) doStateRow Republican
                 ]
             , br [] []
             , getCitation model.year

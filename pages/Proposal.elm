@@ -7,12 +7,11 @@ import Env exposing (Result(..), getEnv, parseEnv)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
 import Html as H exposing (Html, br, div, h2, img, node, p, text)
-import Html.Attributes exposing (src, style, width)
+import Html.Attributes exposing (id, src, style, width)
 import Http exposing (Error, expectJson, expectString, get)
 import Json.Decode as Jd exposing (Decoder, field, int, list)
 import List exposing (map, map2, map3, take)
-import List.Extra exposing (last, scanl)
-import Maybe exposing (withDefault)
+import List.Extra exposing (scanl)
 import Platform.Cmd exposing (batch)
 import Regex exposing (Match, Regex, fromString, replace)
 import Result as R
@@ -63,6 +62,16 @@ picture url wdth =
     img
         [ src url
         , width wdth
+        ]
+        []
+        |> Right
+
+
+pictureScaled : String -> Content
+pictureScaled url =
+    img
+        [ src url
+        , style "width" "100%"
         ]
         []
         |> Right
@@ -162,7 +171,7 @@ hareQuotaBars =
 
 simpleExample : Content
 simpleExample =
-    picture "static/img/simple_example.png" 610
+    picture "static/img/simple_example.png" 500
 
 
 percentLineup : Content
@@ -172,12 +181,12 @@ percentLineup =
 
 caveat : Html Never
 caveat =
-    img [ src "static/img/caveat.png" ] []
+    img [ src "static/img/caveat.png", style "width" "100%" ] []
 
 
 alliances : Content
 alliances =
-    picture "static/img/alliances.png" 620
+    pictureScaled "static/img/alliances.png"
 
 
 e1992 : Content
@@ -331,7 +340,7 @@ leftDivShort =
 
 divSpecific : String -> Content -> Html Never
 divSpecific cls content =
-    p [ class cls, class "centered-text" ]
+    p [ class <| cls ++ " centered-text" ]
         [ case content of
             Left str ->
                 text str
@@ -362,16 +371,22 @@ textAndImage sectiontype par =
                 splt =
                     split " \\begin{flushright}\\textit{---" par
 
-                author =
-                    withDefault "Unknown" <| last <| splt
+                quote_text =
+                    dropRight 4 >> dropLeft 9 >> text
+
+                author_text =
+                    dropRight 17 >> text
             in
             case splt of
-                quote :: _ ->
+                quote :: author :: _ ->
                     [ node
                         "blockquote"
                         [ class "blockquote mb-0" ]
-                        [ p [] [ quote |> dropRight 4 |> dropLeft 9 |> text ]
-                        , H.footer [ class "blockquote-footer" ] [ author |> dropRight 17 |> text ]
+                        [ p [] [ quote_text quote ]
+                        , H.footer
+                            [ class "blockquote-footer" ]
+                            [ author_text author ]
+                        , br [] []
                         ]
                     ]
 
@@ -471,7 +486,7 @@ body { text, allocation_records } =
                 |> replace commentRegex eater
                 |> split "\\\\"
                 |> map2 section (sectionTypeList b)
-                |> div [ class "container" ]
+                |> div [ class "container", id "main" ]
 
         _ ->
             H.text ""

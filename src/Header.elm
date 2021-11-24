@@ -1,8 +1,8 @@
 module Header exposing (Page(..), header)
 
 import Calculator.Model exposing (Model)
-import Html exposing (Attribute, Html, a, div, li, nav, text, ul)
-import Html.Attributes exposing (class, href, id)
+import Html exposing (Attribute, Html, a, button, div, li, nav, span, text, ul)
+import Html.Attributes exposing (attribute, class, href, id, type_)
 
 
 type Page
@@ -35,9 +35,16 @@ header : Model -> Html msg
 header model =
     nav [ class "navbar navbar-expand-md navbar-dark fixed-top bg-dark" ]
         [ a [ class "navbar-brand logo", href "#" ] [ text "The New Electoral College" ]
+        , button
+            [ class "navbar-toggler"
+            , type_ "button"
+            , attribute "data-toggle" "collapse"
+            , attribute "data-target" "#navbars"
+            ]
+            [ span [ class "navbar-toggler-icon" ] [] ]
         , div
-            [ class "navbar-collapse"
-            , id "navbarsDefault"
+            [ class "collapse navbar-collapse"
+            , id "navbars"
             ]
             [ ul [ class "navbar-nav mr-auto" ]
                 [ li [ class "nav-item" ] [ a [ class "nav-link", active Home model, href "index.html" ] [ text "Home" ] ]

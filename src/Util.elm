@@ -18,7 +18,7 @@ module Util exposing
 
 import Basics as B
 import Election exposing (Election, Stats)
-import Html exposing (Html, a, b, div, i, p, table, td, text, th, thead, tr)
+import Html exposing (Html, a, b, div, i, p, table, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, id, rowspan, style)
 import Json.Decode exposing (string)
 import List exposing (filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sortWith, sum)
@@ -171,8 +171,7 @@ partyContainer :
     -> PartyName
     -> Html msg
 partyContainer current previous doStateRow party =
-    td
-        [ class "detailed-results-cell" ]
+    div [ class "detailed-results-cell" ]
         [ p [] [ text (getName party ++ " Party") ]
         , table
             [ class "detailed-results" ]

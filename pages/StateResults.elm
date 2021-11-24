@@ -311,7 +311,7 @@ previousElections model =
 -- State List
 
 
-makeStateList : State -> String -> Html Msg
+makeStateList : State -> String -> List (Html Msg)
 makeStateList state year =
     let
         active n =
@@ -329,9 +329,7 @@ makeStateList state year =
                 ]
                 [ U.text <| St.getName n ]
     in
-    div
-        [ class "list-group", id "state-list" ]
-        (map makeLink states)
+    map makeLink states
 
 
 
@@ -398,62 +396,69 @@ body model =
     case D.get model.year model.elections of
         Just election ->
             div [ class "container", id "state-container" ]
-                [ makeStateList model.state <| S.fromInt model.year
-                , svg
-                    [ width "975"
-                    , height "520"
-                    ]
-                    [ g [ id "circles" ]
-                        (colorCircles model.state election.list <| getCircles (getAngle election.stats 0) election 0)
-                    , g [ id "bar" ]
-                        (doPartyBars [] election.list 100.0 election)
-                    , g [ id "labels" ]
-                        labels
-                    , rect
-                        [ x "100"
-                        , y "370"
-                        , width "700"
-                        , height "50"
-                        , Sa.style "fill-opacity:0"
-                        ]
-                        []
-                    ]
-                , div
-                    [ class "container" ]
-                    [ span
-                        [ class "btn-group", attribute "role" "group" ]
-                        [ a
-                            [ type_ "button"
-                            , class "btn btn-secondary bpo"
-                            , href ("data/" ++ S.fromInt model.year ++ "/" ++ St.getName model.state ++ ".json")
-                            , attribute "download" (St.getName model.state)
+                [ table []
+                    [ tr []
+                        [ td [ class "list-group", id "state-list" ]
+                            (makeStateList model.state <| S.fromInt model.year)
+                        , td []
+                            [ svg
+                                [ width "975"
+                                , height "520"
+                                ]
+                                [ g [ id "circles" ]
+                                    (colorCircles model.state election.list <| getCircles (getAngle election.stats 0) election 0)
+                                , g [ id "bar" ]
+                                    (doPartyBars [] election.list 100.0 election)
+                                , g [ id "labels" ]
+                                    labels
+                                , rect
+                                    [ x "100"
+                                    , y "370"
+                                    , width "700"
+                                    , height "50"
+                                    , Sa.style "fill-opacity:0"
+                                    ]
+                                    []
+                                ]
+                            , div
+                                [ class "container" ]
+                                [ span
+                                    [ class "btn-group", attribute "role" "group" ]
+                                    [ a
+                                        [ type_ "button"
+                                        , class "btn btn-secondary bpo"
+                                        , href ("data/" ++ S.fromInt model.year ++ "/" ++ St.getName model.state ++ ".json")
+                                        , attribute "download" (St.getName model.state)
+                                        ]
+                                        [ U.text "Download" ]
+                                    , a
+                                        [ type_ "button"
+                                        , class "btn btn-secondary bpo"
+                                        , href "map.html"
+                                        ]
+                                        [ U.text "Back" ]
+                                    ]
+                                , br [] []
+                                , br [] []
+                                , table [ id "single-results", class "table-bordered" ]
+                                    (summaryHeader model ++ concatMap (newRow election model.year) election.list ++ summaryFooter election)
+                                ]
+                            , br [] []
+                            , div [ class "container" ]
+                                [ h2 [] [ U.text "State History" ]
+                                , table [ class "container" ]
+                                    [ tr []
+                                        [ partyContainer (values model.elections) (previousElections model) doYearRow Democratic
+                                        , partyContainer (values model.elections) (previousElections model) doYearRow Republican
+                                        ]
+                                    ]
+                                ]
+                            , getCitation model.year
+                            , br [] []
+                            , br [] []
                             ]
-                            [ U.text "Download" ]
-                        , a
-                            [ type_ "button"
-                            , class "btn btn-secondary bpo"
-                            , href "map.html"
-                            ]
-                            [ U.text "Back" ]
-                        ]
-                    , br [] []
-                    , br [] []
-                    , table [ id "single-results", class "table-bordered" ]
-                        (summaryHeader model ++ concatMap (newRow election model.year) election.list ++ summaryFooter election)
-                    ]
-                , br [] []
-                , div [ class "container" ]
-                    [ h2 [] [ U.text "State History" ]
-                    , table [ class "container" ]
-                        [ tr []
-                            [ partyContainer (values model.elections) (previousElections model) doYearRow Democratic
-                            , partyContainer (values model.elections) (previousElections model) doYearRow Republican
-                            ]
                         ]
                     ]
-                , getCitation model.year
-                , br [] []
-                , br [] []
                 ]
 
         _ ->

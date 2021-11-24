@@ -2,9 +2,7 @@
 @import "results.scss";
 
 #state-list {
-    max-width: fit-content;
-    position: absolute;
-    left: 5%;
+    min-width: fit-content;
 
     .list-group-item {
         padding: 3px;

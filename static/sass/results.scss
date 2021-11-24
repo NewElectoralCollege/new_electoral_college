@@ -38,6 +38,10 @@
     border-collapse: collapse;
 }
 
+.detailed-results-cell {
+    display: inline-block;
+}
+
 #single-results,
 #state-results,
 .detailed-results {
