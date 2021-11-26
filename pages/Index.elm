@@ -26,7 +26,7 @@ license image img_href photographer phg_href =
         , a
             [ href phg_href ]
             [ text photographer ]
-        , text " is liscensed under "
+        , text " is licensed under "
         , a
             [ href "https://creativecommons.org/licenses/by-sa/2.0/?ref=ccsearch&atype=html" ]
             [ text "CC BY-SA 2.0" ]
@@ -45,7 +45,7 @@ body =
             [ class "jumbotron" ]
             [ div
                 [ class "container" ]
-                [ h1 [ class "display-4" ] [ text "A Fairer, More Ballanced Electoral College" ]
+                [ h1 [ class "display-4" ] [ text "A Fairer, More Balanced Electoral College" ]
                 , p
                     []
                     [ text <|
@@ -86,7 +86,7 @@ body =
                         [ text "It's Fair" ]
                     , p
                         []
-                        [ text "The New Electoral College will ensure that all votes matter, no matter who they are cast for, or where they are cast." ]
+                        [ text "The New Electoral College will ensure that all votes matter, no matter whom they are cast for, or where they are cast." ]
                     ]
                 , div
                     [ class "col-md-4" ]
@@ -98,7 +98,7 @@ body =
                         []
                     , h2
                         []
-                        [ text "It's Ballanced" ]
+                        [ text "It's Balanced" ]
                     , p
                         []
                         [ text <|
@@ -121,7 +121,7 @@ body =
                     , p
                         []
                         [ text <|
-                            "Over 100 countries use Proportional Representation. It allows all factions to be represented, and prevents a monopoly "
+                            "Over 100 countries use Proportional Representation. It allows all factions to be represented and prevents a monopoly "
                                 ++ "on power by a single party."
                         ]
                     ]
