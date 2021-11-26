@@ -1,6 +1,7 @@
-module Party exposing (Party, PartyName(..), color, decodePartyName, getName, ifQualifyingParty, inParenthesis, toString)
+module Party exposing (Party, PartyName(..), color, decodePartyName, getName, ifQualifyingParty, inParenthesis, partyOrder, toString)
 
 import Json.Decode exposing (Decoder, andThen, string, succeed)
+import List.Extra exposing (elemIndex)
 import Maybe exposing (withDefault)
 import String exposing (dropLeft)
 
@@ -182,3 +183,21 @@ toString independent_names party =
 ifQualifyingParty : Float -> Party -> Bool
 ifQualifyingParty total_votes party =
     party.votes / total_votes >= 0.01 || party.seats > 0
+
+
+partyOrder : PartyName -> Int
+partyOrder party =
+    case party of
+        Independent _ ->
+            4
+
+        _ ->
+            withDefault 0 <|
+                elemIndex party
+                    [ Democratic
+                    , Libertarian
+                    , Green
+                    , PeaceAndFreedom
+                    , Reform
+                    , Republican
+                    ]

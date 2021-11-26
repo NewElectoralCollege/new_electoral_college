@@ -1,6 +1,4 @@
 -   Finish Electoral Thresholds essay
--   Parties not sorting properly on hemicircle and bar !
-    -   Low framerate may have to do with the 0 seat filter being removed
 -   Add missing essays to read more
 -   Profreading
 

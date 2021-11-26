@@ -21,8 +21,8 @@ import Election exposing (Election, Stats)
 import Html exposing (Html, a, b, div, i, p, table, text, th, thead, tr)
 import Html.Attributes exposing (class, colspan, id, rowspan, style)
 import Json.Decode exposing (string)
-import List exposing (filter, head, indexedMap, intersperse, map, map2, range, reverse, sortBy, sortWith, sum)
-import List.Extra exposing (splitAt)
+import List exposing (head, intersperse, map, map2, range, reverse, sortBy, sortWith)
+import List.Extra exposing (groupsOfVarying)
 import Maybe as M exposing (withDefault)
 import Party exposing (Party, PartyName, getName)
 import Regex as R exposing (fromString)
@@ -30,7 +30,6 @@ import State as St exposing (State(..))
 import String as S exposing (contains, dropLeft, fromFloat, left, length, replace, slice)
 import Svg exposing (Svg, g)
 import Svg.Attributes exposing (fill)
-import Tuple exposing (first, second)
 
 
 
@@ -121,25 +120,14 @@ fixChange string =
 
 colorCircles : State -> List Party -> List (Svg msg) -> List (Svg msg)
 colorCircles state parties circles =
-    indexedMap
-        (\n party ->
-            g [ fill party.color, id <| St.getName state ]
-                (splitAt
-                    (parties
-                        |> splitAt n
-                        |> first
-                        |> map .seats
-                        |> sum
-                        |> floor
-                    )
-                    circles
-                    |> second
-                    |> splitAt (floor party.seats)
-                    |> first
-                )
-        )
-    <|
-        filter ((<) 0 << .seats) parties
+    let
+        gs =
+            groupsOfVarying (map (floor << .seats) parties) circles
+
+        color cs party =
+            g [ fill party.color, id <| St.getName state ] cs
+    in
+    map2 color gs parties
 
 
 

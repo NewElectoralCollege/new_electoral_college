@@ -14,10 +14,10 @@ import Html.Attributes exposing (attribute, class, colspan, href, id, rowspan, s
 import Html.Events exposing (onClick)
 import Http exposing (Error, expectJson)
 import Json.Decode exposing (Decoder, at, decodeString, dict, list, string)
-import List exposing (concat, concatMap, drop, filter, filterMap, head, length, map, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
-import List.Extra exposing (find, getAt, init, last, scanl, splitAt, uniqueBy)
+import List exposing (concat, concatMap, drop, filter, filterMap, head, length, map, map2, map3, map5, member, range, repeat, reverse, sortBy, sum, take, unzip)
+import List.Extra exposing (find, init, last, scanl, splitAt, uniqueBy)
 import Maybe as M exposing (withDefault)
-import Party as P exposing (Party, PartyName(..), ifQualifyingParty, toString)
+import Party as P exposing (Party, PartyName(..), ifQualifyingParty, partyOrder, toString)
 import Platform.Cmd exposing (batch)
 import Result as R
 import Sources exposing (getCitation)
@@ -26,7 +26,7 @@ import String as S
 import Svg exposing (Svg, circle, g, svg)
 import Svg.Attributes as Sa exposing (cx, cy, r, transform)
 import Ticket exposing (nominee, realElectors)
-import Tuple exposing (first, mapBoth, second)
+import Tuple exposing (first, mapBoth, mapFirst, mapSecond, pair, second)
 import Util as U
     exposing
         ( colorCircles
@@ -300,21 +300,18 @@ makeCircles ( ix, iy ) pattern total_seats =
         (range 2 total_seats)
 
 
-makeState : List Party -> Model -> Election -> List (Svg Msg)
-makeState national_parties model { list, dots, state } =
+makeState : Model -> Election -> List (Svg Msg)
+makeState model { list, dots, state } =
     case dots of
         Just a ->
             let
-                result party =
-                    floor <| withDefault 0 <| M.map .seats <| find ((==) party.name << .name) national_parties
-
                 sl =
                     case model.dotpos of
                         Map ->
                             list
 
                         _ ->
-                            reverse <| sortBy result list
+                            sortBy (partyOrder << .name) list
             in
             colorCircles state
                 sl
@@ -383,42 +380,36 @@ makePartyDots state instance elections parties dots =
 hemicircleDots : List ( Float, Float )
 hemicircleDots =
     let
+        row_sizes =
+            [ 28, 31, 34, 37, 40, 43, 46, 49, 52, 55, 58, 65 ]
+
         rows =
-            12
+            length row_sizes
 
-        numbers =
-            range 1 (floor rows)
+        radii =
+            map
+                (\i -> (3 * toFloat rows + 4 * toFloat i - 2) / (3 * toFloat rows) * 100)
+                (range 1 rows)
 
-        makeRow : Float -> List ( Float, ( Float, Float ) )
-        makeRow i =
+        radii_repeated =
+            concat <| map2 repeat row_sizes radii
+
+        angleMaker d r n =
             let
-                magic_number =
-                    3 * rows + 4 * i - 2
-
-                dots =
-                    withDefault 0 <| getAt (floor i - 1) [ 28, 30, 32, 34, 40, 44, 46, 50, 52, 56, 56, 58 ]
-
-                rowRadius =
-                    magic_number / (3 * rows)
-
                 s =
-                    sin (degrees (5.5 / rowRadius))
-
-                angle : Int -> Float
-                angle n =
-                    toFloat n * ((pi - 2 * s) / dots) + s
-
-                coords : Int -> ( Float, ( Float, Float ) )
-                coords n =
-                    ( angle n
-                    , ( 100 * (rowRadius * cos (angle n) + 4)
-                      , 100 * (1 - (rowRadius * sin (angle n)) + 1)
-                      )
-                    )
+                    sin (degrees (spotRadius / r))
             in
-            map coords (range 0 <| floor dots)
+            (toFloat n * ((pi - s) / d) + s)
+                |> negate
+
+        angles =
+            concat <| map2 (\d r -> map (angleMaker (d + 1) r) (range 1 <| floor d)) row_sizes radii
     in
-    concatMap (makeRow << toFloat) numbers |> sortBy first |> reverse |> map second
+    map2 pair radii_repeated angles
+        |> sortBy second
+        |> map fromPolar
+        |> map (mapFirst ((+) 300))
+        |> map (mapSecond ((+) 200))
 
 
 barDots : List ( Float, Float )
@@ -430,13 +421,11 @@ barDots =
         rows =
             12
 
-        start_x =
-            800 / 2 - ((columns / 2) * (spotRadius * 2))
-
         pattern =
-            Rectangle columns rows
+            Runoff ( columns, 10 ) rows
     in
-    makeCircles ( start_x, 0 ) pattern 538
+    makeCircles ( 0, 0 ) pattern 538
+        |> map (mapFirst ((+) 100))
 
 
 makeDots : Instance -> Election -> List (Animatable Dot)
@@ -445,10 +434,8 @@ makeDots instance ({ state } as election) =
         parties =
             instance
                 |> partiesInInstance
-                |> sortBy .seats
-                |> reverse
-                |> filter ((<) 0 << .seats)
                 |> map .name
+                |> sortBy partyOrder
 
         makeDot a (( x, y ) as b) c =
             { hemicircle = a
@@ -767,7 +754,7 @@ body model =
                         , Sa.id "map-svg"
                         ]
                         (g [ Sa.class "include", Sa.id "paths" ] []
-                            :: concatMap (makeState (partiesInInstance model.current) model) model.current
+                            :: concatMap (makeState model) model.current
                         )
                     ]
                 , span (getArrow model "right") []
@@ -825,7 +812,7 @@ update msg model =
                     ( model, Cmd.none )
 
         ChangeYear year ->
-            ( { model | year = year, current = [], previous = [] }, getBatch { model | year = year } )
+            ( { model | year = year, current = [], previous = [], dotpos = Map }, getBatch { model | year = year } )
 
         Response (Ok response) ->
             let
