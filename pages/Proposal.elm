@@ -454,6 +454,16 @@ percentRegex =
     makeRegex "\\\\%"
 
 
+tvpRegex : Regex
+tvpRegex =
+    makeRegex "\\\\textit\\{total valid poll\\}"
+
+
+mathRegex : Regex
+mathRegex =
+    makeRegex "\\$\\\\lfloor \\\\rfloor\\$"
+
+
 commentRegex : Regex
 commentRegex =
     makeRegex "%%"
@@ -462,11 +472,6 @@ commentRegex =
 eater : Match -> String
 eater =
     always ""
-
-
-insertPercent : Match -> String
-insertPercent =
-    always "%"
 
 
 
@@ -482,7 +487,9 @@ body { text, allocation_records } =
                 |> join ""
                 |> replace beginRegex eater
                 |> replace blockRegex eater
-                |> replace percentRegex insertPercent
+                |> replace percentRegex (always "%")
+                |> replace tvpRegex (always "total valid poll")
+                |> replace mathRegex (always "⌊⌋")
                 |> replace commentRegex eater
                 |> split "\\\\"
                 |> map2 section (sectionTypeList b)
