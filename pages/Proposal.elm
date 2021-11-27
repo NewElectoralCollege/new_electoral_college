@@ -6,12 +6,13 @@ import Either exposing (Either(..))
 import Env exposing (Result(..), getEnv, parseEnv)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
-import Html as H exposing (Html, br, div, h2, img, node, p, text)
+import Html as H exposing (Html, br, div, h1, h2, img, node, p, text)
 import Html.Attributes exposing (id, src, style, width)
 import Http exposing (Error, expectJson, expectString, get)
 import Json.Decode as Jd exposing (Decoder, field, int, list)
 import List exposing (map, map2, map3, take)
 import List.Extra exposing (scanl)
+import Maybe exposing (withDefault)
 import Platform.Cmd exposing (batch)
 import Regex exposing (Match, Regex, fromString, replace)
 import Result as R
@@ -312,7 +313,7 @@ type Msg
 
 type alias Model =
     { text : Maybe String
-    , allocation_records : Maybe (List AllocationRecord)
+    , allocation_records : List AllocationRecord
     }
 
 
@@ -480,9 +481,10 @@ eater =
 
 body : Model -> Html Never
 body { text, allocation_records } =
-    case ( text, allocation_records ) of
-        ( Just a, Just b ) ->
-            a
+    let
+        proposal =
+            text
+                |> withDefault ""
                 |> lines
                 |> join ""
                 |> replace beginRegex eater
@@ -492,11 +494,24 @@ body { text, allocation_records } =
                 |> replace mathRegex (always "⌊⌋")
                 |> replace commentRegex eater
                 |> split "\\\\"
-                |> map2 section (sectionTypeList b)
-                |> div [ class "container", id "main" ]
-
-        _ ->
-            H.text ""
+                |> map2 section (sectionTypeList allocation_records)
+    in
+    div []
+        [ div [ class "jumbotron" ]
+            [ div [ class "container" ]
+                [ h1 [ class "display-4" ] [ H.text "The New Electoral College" ]
+                , p [] [ H.text "A More Perfect Union" ]
+                ]
+            ]
+        , div [ class "container" ] proposal
+        , div [ class "container" ]
+            [ H.footer [ class "blockquote-footer" ]
+                [ H.text " David G. Boers"
+                , br [] []
+                , H.text "creator of The New Electoral College"
+                ]
+            ]
+        ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -514,7 +529,7 @@ update msg model =
             ( { model | text = Just result }, Cmd.none )
 
         AllocationRecordsReceived (Ok result) ->
-            ( { model | allocation_records = Just result }, Cmd.none )
+            ( { model | allocation_records = result }, Cmd.none )
 
         _ ->
             ( model, Cmd.none )
@@ -523,7 +538,7 @@ update msg model =
 main : Program () Model Msg
 main =
     document
-        { init = always ( Model Nothing Nothing, getEnv Env )
+        { init = always ( Model Nothing [], getEnv Env )
         , update = update
         , subscriptions = always Sub.none
         , view =
@@ -533,9 +548,8 @@ main =
                     [ header (Just Proposal)
                     , br [] []
                     , br [] []
-                    , br [] []
-                    , br [] []
                     , H.map never (body model)
+                    , br [] []
                     , footer
                     ]
                 }
