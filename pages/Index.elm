@@ -39,27 +39,23 @@ license image img_href photographer phg_href =
 
 body : Html msg
 body =
-    div
-        []
+    div []
         [ div
             [ class "jumbotron" ]
             [ div
                 [ class "container" ]
                 [ h1 [ class "display-4" ] [ text "A Fairer, More Balanced Electoral College" ]
-                , p
-                    []
+                , p []
                     [ text <|
                         "We have a proposal to modify the Electoral College of the United States to make it more reflective of the voters. Instead "
                             ++ "of all the electoral votes in a state going to the candidate that won the state's contest, the electors will be split proportionally."
                     ]
-                , p
-                    []
+                , p []
                     [ text "We call this the "
                     , b [] [ text "New Electoral College" ]
                     , text "."
                     ]
-                , p
-                    []
+                , p []
                     [ a
                         [ class "btn btn-primary btn-lg"
                         , href "./proposal.html"
@@ -71,8 +67,7 @@ body =
             ]
         , div
             [ class "container" ]
-            [ div
-                [ class "row" ]
+            [ div [ class "row" ]
                 [ div
                     [ class "col-md-4" ]
                     [ img
@@ -81,11 +76,9 @@ body =
                         , class "jumbo-image"
                         ]
                         []
-                    , h2
-                        []
+                    , h2 []
                         [ text "It's Fair" ]
-                    , p
-                        []
+                    , p []
                         [ text "The New Electoral College will ensure that all votes matter, no matter whom they are cast for, or where they are cast." ]
                     ]
                 , div
