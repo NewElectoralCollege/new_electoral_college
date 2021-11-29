@@ -6,6 +6,25 @@ img.jumbo-image {
     display: block;
 }
 
+.blockquote {
+    height: 114px;
+}
+
+.quote-button-container {
+    .quote-button {
+        width: 7px;
+        height: 7px;
+        border-radius: 100px;
+        background-color: lightgray;
+        display: inline-block;
+        margin-left: 10px;
+    }
+
+    .selected {
+        background-color: gray;
+    }
+}
+
 .license {
     font-size: 0.9rem;
     font-style: italic;

@@ -3,15 +3,19 @@ module Index exposing (main)
 import Browser exposing (document)
 import Footer exposing (footer)
 import Header exposing (Page(..), header)
-import Html as H exposing (Html, a, b, blockquote, br, div, h1, h2, hr, img, p, text)
+import Html as H exposing (Html, a, b, blockquote, br, div, h1, h2, hr, img, p, span, text)
 import Html.Attributes exposing (alt, attribute, class, href, src)
+import List exposing (intersperse, map)
+import List.Extra exposing (uncons)
+import String exposing (lines)
+import Time exposing (every)
 
 
 
 -- Image Sources
 
 
-license : String -> String -> String -> String -> Html msg
+license : String -> String -> String -> String -> Html Never
 license image img_href photographer phg_href =
     p
         [ class "license" ]
@@ -34,11 +38,108 @@ license image img_href photographer phg_href =
 
 
 
+-- Quotes
+
+
+type alias Quote =
+    ( String, String )
+
+
+trnt : Quote
+trnt =
+    ( "Two roads diverged in a wood, and I—\nI took the one less traveled by,\nAnd that has made all the difference.", "Robert Frost" )
+
+
+dt : Quote
+dt =
+    ( "The system of proportional representation ensures that virtually every\nconstituency in the country will have a hearing...", "Bishop Desmond Tutu" )
+
+
+eb : Quote
+eb =
+    ( "The case for [Proportional Representation] is fundamentally the same as that for representative democracy.\n"
+        ++ "Only if an assembly represents the full diversity of opinion within a nation\ncan its decisions be regarded as the decisions of the "
+        ++ "nation itself."
+    , "Encyclopaedia Britannica"
+    )
+
+
+usat : Quote
+usat =
+    ( "... the nasty fact is that our winner-take-all election system, adopted from 18th century\n England, has the potential to leave up to 49.9% of "
+        ++ "the voters in any\ndistrict feeling unrepresented — whatever their race or ethnicity."
+    , "USA Today"
+    )
+
+
+quotes : Model
+quotes =
+    [ trnt, dt, eb, usat ]
+
+
+juggle : Model -> Model
+juggle model =
+    case uncons model of
+        Just ( a, b ) ->
+            b ++ [ a ]
+
+        Nothing ->
+            model
+
+
+
+-- Types
+
+
+type alias Model =
+    List Quote
+
+
+type Msg
+    = TimeDelta
+
+
+
 -- Required functions
 
 
-body : Html msg
-body =
+quoteButton : Quote -> Quote -> Html Never
+quoteButton current quote =
+    let
+        other_class =
+            if current == quote then
+                " selected"
+
+            else
+                ""
+    in
+    div [ class <| "quote-button" ++ other_class ]
+        []
+
+
+quoteButtons : Quote -> Html Never
+quoteButtons quote =
+    div [ class "quote-button-container" ]
+        (map (quoteButton quote) quotes)
+
+
+body : Model -> Html Never
+body model =
+    let
+        (( quote, author ) as fullquote) =
+            case model of
+                ( a, b ) :: _ ->
+                    ( a, b )
+
+                _ ->
+                    trnt
+
+        qform =
+            quote
+                |> lines
+                |> map text
+                |> intersperse (br [] [])
+    in
     div []
         [ div
             [ class "jumbotron" ]
@@ -108,11 +209,9 @@ body =
                         , class "jumbo-image"
                         ]
                         []
-                    , h2
-                        []
+                    , h2 []
                         [ text "It's Tested" ]
-                    , p
-                        []
+                    , p []
                         [ text <|
                             "Over 100 countries use Proportional Representation. It allows all factions to be represented and prevents a monopoly "
                                 ++ "on power by a single party."
@@ -125,28 +224,32 @@ body =
             [ class "container" ]
             [ blockquote
                 [ class "blockquote text-right" ]
-                [ text "Two roads diverged in a wood, and I—"
-                , br [] []
-                , text "I took the one less traveled by,"
-                , br [] []
-                , text "And that has made all the difference."
+                [ span [] qform
                 , H.footer
                     [ class "blockquote-footer" ]
-                    [ text "Robert Frost" ]
+                    [ text author ]
                 ]
+            , quoteButtons fullquote
             ]
         ]
 
 
-main : Program () () Never
+main : Program () Model Msg
 main =
     document
-        { init = always ( (), Cmd.none )
-        , update = \_ _ -> ( (), Cmd.none )
-        , subscriptions = always Sub.none
+        { init = always ( quotes, Cmd.none )
+        , update = \_ model -> ( juggle model, Cmd.none )
+        , subscriptions = always <| every 10000 (always TimeDelta)
         , view =
-            always
+            \model ->
                 { title = "The New Electoral College - Main"
-                , body = [ header (Just Home), br [] [], br [] [], body, footer ]
+                , body =
+                    [ header (Just Home)
+                    , br [] []
+                    , br [] []
+                    , H.map never (body model)
+                    , br [] []
+                    , footer
+                    ]
                 }
         }
